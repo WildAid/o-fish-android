@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="org.wildaid.ofish.ui.violation.AddCrewViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/add_crew_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/add_crew_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/main_blue"
+                app:subtitleTextColor="@color/white"
+                app:title="@string/add_crew_member_title"
+                app:titleTextColor="@color/white"
+                tools:title="@string/add_crew_member_title" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <TextView
+            android:id="@+id/crew_member_title"
+            style="@style/CardHeader"
+            android:layout_width="0dp"
+            android:layout_height="36sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="@string/crew_member"
+            app:layout_constraintEnd_toStartOf="@id/crew_member_action_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_crew_app_bar"
+            tools:text="@string/crew_member" />
+
+        <ImageView
+            android:id="@+id/crew_member_action_icon"
+            android:layout_width="48dp"
+            android:layout_height="36sp"
+            android:src="@android:drawable/ic_menu_edit"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_crew_member_name_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintTop_toBottomOf="@id/crew_member_title">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/crew_member_edit_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/crew_member_name"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@id/add_crew_member_edit_license"
+                android:singleLine="true"
+                android:text="@={viewmodel.newCrewMember.name}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_crew_member_license_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/add_crew_member_name_layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/add_crew_member_edit_license"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/crew_member_license_number"
+                android:imeOptions="actionNext"
+                android:singleLine="true"
+                android:text="@={viewmodel.newCrewMember.license}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <CheckBox
+            android:id="@+id/checkbox_captain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:checked="@={viewmodel.isCaptain()}"
+            android:text="@string/captain"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_crew_member_license_layout" />
+
+        <Button
+            android:id="@+id/btn_add"
+            style="@style/BlueButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:onClick="@{() -> viewmodel.onAddClicked()}"
+            android:text="@string/add_crew_member_title"
+            app:layout_constraintTop_toBottomOf="@id/checkbox_captain" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

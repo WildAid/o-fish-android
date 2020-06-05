@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="holder"
+            type="org.wildaid.ofish.ui.catches.CatchAdapter.CatchViewHolder" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_card"
+        android:elevation="4dp"
+        android:padding="18dp">
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/catch_view_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="catch_action_edit,
+            catch_view_layout" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/catch_edit_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="species_edit_layout,
+            divider_species, amount_edit_layout, divider_amount,
+            catch_action_add_Attachment,
+            catch_action_remove,
+            catch_edit_photos,
+            spinner_unit" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/catch_edit_group_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="weight_edit_layout, divider_weight, spinner_unit" />
+
+        <TextView
+            android:id="@+id/catch_title"
+            style="@style/CardHeader"
+            android:layout_width="0dp"
+            android:layout_height="36sp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="@{holder.currentItem.title}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/catch_title" />
+
+        <ImageView
+            android:id="@+id/catch_action_edit"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:onClick="@{() -> holder.onCatchEditClicked()}"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/catch_action_add_Attachment"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:onClick="@{() -> holder.onCatchAddAttachmentClicked()}"
+            android:src="@drawable/ic_add_attachment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/catch_view_layout"
+            layout="@layout/item_report_catch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:note="@{holder.currentItem.attachmentItem.note}"
+            app:photos="@{holder.currentItem.attachmentItem.photos}"
+            app:layout_constraintTop_toBottomOf="@id/catch_title" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/species_edit_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/catch_view_layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/species_edit_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:hint="@string/species"
+                android:onClick="@{() -> holder.onEditTextClicked(@id/species_edit_name)}"
+                android:singleLine="true"
+                android:text="@{holder.currentItem.catch.fish}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/divider_species"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@id/species_edit_layout" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/amount_edit_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/divider_species">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/amount_edit_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:hint="@string/amount"
+                android:onClick="@{() -> holder.onEditTextClicked(@id/amount_edit_name)}"
+                android:singleLine="true"
+                android:text="@{holder.currentItem.amount}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/divider_amount"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@id/amount_edit_layout" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/weight_edit_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/spinner_unit"
+            app:layout_constraintTop_toBottomOf="@id/divider_amount">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/weight_edit_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/weight"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                app:toWeight="@={holder.currentItem.catch.weight}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Spinner
+            android:id="@+id/spinner_unit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/weight_edit_layout"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@id/weight_edit_layout"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider_amount" />
+
+        <View
+            android:id="@+id/divider_weight"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@id/weight_edit_layout" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/count_edit_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/divider_weight">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/count_edit_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/count"
+                android:inputType="number"
+                app:toCount="@={holder.currentItem.catch.number}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/catch_note_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:endIconDrawable="@drawable/ic_remove"
+            app:endIconMode="custom"
+            app:endIconTint="@null"
+            app:layout_constraintTop_toBottomOf="@id/count_edit_layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/catch_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@={holder.currentItem.attachmentItem.note}"
+                android:hint="@string/note" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <org.wildaid.ofish.ui.base.PhotoAttachmentsLayout
+            android:id="@+id/catch_edit_photos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="12dp"
+            app:editMode="@{true}"
+            app:layout_constraintTop_toBottomOf="@id/catch_note_layout"
+            app:photos="@{holder.currentItem.attachmentItem.photos}" />
+
+        <View
+            android:id="@+id/remove_btn_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@id/catch_edit_photos" />
+
+        <TextView
+            android:id="@+id/catch_action_remove"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:onClick="@{() -> holder.onItemRemove()}"
+            app:layout_constraintTop_toBottomOf="@id/remove_btn_divider" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

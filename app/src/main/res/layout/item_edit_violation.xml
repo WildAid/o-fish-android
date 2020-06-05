@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="holder"
+            type="org.wildaid.ofish.ui.violation.ViolationAdapter.ViolationViewHolder" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_card"
+        android:elevation="4dp"
+        android:padding="16dp">
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/violation_view_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="violation_view_layout,
+            violation_action_edit" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/violation_edit_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="violation_edit_layout,
+            divider,
+            result_violation_title,
+            violation_warning,
+            violation_citation,
+            violation_edit_photos,
+            issued_edit_layout,
+            violation_action_add_attachment" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/violation_remove_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="remove_btn_divider,
+            violation_action_remove" />
+
+        <TextView
+            android:id="@+id/violation_title"
+            style="@style/CardHeader"
+            android:layout_width="0dp"
+            android:layout_height="36sp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="@{holder.currentItem.title}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/violation" />
+
+        <ImageView
+            android:id="@+id/violation_action_edit"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:onClick="@{() -> holder.onViolationEditClicked()}"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/violation_action_add_attachment"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:onClick="@{() -> holder.onViolationAddAttachmentClicked()}"
+            android:src="@drawable/ic_add_attachment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/violation_view_layout"
+            layout="@layout/item_report_violation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:violation='@{holder.currentItem.violation}'
+            app:photos='@{holder.currentItem.attachments.photos}'
+            app:note="@{holder.currentItem.attachments.note}"
+            app:layout_constraintTop_toBottomOf="@id/violation_title" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/violation_edit_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/violation_view_layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/violation_edit_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:hint="@string/violation"
+                android:maxLines="3"
+                android:onClick="@{() -> holder.onSearchClicked(@id/violation_edit_name)}"
+                android:text="@={holder.currentItem.violation.offence.explanation}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/violation_description_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:endIconContentDescription="@string/description"
+            app:layout_constraintTop_toBottomOf="@id/violation_edit_layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/violation_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/description"
+                android:text="@={holder.currentItem.violation.disposition}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@id/violation_description_layout" />
+
+        <TextView
+            android:id="@+id/result_violation_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/result_of_violation"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider" />
+
+        <TextView
+            android:id="@+id/violation_warning"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/selector_result_of_violation"
+            android:gravity="center"
+            android:onClick="@{() -> holder.onResultClicked(@id/violation_warning)}"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="@string/warning"
+            android:textAllCaps="true"
+            android:textColor="@color/selector_result_of_citation_text"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/violation_citation"
+            app:layout_constraintTop_toBottomOf="@id/result_violation_title" />
+
+        <TextView
+            android:id="@+id/violation_citation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/selector_result_of_violation"
+            android:gravity="center"
+            android:onClick="@{() -> holder.onResultClicked(@id/violation_citation)}"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="@string/citation"
+            android:textAllCaps="true"
+            android:textColor="@color/selector_result_of_citation_text"
+            app:layout_constraintLeft_toRightOf="@id/violation_warning"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/result_violation_title" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/issued_edit_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/violation_warning">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/issued_edit_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:hint="@string/issued_to"
+                android:onClick="@{() -> holder.onSearchClicked(@id/issued_edit_name)}"
+                android:singleLine="true"
+                android:text="@{holder.currentItem.violation.crewMember.name}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/item_captain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/shape_captain_background"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="6dp"
+            android:text="@string/captain"
+            android:textAllCaps="true"
+            android:textColor="@color/main_blue"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/issued_edit_layout"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:ignore="SmallSp"
+            tools:text="@string/captain" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/violation_note_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:endIconDrawable="@drawable/ic_remove"
+            app:endIconTint="@null"
+            app:endIconMode="custom"
+            app:layout_constraintTop_toBottomOf="@id/issued_edit_layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/violation_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@={holder.currentItem.attachments.note}"
+                android:hint="@string/note"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <org.wildaid.ofish.ui.base.PhotoAttachmentsLayout
+            android:id="@+id/violation_edit_photos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="12dp"
+            app:editMode="@{true}"
+            app:layout_constraintTop_toBottomOf="@id/violation_note_layout"
+            app:photos="@{holder.currentItem.attachments.photos}" />
+
+        <View
+            android:id="@+id/remove_btn_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@id/violation_edit_photos" />
+
+        <TextView
+            android:id="@+id/violation_action_remove"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:onClick="@{() -> holder.onItemRemove()}"
+            android:textSize="15sp"
+            app:layout_constraintTop_toBottomOf="@id/violation_note_layout" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

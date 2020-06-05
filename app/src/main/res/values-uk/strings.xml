@@ -1,0 +1,222 @@
+<resources>
+    <string name="app_name">O-FISH</string>
+    <string name="no">Ні</string>
+    <string name="empty"/>
+    <string name="other">Інше</string>
+
+    <!--    Vessel  -->
+    <string name="prefill_vessel_dialog_title">Заповнити судову інформацію від попередньої посадки?</string>
+    <string name="prefill_vessel_dialog_description">Ви все ще будете в змозі редагувати поля</string>
+    <string name="prefill_vessel_dialog_yes">Попереднє заповнення</string>
+    <string name="vessel_name">Назва судна</string>
+    <string name="vessel">Судно</string>
+    <string name="vessel_information">Інформація про судно</string>
+    <string name="permit_number">Номер дозволу</string>
+    <string name="home_port">Порт приписки</string>
+    <string name="last_delivery">Остання поставка</string>
+    <string name="date">Дата</string>
+    <string name="yes">Так</string>
+    <string name="business">Бізнес</string>
+    <string name="add_ems">+\tДодати Електронну Систему Моніторингу</string>
+    <string name="location">Розташування</string>
+    <string name="remove_ems">Видалити ЕСМ</string>
+    <string name="flag_state">Держава прапора</string>
+    <string name="electronic_monitoring_system">Електронна мониторингова система</string>
+    <string name="ems_type">Тип ЕСМ</string>
+    <string name="registry_number">Номер реєстрації</string>
+    <string name="crew_next">Екіпаж\t\t\u279C</string>
+    <string name="select_image">Вибрати світлину</string>
+    <string name="select_attachment_dialog_title">Виберіть вкладення</string>
+    <string name="select_attachment_dialog_message">Ви можете вибрати Примітку або Світлину як вкладення</string>
+    <string name="select_attachment_dialog_note">Примітка</string>
+    <string name="select_attachment_dialog_photo">Світлина</string>
+    <string name="new_business">+\tНовий Бізнес</string>
+    <string name="photos">Світлина:</string>
+    <string name="remove_note">Видалити Примітку</string>
+    <string-array name="ems_array">
+        <item>Automatic identification System (AIS)</item>
+        <item>Visible Infrared Imaging Radiometer Suite (VIIRS)</item>
+        <item>Vessel Monitoring System (VMS)</item>
+        <item>Інше</item>
+    </string-array>
+
+    <!--  Report  -->
+    <string name="menu_submit_report">Подати</string>
+    <string name="menu_cancel_report">Скасувати</string>
+
+    <string name="skip_sections_dialog_title">Пропустити наступні розділи?</string>
+    <string name="skip_sections_dialog_yes">Пропустити</string>
+
+    <!--Flag State-->
+    <string name="flag_state_title">Держава прапора</string>
+
+    <!--  Crew member strings  -->
+    <string name="crew">Екіпаж</string>
+    <string name="crew_member_name">Ім\'я Члену Екіпажу</string>
+    <string name="crew_member_license_number">Номер ліцензії</string>
+    <string name="crew_member_add_member">+\tДодати члена екіпажу</string>
+    <string name="crew_member_remove_member">-\tВидалити %s</string>
+    <string name="activity_next">Діяльність\t\t\u279C</string>
+    <string name="license_number">Номер ліцензії %s</string>
+
+    <!-- Basic Information -->
+    <string name="date_time">Дата та час</string>
+    <string name="basic_information">Основна інформація</string>
+    <string name="time">Час</string>
+    <string name="latitude">Широта</string>
+    <string name="longitude">Довгота</string>
+    <string name="vessel_next">Судно\t\t\u279C</string>
+
+    <!--  Activities  -->
+    <string name="activity">Діяльність</string>
+    <string name="fishery">Рибальство</string>
+    <string name="fishery_species">Вид</string>
+    <string name="gear">Спорядження</string>
+    <string name="note">Примітка</string>
+    <string name="catch_next">Улов\t\t\u279C</string>
+    <string-array name="activity_array">
+        <item>Рибальство</item>
+        <item>Транзит</item>
+        <item>Розвантаження</item>
+        <item>Інше</item>
+    </string-array>
+    <string-array name="fishery_array">
+        <item>Тунець</item>
+        <item>Камбала</item>
+        <item>Блакитна риба</item>
+        <item>Інше</item>
+    </string-array>
+    <string-array name="gear_array">
+        <item>Траловий лов</item>
+        <item>Ярусний лов</item>
+        <item>Ciточний лов</item>
+        <item>Інше</item>
+    </string-array>
+
+    <!--    Violation -->
+    <string name="violation">Порушення</string>
+    <string name="violation_add_violation">+\tДодати Порушення</string>
+    <string name="violation_seizures">Конфіскації</string>
+    <string name="violation_description">Опис</string>
+    <string name="result_of_violation">Результат від Порушення</string>
+    <string name="warning">Попередження</string>
+    <string name="citation">Виклик у суд</string>
+    <string name="remove_violation">- Видалити %1$s</string>
+    <string name="risk_next">Ризик\t\t\u279C</string>
+    <string name="issued_to">Видано</string>
+    <string name="add_crew_member">+\tЧлен команди</string>
+
+    <!--  Login  -->
+    <string name="password">Пароль</string>
+    <string name="email_username">Email/Username</string>
+    <string name="log_in">Зайти</string>
+    <string name="log_out">Вийти</string>
+    <string name="forgot_password">Забули пароль?</string>
+    <string name="processing">Працюэмо...</string>
+
+    <!--  Risk  -->
+    <string name="risk">Ризик</string>
+    <string name="green">Зелений</string>
+    <string name="amber">Бурштиновий</string>
+    <string name="red">Червоний</string>
+    <string name="reason_for_risk">Причина для %1$s</string>
+    <string name="notes_next">Примітки\t\t\u279C</string>
+
+    <!--    Notes -->
+    <string name="notes">Примітки</string>
+    <string name="btn_save">Зберегти</string>
+    <string name="notes_add_note">+\tДодати Примітку</string>
+    <string name="new_note">Нова Примітка</string>
+
+    <!--  Home  -->
+    <string name="on_duty">НА ВАРТІ</string>
+    <string name="off_duty">ВІЛЬНО</string>
+    <string name="you_are_of_duty">Ви в даний час не на службi</string>
+    <string name="change_status_to_on_duty">Зміна статусу на "на варті"</string>
+    <string name="board_vessel">Прибути на судно</string>
+    <string name="find_records">Знайти Звіти</string>
+    <string name="first_last_name">Офіцер %s %s</string>
+
+    <!--  Find records  -->
+    <string name="crew_member_size">%d Члени команди</string>
+    <string name="records_permit_number">Дозвіл # %s</string>
+    <string name="record_last_contact">Останній контакт %1$tB %1$td, %1$tY</string>
+    <string name="recently_boarded">Нещодавні прибуття</string>
+    <string name="no_results_for">Немає результатів для \"%s\"</string>
+
+    <!--  Report details  -->
+    <string name="boarding">Висадка</string>
+    <string name="boarding_record">Boarding Record</string>
+    <string name="description">Опис</string>
+    <string name="captain">Капітан</string>
+    <string name="report_catch">Улов</string>
+    <string name="report_weight">Вага</string>
+    <string name="report_count">Кількість</string>
+    <string name="report_note_indexed">Примітка %d</string>
+    <string name="captains_name">Ім\'я капітана</string>
+    <string name="report_date">%1$tB %1$td, %1$tY</string>
+    <string name="report_time">%1$tI:%1$tM%1$Tp %1$tZ</string>
+    <string name="report_last_delivery">%1$tB %1$tm, %1$tY</string>
+    <string name="report_crew_count">Екіпаж (%d)</string>
+    <string name="report_catch_count">Улов (%d)</string>
+    <string name="report_violations_count">Порушення (%d)</string>
+
+    <!--  Catch  -->
+    <string name="catch_title">Улов</string>
+    <string name="add_catch">+\tДодати Улов</string>
+    <string name="species">Вид</string>
+    <string name="weight">Вага</string>
+    <string name="amount">Обсяг</string>
+    <string name="count">Кількість</string>
+    <string name="remove_catch">- Видалити Улов %1$d</string>
+    <string name="violation_next">Порушення\t\t\u279C</string>
+    <string-array name="species_array">
+        <item>Тунець</item>
+        <item>Камбала</item>
+        <item>Блакитна риба</item>
+        <item>Інше</item>
+    </string-array>
+    <string-array name="weight_units">
+        <item>кг</item>
+        <item>тони</item>
+        <item>фунти</item>
+        <item>тони</item>
+    </string-array>
+    <string-array name="amount">
+        <item>Вага</item>
+        <item>Кількість</item>
+        <item>Вага &amp; Кількість</item>
+    </string-array>
+
+    <!--  Add Crew Member  -->
+    <string name="crew_member">Член команди</string>
+    <string name="add_crew_member_title">Додати члена команди</string>
+    <string name="validation_error">Заповнить усі поля</string>
+
+    <!--  Vessel details  -->
+    <string name="previous_boardings">Попередні прибуття</string>
+    <string name="boardings">Висадка</string>
+    <string name="warnings">Попередженнь</string>
+    <string name="citations">Виклик у суд</string>
+    <string name="zero_violations">0 Порушення</string>
+    <string name="warnings_count">%d Попередженнь</string>
+    <string name="citation_count">%d Викликів у суд</string>
+    <string name="warnings_citation_count">%d Попередженнь * %d Викликів у суд</string>
+
+    <!--  Vessel Search  -->
+    <string name="new_boarding">Нове Прибуття</string>
+    <string name="add_new_vessel">+\tДодати нове судно</string>
+
+    <!--    Submit/Cancel report dialogs-->
+    <string name="submit_boarding">Подати прибуття?</string>
+    <string name="sure_to_submit">Впевнены, що хочете подати?</string>
+    <string name="cancel_boarding">Скасувати прибуття?</string>
+    <string name="board_not_saved">Це прибуття не буде збережене</string>
+    <string name="keep_editing">Продовжуйте редагування</string>
+    <string name="boarding_submitted">Прибуття подане</string>
+    <string name="boarding_canceled">Прибуття скасоване</string>
+    <string name="saving_error">Помилка при збереженні</string>
+    <string name="continue_with_empty_fields">Продовжити з порожніми полями?</string>
+    <string name="continue_action">Продовжити</string>
+    <string name="chose_image_source">Виберіть джерело світлини</string>
+</resources>

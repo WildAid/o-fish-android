@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/white</color>
+    <color name="colorPrimaryDark">@color/main_blue</color>
+    <color name="colorAccent">@color/main_blue</color>
+
+    <color name="background_card">#FFFFFF</color>
+    <color name="background_screen_with_cards">#F6F6F6</color>
+    <color name="duty_switch">#FFFFFF</color>
+    <color name="map_coordinates_background">#80FFFFFF</color>
+
+    <color name="divider">#CCC7C7</color>
+    <color name="grey">#696969</color>
+    <color name="light_grey">#D8D8D8</color>
+    <color name="white">#FFFFFF</color>
+    <color name="green">#008537</color>
+    <color name="light_green">#ECF4EF</color>
+    <color name="green_background">#DEEFE5</color>
+    <color name="green_text">#006128</color>
+    <color name="amber">#FFBF22</color>
+    <color name="light_amber">#4CFFECBC</color>
+    <color name="amber_text">#614500</color>
+    <color name="amber_background">#FFECBC</color>
+    <color name="red">#CF2222</color>
+    <color name="light_red">#4CF6D4D4</color>
+    <color name="red_text">#960B0B</color>
+    <color name="red_text_2">#891515</color>
+    <color name="red_background">#F6D4D4</color>
+    <color name="small_title_text">#993C3C43</color>
+    <color name="main_blue">#0A4074</color>
+    <color name="tabs_blue_background">#190A4074</color>
+    <color name="tabs_amber">#E17000</color>
+    <color name="captain_background">#E7ECF1</color>
+    <color name="record_second">#979797</color>
+    <color name="light_grey_background">#F7F7F7</color>
+    <color name="grey_text">#818181</color>
+    <color name="search_record_background">#FFFFFF</color>
+    <color name="vessel_details_background">#d2d1d0</color>
+    <color name="status_bar_blue">#002548</color>
+</resources>

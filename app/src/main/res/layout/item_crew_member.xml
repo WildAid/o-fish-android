@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="holder"
+            type="org.wildaid.ofish.ui.crew.CrewAdapter.CrewMemberViewHolder" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_card"
+        android:elevation="4dp"
+        android:padding="18dp">
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/crew_member_remove_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="
+            remove_btn_divider,
+            crew_member_action_remove"
+            tools:visibility="gone" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/crew_member_edit_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="
+            crew_member_attachment_icon,
+            crew_member_edit_name_layout,
+            crew_edit_photos,
+            crew_member_edit_license_layout" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/crew_member_view_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="
+            crew_member_edit_icon,
+            crew_view_info_layout" />
+
+        <TextView
+            android:id="@+id/crew_member_title"
+            style="@style/CardHeader"
+            android:layout_width="0dp"
+            android:layout_height="36sp"
+            android:layout_marginEnd="42dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="@{holder.currentItem.title}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Crew Captain" />
+
+        <ImageView
+            android:id="@+id/crew_member_edit_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:onClick="@{() -> holder.onEditClicked()}"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/crew_member_attachment_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:onClick="@{() -> holder.onAttachmentClicked()}"
+            android:src="@drawable/ic_add_attachment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/crew_member_edit_name_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@{holder.nameHint}"
+            app:endIconContentDescription="@string/crew_member_name"
+            app:endIconMode="custom"
+            app:errorEnabled="true"
+            app:layout_constraintTop_toBottomOf="@id/crew_member_title">
+
+            <org.wildaid.ofish.ui.base.EmptyWarningEditText
+                android:id="@+id/crew_member_edit_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@id/crew_member_edit_license_number"
+                android:onTextChanged="@{(text, start, before, count) -> holder.onNameChanged(text)}"
+                android:singleLine="true"
+                android:text="@={holder.currentItem.crewMember.name}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/crew_member_edit_license_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:endIconContentDescription="@string/crew_member_name"
+            app:endIconMode="custom"
+            app:errorEnabled="true"
+            app:layout_constraintTop_toBottomOf="@+id/crew_member_edit_name_layout">
+
+            <org.wildaid.ofish.ui.base.EmptyWarningEditText
+                android:id="@+id/crew_member_edit_license_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/crew_member_license_number"
+                android:imeOptions="actionNext"
+                android:onTextChanged="@{(text, start, before, count) -> holder.onLicenseChanged(text)}"
+                android:singleLine="true"
+                android:text="@={holder.currentItem.crewMember.license}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/crew_member_edit_note_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:endIconContentDescription="@string/note"
+            app:endIconDrawable="@drawable/ic_remove"
+            app:endIconMode="custom"
+            app:endIconTint="@null"
+            app:layout_constraintTop_toBottomOf="@+id/crew_member_edit_license_layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/crew_member_edit_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/note"
+                android:imeOptions="actionDone"
+                android:onTextChanged="@{(text, start, before, count) -> holder.onNoteChanged(text)}"
+                android:singleLine="true"
+                android:text="@={holder.currentItem.attachments.note}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <org.wildaid.ofish.ui.base.PhotoAttachmentsLayout
+            android:id="@+id/crew_edit_photos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="12dp"
+            app:editMode="@{true}"
+            app:layout_constraintTop_toBottomOf="@id/crew_member_edit_note_layout"
+            app:photos="@{holder.currentItem.attachments.photos}" />
+
+        <View
+            android:id="@+id/remove_btn_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@id/crew_edit_photos" />
+
+        <TextView
+            android:id="@+id/crew_member_action_remove"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:onClick="@{() -> holder.onItemRemove()}"
+            app:layout_constraintTop_toBottomOf="@id/remove_btn_divider" />
+
+        <include
+            android:id="@+id/crew_view_info_layout"
+            layout="@layout/item_report_crew"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:crewMember="@{holder.currentItem.crewMember}"
+            app:layout_constraintTop_toBottomOf="@id/crew_member_action_remove"
+            app:nameHint="@{holder.nameHint}"
+            app:note="@{holder.currentItem.attachments.note}"
+            app:photos="@{holder.currentItem.attachments.photos}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

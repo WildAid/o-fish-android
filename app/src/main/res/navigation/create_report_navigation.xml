@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/create_report_navigation_graph"
+    app:startDestination="@id/tabsFragment">
+
+    <fragment
+        android:id="@+id/tabsFragment"
+        android:name="org.wildaid.ofish.ui.tabs.TabsFragmentHost"
+        android:label="TabsFragment">
+        <argument
+            android:name="vessel_id"
+            android:defaultValue="INVALID_ID"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_tabsFragment_to_complex_search"
+            app:destination="@id/complex_search"
+            app:enterAnim="@anim/slide_out_up"
+            app:popExitAnim="@anim/slide_in_up" />
+        <action
+            android:id="@+id/action_tabsFragment_to_ask_change_duty_dialog"
+            app:destination="@id/ask_change_duty_dialog" />
+        <action
+            android:id="@+id/action_tabsFragment_to_simple_search"
+            app:destination="@id/simple_search"
+            app:enterAnim="@anim/slide_out_up"
+            app:popExitAnim="@anim/slide_in_up" />
+        <action
+            android:id="@+id/action_tabsFragment_to_ask_choose_attachment_dialog"
+            app:destination="@id/confirmation_dialog" />
+        <action
+            android:id="@+id/action_tabsFragment_to_home_navigation"
+            app:destination="@+id/home_activity"
+            app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_tabsFragment_to_addAmountFragment"
+            app:destination="@id/addAmountFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/simple_search"
+        android:name="org.wildaid.ofish.ui.search.simple.SimpleSearchFragment"
+        android:label="Search">
+
+        <argument
+            android:name="search_entity"
+            android:defaultValue="@null"
+            app:argType="org.wildaid.ofish.ui.search.base.BaseSearchType" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/complex_search"
+        android:name="org.wildaid.ofish.ui.search.complex.ComplexSearchFragment"
+        android:label="Search">
+
+        <argument
+            android:name="search_entity"
+            android:defaultValue="@null"
+            app:argType="org.wildaid.ofish.ui.search.base.BaseSearchType" />
+        <action
+            android:id="@+id/action_complex_search_to_add_crew_fragment"
+            app:destination="@id/add_crew_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/add_crew_fragment"
+        android:name="org.wildaid.ofish.ui.violation.AddCrewFragment"
+        android:label="@string/add_crew_member" />
+
+    <dialog
+        android:id="@+id/confirmation_dialog"
+        android:name="org.wildaid.ofish.ui.base.ConfirmationDialogFragment"
+        android:label="SimpleConfirmationDialog" />
+
+    <activity
+        android:id="@+id/home_activity"
+        android:name="org.wildaid.ofish.ui.home.HomeActivity"
+        android:label="HomeActivity">
+
+        <argument
+            android:name="create_report_message_result"
+            android:defaultValue="@null"
+            app:argType="string" />
+    </activity>
+    <fragment
+        android:id="@+id/addAmountFragment"
+        android:name="org.wildaid.ofish.ui.catches.AddAmountFragment"
+        android:label="AddAmountFragment" />
+</navigation>

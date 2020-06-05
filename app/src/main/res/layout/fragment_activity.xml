@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="org.wildaid.ofish.ui.activity.ActivitiesViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_screen_with_cards">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/scroll_bottom_padding"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/activities_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/background_card"
+                    android:elevation="4dp"
+                    android:padding="18dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/activities_title"
+                        style="@style/CardHeader"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activity"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/activity_activity_add_attachment"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:onClick="@{()-> viewModel.onButtonClicked(@id/activity_activity_add_attachment)}"
+                        android:src="@drawable/ic_add_attachment"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/activities_edit_text_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        app:endIconContentDescription="@string/activity"
+                        app:endIconMode="custom"
+                        app:errorEnabled="true"
+                        app:layout_constraintTop_toBottomOf="@id/activities_title">
+
+                        <org.wildaid.ofish.ui.base.EmptyWarningEditText
+                            android:id="@+id/activities_edit_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:hint="@string/activity"
+                            android:imeOptions="actionNext"
+                            android:onClick="@{() -> viewModel.onButtonClicked(@id/activities_edit_text)}"
+                            android:singleLine="true"
+                            android:text="@{viewModel.activityItemLiveData.activity.name}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/activities_note_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        app:endIconContentDescription="@string/remove_note"
+                        app:endIconDrawable="@drawable/ic_remove"
+                        app:endIconMode="custom"
+                        app:endIconOnClickListener="@{(View) -> viewModel.removeNoteFromActivity()}"
+                        app:endIconTint="@null"
+                        app:layout_constraintTop_toBottomOf="@id/activities_edit_text_layout">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/activities_note"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/note"
+                            android:imeOptions="actionNext"
+                            android:singleLine="true"
+                            android:text="@={viewModel.activityItemLiveData.attachments.note}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <org.wildaid.ofish.ui.base.PhotoAttachmentsLayout
+                        android:id="@+id/activities_photos_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:editMode="@{true}"
+                        app:layout_constraintTop_toBottomOf="@id/activities_note_layout"
+                        app:photos="@{viewModel.activityItemLiveData.attachments.photos}"
+                        tools:layout_editor_absoluteX="23dp" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/fishery_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:background="@color/background_card"
+                    android:elevation="4dp"
+                    android:padding="18dp"
+                    app:layout_constraintTop_toBottomOf="@+id/activities_layout">
+
+                    <TextView
+                        android:id="@+id/activities_fishery_title"
+                        style="@style/CardHeader"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fishery"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/activity_fishery_add_attachment"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:onClick="@{()-> viewModel.onButtonClicked(@id/activity_fishery_add_attachment)}"
+                        android:src="@drawable/ic_add_attachment"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/activity_fishery_edit_text_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        app:endIconContentDescription="@string/fishery_species"
+                        app:endIconMode="custom"
+                        app:errorEnabled="true"
+                        app:layout_constraintTop_toBottomOf="@id/activities_fishery_title">
+
+                        <org.wildaid.ofish.ui.base.EmptyWarningEditText
+                            android:id="@+id/activity_fishery_edit_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:hint="@string/fishery_species"
+                            android:imeOptions="actionNext"
+                            android:onClick="@{() -> viewModel.onButtonClicked(@id/activity_fishery_edit_text)}"
+                            android:singleLine="true"
+                            android:text="@{viewModel.fisheryItemLiveData.fishery.name}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/activities_fishery_note_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        app:endIconContentDescription="@string/remove_note"
+                        app:endIconDrawable="@drawable/ic_remove"
+                        app:endIconMode="custom"
+                        app:endIconOnClickListener="@{(View) -> viewModel.removeNoteFromFishery()}"
+                        app:endIconTint="@null"
+                        app:layout_constraintTop_toBottomOf="@id/activity_fishery_edit_text_layout">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/activities_fishery_note"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/note"
+                            android:imeOptions="actionNext"
+                            android:singleLine="true"
+                            android:text="@={viewModel.fisheryItemLiveData.attachments.note}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <org.wildaid.ofish.ui.base.PhotoAttachmentsLayout
+                        android:id="@+id/fishery_photos_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="12dp"
+                        app:editMode="@{true}"
+                        app:layout_constraintTop_toBottomOf="@id/activities_fishery_note_layout"
+                        app:photos="@{viewModel.fisheryItemLiveData.attachments.photos}" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:background="@color/background_card"
+                    android:elevation="4dp"
+                    android:padding="18dp"
+                    app:layout_constraintTop_toBottomOf="@+id/fishery_layout">
+
+                    <TextView
+                        android:id="@+id/activities_gear_title"
+                        style="@style/CardHeader"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/gear"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/activity_gear_add_attachment"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:onClick="@{()-> viewModel.onButtonClicked(@id/activity_gear_add_attachment)}"
+                        android:src="@drawable/ic_add_attachment"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/activity_gear_edit_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        app:endIconContentDescription="@string/gear"
+                        app:endIconMode="custom"
+                        app:errorEnabled="true"
+                        app:layout_constraintTop_toBottomOf="@id/activities_gear_title">
+
+                        <org.wildaid.ofish.ui.base.EmptyWarningEditText
+                            android:id="@+id/activity_gear_edit_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:hint="@string/gear"
+                            android:imeOptions="actionNext"
+                            android:onClick="@{() -> viewModel.onButtonClicked(@id/activity_gear_edit_text)}"
+                            android:singleLine="true"
+                            android:text="@{viewModel.gearItemLiveData.gear.name}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/activity_gear_note_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        app:endIconContentDescription="@string/remove_note"
+                        app:endIconDrawable="@drawable/ic_remove"
+                        app:endIconMode="custom"
+                        app:endIconOnClickListener="@{(View) -> viewModel.removeNoteFromGear()}"
+                        app:endIconTint="@null"
+                        app:layout_constraintTop_toBottomOf="@id/activity_gear_edit_layout">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/activity_gear_note_edit_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/note"
+                            android:text="@={viewModel.gearItemLiveData.attachments.note}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <org.wildaid.ofish.ui.base.PhotoAttachmentsLayout
+                        android:id="@+id/gear_photos_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="12dp"
+                        app:editMode="@{true}"
+                        app:layout_constraintTop_toBottomOf="@id/activity_gear_note_layout"
+                        app:photos="@{viewModel.gearItemLiveData.attachments.photos}" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/btn_next"
+            style="@style/BlueButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:onClick="@{() -> viewModel.onButtonClicked(@id/btn_next)}"
+            android:text="@string/catch_next"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

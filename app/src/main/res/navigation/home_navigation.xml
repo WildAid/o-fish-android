@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_navigation"
+    app:startDestination="@id/home_fragment">
+
+    <fragment
+        android:id="@+id/home_fragment"
+        android:name="org.wildaid.ofish.ui.home.HomeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_ask_change_duty_dialog"
+            app:destination="@id/ask_change_duty_dialog" />
+        <action
+            android:id="@+id/action_home_fragment_to_complex_search"
+            app:destination="@id/complex_search"
+            app:enterAnim="@anim/slide_out_up"
+            app:popExitAnim="@anim/slide_in_up" />
+        <action
+            android:id="@+id/action_home_fragment_to_login_activity"
+            app:popUpToInclusive="true"
+            app:destination="@id/login_activity" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/ask_change_duty_dialog"
+        android:name="org.wildaid.ofish.ui.base.ConfirmationDialogFragment"
+        android:label="SimpleConfirmationDialog" />
+
+    <fragment
+        android:id="@+id/complex_search"
+        android:name="org.wildaid.ofish.ui.search.complex.ComplexSearchFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_search">
+
+        <argument
+            android:name="search_entity"
+            android:defaultValue="@null"
+            app:argType="org.wildaid.ofish.ui.search.base.BaseSearchType" />
+
+        <action
+            android:id="@+id/action_complex_search_to_report_details_fragment"
+            app:destination="@id/vessel_details_fragment" />
+        <action
+            android:id="@+id/action_complex_search_to_create_report"
+            app:destination="@id/create_report_activity" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/vessel_details_fragment"
+        android:name="org.wildaid.ofish.ui.vesseldetails.VesselDetailsFragment"
+        android:label="VesselDetailFragment"
+        tools:layout="@layout/fragment_vessel_details">
+
+        <argument
+            android:name="vessel_id"
+            android:defaultValue="INVALID_ID"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_vessel_details_fragment_to_report_details_fragment"
+            app:destination="@id/report_details_fragment" />
+        <action
+            android:id="@+id/action_vessel_details_fragment_to_create_report"
+            app:destination="@id/create_report_activity" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/report_details_fragment"
+        android:name="org.wildaid.ofish.ui.reportdetail.ReportDetailFragment"
+        android:label="ReportDetailFragment"
+        tools:layout="@layout/fragment_report_details">
+
+        <argument
+            android:name="report_id"
+            app:argType="org.bson.types.ObjectId" />
+        <action
+            android:id="@+id/action_report_details_fragment_to_create_report"
+            app:destination="@id/create_report_activity" />
+    </fragment>
+
+    <activity
+        android:id="@+id/login_activity"
+        android:name="org.wildaid.ofish.ui.login.LoginActivity"
+        tools:layout="@layout/fragment_login" />
+
+    <activity
+        android:id="@+id/create_report_activity"
+        android:name="org.wildaid.ofish.ui.createreport.CreateReportActivity"
+        tools:layout="@layout/fragment_basic_information">
+
+        <argument
+            android:name="vessel_id"
+            android:defaultValue="@null"
+            app:argType="string" />
+    </activity>
+</navigation>
