@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
-def localPropsFile = rootProject.file("local.properties");
+def localPropsFile = rootProject.file("realm.properties");
 def localProps = new Properties()
 localProps.load(new FileInputStream(localPropsFile))
 

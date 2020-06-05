@@ -1,0 +1,11 @@
+default_platform(:android)
+
+platform :android do
+
+    lane :compile do
+        gradle(
+            task: 'assemble',
+            build_type: 'Release'
+        )
+    end
+end

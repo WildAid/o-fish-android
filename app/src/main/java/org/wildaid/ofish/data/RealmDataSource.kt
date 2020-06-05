@@ -35,7 +35,7 @@ class RealmDataSource {
         }
         if (BuildConfig.REALM_APP_ID.isBlank()) {
             Log.e(
-                TAG, "You need to specify properties realm_app_id in local.properties"
+                TAG, "You need to specify properties realm_app_id in realm.properties"
             )
         }
 
@@ -178,7 +178,7 @@ class RealmDataSource {
         if (BuildConfig.REALM_PARTITION.isBlank()) {
             Log.e(
                 TAG,
-                "You need to specify property realm_partition in local.properties for setting up Sync Configuration"
+                "You need to specify property realm_partition in realm.properties for setting up Sync Configuration"
             )
         }
         val configuration = SyncConfiguration
