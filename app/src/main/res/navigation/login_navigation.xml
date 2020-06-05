@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/login_navigation_id"
+    app:startDestination="@id/login_fragment">
+
+    <fragment
+        android:id="@+id/login_fragment"
+        android:name="org.wildaid.ofish.ui.login.LoginFragment"
+        android:label="Login">
+        <action
+            android:id="@+id/action_login_fragment_to_home_screen"
+            app:destination="@id/home_screen" />
+
+        <action
+            android:id="@+id/action_login_fragment_to_progress_dialog"
+            app:destination="@id/progress_dialog" />
+    </fragment>
+
+    <activity
+        android:id="@+id/home_screen"
+        android:name="org.wildaid.ofish.ui.home.HomeActivity"
+        android:label="HomeActivity" />
+
+    <dialog
+        android:id="@+id/progress_dialog"
+        android:name="org.wildaid.ofish.ui.base.ProgressDialogFragment"
+        android:label="ProgressDialogFragment" />
+</navigation>

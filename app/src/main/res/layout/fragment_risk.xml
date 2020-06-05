@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="org.wildaid.ofish.ui.risk.RiskViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_screen_with_cards">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="38dp">
+
+                <TextView
+                    android:id="@+id/risk_title"
+                    style="@style/CardHeader"
+                    android:layout_width="0dp"
+                    android:layout_height="36sp"
+                    android:text="@string/risk"
+                    app:layout_constraintEnd_toStartOf="@id/risk_action_icon"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/note" />
+
+                <ImageView
+                    android:id="@+id/risk_action_icon"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:onClick="@{() -> viewmodel.onActionClicked()}"
+                    android:src="@drawable/ic_add_attachment"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/btn_green"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/selector_button_green"
+                    android:onClick="@{() -> viewmodel.onButtonClicked(@id/btn_green)}"
+                    android:text="@string/green"
+                    android:textColor="@color/button_selector_text_green"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/btn_amber"
+                    app:layout_constraintTop_toBottomOf="@id/risk_title" />
+
+                <Button
+                    android:id="@+id/btn_amber"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/selector_button_amber"
+                    android:onClick="@{() -> viewmodel.onButtonClicked(@id/btn_amber)}"
+                    android:text="@string/amber"
+                    android:textColor="@color/button_selector_text_amber"
+                    app:layout_constraintLeft_toRightOf="@id/btn_green"
+                    app:layout_constraintRight_toLeftOf="@id/btn_red"
+                    app:layout_constraintTop_toBottomOf="@id/risk_title" />
+
+                <Button
+                    android:id="@+id/btn_red"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/selector_button_red"
+                    android:onClick="@{() -> viewmodel.onButtonClicked(@id/btn_red)}"
+                    android:text="@string/red"
+                    android:textColor="@color/button_selector_text_red"
+                    app:layout_constraintLeft_toRightOf="@id/btn_amber"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/risk_title" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/note_edit_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:visibility="@{viewmodel.noteVisibility}"
+                    app:layout_constraintTop_toBottomOf="@id/btn_green">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/note_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={viewmodel.note}" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/btn_next"
+            style="@style/BlueButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:onClick="@{() -> viewmodel.onNextClicked()}"
+            android:text="@string/notes_next"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

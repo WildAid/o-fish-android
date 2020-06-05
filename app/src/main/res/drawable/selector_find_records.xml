@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/colorPrimaryDark">
+    <item>
+        <selector>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/search_record_background" />
+                </shape>
+            </item>
+
+            <item android:state_pressed="true">
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/search_record_background" />
+                </shape>
+            </item>
+        </selector>
+    </item>
+</ripple>

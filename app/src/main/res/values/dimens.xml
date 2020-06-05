@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="photo_corner_radius">10dp</dimen>
+    <dimen name="safety_background_radius_small">12dp</dimen>
+    <dimen name="safety_background_radius_big">18dp</dimen>
+
+    <!--    My Location-->
+    <dimen name="my_location_margin_top">96dp</dimen>
+    <dimen name="my_location_margin_right">12dp</dimen>
+
+    <dimen name="snackbar_bottom_margin">16dp</dimen>
+    <dimen name="scroll_bottom_padding">80dp</dimen>
+
+</resources>

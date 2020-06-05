@@ -1,0 +1,173 @@
+package org.wildaid.ofish.ui.violation
+
+import android.os.Bundle
+import android.view.View
+import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.ItemTouchHelper
+import kotlinx.android.synthetic.main.fragment_violation.*
+import org.wildaid.ofish.EventObserver
+import org.wildaid.ofish.R
+import org.wildaid.ofish.databinding.FragmentViolationBinding
+import org.wildaid.ofish.ui.base.BaseReportFragment
+import org.wildaid.ofish.ui.base.CARDS_OFFSET_SIZE
+import org.wildaid.ofish.ui.base.SwipeToDeleteTouchCallback
+import org.wildaid.ofish.ui.crew.VerticalSpaceItemDecoration
+import org.wildaid.ofish.ui.search.base.BaseSearchFragment
+import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
+import org.wildaid.ofish.ui.search.complex.CrewSearchModel
+import org.wildaid.ofish.ui.search.complex.ViolationSearchModel
+import org.wildaid.ofish.util.getViewModelFactory
+import org.wildaid.ofish.util.hideKeyboard
+import org.wildaid.ofish.util.setVisible
+
+const val NOT_REMOVABLE_VIOLATION_POSITION = 0
+
+class ViolationFragment : BaseReportFragment(R.layout.fragment_violation) {
+    private val fragmentViewModel: ViolationViewModel by viewModels { getViewModelFactory() }
+    private var pendingItemId: String? = null
+
+    private lateinit var viewDataBinding: FragmentViolationBinding
+    private lateinit var violationAdapter: ViolationAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        fragmentViewModel.initViolations(currentReport, currentReportPhotos)
+        subscribeToSearchResult()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        fragmentViewModel.refreshIssuedTo()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewDataBinding = FragmentViolationBinding.bind(view).apply {
+            this.viewmodel = fragmentViewModel
+            this.lifecycleOwner = viewLifecycleOwner
+        }
+
+        viewDataBinding.violationSeizuresAttach.setOnClickListener {
+            askForAttachmentType(
+                onNoteSelected = {
+                    viewDataBinding.violationSeizureNoteLayout.setVisible(true)
+                },
+                onPhotoSelected = {}
+            )
+        }
+
+        initUI()
+
+        fragmentViewModel.violationLiveData.observe(
+            viewLifecycleOwner,
+            Observer { displayViolations(it) })
+
+        fragmentViewModel.buttonId.observe(
+            viewLifecycleOwner, EventObserver(::onButtonClicked)
+        )
+    }
+
+    private fun initUI() {
+        violationAdapter = ViolationAdapter(
+            captain = currentReport.captain,
+            violationSearchListener = { id: Int, violationItem: ViolationItem ->
+                pendingItemId = violationItem.title
+                navigateToSearch(id)
+            },
+            violationAttachmentListener = { item ->
+                askForAttachmentType(
+                    onNoteSelected = {
+                        fragmentViewModel.addNoteForViolation(item)
+                    },
+                    onPhotoSelected = {
+                        fragmentViewModel.addPhotoForViolation(it, item)
+                    }
+                )
+            },
+            violationEditModeListener = fragmentViewModel::editViolation,
+            violationRemoveListener = {
+                hideKeyboard()
+                fragmentViewModel.removeViolation(it)
+            },
+            violationRemovePhotoListener = fragmentViewModel::removePhotoFromViolation,
+            violationRemoveNoteListener = fragmentViewModel::removeNoteFromViolation
+        )
+
+        violation_recycler.apply {
+            adapter = violationAdapter
+            addItemDecoration(VerticalSpaceItemDecoration(CARDS_OFFSET_SIZE))
+        }
+
+        ItemTouchHelper(
+            SwipeToDeleteTouchCallback(requireContext(), arrayOf(NOT_REMOVABLE_VIOLATION_POSITION)) {
+                hideKeyboard()
+                fragmentViewModel.removeViolation(it)
+            }
+        ).attachToRecyclerView(violation_recycler)
+
+        violation_add_footer.setOnClickListener {
+            requireActivity().currentFocus?.clearFocus()
+            fragmentViewModel.addViolation()
+        }
+    }
+
+    private fun navigateToSearch(id: Int) {
+        val pairs = when (id) {
+            R.id.violation_edit_name -> BaseSearchFragment.SEARCH_ENTITY_KEY to ComplexSearchFragment.SearchViolation
+            R.id.issued_edit_name -> BaseSearchFragment.SEARCH_ENTITY_KEY to ComplexSearchFragment.SearchCrew
+            else -> throw IllegalArgumentException("Illegal Search type")
+        }
+        val bundle = bundleOf(pairs)
+        navigation.navigate(R.id.action_tabsFragment_to_complex_search, bundle)
+    }
+
+    private fun displayViolations(list: List<ViolationItem>) {
+        val newList = list.map { item -> item.copy() }
+        violationAdapter.setItems(newList)
+    }
+
+    private fun subscribeToSearchResult() {
+        val navBackStackEntry = navigation.currentBackStackEntry!!
+        navBackStackEntry.lifecycle.addObserver(LifecycleEventObserver { _, event ->
+            if (event != Lifecycle.Event.ON_RESUME) {
+                return@LifecycleEventObserver
+            }
+
+            val savedState = navBackStackEntry.savedStateHandle
+            when (savedState.get<Any>(BaseSearchFragment.SEARCH_ENTITY_KEY)) {
+                is ComplexSearchFragment.SearchViolation -> {
+                    val result =
+                        savedState.remove<ViolationSearchModel>(BaseSearchFragment.SEARCH_RESULT)
+                    if (result != null) fragmentViewModel.updateViolationExplanation(
+                        pendingItemId,
+                        result.value
+                    )
+                    pendingItemId = null
+                }
+                is ComplexSearchFragment.SearchCrew -> {
+                    val result =
+                        savedState.remove<CrewSearchModel>(BaseSearchFragment.SEARCH_RESULT)
+                    if (result != null) fragmentViewModel.updateIssuedTo(
+                        pendingItemId,
+                        result.value
+                    )
+                    pendingItemId = null
+                }
+                else -> return@LifecycleEventObserver
+            }
+            savedState.remove<Any>(BaseSearchFragment.SEARCH_ENTITY_KEY)
+        })
+    }
+
+    private fun onButtonClicked(buttonId: Int) {
+        hideKeyboard()
+        when (buttonId) {
+            R.id.btn_next -> {
+                onNextListener.onNextClicked()
+            }
+        }
+    }
+}

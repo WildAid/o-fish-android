@@ -1,0 +1,106 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'realm-android'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+
+def localPropsFile = rootProject.file("local.properties");
+def localProps = new Properties()
+localProps.load(new FileInputStream(localPropsFile))
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+    defaultConfig {
+        applicationId "org.wildaid.ofish"
+        minSdkVersion 26
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            buildConfigField "String", "REALM_PASSWORD", "\"${localProps.getProperty("realm_password", "")}\""
+            buildConfigField "String", "REALM_USER", "\"${localProps.getProperty("realm_user", "")}\""
+            buildConfigField "String", "REALM_APP_ID", "\"${localProps.getProperty("realm_app_id", "")}\""
+            buildConfigField "String", "REALM_URL", "\"${localProps.getProperty("realm_url", "")}\""
+            buildConfigField "String", "REALM_PARTITION", "\"${localProps.getProperty("realm_partition", "")}\""
+        }
+
+        debug {
+            buildConfigField "String", "REALM_PASSWORD", "\"${localProps.getProperty("realm_password", "")}\""
+            buildConfigField "String", "REALM_USER", "\"${localProps.getProperty("realm_user", "")}\""
+            buildConfigField "String", "REALM_APP_ID", "\"${localProps.getProperty("realm_app_id", "")}\""
+            buildConfigField "String", "REALM_URL", "\"${localProps.getProperty("realm_url", "")}\""
+            buildConfigField "String", "REALM_PARTITION", "\"${localProps.getProperty("realm_partition", "")}\""
+        }
+    }
+
+    dataBinding {
+        enabled = true
+        enabledForTests = true
+    }
+
+//  For Kotlin projects
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    def nav_version = "2.3.0-beta01"
+
+    // Local dependencies
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // Android
+    implementation 'androidx.core:core-ktx:1.3.0'
+    implementation "androidx.fragment:fragment-ktx:1.2.4"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+    implementation 'androidx.activity:activity-ktx:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    implementation 'com.google.android.material:material:1.2.0-beta01'
+
+    // Google Maps
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+
+    // Glide  - Image loader library
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+    // Firebase
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.0'
+
+    // JUnit test dependencies
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    testImplementation 'junit:junit:4.12'
+
+    // Android test dependencies
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+}
+
+realm {
+    syncEnabled = true
+}

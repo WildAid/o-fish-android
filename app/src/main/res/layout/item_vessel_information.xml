@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="java.util.List" />
+
+        <variable
+            name="vessel"
+            type="org.wildaid.ofish.data.report.Boat" />
+
+        <variable
+            name="note"
+            type="String" />
+
+        <variable
+            name="photos"
+            type="List&lt;org.wildaid.ofish.ui.base.PhotoItem>" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_card">
+
+        <TextView
+            android:id="@+id/report_vessel_name_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/vessel_name"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <TextView
+            android:id="@+id/report_vessel_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{vessel.name}"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/report_vessel_name_title"
+            app:layout_constraintWidth_percent="0.5"
+            tools:text="Predator" />
+
+        <TextView
+            android:id="@+id/report_vessel_permit_number_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/permit_number"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/report_vessel_name_title"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <TextView
+            android:id="@+id/report_vessel_permit_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{vessel.permitNumber}"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toEndOf="@id/report_vessel_name"
+            app:layout_constraintTop_toBottomOf="@id/report_vessel_permit_number_title"
+            app:layout_constraintWidth_percent="0.5"
+            tools:text="0205885544" />
+
+        <TextView
+            android:id="@+id/report_vessel_port_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/home_port"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/report_vessel_name"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <TextView
+            android:id="@+id/report_vessel_port"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{vessel.homePort}"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/report_vessel_port_title"
+            app:layout_constraintWidth_percent="0.5"
+            tools:text="Sydney, Australia" />
+
+        <TextView
+            android:id="@+id/report_vessel_flag_state_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/flag_state"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/report_vessel_port_title"
+            app:layout_constraintTop_toBottomOf="@id/report_vessel_permit_number"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <TextView
+            android:id="@+id/report_vessel_flag_state"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{vessel.nationality}"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toEndOf="@id/report_vessel_port"
+            app:layout_constraintTop_toBottomOf="@id/report_vessel_flag_state_title"
+            app:layout_constraintWidth_percent="0.5"
+            tools:text="Australia" />
+
+        <include
+            android:id="@+id/vessel_view_attachments"
+            layout="@layout/item_view_attachment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/report_vessel_port"
+            app:note="@{note}"
+            app:noteTitle="@{@string/note}"
+            app:photos="@{photos}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

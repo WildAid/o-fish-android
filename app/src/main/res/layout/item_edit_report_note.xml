@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="holder"
+            type="org.wildaid.ofish.ui.notes.NotesAdapter.NoteViewHolder" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_card"
+        android:elevation="4dp"
+        android:padding="18dp">
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_note_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="note_action_add_attachment,
+            report_note_edit_photos,
+            note_edit_layout,
+            note_action_remove" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_note_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="view_note_layout,
+            note_action_edit" />
+
+        <TextView
+            android:id="@+id/note_title"
+            style="@style/CardHeader"
+            android:layout_width="0dp"
+            android:layout_height="36sp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="@{holder.currentItem.title}"
+            app:layout_constraintEnd_toStartOf="@id/note_action_add_attachment"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/note" />
+
+        <ImageView
+            android:id="@+id/note_action_add_attachment"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:onClick="@{() -> holder.onAddPhotoAttachment()}"
+            android:src="@drawable/ic_add_photo_attachment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/note_action_edit"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:onClick="@{() -> holder.onEditNote()}"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/note_edit_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/note_title">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/note_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/new_note"
+                android:text="@={holder.currentItem.note.note}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <org.wildaid.ofish.ui.base.PhotoAttachmentsLayout
+            android:id="@+id/report_note_edit_photos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="12dp"
+            app:editMode="@{true}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/note_edit_layout"
+            app:photos="@{holder.currentItem.photos}" />
+
+        <TextView
+            android:id="@+id/note_action_remove"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:onClick="@{() -> holder.onItemRemove()}"
+            android:text="@{@string/remove_violation(holder.currentItem.title)}"
+            app:layout_constraintTop_toBottomOf="@id/report_note_edit_photos"
+            tools:text="- Remove Note 1" />
+
+        <include
+            android:id="@+id/view_note_layout"
+            layout="@layout/item_view_attachment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/note_action_remove"
+            app:note="@{holder.currentItem.note.note}"
+            app:noteTitle="@{@string/new_note}"
+            app:photos="@{holder.currentItem.photos}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

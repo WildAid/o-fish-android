@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="java.util.List" />
+
+        <variable
+            name="inspection"
+            type="org.wildaid.ofish.data.report.Inspection" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/report_activity_title"
+            style="@style/SmallTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/activity" />
+
+        <TextView
+            android:id="@+id/report_activity"
+            style="@style/TextValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{inspection.activity.name}"
+            tools:text="Fishing" />
+
+        <include
+            android:id="@+id/activity_attachments"
+            layout="@layout/item_view_attachment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:noteTitle="@{@string/note}" />
+
+        <View
+            android:id="@+id/report_activity_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/divider" />
+
+        <TextView
+            android:id="@+id/report_fishery_title"
+            style="@style/SmallTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/fishery" />
+
+        <TextView
+            android:id="@+id/report_fishery"
+            style="@style/TextValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{inspection.fishery.name}"
+            tools:text="Tuna" />
+
+        <include
+            android:id="@+id/fishery_attachments"
+            layout="@layout/item_view_attachment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:noteTitle="@{@string/note}" />
+
+        <View
+            android:id="@+id/report_fishery_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/divider" />
+
+        <TextView
+            android:id="@+id/report_gear_title"
+            style="@style/SmallTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/gear" />
+
+        <TextView
+            android:id="@+id/report_gear"
+            style="@style/TextValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{inspection.gearType.name}"
+            tools:text="Trawl" />
+
+        <include
+            android:id="@+id/gear_attachments"
+            layout="@layout/item_view_attachment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:noteTitle="@{@string/note}" />
+
+        <View
+            android:id="@+id/report_gear_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/divider"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/report_activity" />
+    </LinearLayout>
+</layout>

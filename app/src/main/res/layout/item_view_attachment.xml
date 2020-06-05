@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="java.util.List" />
+
+        <variable
+            name="noteTitle"
+            type="String" />
+
+        <variable
+            name="note"
+            type="String" />
+
+        <variable
+            name="photos"
+            type="List&lt;org.wildaid.ofish.ui.base.PhotoItem>" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/attachment_note_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="attachment_note_title,
+             attachment_note" />
+
+        <TextView
+            android:id="@+id/attachment_note_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@{noteTitle}"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.5"
+            tools:text="Note" />
+
+        <TextView
+            android:id="@+id/attachment_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{note}"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/attachment_note_title"
+            app:layout_constraintWidth_percent="0.5"
+            tools:text="Some long notes here will be displayed in multi line" />
+
+        <org.wildaid.ofish.ui.base.PhotoAttachmentsLayout
+            android:id="@+id/attachments_photos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/attachment_note"
+            app:photos="@{photos}" />
+
+        <View
+            android:id="@+id/report_notes_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/divider"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/attachments_photos" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
