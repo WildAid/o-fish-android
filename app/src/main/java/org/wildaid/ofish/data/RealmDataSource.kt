@@ -35,7 +35,7 @@ class RealmDataSource {
         }
         if (BuildConfig.REALM_APP_ID.isBlank()) {
             Log.e(
-                TAG, "You need to specify properties realm_app_id and realm_url in local.properties"
+                TAG, "You need to specify properties realm_app_id in local.properties"
             )
         }
 
