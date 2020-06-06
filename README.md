@@ -17,18 +17,22 @@ This is the Android Mobile app for O-FISH. To build and use the app, you must fi
 Build and run the app using Android Studio - but before building, set these values in the project's `local.properties` file:
 
 ```
-realm_app_id=your_app_id # Find this from the [MongoDB Realm UI](https://realm.mongodb.com)
+# Find this from the [MongoDB Realm UI](https://realm.mongodb.com)
+realm_app_id=your_app_id
 
 # Temporary
-realm_partition=your_partition # Set this partition up in the backend Realm app
+# Set this partition up in the backend Realm app
+realm_partition=your_partition
 ```
 
 ## Internal - Remove before making public
 To speed up development and testing, you can also specify a default email-address/password pair to make logging in quicker by adding this to `local.properties`. **Not to be used in production!**:
 
 ```
-realm_url=https://realm-dev.mongodb.com # Needed while still in cloud-qa
+# Needed while still in cloud-qa
+realm_url=https://realm-dev.mongodb.com
 
-realm_user=your_user  # email address configured in the backend
+# email address configured in the backend
+realm_user=your_user
 realm_password=your_password
 ```
