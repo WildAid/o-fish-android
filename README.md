@@ -21,8 +21,8 @@ Build and run the app using Android Studio - but before building, set these valu
 realm_app_id=your_app_id
 
 # Temporary
-# Set this partition up in the backend Realm app
-realm_partition=your_partition
+# Should match the `agency` attribute in any sample report documents in the Realm app/Atlas cluster
+realm_partition=Parque Nacional Galápagos
 ```
 
 ## Internal - Remove before making public
