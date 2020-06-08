@@ -1,6 +1,6 @@
 # WildAid O-FISH (Android App)
 
-** This app is work-in-progress **
+**This app is work-in-progress**
 
 The [WildAid Marine Program](https://marine.wildaid.org/) work to protect vulnerable marine environments.
 
