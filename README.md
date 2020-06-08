@@ -1,5 +1,7 @@
 # WildAid O-FISH (Android App)
 
+** This app is work-in-progress **
+
 The [WildAid Marine Program](https://marine.wildaid.org/) work to protect vulnerable marine environments.
 
 O-FISH (Officer Fishery Information Sharing Hub) is a multi-platform application that enables officers to browse and record boarding report data from their mobile devices.
@@ -22,17 +24,6 @@ realm_app_id=your_app_id
 
 # Temporary
 # Should match the `agency` attribute in any sample report documents in the Realm app/Atlas cluster
-realm_partition=Parque Nacional Galápagos
-```
-
-## Internal - Remove before making public
-To speed up development and testing, you can also specify a default email-address/password pair to make logging in quicker by adding this to `local.properties`. **Not to be used in production!**:
-
-```
-# Needed while still in cloud-qa
-realm_url=https://realm-dev.mongodb.com
-
-# email address configured in the backend
-realm_user=your_user
-realm_password=your_password
+realm_partition=WildAid
+realm_url=https://realm.mongodb.com
 ```
