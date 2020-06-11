@@ -2,7 +2,7 @@ package org.wildaid.ofish.data
 
 import android.net.Uri
 import io.realm.Sort
-import io.realm.mongodb.ObjectServerError
+import io.realm.mongodb.AppException
 import io.realm.mongodb.User
 import org.bson.types.ObjectId
 import org.wildaid.ofish.BuildConfig
@@ -20,7 +20,7 @@ class RepositoryImpl(
         realmDataSource.registerUser(userName, password, loginSuccess, loginError)
 
     override fun login(userName: String, password: String,
-                       loginSuccess: (User) -> Unit, loginError: (ObjectServerError?) -> Unit) =
+                       loginSuccess: (User) -> Unit, loginError: (AppException?) -> Unit) =
         realmDataSource.login(userName, password, loginSuccess, loginError)
 
     override fun logOut(logoutSuccess: () -> Unit, logoutError: (Throwable?) -> Unit) {
