@@ -9,4 +9,7 @@ open class Offence : RealmObject() {
     var code: String = ""
     var explanation: String = ""
 
+    fun getFullDescription(): String {
+        return if (explanation.isBlank()) code else "$code\n$explanation"
+    }
 }

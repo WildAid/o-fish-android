@@ -38,7 +38,7 @@
             android:id="@+id/report_violation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{violation.offence.explanation}"
+            android:text="@{violation.offence.fullDescription}"
             android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/report_violation_title"

@@ -68,7 +68,7 @@ class RepositoryImpl(
 
     override fun getPhotosWithIds(ids: List<String>) = realmDataSource.getPhotosWithIds(ids)
 
-    override fun getViolations() = localDataSource.getViolations()
+    override fun getOffences() = localDataSource.getOffences()
 
     override fun getBusinessAndLocation() = localDataSource.getBusiness()
 
