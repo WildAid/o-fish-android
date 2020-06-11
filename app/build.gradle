@@ -1,3 +1,5 @@
+import java.nio.charset.StandardCharsets
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -6,7 +8,7 @@ apply plugin: 'realm-android'
 
 def localPropsFile = rootProject.file("local.properties");
 def localProps = new Properties()
-localProps.load(new FileInputStream(localPropsFile))
+localProps.load(new InputStreamReader(new FileInputStream(localPropsFile), StandardCharsets.UTF_8))
 
 android {
     compileSdkVersion 29
