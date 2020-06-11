@@ -2,7 +2,7 @@ package org.wildaid.ofish.data
 
 import android.net.Uri
 import io.realm.Sort
-import io.realm.mongodb.ObjectServerError
+import io.realm.mongodb.AppException
 import io.realm.mongodb.User
 import org.bson.types.ObjectId
 import org.wildaid.ofish.data.report.Boat
@@ -20,7 +20,7 @@ interface Repository {
 
     fun login(
         userName: String, password: String,
-        loginSuccess: (User) -> Unit, loginError: (ObjectServerError?) -> Unit
+        loginSuccess: (User) -> Unit, loginError: (AppException?) -> Unit
     )
 
     fun logOut(logoutSuccess: () -> Unit, logoutError: (Throwable?) -> Unit)
