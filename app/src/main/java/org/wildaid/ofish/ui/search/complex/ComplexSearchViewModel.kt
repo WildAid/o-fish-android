@@ -66,45 +66,57 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
         var limit = 0
 
         private val addSearchModel = AddSearchModel(R.string.add_new_vessel)
+        private var cachedAllReports = emptyList<Report>()
 
         override fun initiateData(): List<SearchModel> {
-            val list = mutableListOf<SearchModel>()
+            fetchReports()
+            val result = mutableListOf<SearchModel>()
+
             if (limit > 0) {
-                list.add(TextViewSearchModel(R.string.recently_boarded))
+                result.add(TextViewSearchModel(R.string.recently_boarded))
             }
-            val allReports = repository.findAllReports()
-            list.addAll(allReports
+
+            result.addAll(cachedAllReports
                 .asSequence()
                 .filterNot { it.vessel?.name.isNullOrBlank() }
                 .groupBy { it.vessel?.permitNumber }
                 .map { pair ->
-                    RecordSearchModel(allReports.find { it.vessel?.permitNumber == pair.key }?.vessel!!,
+                    RecordSearchModel(
+                        cachedAllReports.find { it.vessel?.permitNumber == pair.key }?.vessel!!,
                         pair.value.sortedByDescending { report -> report.date })
                 }.take(limit)
             )
-            if (isAddAvailable) list.add(addSearchModel)
+            if (isAddAvailable) result.add(addSearchModel)
 
-            return list
+            return result
         }
 
         override fun applyFilter(filter: String): List<SearchModel> {
+            fetchReports()
             if (filter.isBlank()) {
                 return if (isAddAvailable) listOf(addSearchModel) else emptyList()
             }
 
-            val list = mutableListOf<SearchModel>()
-            list.addAll(repository.findAllReports()
+            val result = mutableListOf<SearchModel>()
+
+            result.addAll(cachedAllReports
                 .filterNot { it.vessel?.name.isNullOrBlank() }
                 .filter { it.vessel?.name.orEmpty().contains(filter, true) }
-                .groupBy { it.vessel }
-                .map {
+                .groupBy { it.vessel?.permitNumber }
+                .map { pair ->
                     RecordSearchModel(
-                        it.key!!,
-                        it.value.sortedByDescending { report -> report.date })
+                        cachedAllReports.find { it.vessel?.permitNumber == pair.key }?.vessel!!,
+                        pair.value.sortedByDescending { report -> report.date })
                 })
-            if (isAddAvailable) list.add(addSearchModel)
+            if (isAddAvailable) result.add(addSearchModel)
 
-            return list
+            return result
+        }
+
+        private fun fetchReports() {
+            if (cachedAllReports.isNullOrEmpty()) {
+                cachedAllReports = repository.findLatestReportsWithUniqueVessel()
+            }
         }
     }
 

@@ -3,6 +3,8 @@ package org.wildaid.ofish.data.report
 
 import io.realm.RealmObject
 import io.realm.RealmList
+import io.realm.RealmResults
+import io.realm.annotations.LinkingObjects
 import io.realm.annotations.RealmClass
 
 @RealmClass(embedded = true)

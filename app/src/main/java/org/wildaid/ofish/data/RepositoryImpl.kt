@@ -58,6 +58,8 @@ class RepositoryImpl(
 
     override fun findAllReports(sort: Sort) = realmDataSource.findAllReports(sort)
 
+    override fun findLatestReportsWithUniqueVessel() = realmDataSource.findLatestReportWithUniqueBoat()
+
     override fun findReport(reportId: ObjectId) = realmDataSource.findReport(reportId)
 
     override fun findReportsForBoat(boatPermitNumber: String) = realmDataSource.findReportsForBoat(boatPermitNumber)

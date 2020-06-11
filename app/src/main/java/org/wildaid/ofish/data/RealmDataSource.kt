@@ -13,6 +13,7 @@ import io.realm.mongodb.sync.SyncConfiguration
 import org.bson.types.ObjectId
 import org.wildaid.ofish.BuildConfig
 import org.wildaid.ofish.data.report.*
+import java.util.*
 
 const val ON_DUTY = "On Duty"
 const val OFF_DUTY = "Off Duty"
@@ -143,6 +144,13 @@ class RealmDataSource {
         return realm.where<Report>().sort(DATE, sort).findAll()
     }
 
+    fun findLatestReportWithUniqueBoat(): List<Report> {
+        return realm.where<Report>()
+            .sort(DATE, Sort.DESCENDING)
+            .distinct(VESSEL_PERMIT_NUMBER)
+            .findAll()
+    }
+
     fun findReport(reportId: ObjectId): Report? {
         return realm.where<Report>().equalTo(FIELD_ID, reportId).findFirst()
     }
@@ -181,9 +189,12 @@ class RealmDataSource {
                 "You need to specify property realm_partition in local.properties for setting up Sync Configuration"
             )
         }
+
+        Log.d("REALM", "Start instantiate, time ${Calendar.getInstance().time}")
         val configuration = SyncConfiguration
             .Builder(user, BuildConfig.REALM_PARTITION)
             .build()
         realm = Realm.getInstance(configuration)
+        Log.d("REALM", "Finish instantiate, time ${Calendar.getInstance().time}")
     }
 }

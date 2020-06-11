@@ -35,6 +35,8 @@ interface Repository {
 
     fun findAllReports(sort: Sort = Sort.DESCENDING): List<Report>
 
+    fun findLatestReportsWithUniqueVessel() : List<Report>
+
     fun findReport(reportId: ObjectId): Report?
 
     fun findReportsForBoat(boatPermitNumber: String): List<Report>
