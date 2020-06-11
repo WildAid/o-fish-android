@@ -95,7 +95,7 @@ class ViolationAdapter(
             binding.violationRemoveGroup.setVisible(item.inEditMode && dataList.size > 1)
 
             binding.violationDescriptionLayout.setVisible(
-                item.inEditMode && item.violation.offence?.explanation.equals(
+                item.inEditMode && item.violation.offence?.code.equals(
                     stringOther, true
                 )
             )

@@ -7,11 +7,13 @@ class LocalDataSource {
         Log.w("DataSource", "Created new instance of Local data source")
     }
 
-    fun getViolations(): List<String> = listOf(
-        "California, Fish an Game Code 7857, No commercial license, 111, 222, 333",
-        "California, Fish an Game Code 7858, No commercial license",
-        "California, Fish an Game Code 7859, No commercial license",
-        "Other"
+    fun getOffences(): List<OffenceData> = listOf(
+        OffenceData("California, Fish an Game Code 7857", "No commercial license, 111, 222, 333"),
+        OffenceData(
+            "California, Fish an Game Code 7858", "No commercial license"
+        ),
+        OffenceData("California, Fish an Game Code 7859", "No commercial license"),
+        OffenceData("Other", "")
     )
 
     fun getBusiness() = listOf(

@@ -51,12 +51,12 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
 
     private val searchViolationDataSource = object : SearchDataSource() {
         override fun initiateData(): List<SearchModel> {
-            return repository.getViolations().map { ViolationSearchModel(it) }
+            return repository.getOffences().map { ViolationSearchModel(it) }
         }
 
         override fun applyFilter(filter: String): List<SearchModel> {
-            return repository.getViolations()
-                .filter { it.contains(filter, true) }
+            return repository.getOffences()
+                .filter { it.code.contains(filter, true) || it.explanation.contains(filter, true) }
                 .map { ViolationSearchModel(it) }
         }
     }

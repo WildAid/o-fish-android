@@ -90,20 +90,27 @@ class ComplexSearchAdapter(itemListener: (SearchModel) -> Unit) :
     inner class ViolationHolder(view: View) : BaseViewHolder<ViolationSearchModel>(view) {
         private val binding: ItemBusinessViolationBinding = ItemBusinessViolationBinding.bind(view)
         private val viewArray = arrayOf(
-            binding.itemBusinessName,
             binding.itemBusinessAdress1,
             binding.itemBusinessAdress2,
             binding.itemBusinessCountry
         )
 
         override fun bindItem(item: ViolationSearchModel) {
-            val dataArray = item.value.split(',', limit = viewArray.size)
-            dataArray.forEachIndexed { index, data ->
-                viewArray[index].text = data
-            }
+            binding.itemBusinessName.text = item.value.code
+            if (item.value.explanation.isBlank()) {
+                viewArray.forEach {
+                    it.setVisible(false)
+                }
+            } else {
+                val dataArray = item.value.explanation.split(',', limit = viewArray.size)
+                dataArray.forEachIndexed { index, data ->
+                    viewArray[index].text = data
+                    viewArray[index].setVisible(true)
+                }
 
-            for (i in dataArray.size until viewArray.size) {
-                viewArray[i].setVisible(false)
+                for (i in dataArray.size until viewArray.size) {
+                    viewArray[i].setVisible(false)
+                }
             }
         }
     }
