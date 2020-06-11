@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
+import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.AnnotatedNote
 import org.wildaid.ofish.data.report.Photo
 import org.wildaid.ofish.data.report.Report
@@ -13,6 +14,7 @@ import org.wildaid.ofish.ui.base.PhotoItem
 import org.wildaid.ofish.util.getString
 
 class NotesViewModel(
+    val repository: Repository,
     application: Application
 ) : AndroidViewModel(application) {
     val notesLiveData = MutableLiveData<List<NoteItem>>()
@@ -81,6 +83,7 @@ class NotesViewModel(
     private fun createPhoto(imageUri: Uri): PhotoItem {
         return PhotoItem(
             Photo().apply {
+                agency = repository.getCurrentAgency()
                 referencingReportID = currentReport._id.toString()
             },
             imageUri

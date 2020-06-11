@@ -6,12 +6,14 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
+import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.*
 import org.wildaid.ofish.ui.base.AttachmentItem
 import org.wildaid.ofish.ui.base.PhotoItem
 import org.wildaid.ofish.util.getString
 
 class CatchViewModel(
+    val repository: Repository,
     application: Application
 ) : AndroidViewModel(application) {
 
@@ -118,6 +120,7 @@ class CatchViewModel(
     private fun createPhoto(imageUri: Uri): PhotoItem {
         return PhotoItem(
             Photo().apply {
+                agency = repository.getCurrentAgency()
                 referencingReportID = currentReport._id.toString()
             },
             imageUri

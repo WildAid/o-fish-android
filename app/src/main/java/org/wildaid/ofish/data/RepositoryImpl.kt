@@ -5,6 +5,7 @@ import io.realm.Sort
 import io.realm.mongodb.ObjectServerError
 import io.realm.mongodb.User
 import org.bson.types.ObjectId
+import org.wildaid.ofish.BuildConfig
 import org.wildaid.ofish.data.report.Photo
 import org.wildaid.ofish.data.report.Report
 
@@ -69,6 +70,8 @@ class RepositoryImpl(
     override fun getPhotosWithIds(ids: List<String>) = realmDataSource.getPhotosWithIds(ids)
 
     override fun getViolations() = localDataSource.getViolations()
+
+    override fun getCurrentAgency() = BuildConfig.REALM_PARTITION
 
     override fun getBusinessAndLocation() = localDataSource.getBusiness()
 

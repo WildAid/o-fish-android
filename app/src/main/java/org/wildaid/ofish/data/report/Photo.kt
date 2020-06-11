@@ -9,7 +9,7 @@ import java.util.Date
 open class Photo : RealmObject() {
     @PrimaryKey
     var _id: ObjectId = ObjectId.get()
-    var agency = "WildAid"
+    var agency = ""
     var thumbNail: ByteArray? = null
     var picture: ByteArray? = null
     var pictureURL: String = ""

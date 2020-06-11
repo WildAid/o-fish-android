@@ -12,7 +12,7 @@ import org.bson.types.ObjectId
 open class Report : RealmObject() {
     @PrimaryKey
     var _id: ObjectId = ObjectId.get()
-    var agency = "WildAid"
+    var agency = ""
     var reportingOfficer: User? = User()
     var timestamp: Date = Date()
     var location: Location? = Location()

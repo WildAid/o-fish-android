@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
+import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.*
 import org.wildaid.ofish.ui.base.AttachmentItem
 import org.wildaid.ofish.ui.base.PhotoItem
@@ -14,6 +15,7 @@ import org.wildaid.ofish.util.getString
 const val N_A = "N/A"
 
 class CrewViewModel(
+    val repository: Repository,
     application: Application
 ) : AndroidViewModel(application) {
     val crewMembersData = MutableLiveData<List<CrewMemberItem>>()
@@ -200,6 +202,7 @@ class CrewViewModel(
 
     private fun createPhoto(): Photo {
         return Photo().apply {
+            agency = repository.getCurrentAgency()
             referencingReportID = currentReport._id.toString()
         }
     }

@@ -2,6 +2,7 @@ package org.wildaid.ofish.ui.createreport
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import org.wildaid.ofish.BuildConfig
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.data.OnSaveListener
 import org.wildaid.ofish.data.Repository
@@ -20,6 +21,7 @@ class CreateReportViewModel(val repository: Repository) : ViewModel() {
 
         reportPhotos = mutableListOf()
         report = Report().apply {
+            agency = repository.getCurrentAgency()
             reportingOfficer?.apply {
                 email = currentUser?.email.orEmpty()
                 name?.apply {

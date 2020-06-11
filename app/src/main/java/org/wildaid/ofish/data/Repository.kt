@@ -47,6 +47,8 @@ interface Repository {
 
     fun getViolations(): List<String>
 
+    fun getCurrentAgency(): String
+
     fun getBusinessAndLocation(): List<Pair<String, String>>
 
     fun getFlagStates(agency: String?): List<String>
