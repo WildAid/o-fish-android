@@ -7,8 +7,8 @@ import io.realm.log.LogLevel
 import io.realm.log.RealmLog
 import io.realm.mongodb.App
 import io.realm.mongodb.AppConfiguration
+import io.realm.mongodb.AppException
 import io.realm.mongodb.Credentials
-import io.realm.mongodb.ObjectServerError
 import io.realm.mongodb.sync.SyncConfiguration
 import org.bson.types.ObjectId
 import org.wildaid.ofish.BuildConfig
@@ -69,7 +69,7 @@ class RealmDataSource {
         userName: String,
         password: String,
         loginSuccess: (io.realm.mongodb.User) -> Unit,
-        loginError: (ObjectServerError?) -> Unit
+        loginError: (AppException?) -> Unit
     ) {
 
         val appCredentials = Credentials.emailPassword(userName, password)
