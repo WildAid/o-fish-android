@@ -29,7 +29,7 @@ import org.wildaid.ofish.databinding.*
 import org.wildaid.ofish.ui.base.DIALOG_CLICK_EVENT
 import org.wildaid.ofish.ui.base.DialogButton
 import org.wildaid.ofish.ui.base.DialogClickEvent
-import org.wildaid.ofish.ui.base.NestedScrollMapView
+import org.wildaid.ofish.ui.base.NestedScrollMapFragment
 import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER
 import org.wildaid.ofish.ui.home.ASK_CHANGE_DUTY_DIALOG_ID
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
@@ -69,7 +69,7 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             )
         })
 
-        (childFragmentManager.findFragmentById(R.id.report_map) as NestedScrollMapView?)?.let {
+        (childFragmentManager.findFragmentById(R.id.report_map) as NestedScrollMapFragment?)?.let {
             it.attachParentScroll(report_scroll_view)
         }
 
