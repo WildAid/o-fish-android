@@ -256,14 +256,14 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             )
 
             if (item.unit.isBlank() || item.weight <= 0) {
-                catchBinding.reportCatchAmountType1.text = getString(R.string.report_count)
+                catchBinding.reportCatchAmountType1.text = getString(R.string.count)
                 catchBinding.reportCatchAmount1.text = item.number.toString()
             } else {
-                catchBinding.reportCatchAmountType1.text = getString(R.string.report_weight)
+                catchBinding.reportCatchAmountType1.text = getString(R.string.weight)
                 catchBinding.reportCatchAmount1.text = "${item.weight} ${item.unit}"
 
                 if (item.number > 0) {
-                    catchBinding.reportCatchAmountType2.text = getString(R.string.report_count)
+                    catchBinding.reportCatchAmountType2.text = getString(R.string.count)
                     catchBinding.reportCatchAmount2.text = item.number.toString()
                 } else {
                     catchBinding.reportCatchAmountType2.setVisible(false)

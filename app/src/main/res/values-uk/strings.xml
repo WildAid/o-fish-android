@@ -150,8 +150,6 @@
     <string name="description">Опис</string>
     <string name="captain">Капітан</string>
     <string name="report_catch">Улов</string>
-    <string name="report_weight">Вага</string>
-    <string name="report_count">Кількість</string>
     <string name="report_note_indexed">Примітка %d</string>
     <string name="captains_name">Ім\'я капітана</string>
     <string name="report_date">%1$tB %1$td, %1$tY</string>
