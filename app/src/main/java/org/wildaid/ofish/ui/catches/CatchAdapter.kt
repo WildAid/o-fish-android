@@ -57,9 +57,8 @@ class CatchAdapter(
     inner class CatchViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         lateinit var currentItem: CatchItem
 
-        //todo should we take these values from repository or string resources?
-        private val weightString = "weight"
-        private val countString = "count"
+        private val weightString = view.resources.getString(R.string.weight)
+        private val countString = view.resources.getString(R.string.count)
 
         private val catchEditBinding: ItemEditCatchBinding =
             ItemEditCatchBinding.bind(view).apply {
@@ -110,15 +109,15 @@ class CatchAdapter(
                 .setVisible(currentItem.attachmentItem.hasNotes())
 
             if (item.catch.unit.isBlank() || item.catch.weight <= 0) {
-                catchEditBinding.catchViewLayout.reportCatchAmountType1.setText(R.string.report_count)
+                catchEditBinding.catchViewLayout.reportCatchAmountType1.setText(R.string.count)
                 catchEditBinding.catchViewLayout.reportCatchAmount1.text = item.catch.number.toString()
             } else {
-                catchEditBinding.catchViewLayout.reportCatchAmountType1.setText(R.string.report_weight)
+                catchEditBinding.catchViewLayout.reportCatchAmountType1.setText(R.string.weight)
                 catchEditBinding.catchViewLayout.reportCatchAmount1.text =
                     "${item.catch.weight} ${item.catch.unit}"
 
                 if (item.catch.number > 0) {
-                    catchEditBinding.catchViewLayout.reportCatchAmountType2.setText(R.string.report_count)
+                    catchEditBinding.catchViewLayout.reportCatchAmountType2.setText(R.string.count)
                     catchEditBinding.catchViewLayout.reportCatchAmount2.text =
                         item.catch.number.toString()
                 } else {
