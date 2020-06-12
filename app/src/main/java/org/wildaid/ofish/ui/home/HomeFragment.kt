@@ -31,6 +31,7 @@ import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
+import org.wildaid.ofish.data.mpa.addTestMpa
 import org.wildaid.ofish.databinding.FragmentHomeBinding
 import org.wildaid.ofish.databinding.ItemUserStatusBinding
 import org.wildaid.ofish.ui.base.ConfirmationDialogFragment
@@ -115,6 +116,7 @@ class HomeFragment : Fragment(R.layout.fragment_home),
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
         checkPermissions()
+        addTestMpa(googleMap, resources)
     }
 
     @SuppressLint("ResourceType")
