@@ -43,12 +43,12 @@
                         android:id="@+id/vessel_image_layout"
                         android:layout_width="match_parent"
                         android:layout_height="185dp"
-                        android:background="@color/vessel_details_background"
-                        app:layout_collapseMode="parallax">
+                        android:background="@color/vessel_details_background">
 
                         <ImageView
+                            android:scaleType="centerCrop"
                             android:id="@+id/vessel_image"
-                            android:layout_width="360dp"
+                            android:layout_width="match_parent"
                             android:layout_height="185dp"
                             android:layout_gravity="center_horizontal|bottom"
                             android:src="@drawable/ic_vessel_profile" />

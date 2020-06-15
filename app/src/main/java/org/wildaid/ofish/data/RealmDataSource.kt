@@ -167,6 +167,10 @@ class RealmDataSource {
         return query.findAll()
     }
 
+    fun getPhotoById(id: String): Photo? {
+        return realm.where<Photo>().equalTo(FIELD_ID, ObjectId(id)).findFirst()
+    }
+
     fun findBoat(boatPermitNumber: String): Boat? {
         return realm.where<Boat>()
             .equalTo(FIELD_PERMIT_NUMBER, boatPermitNumber)
