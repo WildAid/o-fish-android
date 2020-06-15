@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="weight_units">
+        <item>lbs</item>
+        <item>tons</item>
+        <item>kg</item>
+        <item>tonnes</item>
+    </string-array>
+</resources>
