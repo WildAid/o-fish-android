@@ -14,5 +14,5 @@ open class DutyChange : RealmObject() {
     var user: User? = User()
     var date: Date = Date()
     var status: String = ""
-    var agency = "WildAid"
+    var agency = ""
 }

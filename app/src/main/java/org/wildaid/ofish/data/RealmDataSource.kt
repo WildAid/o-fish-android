@@ -106,6 +106,7 @@ class RealmDataSource {
     fun saveOnDutyChange(user: io.realm.mongodb.User, onDuty: Boolean) {
         realm.executeTransaction {
             realm.copyToRealm(DutyChange().apply {
+                agency = BuildConfig.REALM_PARTITION
                 this.user = User().apply {
                     name = Name().apply {
                         first = user.firstName.orEmpty()

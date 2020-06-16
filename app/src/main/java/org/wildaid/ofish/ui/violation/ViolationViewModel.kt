@@ -7,12 +7,14 @@ import androidx.lifecycle.MutableLiveData
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.OffenceData
+import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.*
 import org.wildaid.ofish.ui.base.AttachmentItem
 import org.wildaid.ofish.ui.base.PhotoItem
 import org.wildaid.ofish.util.getString
 
-class ViolationViewModel(application: Application) :
+class ViolationViewModel(val repository: Repository,
+                         application: Application) :
     AndroidViewModel(application) {
 
     val violationLiveData = MutableLiveData<List<ViolationItem>>()
@@ -127,6 +129,7 @@ class ViolationViewModel(application: Application) :
 
     private fun createPhoto(): Photo {
         return Photo().apply {
+            agency = repository.getCurrentAgency()
             referencingReportID = currentReport._id.toString()
         }
     }

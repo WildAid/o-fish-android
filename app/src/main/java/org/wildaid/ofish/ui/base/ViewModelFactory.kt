@@ -60,21 +60,21 @@ class ViewModelFactory constructor(
             isAssignableFrom((BasicInformationViewModel::class.java)) ->
                 BasicInformationViewModel()
             isAssignableFrom(VesselViewModel::class.java) ->
-                VesselViewModel()
+                VesselViewModel(repository)
             isAssignableFrom(CrewViewModel::class.java) ->
-                CrewViewModel(application)
+                CrewViewModel(repository, application)
             isAssignableFrom(ActivitiesViewModel::class.java) ->
-                ActivitiesViewModel()
+                ActivitiesViewModel(repository)
             isAssignableFrom(CatchViewModel::class.java) ->
-                CatchViewModel(application)
+                CatchViewModel(repository, application)
             isAssignableFrom(ViolationViewModel::class.java) ->
-                ViolationViewModel(application)
+                ViolationViewModel(repository, application)
             isAssignableFrom(AddCrewViewModel::class.java) ->
                 AddCrewViewModel()
             isAssignableFrom(RiskViewModel::class.java) ->
                 RiskViewModel(application)
             isAssignableFrom(NotesViewModel::class.java) ->
-                NotesViewModel(application)
+                NotesViewModel(repository, application)
 
             // Report Details
             isAssignableFrom(ReportDetailViewModel::class.java) ->

@@ -4,11 +4,12 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.wildaid.ofish.Event
+import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.*
 import org.wildaid.ofish.ui.base.AttachmentItem
 import org.wildaid.ofish.ui.base.PhotoItem
 
-class ActivitiesViewModel : ViewModel() {
+class ActivitiesViewModel(val repository: Repository) : ViewModel() {
     val activityItemLiveData = MutableLiveData<ActivityItem>()
     val fisheryItemLiveData = MutableLiveData<FisheryItem>()
     val gearItemLiveData = MutableLiveData<GearItem>()
@@ -135,6 +136,7 @@ class ActivitiesViewModel : ViewModel() {
     private fun createPhoto(imageUri: Uri): PhotoItem {
         return PhotoItem(
             Photo().apply {
+                agency = repository.getCurrentAgency()
                 referencingReportID = currentReport._id.toString()
             },
             imageUri
