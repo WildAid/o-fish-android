@@ -16,9 +16,14 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import kotlinx.android.synthetic.main.fragment_vessel_details.*
+import kotlinx.android.synthetic.main.item_photo.view.*
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
+import org.wildaid.ofish.data.report.Photo
 import org.wildaid.ofish.databinding.FragmentVesselDetailsBinding
 import org.wildaid.ofish.ui.base.DIALOG_CLICK_EVENT
 import org.wildaid.ofish.ui.base.DialogButton
@@ -72,6 +77,10 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
             recordsAdapter.setItems(it.reports)
         })
 
+        fragmentViewModel.vesselPhotoLiveData.observe(viewLifecycleOwner, Observer {
+            updateVesselPhoto(it)
+        })
+
         fragmentViewModel.boardVesselLiveData.observe(viewLifecycleOwner, EventObserver {
             val navigationArgs = bundleOf(KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER to vesselPermitNumber)
             navigation.navigate(
@@ -82,6 +91,18 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
 
         fragmentViewModel.loadVessel(vesselPermitNumber)
         subscribeToDialogEvents()
+    }
+
+    private fun updateVesselPhoto(it: Photo) {
+        Glide
+            .with(this)
+            .load(
+                it.pictureURL.ifBlank { null } ?:
+                it.picture ?:
+                it.thumbNail
+            )
+            .placeholder(R.drawable.ic_vessel_profile)
+            .into(vessel_image)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

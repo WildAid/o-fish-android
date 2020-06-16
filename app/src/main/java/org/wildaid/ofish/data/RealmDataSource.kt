@@ -140,7 +140,7 @@ class RealmDataSource {
     }
 
     fun findAllReports(sort: Sort): List<Report> {
-        return realm.where<Report>().sort(DATE, sort).findAll()
+        return listOf(realm.where<Report>().sort(DATE, sort).findFirst()!!)
     }
 
     fun findReport(reportId: ObjectId): Report? {
@@ -165,6 +165,10 @@ class RealmDataSource {
         val query = realm.where<Photo>().equalTo(FIELD_ID, ObjectId(ids.first()))
         ids.forEach { query.or().equalTo(FIELD_ID, ObjectId(it)) }
         return query.findAll()
+    }
+
+    fun getPhotoById(id: String): Photo? {
+        return realm.where<Photo>().equalTo(FIELD_ID, ObjectId(id)).findFirst()
     }
 
     fun findBoat(boatPermitNumber: String): Boat? {

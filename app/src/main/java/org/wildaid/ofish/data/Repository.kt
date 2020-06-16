@@ -45,6 +45,8 @@ interface Repository {
 
     fun getPhotosWithIds(ids: List<String>): List<Photo>
 
+    fun getPhotoById(id: String): Photo?
+
     fun getOffences(): List<OffenceData>
 
     fun getBusinessAndLocation(): List<Pair<String, String>>
