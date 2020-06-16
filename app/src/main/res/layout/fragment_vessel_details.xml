@@ -30,7 +30,7 @@
                 app:contentScrim="@color/main_blue"
                 app:expandedTitleGravity="bottom|center"
                 app:expandedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Expanded"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:title="@{viewModel.vesselItemLiveData.vessel.name}"
                 tools:title="Predator">
 

@@ -140,7 +140,7 @@ class RealmDataSource {
     }
 
     fun findAllReports(sort: Sort): List<Report> {
-        return realm.where<Report>().sort(DATE, sort).findAll()
+        return listOf(realm.where<Report>().sort(DATE, sort).findFirst()!!)
     }
 
     fun findReport(reportId: ObjectId): Report? {
