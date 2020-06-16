@@ -15,6 +15,7 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
     val onDutyImageStatusLiveData = MutableLiveData<Int>()
     val onDutyTextStatusLiveData = MutableLiveData<String>()
     val currentUserLiveData = MutableLiveData<User>()
+    val timerLiveData = MutableLiveData<Event<Boolean>>()
 
     val userEventLiveData = MutableLiveData<Event<UserEvent>>()
 
@@ -47,6 +48,7 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
             onDutyImageStatusLiveData.value = R.drawable.shape_red_circle
             onDutyTextStatusLiveData.value = getString(R.string.off_duty)
         }
+        timerLiveData.value = Event(onDuty)
         repository.saveOnDutyChange(currentUser, onDuty)
     }
 
