@@ -10,7 +10,7 @@ import org.wildaid.ofish.app.CHANNEL_ID
 
 private const val notificationId = 119
 
-class TimerReceiver : BroadcastReceiver() {
+class NotificationAlarmSender : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)

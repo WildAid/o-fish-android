@@ -64,7 +64,7 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
 
     private fun setTimer(onDuty: Boolean) {
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as? AlarmManager
-        val alarmIntent = Intent(this, TimerReceiver::class.java).let { intent ->
+        val alarmIntent = Intent(this, NotificationAlarmSender::class.java).let { intent ->
             PendingIntent.getBroadcast(this, TIMER_REQUEST_ID, intent, 0)
         }
         if (onDuty) {

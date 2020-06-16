@@ -42,7 +42,7 @@
             android:screenOrientation="portrait" />
 
         <receiver
-            android:name=".ui.home.TimerReceiver"/>
+            android:name=".ui.home.NotificationAlarmSender"/>
 
         <provider
             android:name=".app.OFishFileProvider"
