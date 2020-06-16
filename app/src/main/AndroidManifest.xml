@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="org.wildaid.ofish.app.OFishApplication"
+        android:name=".app.OFishApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -22,7 +22,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="LockedOrientationActivity">
         <activity
-            android:name="org.wildaid.ofish.ui.splash.SplashActivity"
+            android:name=".ui.splash.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,22 +30,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="org.wildaid.ofish.ui.login.LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="org.wildaid.ofish.ui.home.HomeActivity"
+            android:name=".ui.home.HomeActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="org.wildaid.ofish.ui.createreport.CreateReportActivity"
+            android:name=".ui.createreport.CreateReportActivity"
             android:screenOrientation="portrait" />
 
+        <receiver
+            android:name=".ui.home.TimerReceiver"/>
+
         <provider
-            android:name="org.wildaid.ofish.app.OFishFileProvider"
+            android:name=".app.OFishFileProvider"
             android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
