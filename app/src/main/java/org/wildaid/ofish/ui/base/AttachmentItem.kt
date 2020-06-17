@@ -22,8 +22,10 @@ data class AttachmentItem(
     }
 
     fun setNote(note: String?) {
-        if (attachment.notes.isNotEmpty()) {
-            attachment.notes.add(0, note.orEmpty())
+        if (attachment.notes.isEmpty()) {
+            attachment.notes.add(0, note)
+        } else {
+            attachment.notes[0] = note
         }
     }
 
@@ -32,7 +34,11 @@ data class AttachmentItem(
     }
 
     fun addNote() {
-        attachment.notes.add(0, "")
+        if (attachment.notes.isEmpty()) {
+            attachment.notes.add(0, "")
+        } else {
+            attachment.notes[0] = ""
+        }
     }
 
     fun removeNote() {
