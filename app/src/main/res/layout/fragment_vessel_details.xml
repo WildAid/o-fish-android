@@ -31,15 +31,16 @@
                 app:expandedTitleGravity="bottom|center"
                 app:expandedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Expanded"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                app:expandedTitleMarginBottom="6dp"
                 app:title="@{viewModel.vesselItemLiveData.vessel.name}"
                 tools:title="Predator">
 
                 <ImageView
                     android:id="@+id/vessel_image"
                     android:layout_width="match_parent"
-                    android:layout_height="185dp"
+                    android:layout_height="198dp"
                     android:layout_gravity="center_horizontal|bottom"
-                    android:layout_marginBottom="64dp"
+                    android:layout_marginBottom="46dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_vessel_profile"
                     app:layout_collapseMode="parallax" />
@@ -100,7 +101,7 @@
                             android:gravity="center"
                             android:text="@{String.valueOf(viewModel.vesselItemLiveData.reportCount)}"
                             android:textColor="@android:color/black"
-                            android:textSize="28sp"
+                            android:textSize="34sp"
                             android:textStyle="bold"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/vessel_details_permit_number"
@@ -115,7 +116,7 @@
                             android:gravity="center"
                             android:text="@{String.valueOf(viewModel.vesselItemLiveData.warningsCount)}"
                             android:textColor="@android:color/black"
-                            android:textSize="28sp"
+                            android:textSize="34sp"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toStartOf="@id/vessel_citations_count"
                             app:layout_constraintStart_toEndOf="@id/vessel_boardings_count"
@@ -131,7 +132,7 @@
                             android:gravity="center"
                             android:text="@{String.valueOf(viewModel.vesselItemLiveData.citationCount)}"
                             android:textColor="@android:color/black"
-                            android:textSize="28sp"
+                            android:textSize="34sp"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/vessel_details_permit_number"
@@ -207,7 +208,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white">
+                        android:background="@color/background_card">
 
                         <TextView
                             android:id="@+id/previous_boardings_title"
