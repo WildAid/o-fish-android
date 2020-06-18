@@ -108,7 +108,7 @@
             android:id="@+id/btn_add"
             style="@style/BlueButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_height"
             android:layout_margin="16dp"
             android:onClick="@{() -> viewmodel.onAddClicked()}"
             android:text="@string/add_crew_member_title"
