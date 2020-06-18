@@ -21,8 +21,4 @@ Build and run the app using Android Studio - but before building, set these valu
 ```
 # Find this from the [MongoDB Realm UI](https://realm.mongodb.com)
 realm_app_id=your_app_id
-
-# To speed up developoment you can setup your development environment by using next variables:
-realm_user=my_user@mail.com
-realm_password=my_user_password
 ```
