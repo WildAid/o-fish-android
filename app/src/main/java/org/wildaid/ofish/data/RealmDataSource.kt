@@ -187,10 +187,10 @@ class RealmDataSource {
         currentRealmUser = user
 
         val userData = user.customData
-        val agencyName = (userData["agency"] as Document?)?.get("name") as String
-        val officerEmail = userData["email"] as String
-        val officerFirstName = (userData["name"] as Document?)?.get("first") as String
-        val officerLastName = (userData["name"] as Document?)?.get("last") as String
+        val agencyName = (userData["agency"] as Document?)?.get("name") as String? ?: ""
+        val officerEmail = userData["email"] as String? ?: ""
+        val officerFirstName = (userData["name"] as Document?)?.get("first") as String? ?: ""
+        val officerLastName = (userData["name"] as Document?)?.get("last") as String? ?: ""
 
         currentOfficer = OfficerData(officerEmail, officerFirstName, officerLastName, agencyName)
 

@@ -21,5 +21,5 @@ private fun format(coordinate: Double, type: Int): String {
     val str = Location.convert(coordinate, Location.FORMAT_SECONDS)
     val list = str.split(":").toMutableList()
     if (list[0].startsWith("-")) list[0] = list[0].substring(1)
-    return "$snwe ${list[0]}° ${list[1]}' ${list[2]}\""
+    return "$snwe${list[0]}°${list[1]}'${list[2]}\""
 }
