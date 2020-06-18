@@ -88,7 +88,10 @@
             android:layout_marginTop="24dp"
             android:background="@drawable/shape_map_coordinates"
             android:orientation="horizontal"
-            android:padding="6dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/search_layout">
@@ -116,7 +119,7 @@
             </LinearLayout>
 
             <View
-                android:layout_width="64dp"
+                android:layout_width="18dp"
                 android:layout_height="0dp" />
 
             <LinearLayout
