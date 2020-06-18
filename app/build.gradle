@@ -30,7 +30,6 @@ android {
             buildConfigField "String", "REALM_USER", "\"${localProps.getProperty("realm_user", "")}\""
             buildConfigField "String", "REALM_APP_ID", "\"${localProps.getProperty("realm_app_id", "")}\""
             buildConfigField "String", "REALM_URL", "\"${localProps.getProperty("realm_url", "")}\""
-            buildConfigField "String", "REALM_PARTITION", "\"${localProps.getProperty("realm_partition", "")}\""
         }
 
         debug {
@@ -38,7 +37,6 @@ android {
             buildConfigField "String", "REALM_USER", "\"${localProps.getProperty("realm_user", "")}\""
             buildConfigField "String", "REALM_APP_ID", "\"${localProps.getProperty("realm_app_id", "")}\""
             buildConfigField "String", "REALM_URL", "\"${localProps.getProperty("realm_url", "")}\""
-            buildConfigField "String", "REALM_PARTITION", "\"${localProps.getProperty("realm_partition", "")}\""
         }
     }
 

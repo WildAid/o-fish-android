@@ -10,6 +10,7 @@ import io.realm.mongodb.AppConfiguration
 import io.realm.mongodb.AppException
 import io.realm.mongodb.Credentials
 import io.realm.mongodb.sync.SyncConfiguration
+import org.bson.Document
 import org.bson.types.ObjectId
 import org.wildaid.ofish.BuildConfig
 import org.wildaid.ofish.data.report.*
@@ -25,8 +26,11 @@ const val VESSEL_PERMIT_NUMBER = "vessel.permitNumber"
 private const val TAG = "Realm Setup"
 
 class RealmDataSource {
-    private lateinit var realm: Realm
     private val realmApp: App
+
+    private lateinit var realm: Realm
+    private lateinit var currentRealmUser: io.realm.mongodb.User
+    private lateinit var currentOfficer: OfficerData
 
     init {
         Log.w("DataSource", "Created new instance of Realm data source")
@@ -103,16 +107,16 @@ class RealmDataSource {
         }
     }
 
-    fun saveOnDutyChange(user: io.realm.mongodb.User, onDuty: Boolean) {
+    fun saveOnDutyChange(onDuty: Boolean) {
         realm.executeTransaction {
             realm.copyToRealm(DutyChange().apply {
-                agency = BuildConfig.REALM_PARTITION
+                agency = currentOfficer.agency
                 this.user = User().apply {
                     name = Name().apply {
-                        first = user.firstName.orEmpty()
-                        last = user.lastName.orEmpty()
+                        first = currentOfficer.firstName
+                        last = currentOfficer.lastName
                     }
-                    email = user.email.orEmpty()
+                    email = currentOfficer.email
                 }
                 status = if (onDuty) ON_DUTY else OFF_DUTY
             })
@@ -136,9 +140,9 @@ class RealmDataSource {
         )
     }
 
-    fun getCurrentUser(): io.realm.mongodb.User? {
-        return realmApp.currentUser()
-    }
+    fun getCurrentOfficer() = currentOfficer
+
+    fun isLoggedIn()  = realmApp.currentUser() != null
 
     fun findAllReports(sort: Sort): List<Report> {
         return realm.where<Report>().sort(DATE, sort).findAll()
@@ -180,14 +184,18 @@ class RealmDataSource {
     }
 
     private fun instantiateRealm(user: io.realm.mongodb.User) {
-        if (BuildConfig.REALM_PARTITION.isBlank()) {
-            Log.e(
-                TAG,
-                "You need to specify property realm_partition in local.properties for setting up Sync Configuration"
-            )
-        }
+        currentRealmUser = user
+
+        val userData = user.customData
+        val agencyName = (userData["agency"] as Document?)?.get("name") as String
+        val officerEmail = userData["email"] as String
+        val officerFirstName = (userData["name"] as Document?)?.get("first") as String
+        val officerLastName = (userData["name"] as Document?)?.get("last") as String
+
+        currentOfficer = OfficerData(officerEmail, officerFirstName, officerLastName, agencyName)
+
         val configuration = SyncConfiguration
-            .Builder(user, BuildConfig.REALM_PARTITION)
+            .Builder(user, agencyName)
             .build()
         realm = Realm.getInstance(configuration)
     }

@@ -4,9 +4,9 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import io.realm.mongodb.User
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
+import org.wildaid.ofish.data.OfficerData
 import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.util.getString
 
@@ -14,24 +14,20 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
     val onDutyStatusLiveData = MutableLiveData<Boolean>()
     val onDutyImageStatusLiveData = MutableLiveData<Int>()
     val onDutyTextStatusLiveData = MutableLiveData<String>()
-    val currentUserLiveData = MutableLiveData<User>()
+    val currentOfficerLiveData = MutableLiveData<OfficerData>()
     val timerLiveData = MutableLiveData<Event<Boolean>>()
-
     val userEventLiveData = MutableLiveData<Event<UserEvent>>()
-
-    private lateinit var currentUser: User
 
     init {
         onDutyStatusLiveData.value = false
         onDutyImageStatusLiveData.value = R.drawable.shape_red_circle
         onDutyTextStatusLiveData.value = getString(R.string.off_duty)
 
-        val realmUser = repository.getCurrentUser()
-        if (realmUser == null) {
+        val officer = repository.getCurrentOfficer()
+        if (!repository.isLoggedIn() || officer == null) {
             logOutUser()
         } else {
-            currentUser = realmUser
-            currentUserLiveData.value = currentUser
+            currentOfficerLiveData.value = officer
         }
     }
 
@@ -49,7 +45,7 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
             onDutyTextStatusLiveData.value = getString(R.string.off_duty)
         }
         timerLiveData.value = Event(onDuty)
-        repository.saveOnDutyChange(currentUser, onDuty)
+        repository.saveOnDutyChange(onDuty)
     }
 
     fun logOutUser() {

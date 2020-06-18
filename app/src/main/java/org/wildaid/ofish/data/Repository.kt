@@ -27,11 +27,13 @@ interface Repository {
 
     fun restoreLoggedUser(): User?
 
-    fun saveOnDutyChange(user: User, onDuty: Boolean)
+    fun saveOnDutyChange(onDuty: Boolean)
 
     fun saveReport(report: Report, reportPhotos: List<Pair<Photo, Uri?>>, listener: OnSaveListener)
 
-    fun getCurrentUser(): User?
+    fun getCurrentOfficer(): OfficerData
+
+    fun isLoggedIn(): Boolean
 
     fun findAllReports(sort: Sort = Sort.DESCENDING): List<Report>
 
@@ -48,8 +50,6 @@ interface Repository {
     fun getPhotoById(id: String): Photo?
 
     fun getOffences(): List<OffenceData>
-
-    fun getCurrentAgency(): String
 
     fun getBusinessAndLocation(): List<Pair<String, String>>
 
