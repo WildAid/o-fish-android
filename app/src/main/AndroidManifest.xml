@@ -42,7 +42,7 @@
             android:screenOrientation="portrait" />
 
         <receiver
-            android:name=".ui.home.NotificationAlarmSender"/>
+            android:name=".app.OnDutyAlarmReminder"/>
 
         <provider
             android:name=".app.OFishFileProvider"

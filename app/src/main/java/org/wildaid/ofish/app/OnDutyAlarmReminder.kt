@@ -1,4 +1,4 @@
-package org.wildaid.ofish.ui.home
+package org.wildaid.ofish.app
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -6,11 +6,10 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import org.wildaid.ofish.R
-import org.wildaid.ofish.app.CHANNEL_ID
 
 private const val notificationId = 119
 
-class NotificationAlarmSender : BroadcastReceiver() {
+class OnDutyAlarmReminder : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)

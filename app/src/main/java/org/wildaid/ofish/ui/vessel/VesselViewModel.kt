@@ -255,7 +255,7 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
     private fun createPhoto(imageUri: Uri): PhotoItem {
         return PhotoItem(
             Photo().apply {
-                agency = repository.getCurrentAgency()
+                agency = repository.getCurrentOfficer().agency
                 referencingReportID = currentReport._id.toString()
             },
             imageUri

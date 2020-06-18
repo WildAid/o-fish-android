@@ -85,7 +85,7 @@ class HomeFragment : Fragment(R.layout.fragment_home),
             }
         })
 
-        activityViewModel.currentUserLiveData.observe(viewLifecycleOwner, Observer {
+        activityViewModel.currentOfficerLiveData.observe(viewLifecycleOwner, Observer {
             Glide.with(this)
                 .load(it.pictureUrl)
                 .placeholder(R.drawable.ic_account_circle)

@@ -22,7 +22,7 @@ Build and run the app using Android Studio - but before building, set these valu
 # Find this from the [MongoDB Realm UI](https://realm.mongodb.com)
 realm_app_id=your_app_id
 
-# Temporary
-# Should match the `agency` attribute in any sample report documents in the Realm app/Atlas cluster
-realm_partition=WildAid
+# To speed up developoment you can setup your development environment by using next variables:
+realm_user=my_user@mail.com
+realm_password=my_user_password
 ```
