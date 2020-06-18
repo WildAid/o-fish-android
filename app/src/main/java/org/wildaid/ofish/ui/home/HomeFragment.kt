@@ -40,8 +40,7 @@ import org.wildaid.ofish.ui.base.DialogButton
 import org.wildaid.ofish.ui.base.DialogClickEvent
 import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
-import org.wildaid.ofish.util.AndroidPermissions
-import org.wildaid.ofish.util.getViewModelFactory
+import org.wildaid.ofish.util.*
 
 
 const val KEY_CREATE_REPORT_RESULT = "create_report_message_result"
@@ -74,8 +73,8 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         initUI(view)
 
         fragmentViewModel.locationLiveData.observe(viewLifecycleOwner, Observer {
-            home_latitude.text = it.first.toString()
-            home_longitude.text = it.second.toString()
+            home_latitude.text = convert(it.first, LATITUDE)
+            home_longitude.text = convert(it.second, LONGITUDE)
         })
 
         fragmentViewModel.userEventLiveData.observe(viewLifecycleOwner, EventObserver() {

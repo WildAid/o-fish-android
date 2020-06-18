@@ -5,6 +5,9 @@ import androidx.lifecycle.ViewModel
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.report.Report
+import org.wildaid.ofish.util.LATITUDE
+import org.wildaid.ofish.util.LONGITUDE
+import org.wildaid.ofish.util.convert
 
 class BasicInformationViewModel : ViewModel() {
     val reportLiveData = MutableLiveData<Report>()
@@ -26,7 +29,7 @@ class BasicInformationViewModel : ViewModel() {
     fun setLocation(lat: Double, long: Double) {
         currentReport.location?.latitude = lat
         currentReport.location?.longitude = long
-        latitude.value = lat.toString()
-        longitude.value = long.toString()
+        latitude.value = convert(lat, LATITUDE)
+        longitude.value = convert(long, LONGITUDE)
     }
 }
