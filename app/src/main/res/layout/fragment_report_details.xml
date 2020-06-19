@@ -226,7 +226,6 @@
                         app:layout_constraintTop_toBottomOf="@id/report_ems_title" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
                 <!--       Captain         -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -277,7 +276,6 @@
                         app:layout_constraintTop_toBottomOf="@id/report_crew_title" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
                 <!--       Activity         -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -302,7 +300,6 @@
                         android:orientation="vertical"
                         app:layout_constraintTop_toBottomOf="@id/report_activity_title" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
 
                 <!--       Catch         -->
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -329,7 +326,6 @@
                         app:layout_constraintTop_toBottomOf="@id/report_catch_title" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
                 <!--       Vioaltion         -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -354,7 +350,6 @@
                         android:orientation="vertical"
                         app:layout_constraintTop_toBottomOf="@id/report_violation_title" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
 
                 <!--       Notes         -->
                 <androidx.constraintlayout.widget.ConstraintLayout
