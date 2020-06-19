@@ -29,9 +29,9 @@
                 app:collapsedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Collapsed"
                 app:contentScrim="@color/main_blue"
                 app:expandedTitleGravity="bottom|center"
+                app:expandedTitleMarginBottom="6dp"
                 app:expandedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Expanded"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-                app:expandedTitleMarginBottom="6dp"
                 app:title="@{viewModel.vesselItemLiveData.vessel.name}"
                 tools:title="Predator">
 
@@ -69,6 +69,7 @@
                     android:id="@+id/vessel_info_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/background_card"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -207,8 +208,7 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/background_card">
+                        android:layout_height="wrap_content">
 
                         <TextView
                             android:id="@+id/previous_boardings_title"
@@ -219,6 +219,7 @@
                             android:text="@string/previous_boardings"
                             android:textColor="@android:color/black"
                             android:textSize="22sp"
+                            android:background="@color/background_card"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 

@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@color/background_screen_with_cards"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -28,6 +31,7 @@
             android:id="@+id/search_recycler"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="@color/background_screen_with_cards"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/search_app_bar"
@@ -53,8 +57,8 @@
                 android:id="@+id/empty_result_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="42dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="42dp"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
