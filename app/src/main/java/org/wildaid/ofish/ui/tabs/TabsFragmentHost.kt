@@ -161,7 +161,10 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
 
             if (navStack.savedStateHandle.contains(DIALOG_CLICK_EVENT)) {
                 val click = navStack.savedStateHandle.get<DialogClickEvent>(DIALOG_CLICK_EVENT)!!
-                handleDialogClick(click)
+                val handled = handleDialogClick(click)
+                if (handled) {
+                    navStack.savedStateHandle.remove<DialogClickEvent>(DIALOG_CLICK_EVENT)!!
+                }
             }
         })
     }
@@ -206,7 +209,8 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
         navigation.navigate(R.id.confirmation_dialog, dialogBundle)
     }
 
-    private fun handleDialogClick(click: DialogClickEvent) {
+    private fun handleDialogClick(click: DialogClickEvent) : Boolean {
+        var clickHandled = false
         if (click.dialogBtn == DialogButton.POSITIVE) {
             when (click.dialogId) {
                 ASK_PREFILL_VESSEL_DIALOG_ID -> {
@@ -215,6 +219,7 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
                     fragmentViewModel.vesselToPrefill?.let {
                         vesselFragment.fillVesselInfo(it)
                     }
+                    clickHandled = true
                 }
                 SUBMIT_DIALOG_ID -> {
                     activityViewModel.saveReport(listener = object : OnSaveListener {
@@ -234,6 +239,8 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
                             ).show()
                         }
                     })
+
+                    clickHandled = true
                 }
 
                 ASK_SKIP_TABS_DIALOG_ID -> {
@@ -241,9 +248,13 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
                         fragmentViewModel.onTabsSkipped(pendingSkippingTabs.orEmpty())
                         pendingSkippingTabs = null
                     }
+
+                    clickHandled = true
                 }
             }
         }
+
+        return clickHandled
     }
 
     @SuppressLint("ClickableViewAccessibility")

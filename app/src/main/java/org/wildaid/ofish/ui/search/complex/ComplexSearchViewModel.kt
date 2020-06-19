@@ -8,7 +8,7 @@ import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.search.base.BaseSearchType
 import org.wildaid.ofish.ui.search.base.BaseSearchViewModel
 
-private const val FIND_RECORDS_LIMIT = 5
+private const val RECENT_BOARDINGS_COUNT = 5
 
 class ComplexSearchViewModel(repository: Repository, application: Application) :
     BaseSearchViewModel<SearchModel>(repository, application) {
@@ -16,9 +16,7 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
         return when (searchEntity) {
             is ComplexSearchFragment.SearchBusiness -> searchBusinessDataSource
             is ComplexSearchFragment.SearchViolation -> searchViolationDataSource
-            is ComplexSearchFragment.SearchRecords -> searchRecordsDataSource.apply {
-                limit = FIND_RECORDS_LIMIT
-            }
+            is ComplexSearchFragment.SearchRecords -> searchRecordsDataSource.apply {}
             is ComplexSearchFragment.SearchVessels -> searchRecordsDataSource.apply {
                 isAddAvailable = true
             }
@@ -63,48 +61,59 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
 
     private val searchRecordsDataSource = object : SearchDataSource() {
         var isAddAvailable: Boolean = false
-        var limit = 0
 
         private val addSearchModel = AddSearchModel(R.string.add_new_vessel)
+        private var cachedAllReports = emptyList<Report>()
 
         override fun initiateData(): List<SearchModel> {
-            val list = mutableListOf<SearchModel>()
-            if (limit > 0) {
-                list.add(TextViewSearchModel(R.string.recently_boarded))
-            }
-            val allReports = repository.findAllReports()
-            list.addAll(allReports
+            fetchReports()
+            val result = mutableListOf<SearchModel>()
+
+            result.add(TextViewSearchModel(R.string.recently_boarded))
+
+            result.addAll(cachedAllReports
                 .asSequence()
                 .filterNot { it.vessel?.name.isNullOrBlank() }
                 .groupBy { it.vessel?.permitNumber }
                 .map { pair ->
-                    RecordSearchModel(allReports.find { it.vessel?.permitNumber == pair.key }?.vessel!!,
+                    RecordSearchModel(
+                        pair.value.find { it.vessel?.permitNumber == pair.key }?.vessel!!,
                         pair.value.sortedByDescending { report -> report.date })
-                }.take(limit)
+                }.take(RECENT_BOARDINGS_COUNT)
             )
-            if (isAddAvailable) list.add(addSearchModel)
+            if (isAddAvailable) result.add(addSearchModel)
 
-            return list
+            return result
         }
 
         override fun applyFilter(filter: String): List<SearchModel> {
+            fetchReports()
+
             if (filter.isBlank()) {
-                return if (isAddAvailable) listOf(addSearchModel) else emptyList()
+                return initiateData()
             }
 
-            val list = mutableListOf<SearchModel>()
-            list.addAll(repository.findAllReports()
+            val result = mutableListOf<SearchModel>()
+
+            result.addAll(cachedAllReports
                 .filterNot { it.vessel?.name.isNullOrBlank() }
                 .filter { it.vessel?.name.orEmpty().contains(filter, true) }
-                .groupBy { it.vessel }
-                .map {
+                .groupBy { it.vessel?.permitNumber }
+                .map { pair ->
                     RecordSearchModel(
-                        it.key!!,
-                        it.value.sortedByDescending { report -> report.date })
+                        pair.value.find { it.vessel?.permitNumber == pair.key }?.vessel!!,
+                        pair.value.sortedByDescending { report -> report.date })
                 })
-            if (isAddAvailable) list.add(addSearchModel)
 
-            return list
+            if (isAddAvailable) result.add(addSearchModel)
+
+            return result
+        }
+
+        private fun fetchReports() {
+            if (cachedAllReports.isNullOrEmpty()) {
+                cachedAllReports = repository.findAllReports()
+            }
         }
     }
 
