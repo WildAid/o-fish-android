@@ -34,8 +34,8 @@
 
             <ImageView
                 android:id="@+id/image_user_status"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
                 android:layout_margin="12dp"
                 app:layout_constraintBottom_toBottomOf="@id/image_user"
                 app:layout_constraintEnd_toEndOf="@id/image_user"
@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 android:ellipsize="end"
                 android:lines="1"
                 android:text="@{@string/first_last_name(homeActivityViewModel.currentOfficerLiveData.firstName, homeActivityViewModel.currentOfficerLiveData.lastName)}"
@@ -55,7 +55,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@id/image_user"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@id/image_user"
                 tools:text="Officer Nemo Marlin" />
 
             <TextView
