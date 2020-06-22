@@ -19,7 +19,7 @@ class ComplexSearchFragment : BaseSearchFragment<SearchModel>() {
                 is SearchBusiness -> R.string.business
                 is SearchViolation -> R.string.violation
                 is SearchRecords -> R.string.find_records
-                is SearchVessels -> R.string.new_boarding
+                is SearchVessels -> R.string.find_records
                 is SearchCrew -> R.string.crew
                 else -> R.string.empty
             }
