@@ -28,6 +28,7 @@ import org.wildaid.ofish.databinding.FragmentVesselDetailsBinding
 import org.wildaid.ofish.ui.base.DIALOG_CLICK_EVENT
 import org.wildaid.ofish.ui.base.DialogButton
 import org.wildaid.ofish.ui.base.DialogClickEvent
+import org.wildaid.ofish.ui.base.ItemDivider
 import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER
 import org.wildaid.ofish.ui.home.ASK_CHANGE_DUTY_DIALOG_ID
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
@@ -69,7 +70,7 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
         }
 
         vessel_reports_recycler.apply {
-            addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
+            addItemDecoration(ItemDivider(requireContext(), LinearLayoutManager.VERTICAL))
             adapter = recordsAdapter
         }
 
@@ -82,7 +83,7 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
         })
 
         fragmentViewModel.boardVesselLiveData.observe(viewLifecycleOwner, EventObserver {
-            val navigationArgs = bundleOf(KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER to vesselPermitNumber)
+            val navigationArgs = bundleOf(KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER tyfo vesselPermitNumber)
             navigation.navigate(
                 R.id.action_vessel_details_fragment_to_create_report,
                 navigationArgs
