@@ -4,6 +4,7 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import androidx.lifecycle.ProcessLifecycleOwner
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.Repository
 
@@ -14,9 +15,12 @@ class OFishApplication : Application() {
     val repository: Repository
         get() = ServiceLocator.provideRepository(this)
 
+    private val lifecycleListener: LifecycleListener by lazy { LifecycleListener(applicationContext) }
+
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel(this)
+        setupLifecycleListener()
     }
 
     private fun createNotificationChannel(context: Context) {
@@ -29,5 +33,9 @@ class OFishApplication : Application() {
         val notificationManager: NotificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
+    }
+
+    private fun setupLifecycleListener() {
+        ProcessLifecycleOwner.get().lifecycle.addObserver(lifecycleListener)
     }
 }
