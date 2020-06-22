@@ -26,6 +26,19 @@ class ComplexSearchFragment : BaseSearchFragment<SearchModel>() {
         )
     }
 
+    override fun getSearchHint(): String {
+        return getString(
+            when (currentSearchEntity) {
+                is SearchBusiness -> R.string.business
+                is SearchViolation -> R.string.violation
+                is SearchRecords -> R.string.find_records
+                is SearchVessels -> R.string.find_records
+                is SearchCrew -> R.string.crew
+                else -> R.string.empty
+            }
+        )
+    }
+
     object SearchBusiness : BaseSearchType()
     object SearchRecords : BaseSearchType()
     object SearchVessels : BaseSearchType()

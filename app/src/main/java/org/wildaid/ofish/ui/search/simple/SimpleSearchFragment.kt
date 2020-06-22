@@ -25,6 +25,8 @@ class SimpleSearchFragment : BaseSearchFragment<String>() {
         )
     }
 
+    override fun getSearchHint() = getSearchTitle()
+
     object SearchFlagState : BaseSearchType()
     object SearchEms : BaseSearchType()
     object SearchFishery : BaseSearchType()

@@ -86,13 +86,15 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
 
     abstract fun getSearchTitle(): String
 
+    abstract fun getSearchHint(): String
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         inflater.inflate(R.menu.menu_search_fragment, menu)
         val searchItem = menu.findItem(R.id.menu_search)
         val searchView = searchItem.actionView as SearchView
 
-        searchView.queryHint = getSearchTitle()
+        searchView.queryHint = getSearchHint()
         searchItem.expandActionView()
 
         searchView.setOnQueryTextListener(toolbarSearchListener)
