@@ -83,7 +83,7 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
         })
 
         fragmentViewModel.boardVesselLiveData.observe(viewLifecycleOwner, EventObserver {
-            val navigationArgs = bundleOf(KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER tyfo vesselPermitNumber)
+            val navigationArgs = bundleOf(KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER to vesselPermitNumber)
             navigation.navigate(
                 R.id.action_vessel_details_fragment_to_create_report,
                 navigationArgs
