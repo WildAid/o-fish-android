@@ -18,7 +18,7 @@ import org.wildaid.ofish.ui.base.ConfirmationDialogFragment
 import org.wildaid.ofish.util.getViewModelFactory
 
 const val ASK_CHANGE_DUTY_DIALOG_ID = 10
-const val TIMER_REQUEST_ID = 11
+const val TEN_HOURS_TIMER_REQUEST_ID = 11
 
 private const val TEN_HOURS = 10 * 60 * 60 * 1000
 
@@ -35,7 +35,7 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
                 HomeActivityViewModel.UserEvent.UserLogoutEvent -> onUserLoggedOut()
             }
         })
-        activityViewModel.timerLiveData.observe(this, EventObserver(::setTimer))
+        activityViewModel.timerLiveData.observe(this, EventObserver(::setOrCancelTimer))
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -63,10 +63,10 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
         navigation.navigate(R.id.ask_change_duty_dialog, dialogBundle)
     }
 
-    private fun setTimer(onDuty: Boolean) {
+    private fun setOrCancelTimer(onDuty: Boolean) {
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as? AlarmManager
         val alarmIntent = Intent(this, OnDutyAlarmReminder::class.java).let { intent ->
-            PendingIntent.getBroadcast(this, TIMER_REQUEST_ID, intent, 0)
+            PendingIntent.getBroadcast(this, TEN_HOURS_TIMER_REQUEST_ID, intent, 0)
         }
         if (onDuty) {
             alarmManager?.set(

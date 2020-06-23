@@ -54,4 +54,6 @@ interface Repository {
     fun getBusinessAndLocation(): List<Pair<String, String>>
 
     fun getFlagStates(agency: String?): List<String>
+
+    fun getOnDutyStatus() : Boolean
 }
