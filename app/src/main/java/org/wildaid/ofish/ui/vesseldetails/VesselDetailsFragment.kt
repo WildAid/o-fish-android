@@ -15,6 +15,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_vessel_details.*
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
@@ -29,6 +30,7 @@ import org.wildaid.ofish.ui.home.ASK_CHANGE_DUTY_DIALOG_ID
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
 import org.wildaid.ofish.ui.reportdetail.KEY_REPORT_ID
 import org.wildaid.ofish.util.getViewModelFactory
+import org.wildaid.ofish.util.setVisible
 
 const val KEY_VESSEL_PERMIT_NUMBER = "permit_number"
 
@@ -80,7 +82,7 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
         })
 
         fragmentViewModel.vesselPhotosLiveData.observe(viewLifecycleOwner, Observer {
-            photosAdapter.setItems(it)
+            updateVesselImages(it)
         })
 
         fragmentViewModel.boardVesselLiveData.observe(viewLifecycleOwner, EventObserver {
@@ -122,6 +124,16 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
                 handleDialogClick(click)
             }
         })
+    }
+
+    private fun updateVesselImages(photos: List<Photo>) {
+        photosAdapter.setItems(photos)
+
+        TabLayoutMediator(vessel_image_pager_indicator, vessel_image_pager) { tab, position ->
+            //empty
+        }.attach()
+
+        vessel_image_pager_indicator.setVisible(photos.size > 1)
     }
 
     private fun handleDialogClick(event: DialogClickEvent) {
