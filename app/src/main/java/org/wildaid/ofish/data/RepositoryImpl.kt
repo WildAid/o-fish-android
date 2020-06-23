@@ -14,12 +14,16 @@ class RepositoryImpl(
     private val androidDataSource: AndroidDataSource
 ) : Repository {
 
-    override fun registerUser(userName: String, password: String,
-                       loginSuccess: () -> Unit, loginError: (Throwable?) -> Unit) =
+    override fun registerUser(
+        userName: String, password: String,
+        loginSuccess: () -> Unit, loginError: (Throwable?) -> Unit
+    ) =
         realmDataSource.registerUser(userName, password, loginSuccess, loginError)
 
-    override fun login(userName: String, password: String,
-                       loginSuccess: (User) -> Unit, loginError: (AppException?) -> Unit) =
+    override fun login(
+        userName: String, password: String,
+        loginSuccess: (User) -> Unit, loginError: (AppException?) -> Unit
+    ) =
         realmDataSource.login(userName, password, loginSuccess, loginError)
 
     override fun logOut(logoutSuccess: () -> Unit, logoutError: (Throwable?) -> Unit) {
@@ -28,8 +32,10 @@ class RepositoryImpl(
 
     override fun restoreLoggedUser() = realmDataSource.restoreLoggedUser()
 
-    override fun saveOnDutyChange(onDuty: Boolean) =
+    override fun saveOnDutyChange(onDuty: Boolean) {
         realmDataSource.saveOnDutyChange(onDuty)
+        androidDataSource.saveOnDutyStatus(onDuty)
+    }
 
     override fun saveReport(
         report: Report,
@@ -62,7 +68,8 @@ class RepositoryImpl(
 
     override fun findReport(reportId: ObjectId) = realmDataSource.findReport(reportId)
 
-    override fun findReportsForBoat(boatPermitNumber: String) = realmDataSource.findReportsForBoat(boatPermitNumber)
+    override fun findReportsForBoat(boatPermitNumber: String) =
+        realmDataSource.findReportsForBoat(boatPermitNumber)
 
     override fun findAllBoats() = realmDataSource.findAllBoats()
 
@@ -83,4 +90,6 @@ class RepositoryImpl(
         states.addAll(0, prior)
         return states
     }
+
+    override fun getOnDutyStatus() = androidDataSource.getOnDutyStatus()
 }

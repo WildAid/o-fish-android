@@ -16,6 +16,7 @@ class LifecycleListener(private val context: Context) : LifecycleObserver {
 
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as? AlarmManager
     private val alarmIntent: PendingIntent by lazy { getAlarmPendingIntent() }
+    private val repository = (context.applicationContext as OFishApplication).repository
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onMoveToForeground() {
@@ -24,11 +25,13 @@ class LifecycleListener(private val context: Context) : LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onMoveToBackground() {
-        alarmManager?.set(
-            AlarmManager.ELAPSED_REALTIME_WAKEUP,
-            SystemClock.elapsedRealtime() + FOUR_HOURS,
-            alarmIntent
-        )
+        if (repository.getOnDutyStatus()) {
+            alarmManager?.set(
+                AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                SystemClock.elapsedRealtime() + FOUR_HOURS,
+                alarmIntent
+            )
+        }
     }
 
     private fun getAlarmPendingIntent() =
