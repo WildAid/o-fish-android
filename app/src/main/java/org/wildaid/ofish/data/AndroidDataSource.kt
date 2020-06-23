@@ -11,6 +11,8 @@ import java.io.InputStream
 private const val MAX_BYTES_SIZE = 3 * 1024 * 1024  // 3mb
 private const val THUMBNAIL_IMAGE_PIXEL_SIZE = 100  // 100 PIXELS
 private const val COMPRESS_STEP = 10
+private const val PREFERENCE_NAME = "preferences"
+private const val ON_DUTY_KEY = "on_duty"
 
 class AndroidDataSource(
     val context: Context
@@ -61,5 +63,17 @@ class AndroidDataSource(
         val baos = ByteArrayOutputStream()
         thumbnailBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         return baos.toByteArray()
+    }
+
+    fun getOnDutyStatus() =
+        context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
+            .getBoolean(ON_DUTY_KEY, false)
+
+    fun saveOnDutyStatus(onDuty: Boolean) {
+        val pref = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
+        with(pref.edit()) {
+            putBoolean(ON_DUTY_KEY, onDuty)
+            commit()
+        }
     }
 }
