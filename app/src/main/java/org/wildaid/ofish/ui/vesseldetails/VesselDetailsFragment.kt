@@ -14,13 +14,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import kotlinx.android.synthetic.main.fragment_vessel_details.*
-import kotlinx.android.synthetic.main.item_photo.view.*
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.report.Photo
@@ -49,25 +44,31 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
     }
     private lateinit var dataBinding: FragmentVesselDetailsBinding
     private lateinit var recordsAdapter: VesselRecordsAdapter
+    private lateinit var photosAdapter: VesselPhotosAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fragmentViewModel.activityViewModel = activityViewModel
         setHasOptionsMenu(true)
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (requireActivity() as AppCompatActivity).setSupportActionBar(vessel_details_toolbar)
-        vessel_details_toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white)
         recordsAdapter = VesselRecordsAdapter {
             val bundle = bundleOf(KEY_REPORT_ID to it.report._id)
             navigation.navigate(R.id.report_details_fragment, bundle)
         }
 
+        photosAdapter = VesselPhotosAdapter()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        (requireActivity() as AppCompatActivity).setSupportActionBar(vessel_details_toolbar)
+        vessel_details_toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white)
+
         dataBinding = FragmentVesselDetailsBinding.bind(view).apply {
             viewModel = fragmentViewModel
             lifecycleOwner = viewLifecycleOwner
         }
+
+        vessel_image_pager.adapter = photosAdapter
 
         vessel_reports_recycler.apply {
             addItemDecoration(ItemDivider(requireContext(), LinearLayoutManager.VERTICAL))
@@ -78,12 +79,13 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
             recordsAdapter.setItems(it.reports)
         })
 
-        fragmentViewModel.vesselPhotoLiveData.observe(viewLifecycleOwner, Observer {
-            updateVesselPhoto(it)
+        fragmentViewModel.vesselPhotosLiveData.observe(viewLifecycleOwner, Observer {
+            photosAdapter.setItems(it)
         })
 
         fragmentViewModel.boardVesselLiveData.observe(viewLifecycleOwner, EventObserver {
-            val navigationArgs = bundleOf(KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER to vesselPermitNumber)
+            val navigationArgs =
+                bundleOf(KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER to vesselPermitNumber)
             navigation.navigate(
                 R.id.action_vessel_details_fragment_to_create_report,
                 navigationArgs
@@ -92,18 +94,6 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
 
         fragmentViewModel.loadVessel(vesselPermitNumber)
         subscribeToDialogEvents()
-    }
-
-    private fun updateVesselPhoto(it: Photo) {
-        Glide
-            .with(this)
-            .load(
-                it.pictureURL.ifBlank { null } ?:
-                it.picture ?:
-                it.thumbNail
-            )
-            .placeholder(R.drawable.ic_vessel_profile)
-            .into(vessel_image)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

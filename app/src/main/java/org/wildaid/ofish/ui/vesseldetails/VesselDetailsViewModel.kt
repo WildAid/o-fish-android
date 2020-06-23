@@ -16,7 +16,7 @@ import org.wildaid.ofish.util.getString
 class VesselDetailsViewModel(private val repository: Repository, application: Application) :
     AndroidViewModel(application) {
     val vesselItemLiveData = MutableLiveData<VesselItem>()
-    val vesselPhotoLiveData = MutableLiveData<Photo>()
+    val vesselPhotosLiveData = MutableLiveData<List<Photo>>()
     val boardVesselLiveData = MutableLiveData<Event<String>>()
 
     lateinit var activityViewModel: HomeActivityViewModel
@@ -45,14 +45,13 @@ class VesselDetailsViewModel(private val repository: Repository, application: Ap
         vesselItemLiveData.value =
             VesselItem(vessel, vesselReportItems, vesselReports.size, warnings, citations)
 
-        vesselReports.forEach {
-            it.vessel?.attachments?.photoIDs?.firstOrNull()?.let {
-                repository.getPhotoById(it).also { photo ->
-                    vesselPhotoLiveData.value = photo
-                    return@forEach
-                }
+        vesselReports.map {
+            repository.getPhotosWithIds(it.vessel?.attachments?.photoIDs.orEmpty())
+        }.flatten().ifEmpty {
+            listOf(Photo()) // invalid photo, just to display holder
+        }.also {
+                vesselPhotosLiveData.value = it
             }
-        }
     }
 
     fun getPermitNumberDescription(): String {
