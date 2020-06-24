@@ -20,17 +20,16 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
     val userEventLiveData = MutableLiveData<Event<UserEvent>>()
 
     init {
-        onDutyStatusLiveData.value = false
-        onDutyImageStatusLiveData.value = R.drawable.shape_red_circle
-        onDutyImageStatusSmallLiveData.value = R.drawable.shape_red_circle_small
-        onDutyTextStatusLiveData.value = getString(R.string.off_duty)
-
         val officer = repository.getCurrentOfficer()
         if (!repository.isLoggedIn() || officer == null) {
             logOutUser()
         } else {
             currentOfficerLiveData.value = officer
         }
+
+        val lastOnDutyStatus = repository.getOnDutyStatus()
+        onDutyStatusLiveData.value = lastOnDutyStatus
+        applyDutyStatusDrawables(lastOnDutyStatus)
     }
 
     fun onDutyChanged(onDuty: Boolean) {
@@ -39,17 +38,10 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
         }
 
         onDutyStatusLiveData.value = onDuty
-        if (onDuty) {
-            onDutyImageStatusLiveData.value = R.drawable.shape_green_circle
-            onDutyImageStatusSmallLiveData.value = R.drawable.shape_green_circle_small
-            onDutyTextStatusLiveData.value = getString(R.string.on_duty)
-        } else {
-            onDutyImageStatusLiveData.value = R.drawable.shape_red_circle
-            onDutyImageStatusSmallLiveData.value = R.drawable.shape_red_circle_small
-            onDutyTextStatusLiveData.value = getString(R.string.off_duty)
-        }
         timerLiveData.value = Event(onDuty)
         repository.saveOnDutyChange(onDuty)
+
+        applyDutyStatusDrawables(onDuty)
     }
 
     fun logOutUser() {
@@ -61,6 +53,18 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
                 Log.d("Logout", "Cannot logout, error -> $it")
             }
         )
+    }
+
+    private fun applyDutyStatusDrawables(onDuty: Boolean) {
+        if (onDuty) {
+            onDutyImageStatusLiveData.value = R.drawable.shape_green_circle
+            onDutyImageStatusSmallLiveData.value = R.drawable.shape_green_circle_small
+            onDutyTextStatusLiveData.value = getString(R.string.on_duty)
+        } else {
+            onDutyImageStatusLiveData.value = R.drawable.shape_red_circle
+            onDutyImageStatusSmallLiveData.value = R.drawable.shape_red_circle_small
+            onDutyTextStatusLiveData.value = getString(R.string.off_duty)
+        }
     }
 
     sealed class UserEvent {
