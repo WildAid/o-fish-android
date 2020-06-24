@@ -62,5 +62,7 @@
     <style name="AppSearchViewStyle" parent="Widget.AppCompat.SearchView">
         <item name="android:paddingStart">-16dp</item>
         <item name="searchHintIcon">@null</item>
+        <item name="queryBackground">@null</item>
+        <item name="submitBackground">@null</item>
     </style>
 </resources>

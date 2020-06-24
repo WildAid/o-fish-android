@@ -2,7 +2,9 @@ package org.wildaid.ofish.ui.search.base
 
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
@@ -33,15 +35,17 @@ import org.wildaid.ofish.util.hideKeyboard
 import org.wildaid.ofish.util.showKeyboard
 import java.io.Serializable
 
+const val SEARCH_TAG = "Search"
 
 abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
     protected lateinit var currentSearchEntity: BaseSearchType
     protected val baseSearchViewModel: BaseSearchViewModel<T> by lazy { createViewModel() }
     protected val activityViewModel: CreateReportViewModel by activityViewModels { getViewModelFactory() }
 
-    private lateinit var baseSearchAdapter: BaseSearchAdapter<T>
     private val navigation: NavController by lazy { findNavController() }
     private var progressDialog: ProgressDialogFragment? = null
+    private lateinit var baseSearchAdapter: BaseSearchAdapter<T>
+    private lateinit var searchView: SearchView
 
     abstract fun createAdapter(itemListener: (T) -> Unit): BaseSearchAdapter<T>
     abstract fun createViewModel(): BaseSearchViewModel<T>
@@ -95,9 +99,14 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
         menu.clear()
         inflater.inflate(R.menu.menu_search_fragment, menu)
         val searchItem = menu.findItem(R.id.menu_search)
-        val searchView = searchItem.actionView as SearchView
+        searchView = searchItem.actionView as SearchView
+
+        val sm = requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        // Assumes current activity is the searchable activity
+        searchView.setSearchableInfo(sm.getSearchableInfo(requireActivity().componentName))
 
         searchView.queryHint = getSearchHint()
+        searchView.maxWidth = Integer.MAX_VALUE;
         searchItem.expandActionView()
         searchView.setOnQueryTextListener(toolbarSearchListener)
         searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
@@ -107,6 +116,10 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
                 searchView.hideKeyboard()
             }
         }
+    }
+
+    fun applySearchQuery(query: String?) {
+        searchView.setQuery(query, false)
     }
 
     protected open fun onItemSelected(selectedItem: T) {

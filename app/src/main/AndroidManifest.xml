@@ -36,13 +36,20 @@
         <activity
             android:name=".ui.home.HomeActivity"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable_activity" />
+        </activity>
         <activity
             android:name=".ui.createreport.CreateReportActivity"
             android:screenOrientation="portrait" />
 
-        <receiver
-            android:name=".app.OnDutyAlarmReminder"/>
+        <receiver android:name=".app.OnDutyAlarmReminder" />
 
         <provider
             android:name=".app.OFishFileProvider"
