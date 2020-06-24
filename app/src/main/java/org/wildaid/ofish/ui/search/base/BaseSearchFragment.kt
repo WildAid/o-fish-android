@@ -1,5 +1,7 @@
 package org.wildaid.ofish.ui.search.base
 
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -30,6 +32,7 @@ import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.hideKeyboard
 import org.wildaid.ofish.util.showKeyboard
 import java.io.Serializable
+
 
 abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
     protected lateinit var currentSearchEntity: BaseSearchType
@@ -96,7 +99,6 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
 
         searchView.queryHint = getSearchHint()
         searchItem.expandActionView()
-
         searchView.setOnQueryTextListener(toolbarSearchListener)
         searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
