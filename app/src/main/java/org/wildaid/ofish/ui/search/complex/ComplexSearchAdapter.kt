@@ -1,8 +1,10 @@
 package org.wildaid.ofish.ui.search.complex
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.SafetyColor
 import org.wildaid.ofish.databinding.*
@@ -140,13 +142,39 @@ class ComplexSearchAdapter(itemListener: (SearchModel) -> Unit) :
             binding.recordVesselLastBoarding.text =
                 context.getString(R.string.record_last_contact, lastReport.date)
             binding.recordVesselCrewSize.text =
-                context.getString(R.string.crew_member_size, lastReport.crew.size + 1) // Adding Captain
+                context.getString(
+                    R.string.crew_member_size,
+                    lastReport.crew.size + 1
+                ) // Adding Captain
 
             val safetyLevel = lastReport.inspection?.summary?.safetyLevel?.level
             for (value in SafetyColor.values()) {
                 if (value.name == safetyLevel) {
-                    binding.recordVesselSafetyLevel.setSafetyColor(value, R.dimen.safety_background_radius_small)
+                    binding.recordVesselSafetyLevel.setSafetyColor(
+                        value,
+                        R.dimen.safety_background_radius_small
+                    )
                     break
+                }
+            }
+
+            bindImage(item, context)
+        }
+
+        private fun bindImage(item: RecordSearchModel, context: Context) {
+            item.reports.forEach { report ->
+                report.vessel?.attachments?.photoIDs?.firstOrNull()?.let {
+                    item.repository.getPhotoById(it).also { photo ->
+                        Glide
+                            .with(context)
+                            .load(
+                                photo?.pictureURL?.ifBlank { null } ?: photo?.picture
+                                ?: photo?.thumbNail
+                            )
+                            .placeholder(R.drawable.ic_vessel_placeholder_2)
+                            .into(binding.recordVesselImage)
+                        return
+                    }
                 }
             }
         }

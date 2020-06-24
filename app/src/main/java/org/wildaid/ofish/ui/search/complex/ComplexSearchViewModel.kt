@@ -78,7 +78,7 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
                 .map { pair ->
                     RecordSearchModel(
                         pair.value.find { it.vessel?.permitNumber == pair.key }?.vessel!!,
-                        pair.value.sortedByDescending { report -> report.date })
+                        pair.value.sortedByDescending { report -> report.date }, repository)
                 }.take(RECENT_BOARDINGS_COUNT)
             )
             if (isAddAvailable) result.add(addSearchModel)
@@ -102,7 +102,7 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
                 .map { pair ->
                     RecordSearchModel(
                         pair.value.find { it.vessel?.permitNumber == pair.key }?.vessel!!,
-                        pair.value.sortedByDescending { report -> report.date })
+                        pair.value.sortedByDescending { report -> report.date }, repository)
                 })
 
             if (isAddAvailable) result.add(addSearchModel)
