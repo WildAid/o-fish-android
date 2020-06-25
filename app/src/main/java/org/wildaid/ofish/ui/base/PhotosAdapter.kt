@@ -53,7 +53,7 @@ class PhotosAdapter(
                     item.photo.thumbNail
                 )
 
-                .transforms(CenterCrop(), RoundedCorners(radiusInPixels))
+                .transform(CenterCrop(), RoundedCorners(radiusInPixels))
                 .placeholder(R.drawable.ic_image_placeholder)
                 .into(itemView.item_edit_photo)
 
