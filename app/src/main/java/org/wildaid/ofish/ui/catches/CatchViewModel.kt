@@ -120,7 +120,6 @@ class CatchViewModel(
     private fun createPhoto(imageUri: Uri): PhotoItem {
         return PhotoItem(
             Photo().apply {
-                agency = repository.getCurrentOfficer().agency
                 referencingReportID = currentReport._id.toString()
             },
             imageUri
