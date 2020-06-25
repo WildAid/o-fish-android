@@ -21,12 +21,22 @@
             android:id="@+id/action_home_fragment_to_login_activity"
             app:popUpToInclusive="true"
             app:destination="@id/login_activity" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_ask_logout_dialog"
+            app:destination="@id/ask_logout_dialog"/>
     </fragment>
 
     <dialog
         android:id="@+id/ask_change_duty_dialog"
         android:name="org.wildaid.ofish.ui.base.ConfirmationDialogFragment"
         android:label="SimpleConfirmationDialog" />
+
+    <dialog
+        android:id="@+id/ask_logout_dialog"
+        android:name="org.wildaid.ofish.ui.base.ConfirmationDialogFragment"
+        android:label="SimpleConfirmationDialog" />
+
 
     <fragment
         android:id="@+id/complex_search"
