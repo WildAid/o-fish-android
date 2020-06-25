@@ -8,7 +8,7 @@ import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.search.base.BaseSearchType
 import org.wildaid.ofish.ui.search.base.BaseSearchViewModel
 
-private const val RECENT_BOARDINGS_COUNT = 6
+private const val RECENT_BOARDINGS_COUNT = 5
 
 class ComplexSearchViewModel(repository: Repository, application: Application) :
     BaseSearchViewModel<SearchModel>(repository, application) {
