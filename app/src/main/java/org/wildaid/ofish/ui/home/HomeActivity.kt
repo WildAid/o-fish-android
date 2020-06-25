@@ -23,7 +23,8 @@ import org.wildaid.ofish.util.getViewModelFactory
 
 
 const val ASK_CHANGE_DUTY_DIALOG_ID = 10
-const val TEN_HOURS_TIMER_REQUEST_ID = 11
+const val ASK_TO_LOGOUT_DIALOG_ID = 11
+const val TEN_HOURS_TIMER_REQUEST_ID = 12
 
 private const val TEN_HOURS = 10 * 60 * 60 * 1000
 
@@ -37,6 +38,7 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
         activityViewModel.userEventLiveData.observe(this, EventObserver() {
             when (it) {
                 HomeActivityViewModel.UserEvent.AskDutyConfirmationEvent -> askToChangeDuty()
+                HomeActivityViewModel.UserEvent.AskUserLogoutEvent -> askToLogout()
                 HomeActivityViewModel.UserEvent.UserLogoutEvent -> onUserLoggedOut()
             }
         })
@@ -76,7 +78,19 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
             getString(android.R.string.cancel)
         ).bundle()
 
-        navigation.navigate(R.id.ask_change_duty_dialog, dialogBundle)
+        navigation.navigate(R.id.action_homeFragment_to_ask_change_duty_dialog, dialogBundle)
+    }
+
+    private fun askToLogout() {
+        val dialogBundle = ConfirmationDialogFragment.Bundler(
+            ASK_TO_LOGOUT_DIALOG_ID,
+            getString(R.string.logout_dialog_title),
+            getString(R.string.logout_dialog_message),
+            getString(R.string.logout_dialog_yes),
+            getString(android.R.string.cancel)
+        ).bundle()
+
+        navigation.navigate(R.id.action_homeFragment_to_ask_logout_dialog, dialogBundle)
     }
 
     private fun setOrCancelTimer(onDuty: Boolean) {
