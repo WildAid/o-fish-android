@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.Report
+import org.wildaid.ofish.ui.search.complex.AddSearchModel
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
 
 abstract class BaseSearchViewModel<T>(
@@ -30,9 +31,19 @@ abstract class BaseSearchViewModel<T>(
     }
 
     fun isReportSearchEmpty(searchEntity: BaseSearchType, query: String?): Boolean {
-        return searchEntity is ComplexSearchFragment.SearchRecords
-                && dataList.value.isNullOrEmpty()
+        return isRecordSearch(searchEntity)
+                && isDataEmpty()
                 && !query.isNullOrBlank()
+    }
+
+    private fun isRecordSearch(searchEntity: BaseSearchType) =
+        searchEntity is ComplexSearchFragment.SearchRecords || searchEntity is ComplexSearchFragment.SearchVessels
+
+    private fun isDataEmpty(): Boolean {
+        val value = dataList.value
+        if (value.isNullOrEmpty()) return true
+        if (value.size == 1 && value[0] is AddSearchModel) return true
+        return false
     }
 
     abstract inner class SearchDataSource {

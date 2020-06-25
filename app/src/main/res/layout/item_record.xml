@@ -13,8 +13,6 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_margin="18dp"
-            android:background="@color/medium_grey"
-            android:scaleType="center"
             android:src="@drawable/ic_vessel_placeholder_2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

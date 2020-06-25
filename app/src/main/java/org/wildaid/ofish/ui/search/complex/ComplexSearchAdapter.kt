@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.SafetyColor
 import org.wildaid.ofish.databinding.*
@@ -131,6 +133,8 @@ class ComplexSearchAdapter(itemListener: (SearchModel) -> Unit) :
 
     inner class RecordHolder(view: View) : BaseViewHolder<RecordSearchModel>(view) {
         private val binding: ItemRecordBinding = ItemRecordBinding.bind(view)
+        private val radiusInPixels =
+            view.context.resources.getDimensionPixelSize(R.dimen.photo_corner_radius)
 
         override fun bindItem(item: RecordSearchModel) {
             val lastReport = item.reports.first()
@@ -171,6 +175,7 @@ class ComplexSearchAdapter(itemListener: (SearchModel) -> Unit) :
                                 photo?.pictureURL?.ifBlank { null } ?: photo?.picture
                                 ?: photo?.thumbNail
                             )
+                            .transform(CenterCrop(), RoundedCorners(radiusInPixels))
                             .placeholder(R.drawable.ic_vessel_placeholder_2)
                             .into(binding.recordVesselImage)
                         return
