@@ -17,7 +17,6 @@ import org.wildaid.ofish.R
 import org.wildaid.ofish.data.report.Boat
 import org.wildaid.ofish.databinding.FragmentVesselBinding
 import org.wildaid.ofish.ui.base.BaseReportFragment
-import org.wildaid.ofish.ui.base.SwipeToDeleteTouchCallback
 import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.complex.BusinessSearchModel
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
@@ -78,10 +77,6 @@ class VesselFragment : BaseReportFragment(R.layout.fragment_vessel) {
         )
 
         vessel_ems_recycler.adapter = emsAdapter
-        ItemTouchHelper(SwipeToDeleteTouchCallback(requireContext()) {
-            hideKeyboard()
-            fragmentViewModel.removeEms(position = it)
-        }).attachToRecyclerView(vessel_ems_recycler)
 
         fragmentViewModel.vesselItemLiveData.observe(
             viewLifecycleOwner,

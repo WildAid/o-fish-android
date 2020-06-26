@@ -13,12 +13,9 @@ import org.wildaid.ofish.R
 import org.wildaid.ofish.databinding.FragmentCrewBinding
 import org.wildaid.ofish.ui.base.BaseReportFragment
 import org.wildaid.ofish.ui.base.CARDS_OFFSET_SIZE
-import org.wildaid.ofish.ui.base.SwipeToDeleteTouchCallback
 import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.hideKeyboard
 import org.wildaid.ofish.util.setVisible
-
-const val CAPTAIN_POSITION = 0
 
 class CrewFragment : BaseReportFragment(R.layout.fragment_crew) {
     private val fragmentViewModel: CrewViewModel by viewModels { getViewModelFactory() }
@@ -80,12 +77,6 @@ class CrewFragment : BaseReportFragment(R.layout.fragment_crew) {
             adapter = crewAdapter
             addItemDecoration(VerticalSpaceItemDecoration(CARDS_OFFSET_SIZE))
         }
-
-        ItemTouchHelper(SwipeToDeleteTouchCallback(requireContext(), arrayOf(CAPTAIN_POSITION)) {
-            requireActivity().currentFocus?.clearFocus()
-            fragmentViewModel.removeCrewMember(it)
-        }).attachToRecyclerView(crew_recycler)
-
 
         crew_add_member_footer.setOnClickListener {
             requireActivity().currentFocus?.clearFocus()

@@ -14,7 +14,6 @@ import org.wildaid.ofish.R
 import org.wildaid.ofish.databinding.FragmentCatchBinding
 import org.wildaid.ofish.ui.base.BaseReportFragment
 import org.wildaid.ofish.ui.base.CARDS_OFFSET_SIZE
-import org.wildaid.ofish.ui.base.SwipeToDeleteTouchCallback
 import org.wildaid.ofish.ui.crew.VerticalSpaceItemDecoration
 import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.simple.SimpleSearchFragment
@@ -88,12 +87,6 @@ class CatchFragment : BaseReportFragment(R.layout.fragment_catch) {
             adapter = catchAdapter
             addItemDecoration(VerticalSpaceItemDecoration(CARDS_OFFSET_SIZE))
         }
-
-        ItemTouchHelper(SwipeToDeleteTouchCallback(requireContext()) {
-            hideKeyboard()
-            fragmentViewModel.removeCatch(it)
-        }).attachToRecyclerView(catch_recycler)
-
 
         catch_add_footer.setOnClickListener {
             requireActivity().currentFocus?.clearFocus()
