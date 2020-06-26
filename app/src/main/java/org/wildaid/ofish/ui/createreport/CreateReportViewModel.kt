@@ -20,7 +20,6 @@ class CreateReportViewModel(val repository: Repository) : ViewModel() {
 
         reportPhotos = mutableListOf()
         report = Report().apply {
-            agency = officer.agency
             reportingOfficer?.apply {
                 email = officer.email
                 name?.apply {

@@ -129,7 +129,6 @@ class ViolationViewModel(val repository: Repository,
 
     private fun createPhoto(): Photo {
         return Photo().apply {
-            agency = repository.getCurrentOfficer().agency
             referencingReportID = currentReport._id.toString()
         }
     }
