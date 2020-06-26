@@ -45,6 +45,10 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
     }
 
     fun logOutUser() {
+        userEventLiveData.value = Event(UserEvent.AskUserLogoutEvent)
+    }
+
+    fun logoutConfirmed() {
         repository.logOut(
             logoutSuccess = {
                 userEventLiveData.value = Event(UserEvent.UserLogoutEvent)
@@ -69,6 +73,7 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
 
     sealed class UserEvent {
         object AskDutyConfirmationEvent : UserEvent()
+        object AskUserLogoutEvent : UserEvent()
         object UserLogoutEvent : UserEvent()
     }
 }

@@ -190,17 +190,25 @@ class HomeFragment : Fragment(R.layout.fragment_home),
             }
 
             if (navStack.savedStateHandle.contains(DIALOG_CLICK_EVENT)) {
-                val click = navStack.savedStateHandle.remove<DialogClickEvent>(DIALOG_CLICK_EVENT)!!
-                handleDialogClick(click)
+                val click = navStack.savedStateHandle.get<DialogClickEvent>(DIALOG_CLICK_EVENT)!!
+                if (handleDialogClick(click)) {
+                    navStack.savedStateHandle.remove<DialogClickEvent>(DIALOG_CLICK_EVENT)!!
+                }
             }
         })
     }
 
-    private fun handleDialogClick(event: DialogClickEvent) {
-        when {
-            event.dialogId == ASK_CHANGE_DUTY_DIALOG_ID && event.dialogBtn == DialogButton.POSITIVE -> {
-                activityViewModel.onDutyChanged(true)
+    private fun handleDialogClick(event: DialogClickEvent): Boolean {
+        return when (event.dialogId) {
+            ASK_CHANGE_DUTY_DIALOG_ID -> {
+                if (event.dialogBtn == DialogButton.POSITIVE) activityViewModel.onDutyChanged(true)
+                true
             }
+            ASK_TO_LOGOUT_DIALOG_ID -> {
+                if (event.dialogBtn == DialogButton.POSITIVE) activityViewModel.logoutConfirmed()
+                true
+            }
+            else -> false
         }
     }
 

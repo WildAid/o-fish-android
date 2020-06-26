@@ -190,11 +190,9 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
 
     private fun showNecessaryLayout(isSearchEmpty: Boolean, query: String?) {
         if (isSearchEmpty) {
-            search_recycler.visibility = View.GONE
             empty_result_layout.visibility = View.VISIBLE
             empty_result_text.text = getString(R.string.no_results_for, query)
         } else {
-            search_recycler.visibility = View.VISIBLE
             empty_result_layout.visibility = View.GONE
         }
     }
