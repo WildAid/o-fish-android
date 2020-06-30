@@ -32,6 +32,16 @@ class AddCrewFragment : Fragment(R.layout.fragment_add_crew) {
         fragmentViewModel.initReport(activityViewModel.report)
     }
 
+    override fun onStart() {
+        super.onStart()
+        activityViewModel.isAddingCrewMember = true
+    }
+
+    override fun onStop() {
+        super.onStop()
+        activityViewModel.isAddingCrewMember = false
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewDataBinding = FragmentAddCrewBinding.bind(view).apply {
             this.viewmodel = fragmentViewModel

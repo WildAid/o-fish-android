@@ -11,6 +11,7 @@ import org.wildaid.ofish.ui.base.PhotoItem
 class CreateReportViewModel(val repository: Repository) : ViewModel() {
     val discardReportLiveData = MutableLiveData<Event<Boolean>>()
     var isOnSearch: Boolean = false
+    var isAddingCrewMember: Boolean = false
 
     lateinit var report: Report
     lateinit var reportPhotos: MutableList<PhotoItem>
@@ -36,7 +37,7 @@ class CreateReportViewModel(val repository: Repository) : ViewModel() {
     }
 
     fun onBackPressed(): Boolean {
-        if (isOnSearch) {
+        if (isOnSearch || isAddingCrewMember) {
             return false
         }
         discardReportLiveData.value = Event(true)
