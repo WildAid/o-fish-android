@@ -40,4 +40,7 @@
     <color name="vessel_details_background">#d2d1d0</color>
     <color name="status_bar_blue">#002548</color>
     <color name="search_icon_color">#8A000000</color>
+
+    <color name="text_input_underline">#E6E6E6</color>
+    <color name="text_input_hint">#979797</color>
 </resources>
