@@ -74,6 +74,7 @@
                     app:dateToString="@{viewmodel.reportLiveData.date}"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintLeft_toLeftOf="parent"
+                    android:onClick="@{() -> viewmodel.onButtonClicked(@id/basic_info_date)}"
                     app:layout_constraintRight_toLeftOf="@id/basic_info_time"
                     app:layout_constraintTop_toBottomOf="@id/basic_info_date_header"
                     tools:text="October 20, 2020" />
@@ -87,6 +88,7 @@
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintLeft_toRightOf="@id/basic_info_date"
                     app:layout_constraintRight_toRightOf="parent"
+                    android:onClick="@{() -> viewmodel.onButtonClicked(@id/basic_info_time)}"
                     app:layout_constraintTop_toBottomOf="@id/basic_info_time_header"
                     app:timeToString="@{viewmodel.reportLiveData.date}"
                     tools:text="4:54PM" />
@@ -250,7 +252,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_height"
             android:layout_margin="16dp"
-            android:onClick="@{() -> viewmodel.onNextClicked()}"
+            android:onClick="@{() -> viewmodel.onButtonClicked(@id/btn_next)}"
             android:text="@string/vessel_next"
             app:layout_constraintBottom_toBottomOf="parent" />
 
