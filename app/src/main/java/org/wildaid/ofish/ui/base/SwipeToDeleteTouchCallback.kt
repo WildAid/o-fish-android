@@ -9,6 +9,15 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import org.wildaid.ofish.R
 
+/**
+ * To use this class you need to write this code:
+ *
+ *   ItemTouchHelper(SwipeToDeleteTouchCallback(requireContext(), positionNotToRemove) {
+ *       hideKeyboard()
+ *       fragmentViewModel.removeNote(it)
+ *   }).attachToRecyclerView(notes_recycler)
+ */
+
 class SwipeToDeleteTouchCallback(
     val context: Context,
     val noSwipePositions: Array<Int> = emptyArray(),
