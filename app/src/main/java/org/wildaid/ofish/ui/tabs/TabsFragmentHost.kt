@@ -260,7 +260,6 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
     @SuppressLint("ClickableViewAccessibility")
     private fun initUI(report: Report, reportPhotos: MutableList<PhotoItem>) {
         (requireActivity() as AppCompatActivity).setSupportActionBar(tabs_toolbar)
-        tabs_toolbar.setTitle(R.string.new_boarding)
         tabs_toolbar.setNavigationIcon(R.drawable.ic_close_white)
 
         fragmentFactory = TabsFragmentFactory(requireContext(), this, report, reportPhotos)
