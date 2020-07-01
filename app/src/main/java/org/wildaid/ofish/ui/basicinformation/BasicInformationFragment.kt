@@ -1,8 +1,13 @@
 package org.wildaid.ofish.ui.basicinformation
 
+import android.annotation.SuppressLint
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.location.Location
 import android.os.Bundle
 import android.view.View
+import android.widget.DatePicker
+import android.widget.TimePicker
 import androidx.fragment.app.viewModels
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -20,6 +25,7 @@ import org.wildaid.ofish.databinding.FragmentBasicInformationBinding
 import org.wildaid.ofish.ui.base.BaseReportFragment
 import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.hideKeyboard
+import java.util.*
 
 
 class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_information),
@@ -55,6 +61,7 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
         )
     }
 
+    @SuppressLint("MissingPermission")
     private fun initMap(location: Location) {
         val coord = LatLng(location.latitude, location.longitude)
         if (!::marker.isInitialized) {
@@ -70,6 +77,7 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
     private fun subscribeToNavigationResult() {
     }
 
+    @SuppressLint("MissingPermission")
     override fun onMapReady(map: GoogleMap) {
         this.map = map
 
@@ -97,6 +105,43 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
             R.id.btn_next -> {
                 onNextListener.onNextClicked()
             }
+            R.id.basic_info_date -> {
+                peekDate()
+            }
+            R.id.basic_info_time -> {
+                peekTime()
+            }
         }
+    }
+
+    private fun peekDate() {
+        val calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())
+        val dialog = DatePickerDialog(
+            requireContext(), ::onDatePicked,
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
+        dialog.show()
+    }
+
+    private fun onDatePicked(datePicker: DatePicker, year: Int, month: Int, dayOfMonth: Int) {
+        fragmentViewModel.updateDate(year, month, dayOfMonth)
+    }
+
+    private fun peekTime() {
+        val calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())
+        val dialog = TimePickerDialog(
+            requireContext(),
+            ::onTimePicked,
+            calendar.get(Calendar.HOUR),
+            calendar.get(Calendar.MINUTE),
+            false
+        )
+        dialog.show()
+    }
+
+    private fun onTimePicked(timePicker: TimePicker, hourOfDay: Int, minute: Int) {
+        fragmentViewModel.updateTime(hourOfDay, minute)
     }
 }
