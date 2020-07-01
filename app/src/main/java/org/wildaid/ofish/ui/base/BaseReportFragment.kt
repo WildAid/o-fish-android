@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.View
-import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
 import androidx.core.content.FileProvider.getUriForFile
 import androidx.fragment.app.Fragment
@@ -15,9 +14,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.android.synthetic.main.fragment_vessel.*
 import org.wildaid.ofish.R
 import org.wildaid.ofish.app.OFISH_PROVIDER_SUFFIX
 import org.wildaid.ofish.data.report.Report
@@ -189,28 +188,15 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
     }
 
     protected fun showSnackbarWarning() {
-        val snackbar = Snackbar.make(
-            requireView(),
+        Snackbar.make(
+            requireView().findViewById(R.id.snackbar_container) ?: requireView(),
             R.string.continue_with_empty_fields,
             Snackbar.LENGTH_LONG
-        )
-            .setAction(R.string.continue_action) {
-                onNextListener.onNextClicked()
-            }
-            .setAnchorView(btn_next)
-            .setActionTextColor(resources.getColor(R.color.tabs_amber, null))
-        setupSnackbarBottomMargin(snackbar)
-        snackbar.show()
-    }
-
-    //todo Doesn't work for now, known issue in Material library
-    private fun setupSnackbarBottomMargin(snackbar: Snackbar) {
-        val snackbarLayout = snackbar.view as Snackbar.SnackbarLayout
-        val layoutParams = snackbarLayout.layoutParams as FrameLayout.LayoutParams
-        layoutParams.setMargins(0, 0, 0,
-            resources.getDimension(R.dimen.snackbar_bottom_margin).toInt()
-        )
-        snackbarLayout.layoutParams = layoutParams
+        ).apply {
+            animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
+            setAction(R.string.continue_action) { onNextListener.onNextClicked() }
+            setActionTextColor(resources.getColor(R.color.tabs_amber, null))
+        }.show()
     }
 }
 
