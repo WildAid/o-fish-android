@@ -59,7 +59,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@id/btn_next"
+            android:id="@+id/btn_next"
             style="@style/BlueButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_height"

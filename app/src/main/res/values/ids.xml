@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="snackbar_container" type="id"/>
-    <item name="btn_next" type="id"/>
 </resources>
