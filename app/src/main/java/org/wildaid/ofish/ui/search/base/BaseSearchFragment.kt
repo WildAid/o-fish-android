@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
@@ -106,6 +107,18 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
         searchItem.expandActionView()
         searchView.setOnQueryTextListener(toolbarSearchListener)
 
+        searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(item: MenuItem?) = true
+
+            override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
+                if (item.actionView.hasFocus()) {
+                    hideKeyboard()
+                    navigation.popBackStack()
+                    return false
+                }
+                return true
+            }
+        })
         searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 searchView.showKeyboard()
