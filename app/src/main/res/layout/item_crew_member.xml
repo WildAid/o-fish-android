@@ -159,10 +159,13 @@
         <TextView
             android:id="@+id/crew_member_action_remove"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:gravity="center"
             android:onClick="@{() -> holder.onItemRemove()}"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:textSize="@dimen/remove_text_size"
             app:layout_constraintTop_toBottomOf="@id/remove_btn_divider" />
 
         <include
