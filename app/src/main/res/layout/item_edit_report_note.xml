@@ -92,15 +92,20 @@
 
         <TextView
             android:id="@+id/note_action_remove"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
+            android:drawableStart="@drawable/ic_baseline_remove"
+            android:drawablePadding="4dp"
             android:gravity="center"
             android:onClick="@{() -> holder.onItemRemove()}"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
             android:text="@{@string/remove_violation(holder.currentItem.title)}"
-            android:textSize="@dimen/remove_text_size"
+            android:textColor="@color/text_input_hint"
+            android:textSize="@dimen/add_remove_text_size"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/report_note_edit_photos"
             tools:text="- Remove Note 1" />
 

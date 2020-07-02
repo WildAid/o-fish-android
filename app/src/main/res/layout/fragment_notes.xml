@@ -38,12 +38,19 @@
 
                 <TextView
                     android:id="@+id/notes_add_footer"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
+                    android:drawableStart="@drawable/ic_add"
+                    android:drawablePadding="4dp"
                     android:gravity="center"
+                    android:paddingTop="24dp"
+                    android:paddingBottom="24dp"
                     android:text="@string/notes_add_note"
                     android:textColor="@color/main_blue"
+                    android:textSize="@dimen/add_remove_text_size"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/notes_recycler" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
