@@ -19,7 +19,7 @@
     <string name="business">Business</string>
     <string name="add_ems">+\tAdd Electronic Monitoring System</string>
     <string name="location">Location</string>
-    <string name="remove_ems">Remove EMS</string>
+    <string name="remove_ems">\uff0d\t\tRemove EMS</string>
     <string name="flag_state">Flag State</string>
     <string name="electronic_monitoring_system">Electronic Monitoring System</string>
     <string name="ems_type">EMS Type</string>
@@ -55,7 +55,7 @@
     <string name="crew_member_name">Crew member name</string>
     <string name="crew_member_license_number">License Number</string>
     <string name="crew_member_add_member">+\tAdd crew member</string>
-    <string name="crew_member_remove_member">-\tRemove %s</string>
+    <string name="crew_member_remove_member">\uff0d\t\tRemove %s</string>
     <string name="activity_next">Activity\t\t\u279C</string>
     <string name="license_number">License Number %s</string>
 
@@ -101,7 +101,7 @@
     <string name="result_of_violation">Result of Violation</string>
     <string name="warning">Warning</string>
     <string name="citation">Citation</string>
-    <string name="remove_violation">- Remove %1$s</string>
+    <string name="remove_violation">\uff0d\t\tRemove %1$s</string>
     <string name="risk_next">Risk\t\t\u279C</string>
     <string name="issued_to">Issued to</string>
     <string name="add_crew_member">+\tCrew Member</string>
@@ -170,7 +170,7 @@
     <string name="weight">Weight</string>
     <string name="amount">Amount</string>
     <string name="count">Count</string>
-    <string name="remove_catch">- Remove Catch %1$d</string>
+    <string name="remove_catch">\uff0d\t\tRemove Catch %1$d</string>
     <string name="violation_next">Violation\t\t\u279C</string>
     <string-array name="species_array">
         <item>Tuna</item>

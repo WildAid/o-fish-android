@@ -77,9 +77,9 @@
             layout="@layout/item_report_catch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/catch_title"
             app:note="@{holder.currentItem.attachmentItem.note}"
-            app:photos="@{holder.currentItem.attachmentItem.photos}"
-            app:layout_constraintTop_toBottomOf="@id/catch_title" />
+            app:photos="@{holder.currentItem.attachmentItem.photos}" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/species_edit_layout"
@@ -190,8 +190,8 @@
                 android:id="@+id/catch_note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@={holder.currentItem.attachmentItem.note}"
-                android:hint="@string/note" />
+                android:hint="@string/note"
+                android:text="@={holder.currentItem.attachmentItem.note}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <org.wildaid.ofish.ui.base.PhotoAttachmentsLayout
@@ -213,10 +213,13 @@
         <TextView
             android:id="@+id/catch_action_remove"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:gravity="center"
             android:onClick="@{() -> holder.onItemRemove()}"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:textSize="@dimen/remove_text_size"
             app:layout_constraintTop_toBottomOf="@id/remove_btn_divider" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

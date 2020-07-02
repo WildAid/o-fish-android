@@ -80,10 +80,10 @@
             layout="@layout/item_report_violation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:violation='@{holder.currentItem.violation}'
-            app:photos='@{holder.currentItem.attachments.photos}'
+            app:layout_constraintTop_toBottomOf="@id/violation_title"
             app:note="@{holder.currentItem.attachments.note}"
-            app:layout_constraintTop_toBottomOf="@id/violation_title" />
+            app:photos='@{holder.currentItem.attachments.photos}'
+            app:violation='@{holder.currentItem.violation}' />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/violation_edit_layout"
@@ -209,17 +209,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             app:endIconDrawable="@drawable/ic_remove"
-            app:endIconTint="@null"
             app:endIconMode="custom"
+            app:endIconTint="@null"
             app:layout_constraintTop_toBottomOf="@id/issued_edit_layout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/violation_note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@={holder.currentItem.attachments.note}"
                 android:hint="@string/note"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:text="@={holder.currentItem.attachments.note}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <org.wildaid.ofish.ui.base.PhotoAttachmentsLayout
@@ -241,11 +241,13 @@
         <TextView
             android:id="@+id/violation_action_remove"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:gravity="center"
             android:onClick="@{() -> holder.onItemRemove()}"
-            android:textSize="15sp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:textSize="@dimen/remove_text_size"
             app:layout_constraintTop_toBottomOf="@id/violation_note_layout" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
