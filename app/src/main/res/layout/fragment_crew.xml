@@ -25,8 +25,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="@dimen/scroll_bottom_padding"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/scroll_bottom_padding">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/crew_recycler"
@@ -40,10 +40,16 @@
 
                 <TextView
                     android:id="@+id/crew_add_member_footer"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableStart="@drawable/ic_add"
+                    android:drawablePadding="4dp"
+                    android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:gravity="center"
+                    android:textSize="@dimen/add_remove_text_size"
+                    android:paddingTop="24dp"
+                    android:paddingBottom="24dp"
                     android:text="@string/crew_member_add_member"
                     android:textColor="@color/main_blue"
                     app:layout_constraintTop_toBottomOf="@id/crew_recycler" />

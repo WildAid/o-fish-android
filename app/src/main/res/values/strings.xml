@@ -17,9 +17,9 @@
     <string name="date">Date</string>
     <string name="yes">yes</string>
     <string name="business">Business</string>
-    <string name="add_ems">+\tAdd Electronic Monitoring System</string>
+    <string name="add_ems">Add Electronic Monitoring System</string>
     <string name="location">Location</string>
-    <string name="remove_ems">\uff0d\t\tRemove EMS</string>
+    <string name="remove_ems">Remove EMS</string>
     <string name="flag_state">Flag State</string>
     <string name="electronic_monitoring_system">Electronic Monitoring System</string>
     <string name="ems_type">EMS Type</string>
@@ -30,7 +30,7 @@
     <string name="select_attachment_dialog_message">You can add Note or Photo as Attachment</string>
     <string name="select_attachment_dialog_note">Note</string>
     <string name="select_attachment_dialog_photo">Photo</string>
-    <string name="new_business">+\tNew Business</string>
+    <string name="new_business">New Business</string>
     <string name="photos">Photos:</string>
     <string name="remove_note">Remove Note</string>
     <string-array name="ems_array">
@@ -54,8 +54,8 @@
     <string name="crew">Crew</string>
     <string name="crew_member_name">Crew member name</string>
     <string name="crew_member_license_number">License Number</string>
-    <string name="crew_member_add_member">+\tAdd crew member</string>
-    <string name="crew_member_remove_member">\uff0d\t\tRemove %s</string>
+    <string name="crew_member_add_member">Add crew member</string>
+    <string name="crew_member_remove_member">Remove %s</string>
     <string name="activity_next">Activity\t\t\u279C</string>
     <string name="license_number">License Number %s</string>
 
@@ -95,16 +95,16 @@
 
     <!--    Violation -->
     <string name="violation">Violation</string>
-    <string name="violation_add_violation">+\tAdd violation</string>
+    <string name="violation_add_violation">Add violation</string>
     <string name="violation_seizures">Seizures</string>
     <string name="violation_description">Description</string>
     <string name="result_of_violation">Result of Violation</string>
     <string name="warning">Warning</string>
     <string name="citation">Citation</string>
-    <string name="remove_violation">\uff0d\t\tRemove %1$s</string>
+    <string name="remove_violation">Remove %1$s</string>
     <string name="risk_next">Risk\t\t\u279C</string>
     <string name="issued_to">Issued to</string>
-    <string name="add_crew_member">+\tCrew Member</string>
+    <string name="add_crew_member">Crew Member</string>
 
     <!--  Login  -->
     <string name="password">Password</string>
@@ -125,7 +125,7 @@
     <!--    Notes -->
     <string name="notes">Notes</string>
     <string name="btn_save">Save</string>
-    <string name="notes_add_note">+\tAdd Note</string>
+    <string name="notes_add_note">Add Note</string>
     <string name="new_note">New Note</string>
 
     <!--  Home  -->
@@ -165,12 +165,12 @@
 
     <!--  Catch  -->
     <string name="catch_title">Catch</string>
-    <string name="add_catch">+\tAdd Catch</string>
+    <string name="add_catch">Add Catch</string>
     <string name="species">Species</string>
     <string name="weight">Weight</string>
     <string name="amount">Amount</string>
     <string name="count">Count</string>
-    <string name="remove_catch">\uff0d\t\tRemove Catch %1$d</string>
+    <string name="remove_catch">Remove Catch %1$d</string>
     <string name="violation_next">Violation\t\t\u279C</string>
     <string-array name="species_array">
         <item>Tuna</item>
@@ -207,7 +207,7 @@
 
     <!--  Vessel Search  -->
     <string name="new_boarding">New Boarding</string>
-    <string name="add_new_vessel">+\tAdd New Vessel</string>
+    <string name="add_new_vessel">Add New Vessel</string>
 
     <!--    Submit/Cancel report dialogs-->
     <string name="submit_boarding">Submit boarding?</string>

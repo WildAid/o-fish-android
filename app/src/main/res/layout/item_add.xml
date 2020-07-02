@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="holder"
             type="org.wildaid.ofish.ui.search.complex.ComplexSearchAdapter.AddHolder" />
@@ -14,18 +15,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_adapter_item"
-        android:orientation="vertical"
-        android:padding="18dp">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/add_item"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_add"
+            android:drawablePadding="4dp"
+            android:gravity="center"
             android:paddingStart="16dp"
+            android:paddingTop="24dp"
             android:paddingEnd="16dp"
+            android:paddingBottom="24dp"
             android:text="@{holder.item.titleId}"
             android:textColor="@color/main_blue"
-            android:textSize="17sp"
+            android:textSize="@dimen/add_remove_text_size"
             tools:text="@string/add_crew_member" />
 
     </FrameLayout>
