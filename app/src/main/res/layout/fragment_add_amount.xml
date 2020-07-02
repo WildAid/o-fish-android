@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-    </data>
+    <data></data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -33,8 +32,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/add_amount_app_bar"
-            tools:itemCount="4"
-            tools:listitem="@layout/item_business_violation" />
+            tools:itemCount="4" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
