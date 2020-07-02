@@ -71,7 +71,9 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
 
         search_recycler.apply {
             adapter = baseSearchAdapter
-            addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
+            addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL).apply {
+                setDrawable(requireContext().getDrawable(R.drawable.ic_recycler_divider)!!)
+            })
         }
 
         val report =
