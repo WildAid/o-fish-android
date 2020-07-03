@@ -50,8 +50,8 @@
 
                     <ImageView
                         android:id="@+id/btn_vessel_info_edit"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="@dimen/edit_icon_size"
+                        android:layout_height="@dimen/edit_icon_size"
                         android:onClick="@{(View)-> viewModel.fieldFocusListener.onFocusChange(View, true)}"
                         android:src="@drawable/ic_edit"
                         app:layout_constraintEnd_toEndOf="@id/vessel_information_title"
@@ -59,8 +59,8 @@
 
                     <ImageView
                         android:id="@+id/btn_vessel_add_attachment"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="@dimen/add_attachment_icon_size"
+                        android:layout_height="@dimen/add_attachment_icon_size"
                         android:src="@drawable/ic_add_attachment"
                         app:layout_constraintEnd_toEndOf="@id/vessel_information_title"
                         app:layout_constraintTop_toTopOf="@id/vessel_information_title" />
@@ -220,8 +220,8 @@
 
                     <ImageView
                         android:id="@+id/btn_vessel_delivery_edit"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="@dimen/edit_icon_size"
+                        android:layout_height="@dimen/edit_icon_size"
                         android:onClick="@{(View)-> viewModel.fieldFocusListener.onFocusChange(View, true)}"
                         android:src="@drawable/ic_edit"
                         app:layout_constraintEnd_toEndOf="@id/vessel_last_delivery_title"
@@ -229,8 +229,8 @@
 
                     <ImageView
                         android:id="@+id/btn_vessel_delivery_attachment"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="@dimen/add_attachment_icon_size"
+                        android:layout_height="@dimen/add_attachment_icon_size"
                         android:src="@drawable/ic_add_attachment"
                         app:layout_constraintEnd_toEndOf="@id/vessel_last_delivery_title"
                         app:layout_constraintTop_toTopOf="@id/vessel_last_delivery_title" />
@@ -361,13 +361,13 @@
                     android:drawablePadding="4dp"
                     android:gravity="center"
                     android:onClick="@{() -> viewModel.addEms()}"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
                     android:paddingTop="24dp"
                     android:paddingBottom="24dp"
                     android:text="@string/add_ems"
                     android:textColor="@color/main_blue"
                     android:textSize="@dimen/add_remove_text_size"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/vessel_ems_recycler" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

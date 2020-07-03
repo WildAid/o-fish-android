@@ -49,8 +49,8 @@
 
         <ImageView
             android:id="@+id/note_action_add_attachment"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="@dimen/add_attachment_icon_size"
+            android:layout_height="@dimen/add_attachment_icon_size"
             android:onClick="@{() -> holder.onAddPhotoAttachment()}"
             android:src="@drawable/ic_add_photo_attachment"
             app:layout_constraintEnd_toEndOf="parent"
@@ -58,8 +58,8 @@
 
         <ImageView
             android:id="@+id/note_action_edit"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="@dimen/edit_icon_size"
+            android:layout_height="@dimen/edit_icon_size"
             android:onClick="@{() -> holder.onEditNote()}"
             android:src="@drawable/ic_edit"
             app:layout_constraintEnd_toEndOf="parent"

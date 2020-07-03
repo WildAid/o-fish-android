@@ -16,4 +16,7 @@
 
     <dimen name="add_remove_text_size">15sp</dimen>
 
+    <dimen name="add_attachment_icon_size">26dp</dimen>
+    <dimen name="edit_icon_size">22dp</dimen>
+
 </resources>
