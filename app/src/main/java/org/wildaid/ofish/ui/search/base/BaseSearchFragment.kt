@@ -113,15 +113,11 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
             override fun onMenuItemActionExpand(item: MenuItem?) = true
 
             override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
-                if (item.actionView.hasFocus()) {
-                    hideKeyboard()
-                    navigation.popBackStack()
-                    return false
-                }
+                navigation.popBackStack()
                 return true
             }
         })
-        searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
+        searchView.setOnQueryTextFocusChangeListener { _,  hasFocus ->
             if (hasFocus) {
                 searchView.showKeyboard()
             } else {

@@ -20,6 +20,7 @@ class SimpleSearchFragment : BaseSearchFragment<String>() {
                 is SearchFishery -> R.string.fishery
                 is SearchGear -> R.string.gear
                 is SearchActivity -> R.string.activity
+                is SearchSpecies -> R.string.species
                 else -> R.string.empty
             }
         )
