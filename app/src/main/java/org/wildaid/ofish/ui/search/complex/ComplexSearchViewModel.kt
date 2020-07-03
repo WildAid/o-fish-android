@@ -112,7 +112,7 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
 
         private fun fetchReports() {
             if (cachedAllReports.isNullOrEmpty()) {
-                cachedAllReports = repository.findAllReports()
+                cachedAllReports = repository.findReportsGroupedByVessel()
             }
         }
     }
