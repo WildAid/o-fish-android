@@ -61,8 +61,8 @@
 
         <ImageView
             android:id="@+id/crew_member_edit_icon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="@dimen/edit_icon_size"
+            android:layout_height="@dimen/edit_icon_size"
             android:onClick="@{() -> holder.onEditClicked()}"
             android:src="@drawable/ic_edit"
             app:layout_constraintEnd_toEndOf="parent"
@@ -70,8 +70,8 @@
 
         <ImageView
             android:id="@+id/crew_member_attachment_icon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="@dimen/add_attachment_icon_size"
+            android:layout_height="@dimen/add_attachment_icon_size"
             android:onClick="@{() -> holder.onAttachmentClicked()}"
             android:src="@drawable/ic_add_attachment"
             app:layout_constraintEnd_toEndOf="parent"

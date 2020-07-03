@@ -56,8 +56,8 @@
 
             <ImageView
                 android:id="@+id/btn_vessel_info_edit"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="@dimen/edit_icon_size"
+                android:layout_height="@dimen/edit_icon_size"
                 android:onClick="@{()-> currentHolder.onEmsEditMode(emsItem)}"
                 android:src="@drawable/ic_edit"
                 app:layout_constraintBottom_toBottomOf="@id/vessel_ems_title"
@@ -67,8 +67,8 @@
 
             <ImageView
                 android:id="@+id/btn_vessel_info_attachment"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="@dimen/add_attachment_icon_size"
+                android:layout_height="@dimen/add_attachment_icon_size"
                 android:onClick="@{()-> currentHolder.onEmsAddAttachment(emsItem)}"
                 android:src="@drawable/ic_add_attachment"
                 app:layout_constraintBottom_toBottomOf="@id/vessel_ems_title"
