@@ -37,8 +37,7 @@ class TabsViewModel(val repository: Repository, application: Application) :
 
     fun onTabsSkipped(skippedTabs: List<TabItem>) {
         skippedTabs.forEach {
-            it.wasVisited = true
-            it.isFormValid = false
+            it.status = TabStatus.SKIPPED
         }
 
         tabsStateLiveData.value = tabs
@@ -49,7 +48,7 @@ class TabsViewModel(val repository: Repository, application: Application) :
     fun onTabClicked(newPosition: Int): Boolean {
         val notVisitedTabs = mutableListOf<TabItem>()
         tabs.forEachIndexed { index, tab ->
-            if (!tab.wasVisited && newPosition > index) {
+            if (tab.status == TabStatus.NOT_VISITED && newPosition > index) {
                 notVisitedTabs.add(tab)
             }
         }
@@ -62,22 +61,20 @@ class TabsViewModel(val repository: Repository, application: Application) :
         return false
     }
 
-    fun onTabChanged(previousTabIndex: Int, previousTabFormIsValid: Boolean, currentTabIndex: Int) {
+    fun onTabChanged(previousTabIndex: Int, currentTabIndex: Int) {
         if (!vesselFragmentWasVisited && currentTabIndex == VESSEL_FRAGMENT_POSITION && vesselToPrefill != null) {
             vesselFragmentWasVisited = true
             userEventLiveData.value = Event(UserEvent.AskPrefillVesselEvent)
         }
 
         if (previousTabIndex != TabLayout.Tab.INVALID_POSITION) {
-            tabs[previousTabIndex].also {
-                it.isFormValid = previousTabFormIsValid
-                it.wasVisited = true
+            tabs[previousTabIndex].apply {
+                status = TabStatus.VISITED
             }
             tabsStateLiveData.value = tabs
         }
         tabs[currentTabIndex].apply {
-            wasVisited = true
-            isFormValid = true
+            status = TabStatus.VISITED
         }
 
         tabsStateLiveData.value = tabs
@@ -85,7 +82,7 @@ class TabsViewModel(val repository: Repository, application: Application) :
 
     private fun initTabStates() {
         tabs = listOf(
-            TabItem(BASIC_INFO_FRAGMENT_POSITION, getString(R.string.basic_information), wasVisited = true, isFormValid = true),
+            TabItem(BASIC_INFO_FRAGMENT_POSITION, getString(R.string.basic_information), TabStatus.VISITED),
             TabItem(VESSEL_FRAGMENT_POSITION, getString(R.string.vessel)),
             TabItem(CREW_FRAGMENT_POSITION, getString(R.string.crew)),
             TabItem(ACTIVITIES_FRAGMENT_POSITION, getString(R.string.activity)),
