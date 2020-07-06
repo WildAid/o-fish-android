@@ -23,10 +23,9 @@ import org.wildaid.ofish.R
 import org.wildaid.ofish.ui.base.ProgressDialogFragment
 import org.wildaid.ofish.ui.createreport.CreateReportActivity
 import org.wildaid.ofish.ui.createreport.CreateReportViewModel
-import org.wildaid.ofish.ui.search.complex.AddSearchModel
-import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
-import org.wildaid.ofish.ui.search.complex.RecordSearchModel
-import org.wildaid.ofish.ui.search.complex.TextViewSearchModel
+import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER
+import org.wildaid.ofish.ui.reportdetail.KEY_REPORT_ID
+import org.wildaid.ofish.ui.search.complex.*
 import org.wildaid.ofish.ui.vessel.CREATE_NEW_BUSINESS
 import org.wildaid.ofish.ui.vesseldetails.KEY_VESSEL_PERMIT_NUMBER
 import org.wildaid.ofish.util.getViewModelFactory
@@ -137,6 +136,13 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
                 val detailArgs =
                     bundleOf(KEY_VESSEL_PERMIT_NUMBER to (selectedItem as RecordSearchModel).vessel.permitNumber)
                 navigation.navigate(R.id.vessel_details_fragment, detailArgs)
+            }
+            is DutyReportSearchModel -> {
+                val navigationArgs = bundleOf(KEY_REPORT_ID to (selectedItem as DutyReportSearchModel).report._id)
+                navigation.navigate(
+                    R.id.action_complex_search_to_report_details_fragment,
+                    navigationArgs
+                )
             }
             is TextViewSearchModel -> { //Nothing
             }

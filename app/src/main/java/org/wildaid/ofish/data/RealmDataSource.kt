@@ -14,6 +14,7 @@ import org.bson.Document
 import org.bson.types.ObjectId
 import org.wildaid.ofish.BuildConfig
 import org.wildaid.ofish.data.report.*
+import java.util.*
 
 const val ON_DUTY = "On Duty"
 const val OFF_DUTY = "Off Duty"
@@ -159,6 +160,14 @@ class RealmDataSource {
         return realm.where<Report>()
             .equalTo(VESSEL_PERMIT_NUMBER, boatPermitNumber)
             .sort(DATE, Sort.DESCENDING)
+            .findAll()
+            .toList()
+    }
+
+    fun findReportsFromDate(dutyStartTime: Long): List<Report> {
+        return realm.where<Report>()
+            .sort(DATE, Sort.DESCENDING)
+            .greaterThan(DATE, Date(dutyStartTime))
             .findAll()
             .toList()
     }

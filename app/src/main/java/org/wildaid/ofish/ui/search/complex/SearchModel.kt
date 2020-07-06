@@ -15,3 +15,4 @@ class RecordSearchModel(val vessel: Boat, val reports: List<Report>, val reposit
 class CrewSearchModel(val value: CrewMember, val isCaptain: Boolean) : SearchModel()
 class AddSearchModel(@StringRes val titleId: Int) : SearchModel()
 class TextViewSearchModel(@StringRes val titleId: Int) : SearchModel()
+class DutyReportSearchModel(val report: Report) : SearchModel()

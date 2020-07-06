@@ -8,6 +8,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/selector_adapter_item"
         android:paddingTop="8dp"
+        android:padding="12dp"
         android:paddingBottom="16dp">
 
         <androidx.cardview.widget.CardView

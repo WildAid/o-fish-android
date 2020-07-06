@@ -29,6 +29,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.fragment_home.*
+import org.wildaid.ofish.Event
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.mpa.addTestMpa
@@ -180,6 +181,13 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         p.flags = p.flags or WindowManager.LayoutParams.FLAG_DIM_BEHIND
         p.dimAmount = 0.5f
         wm.updateViewLayout(container, p)
+
+        statusViewBinding.switchDutyStatus.setOnCheckedChangeListener { _, isChecked ->
+            if (!isChecked) {
+                popupWindow.dismiss()
+            }
+            activityViewModel.onDutyChanged(isChecked)
+        }
     }
 
     private fun subscribeToDialogEvents() {

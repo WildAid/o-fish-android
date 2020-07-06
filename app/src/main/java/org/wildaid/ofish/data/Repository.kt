@@ -39,6 +39,8 @@ interface Repository {
 
     fun findAllReports(sort: Sort = Sort.DESCENDING): List<Report>
 
+    fun findReportsForCurrentDuty(): List<Report>
+
     fun findReport(reportId: ObjectId): Report?
 
     fun findReportsForBoat(boatPermitNumber: String): List<Report>
@@ -57,5 +59,5 @@ interface Repository {
 
     fun getFlagStates(agency: String?): List<String>
 
-    fun getOnDutyStatus() : Boolean
+    fun getOnDutyStatus() : DutyStatus
 }

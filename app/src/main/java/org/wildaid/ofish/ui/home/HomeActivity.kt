@@ -10,6 +10,7 @@ import android.os.SystemClock
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
@@ -19,6 +20,7 @@ import org.wildaid.ofish.R
 import org.wildaid.ofish.app.OnDutyAlarmReminder
 import org.wildaid.ofish.ui.base.ConfirmationDialogFragment
 import org.wildaid.ofish.ui.search.base.BaseSearchFragment
+import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
 import org.wildaid.ofish.util.getViewModelFactory
 
 
@@ -40,6 +42,7 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
                 HomeActivityViewModel.UserEvent.AskDutyConfirmationEvent -> askToChangeDuty()
                 HomeActivityViewModel.UserEvent.AskUserLogoutEvent -> askToLogout()
                 HomeActivityViewModel.UserEvent.UserLogoutEvent -> onUserLoggedOut()
+                HomeActivityViewModel.UserEvent.DutyReportEvent -> showDutyReport()
             }
         })
         activityViewModel.timerLiveData.observe(this, EventObserver(::setOrCancelTimer))
@@ -69,6 +72,12 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
         finish()
     }
 
+    private fun showDutyReport() {
+        val bundle =
+            bundleOf(BaseSearchFragment.SEARCH_ENTITY_KEY to ComplexSearchFragment.DutyReports)
+        navigation.navigate(R.id.action_home_fragment_to_complex_search, bundle)
+    }
+
     private fun askToChangeDuty() {
         val dialogBundle = ConfirmationDialogFragment.Bundler(
             ASK_CHANGE_DUTY_DIALOG_ID,
@@ -78,7 +87,7 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
             getString(android.R.string.cancel)
         ).bundle()
 
-        navigation.navigate(R.id.action_homeFragment_to_ask_change_duty_dialog, dialogBundle)
+        navigation.navigate(R.id.ask_change_duty_dialog, dialogBundle)
     }
 
     private fun askToLogout() {

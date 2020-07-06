@@ -16,6 +16,7 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
         return when (searchEntity) {
             is ComplexSearchFragment.SearchBusiness -> searchBusinessDataSource
             is ComplexSearchFragment.SearchViolation -> searchViolationDataSource
+            is ComplexSearchFragment.DutyReports -> dutyReportsViolationSource
             is ComplexSearchFragment.SearchRecords -> searchRecordsDataSource.apply {}
             is ComplexSearchFragment.SearchVessels -> searchRecordsDataSource.apply {
                 isAddAvailable = true
@@ -78,7 +79,8 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
                 .map { pair ->
                     RecordSearchModel(
                         pair.value.find { it.vessel?.permitNumber == pair.key }?.vessel!!,
-                        pair.value.sortedByDescending { report -> report.date }, repository)
+                        pair.value.sortedByDescending { report -> report.date }, repository
+                    )
                 }.take(RECENT_BOARDINGS_COUNT)
             )
             if (isAddAvailable) result.add(addSearchModel)
@@ -102,7 +104,8 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
                 .map { pair ->
                     RecordSearchModel(
                         pair.value.find { it.vessel?.permitNumber == pair.key }?.vessel!!,
-                        pair.value.sortedByDescending { report -> report.date }, repository)
+                        pair.value.sortedByDescending { report -> report.date }, repository
+                    )
                 })
 
             if (isAddAvailable) result.add(addSearchModel)
@@ -157,5 +160,17 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
 
         private fun containFilter(member: CrewMember, filter: String) =
             member.name.contains(filter, true) || member.license.contains(filter, true)
+    }
+
+    private val dutyReportsViolationSource = object : SearchDataSource() {
+        override fun initiateData(): List<SearchModel> {
+            return repository.findReportsForCurrentDuty().map { DutyReportSearchModel(it) }
+        }
+
+        override fun applyFilter(filter: String): List<SearchModel> {
+            return repository.findReportsForCurrentDuty()
+                .filter { it.vessel?.name?.contains(filter, true) == true }
+                .map { DutyReportSearchModel(it) }
+        }
     }
 }

@@ -36,8 +36,13 @@ abstract class BaseSearchViewModel<T>(
                 && !query.isNullOrBlank()
     }
 
-    private fun isRecordSearch(searchEntity: BaseSearchType) =
-        searchEntity is ComplexSearchFragment.SearchRecords || searchEntity is ComplexSearchFragment.SearchVessels
+    private fun isRecordSearch(searchEntity: BaseSearchType) = when (searchEntity) {
+        is ComplexSearchFragment.SearchRecords -> true
+        is ComplexSearchFragment.SearchVessels -> true
+        is ComplexSearchFragment.DutyReports -> true
+        else -> false
+    }
+
 
     private fun isDataEmpty(): Boolean {
         val value = dataList.value

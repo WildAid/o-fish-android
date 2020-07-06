@@ -238,10 +238,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:nestedScrollingEnabled="true"
-                            android:padding="12dp"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             app:layout_constraintTop_toBottomOf="@id/previous_boardings_title"
-                            tools:itemCount="5"
+                            tools:itemCount="3"
                             tools:listitem="@layout/item_vessel_record" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
