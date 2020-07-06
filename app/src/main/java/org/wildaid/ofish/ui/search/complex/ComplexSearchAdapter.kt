@@ -7,8 +7,14 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapsInitializer
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.SafetyColor
+import org.wildaid.ofish.data.ViolationRisk
 import org.wildaid.ofish.databinding.*
 import org.wildaid.ofish.ui.search.base.BaseSearchAdapter
 import org.wildaid.ofish.ui.search.base.BaseViewHolder
@@ -18,6 +24,7 @@ const val BUSINESS_TYPE = 1
 const val VIOLATION_TYPE = 2
 const val RECORDS_TYPE = 3
 const val CREW_TYPE = 4
+const val REPORT_TYPE = 5
 const val ADD_TYPE = 99
 const val TEXTVIEW_TYPE = 101
 
@@ -75,6 +82,14 @@ class ComplexSearchAdapter(itemListener: (SearchModel) -> Unit) :
                 )
             ) as BaseViewHolder<SearchModel>
 
+            REPORT_TYPE -> ReportHolder(
+                inflater.inflate(
+                    R.layout.item_vessel_record,
+                    parent,
+                    false
+                )
+            ) as BaseViewHolder<SearchModel>
+
             else -> throw IllegalArgumentException("Unsupported holder type $viewType")
         }
     }
@@ -85,6 +100,7 @@ class ComplexSearchAdapter(itemListener: (SearchModel) -> Unit) :
             is ViolationSearchModel -> VIOLATION_TYPE
             is BusinessSearchModel -> BUSINESS_TYPE
             is CrewSearchModel -> CREW_TYPE
+            is DutyReportSearchModel -> REPORT_TYPE
             is AddSearchModel -> ADD_TYPE
             is TextViewSearchModel -> TEXTVIEW_TYPE
             else -> super.getItemViewType(position)
@@ -194,6 +210,68 @@ class ComplexSearchAdapter(itemListener: (SearchModel) -> Unit) :
             binding.holder = this
             this.item = item
             binding.itemCaptain.setVisible(item.isCaptain)
+        }
+    }
+
+    inner class ReportHolder(view: View) : BaseViewHolder<DutyReportSearchModel>(view) {
+        lateinit var item: DutyReportSearchModel
+        private val dataBinding: ItemVesselRecordBinding =
+            ItemVesselRecordBindingImpl.bind(view)
+
+        override fun bindItem(item: DutyReportSearchModel) {
+            dataBinding.vesselRecordDate.text =
+                itemView.context.getString(R.string.report_date, item.report.date)
+
+            dataBinding.vesselRecordMap.apply {
+                onCreate(null)
+                getMapAsync {
+                    MapsInitializer.initialize(rootView.context.applicationContext);
+                    it.uiSettings.isMapToolbarEnabled = false
+                    val cords =
+                        LatLng(
+                            item.report.location?.latitude ?: 0.0,
+                            item.report.location?.longitude ?: 0.0
+                        )
+                    it.moveCamera(CameraUpdateFactory.newLatLngZoom(cords, 10f))
+                    it.addMarker(MarkerOptions().position(cords))
+                    it.mapType = GoogleMap.MAP_TYPE_NORMAL
+                }
+            }
+
+            val safetyLevel = item.report.inspection?.summary?.safetyLevel?.level
+            for (value in SafetyColor.values()) {
+                if (value.name == safetyLevel) {
+                    dataBinding.vesselSafetyLevel.setSafetyColor(
+                        value,
+                        R.dimen.safety_background_radius_small
+                    )
+                    break
+                }
+            }
+
+            val warningsCount = item.report.inspection?.summary?.violations!!
+                .count { it.disposition == ViolationRisk.Warning.name }
+
+            val citationCount = item.report.inspection?.summary?.violations!!
+                .count { it.disposition == ViolationRisk.Citation.name }
+
+            dataBinding.vesselRecordViolations.text = when {
+                citationCount <= 0 && warningsCount <= 0 -> itemView.context.getString(R.string.zero_violations)
+                citationCount > 0 && warningsCount > 0 -> itemView.context.getString(
+                    R.string.warnings_citation_count,
+                    warningsCount,
+                    citationCount
+                )
+                warningsCount > 0 -> itemView.context.getString(
+                    R.string.warnings_count,
+                    warningsCount
+                )
+                citationCount > 0 -> itemView.context.getString(
+                    R.string.citation_count,
+                    citationCount
+                )
+                else -> ""
+            }
         }
     }
 

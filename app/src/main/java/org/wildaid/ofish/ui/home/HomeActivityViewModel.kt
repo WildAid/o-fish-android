@@ -28,8 +28,8 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
         }
 
         val lastOnDutyStatus = repository.getOnDutyStatus()
-        onDutyStatusLiveData.value = lastOnDutyStatus
-        applyDutyStatusDrawables(lastOnDutyStatus)
+        onDutyStatusLiveData.value = lastOnDutyStatus.dutyStatus
+        applyDutyStatusDrawables(lastOnDutyStatus.dutyStatus)
     }
 
     fun onDutyChanged(onDuty: Boolean) {
@@ -42,6 +42,10 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
         repository.saveOnDutyChange(onDuty)
 
         applyDutyStatusDrawables(onDuty)
+
+        if (onDuty == false) {
+            userEventLiveData.value = Event(UserEvent.DutyReportEvent)
+        }
     }
 
     fun logOutUser() {
@@ -75,5 +79,6 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
         object AskDutyConfirmationEvent : UserEvent()
         object AskUserLogoutEvent : UserEvent()
         object UserLogoutEvent : UserEvent()
+        object DutyReportEvent: UserEvent()
     }
 }

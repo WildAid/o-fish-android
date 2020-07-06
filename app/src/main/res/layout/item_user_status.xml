@@ -98,7 +98,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
                 android:checked="@{homeActivityViewModel.onDutyStatusLiveData}"
-                android:onCheckedChanged="@{(switch, checked) -> homeActivityViewModel.onDutyChanged(checked)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/text_duty_status" />
 

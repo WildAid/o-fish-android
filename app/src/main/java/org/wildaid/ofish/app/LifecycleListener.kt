@@ -25,7 +25,7 @@ class LifecycleListener(private val context: Context) : LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onMoveToBackground() {
-        if (repository.getOnDutyStatus()) {
+        if (repository.getOnDutyStatus().dutyStatus) {
             alarmManager?.set(
                 AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 SystemClock.elapsedRealtime() + FOUR_HOURS,

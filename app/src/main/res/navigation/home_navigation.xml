@@ -50,14 +50,17 @@
             app:argType="org.wildaid.ofish.ui.search.base.BaseSearchType" />
 
         <action
-            android:id="@+id/action_complex_search_to_report_details_fragment"
+            android:id="@+id/action_complex_search_to_vessel_details_fragment"
             app:destination="@id/vessel_details_fragment" />
         <action
             android:id="@+id/action_complex_search_to_create_report"
             app:destination="@id/create_report_activity" />
+        <action
+            android:id="@+id/action_complex_search_to_report_details_fragment"
+            app:destination="@id/report_details_fragment" />
     </fragment>
 
-    <fragment
+    Z<fragment
         android:id="@+id/vessel_details_fragment"
         android:name="org.wildaid.ofish.ui.vesseldetails.VesselDetailsFragment"
         android:label="VesselDetailFragment"
