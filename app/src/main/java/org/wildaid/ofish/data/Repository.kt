@@ -35,6 +35,8 @@ interface Repository {
 
     fun isLoggedIn(): Boolean
 
+    fun findReportsGroupedByVessel(sort: Sort = Sort.DESCENDING): List<Report>
+
     fun findAllReports(sort: Sort = Sort.DESCENDING): List<Report>
 
     fun findReport(reportId: ObjectId): Report?

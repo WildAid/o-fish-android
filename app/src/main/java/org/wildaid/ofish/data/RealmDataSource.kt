@@ -143,6 +143,10 @@ class RealmDataSource {
 
     fun isLoggedIn()  = realmApp.currentUser() != null
 
+    fun findReportsGroupedByVessel(sort: Sort): List<Report> {
+        return realm.where<Report>().sort(DATE, sort).distinct(VESSEL_PERMIT_NUMBER).findAll()
+    }
+
     fun findAllReports(sort: Sort): List<Report> {
         return realm.where<Report>().sort(DATE, sort).findAll()
     }
