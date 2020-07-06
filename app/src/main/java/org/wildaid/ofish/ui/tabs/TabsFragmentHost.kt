@@ -122,18 +122,23 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
         previousReportFragment?.let {
             fragmentViewModel.onTabChanged(
                 previousTabIndex,
-                it.isFormValid(),
                 currentTabIndex
             )
         }
     }
 
     private fun updateTabsDrawable(tabs: List<TabItem>) {
-        tabs.forEachIndexed { index, tabState ->
-            if (tabState.wasVisited) {
+        tabs.forEach { tabState ->
+            if (tabState.status == TabStatus.NOT_VISITED) {
+                tabs_layout.getTabAt(tabState.position)?.customView?.also {
+                    val textSelector = resources.getColorStateList(R.color.selector_tabs_text, null)
+                    it.findViewById<CheckedTextView>(android.R.id.text1)?.setTextColor(textSelector)
+                    it.findViewById<View>(R.id.tab_bottom_line)?.setVisible(false)
+                }
+            } else {
                 val visitedStatusColorRes =
-                    if (!tabState.isFormValid && tabState.wasVisited) R.color.tabs_amber else R.color.main_blue
-                val visitedStatusColor = resources.getColor(visitedStatusColorRes)
+                    if (tabState.status == TabStatus.SKIPPED) R.color.tabs_amber else R.color.main_blue
+                val visitedStatusColor = resources.getColor(visitedStatusColorRes, null)
 
                 tabs_layout.getTabAt(tabState.position)?.customView?.also { view ->
                     view.findViewById<View>(R.id.tab_bottom_line)?.setVisible(true)
@@ -141,12 +146,6 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
                         ?.setBackgroundColor(visitedStatusColor)
                     view.findViewById<CheckedTextView>(android.R.id.text1)
                         ?.setTextColor(visitedStatusColor)
-                }
-            } else {
-                tabs_layout.getTabAt(tabState.position)?.customView?.also {
-                    val textSelector = resources.getColorStateList(R.color.selector_tabs_text)
-                    it.findViewById<CheckedTextView>(android.R.id.text1)?.setTextColor(textSelector)
-                    it.findViewById<View>(R.id.tab_bottom_line)?.setVisible(false)
                 }
             }
         }
@@ -209,7 +208,7 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
         navigation.navigate(R.id.confirmation_dialog, dialogBundle)
     }
 
-    private fun handleDialogClick(click: DialogClickEvent) : Boolean {
+    private fun handleDialogClick(click: DialogClickEvent): Boolean {
         var clickHandled = false
         if (click.dialogBtn == DialogButton.POSITIVE) {
             when (click.dialogId) {
@@ -289,7 +288,7 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
                 return@setOnLongClickListener fragmentViewModel.onTabClicked(i)
             }
 
-            tabStrip.getChildAt(i).setOnTouchListener { v, event ->
+            tabStrip.getChildAt(i).setOnTouchListener { _, event ->
                 val isClick = tabTouchClickDetector.onTouchEvent(event)
                 return@setOnTouchListener isClick && fragmentViewModel.onTabClicked(i)
             }
