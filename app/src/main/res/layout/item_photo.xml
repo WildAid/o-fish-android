@@ -14,10 +14,10 @@
 
     <ImageView
         android:id="@+id/item_edit_photo_remove"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:padding="4dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:src="@drawable/ic_remove"
+        android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
