@@ -13,6 +13,7 @@
     <color name="grey">#696969</color>
     <color name="light_grey">#D8D8D8</color>
     <color name="medium_grey">#B9B9B9</color>
+    <color name="tab_inactive">#979797</color>
     <color name="white">#FFFFFF</color>
     <color name="green">#008537</color>
     <color name="light_green">#ECF4EF</color>
