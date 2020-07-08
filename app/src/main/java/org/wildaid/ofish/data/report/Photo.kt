@@ -14,4 +14,10 @@ open class Photo : RealmObject() {
     var pictureURL: String = ""
     var referencingReportID: String = ""
     var date: Date = Date()
+
+    fun getResourceForLoading() : Any? {
+        return pictureURL.ifBlank { null }
+            ?: picture
+            ?: thumbNail
+    }
 }

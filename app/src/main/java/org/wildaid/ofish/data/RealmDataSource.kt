@@ -185,6 +185,7 @@ class RealmDataSource {
     }
 
     fun getPhotoById(id: String): Photo? {
+        if (id.isBlank()) return null
         return realm.where<Photo>().equalTo(FIELD_ID, ObjectId(id)).findFirst()
     }
 
@@ -203,8 +204,9 @@ class RealmDataSource {
         val officerEmail = userData["email"] as String? ?: ""
         val officerFirstName = (userData["name"] as Document?)?.get("first") as String? ?: ""
         val officerLastName = (userData["name"] as Document?)?.get("last") as String? ?: ""
+        val profilePicId = userData["profilePicId"] as String? ?: ""
 
-        currentOfficer = OfficerData(officerEmail, officerFirstName, officerLastName, agencyName)
+        currentOfficer = OfficerData(officerEmail, officerFirstName, officerLastName, agencyName, profilePicId)
 
         val configuration = SyncConfiguration
             .Builder(user, agencyName)
