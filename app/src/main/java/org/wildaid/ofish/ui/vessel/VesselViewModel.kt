@@ -71,6 +71,8 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
             permitNumber = vesselToPrefill.permitNumber
         }
 
+        lastFocusInInfo = true
+
         vesselItemLiveData.value = currentVesselItem
     }
 

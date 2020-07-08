@@ -32,23 +32,23 @@
              attachment_note" />
 
         <TextView
+            style="@style/SmallTitle"
             android:id="@+id/attachment_note_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="@{noteTitle}"
-            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.5"
             tools:text="Note" />
 
         <TextView
+            style="@style/TextValue"
             android:id="@+id/attachment_note"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@{note}"
-            android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/attachment_note_title"
             app:layout_constraintWidth_percent="0.5"

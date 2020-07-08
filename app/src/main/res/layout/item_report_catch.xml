@@ -21,42 +21,42 @@
         android:layout_height="wrap_content">
 
         <TextView
+            style="@style/SmallTitle"
             android:id="@+id/report_species_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="@string/fishery_species"
-            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.33" />
 
         <TextView
+            style="@style/TextValue"
             android:id="@+id/report_species"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/report_species_title"
             app:layout_constraintWidth_percent="0.33"
             tools:text="Tuna" />
 
         <TextView
+            style="@style/SmallTitle"
             android:id="@+id/report_catch_amount_type_1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@id/report_species_title"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.33"
             tools:text="Weight" />
 
         <TextView
+            style="@style/TextValue"
             android:id="@+id/report_catch_amount_1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
             app:layout_constraintStart_toEndOf="@+id/report_species"
             app:layout_constraintTop_toBottomOf="@id/report_species_title"
             app:layout_constraintWidth_percent="0.33"
@@ -64,21 +64,21 @@
 
 
         <TextView
+            style="@style/SmallTitle"
             android:id="@+id/report_catch_amount_type_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@id/report_catch_amount_type_1"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.33"
             tools:text="Count" />
 
         <TextView
+            style="@style/TextValue"
             android:id="@+id/report_catch_amount_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
             app:layout_constraintStart_toEndOf="@+id/report_catch_amount_1"
             app:layout_constraintTop_toBottomOf="@id/report_catch_amount_type_1"
             app:layout_constraintWidth_percent="0.33"

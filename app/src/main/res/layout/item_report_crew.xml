@@ -29,44 +29,45 @@
         android:layout_height="wrap_content">
 
         <TextView
+            style="@style/SmallTitle"
             android:id="@+id/report_crew_name_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="@{nameHint}"
-            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.5" />
+            app:layout_constraintWidth_percent="0.5"
+            tools:text="@string/crew_member"/>
 
         <TextView
+            style="@style/TextValue"
             android:id="@+id/report_crew_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{crewMember.name}"
-            android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/report_crew_name_title"
             app:layout_constraintWidth_percent="0.5"
             tools:text="Crew Name" />
 
         <TextView
+            style="@style/SmallTitle"
             android:id="@+id/report_crew_license_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="@string/crew_member_license_number"
-            android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@id/report_crew_name_title"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.5" />
 
         <TextView
+            style="@style/TextValue"
             android:id="@+id/report_crew_license"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{crewMember.license}"
-            android:textColor="@android:color/black"
             app:layout_constraintStart_toEndOf="@+id/report_crew_name"
             app:layout_constraintTop_toBottomOf="@id/report_crew_license_title"
             app:layout_constraintWidth_percent="0.5"
