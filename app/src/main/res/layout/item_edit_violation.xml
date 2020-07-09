@@ -127,6 +127,8 @@
             android:id="@+id/result_violation_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="4dp"
             android:text="@string/result_of_violation"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider" />
@@ -165,12 +167,22 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/result_violation_title" />
 
+        <View
+            android:id="@+id/result_violation_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:background="@color/divider"
+            app:layout_constraintTop_toBottomOf="@id/violation_warning"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/issued_edit_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/violation_warning">
+            app:layout_constraintTop_toBottomOf="@id/result_violation_divider">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/issued_edit_name"
