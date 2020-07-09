@@ -186,8 +186,6 @@ class RealmDataSource {
 
     fun getPhotoById(id: String): Photo? {
         if (id.isBlank()) return null
-        val count = realm.where<Photo>().count()
-        Log.e("count", " " + count)
         return realm.where<Photo>().equalTo(FIELD_ID, ObjectId(id)).findFirst()
     }
 
