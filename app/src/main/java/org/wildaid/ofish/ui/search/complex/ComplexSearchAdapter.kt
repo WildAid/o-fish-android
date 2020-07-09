@@ -187,10 +187,7 @@ class ComplexSearchAdapter(itemListener: (SearchModel) -> Unit) :
                     item.repository.getPhotoById(it).also { photo ->
                         Glide
                             .with(context)
-                            .load(
-                                photo?.pictureURL?.ifBlank { null } ?: photo?.picture
-                                ?: photo?.thumbNail
-                            )
+                            .load(photo?.getResourceForLoading())
                             .transform(CenterCrop(), RoundedCorners(radiusInPixels))
                             .placeholder(R.drawable.ic_vessel_placeholder_2)
                             .into(binding.recordVesselImage)

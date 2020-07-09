@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.RelativeLayout
@@ -29,7 +30,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.fragment_home.*
-import org.wildaid.ofish.Event
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.mpa.addTestMpa
@@ -78,7 +78,7 @@ class HomeFragment : Fragment(R.layout.fragment_home),
             home_longitude.text = convert(it.second, LONGITUDE)
         })
 
-        fragmentViewModel.userEventLiveData.observe(viewLifecycleOwner, EventObserver() {
+        fragmentViewModel.userEventLiveData.observe(viewLifecycleOwner, EventObserver {
             when (it) {
                 HomeFragmentViewModel.UserEvent.BoardVessel -> boardVessel()
                 HomeFragmentViewModel.UserEvent.FindRecords -> findRecords()
@@ -87,10 +87,7 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         })
 
         activityViewModel.currentOfficerLiveData.observe(viewLifecycleOwner, Observer {
-            Glide.with(this)
-                .load(it.pictureUrl)
-                .placeholder(R.drawable.ic_account_circle)
-                .into(image_user)
+            showOfficerPhoto(it.pictureId, image_user)
         })
 
         arguments?.let {
@@ -100,6 +97,14 @@ class HomeFragment : Fragment(R.layout.fragment_home),
                 showCreateReportDialog(message)
             }
         }
+    }
+
+    private fun showOfficerPhoto(pictureId: String, view: ImageView) {
+        val photo = fragmentViewModel.repository.getPhotoById(pictureId)
+        Glide.with(this)
+            .load(photo?.getResourceForLoading())
+            .placeholder(R.drawable.ic_account_circle)
+            .into(view)
     }
 
     private fun initUI(view: View) {
@@ -172,6 +177,10 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         val height = LinearLayout.LayoutParams.WRAP_CONTENT
         val popupWindow = PopupWindow(statusViewBinding.root, width, height, true)
         popupWindow.showAsDropDown(search_layout, 15, 20, Gravity.BOTTOM)
+
+        activityViewModel.currentOfficerLiveData.value?.pictureId?.let {
+            showOfficerPhoto(it, statusViewBinding.imageUser)
+        }
 
         // Dim background
         val container = popupWindow.contentView.rootView

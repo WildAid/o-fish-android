@@ -5,7 +5,7 @@ data class OfficerData(
     val firstName: String,
     val lastName: String,
     val agency: String,
-    var pictureUrl: String? = null
+    val pictureId: String
 )
 
 data class DutyStatus(
