@@ -28,10 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:paddingStart="16dp"
-                android:paddingTop="16dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="16dp">
+                android:padding="18dp">
 
                 <TextView
                     android:id="@+id/basic_info_date_time_header"

@@ -26,8 +26,8 @@
         android:background="@color/background_card">
 
         <TextView
-            style="@style/SmallTitle"
             android:id="@+id/report_vessel_name_title"
+            style="@style/SmallTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/vessel_name"
@@ -36,8 +36,8 @@
             app:layout_constraintWidth_percent="0.5" />
 
         <TextView
-            style="@style/TextValue"
             android:id="@+id/report_vessel_name"
+            style="@style/TextValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{vessel.name}"
@@ -47,8 +47,8 @@
             tools:text="Predator" />
 
         <TextView
-            style="@style/SmallTitle"
             android:id="@+id/report_vessel_permit_number_title"
+            style="@style/SmallTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/permit_number"
@@ -57,8 +57,8 @@
             app:layout_constraintWidth_percent="0.5" />
 
         <TextView
-            style="@style/TextValue"
             android:id="@+id/report_vessel_permit_number"
+            style="@style/TextValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{vessel.permitNumber}"
@@ -68,19 +68,19 @@
             tools:text="0205885544" />
 
         <TextView
-            style="@style/SmallTitle"
             android:id="@+id/report_vessel_port_title"
+            style="@style/SmallTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="@dimen/card_value_to_title_space"
             android:text="@string/home_port"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/report_vessel_name"
             app:layout_constraintWidth_percent="0.5" />
 
         <TextView
-            style="@style/TextValue"
             android:id="@+id/report_vessel_port"
+            style="@style/TextValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{vessel.homePort}"
@@ -90,19 +90,19 @@
             tools:text="Sydney, Australia" />
 
         <TextView
-            style="@style/SmallTitle"
             android:id="@+id/report_vessel_flag_state_title"
+            style="@style/SmallTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="@dimen/card_value_to_title_space"
             android:text="@string/flag_state"
             app:layout_constraintStart_toEndOf="@id/report_vessel_port_title"
             app:layout_constraintTop_toBottomOf="@id/report_vessel_permit_number"
             app:layout_constraintWidth_percent="0.5" />
 
         <TextView
-            style="@style/TextValue"
             android:id="@+id/report_vessel_flag_state"
+            style="@style/TextValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{vessel.nationality}"
@@ -116,7 +116,7 @@
             layout="@layout/item_view_attachment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="@dimen/card_value_to_title_space"
             app:layout_constraintTop_toBottomOf="@id/report_vessel_port"
             app:note="@{note}"
             app:noteTitle="@{@string/note}"

@@ -19,4 +19,6 @@
     <dimen name="add_attachment_icon_size">26dp</dimen>
     <dimen name="edit_icon_size">22dp</dimen>
 
+    <dimen name="card_value_to_title_space">16dp</dimen>
+
 </resources>

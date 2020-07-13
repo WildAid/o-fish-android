@@ -48,6 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/background_card"
+                    android:elevation="4dp"
                     android:padding="12dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -58,8 +59,6 @@
                         style="@style/CardHeader"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
                         app:dateToString="@{viewModel.reportLiveData.date}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -101,23 +100,23 @@
 
                     <TextView
                         android:id="@+id/report_latitude_title"
+                        style="@style/SmallTitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="12dp"
                         android:text="@string/latitude"
-                        android:textSize="12sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/report_map"
                         app:layout_constraintWidth_percent="0.5" />
 
                     <TextView
                         android:id="@+id/report_latitude"
+                        style="@style/TextValue"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:text="@{viewModel.formattedLatitude}"
-                        android:textColor="@android:color/black"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/report_latitude_title"
                         app:layout_constraintWidth_percent="0.5"
@@ -125,23 +124,23 @@
 
                     <TextView
                         android:id="@+id/report_longitude_title"
+                        style="@style/SmallTitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:layout_marginEnd="8dp"
                         android:text="@string/longitude"
-                        android:textSize="12sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/report_latitude_title"
                         app:layout_constraintTop_toBottomOf="@id/report_map" />
 
                     <TextView
                         android:id="@+id/report_longitude"
+                        style="@style/TextValue"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:text="@{viewModel.formattedLongitude}"
-                        android:textColor="@android:color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/report_latitude"
                         app:layout_constraintTop_toBottomOf="@id/report_longitude_title"
@@ -154,6 +153,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:background="@color/background_card"
+                    android:elevation="4dp"
                     android:padding="12dp">
 
                     <TextView
@@ -170,7 +170,7 @@
                         layout="@layout/item_vessel_information"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="@dimen/card_value_to_title_space"
                         app:layout_constraintTop_toBottomOf="@id/report_vessel_information_title" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -181,6 +181,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:background="@color/background_card"
+                    android:elevation="4dp"
                     android:padding="12dp">
 
                     <TextView
@@ -207,6 +208,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:background="@color/background_card"
+                    android:elevation="4dp"
                     android:padding="12dp">
 
                     <TextView
@@ -232,6 +234,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:background="@color/background_card"
+                    android:elevation="4dp"
                     android:padding="12dp">
 
                     <TextView
@@ -248,6 +251,7 @@
                         layout="@layout/item_report_crew"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/card_value_to_title_space"
                         app:layout_constraintTop_toBottomOf="@id/report_captain_title" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -257,6 +261,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:background="@color/background_card"
+                    android:elevation="4dp"
                     android:padding="12dp">
 
                     <TextView
@@ -272,6 +277,7 @@
                         android:id="@+id/report_crew_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/card_value_to_title_space"
                         android:orientation="vertical"
                         app:layout_constraintTop_toBottomOf="@id/report_crew_title" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -282,6 +288,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:background="@color/background_card"
+                    android:elevation="4dp"
                     android:padding="12dp">
 
                     <TextView
@@ -297,6 +304,7 @@
                         android:id="@+id/report_activity_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/card_value_to_title_space"
                         android:orientation="vertical"
                         app:layout_constraintTop_toBottomOf="@id/report_activity_title" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -307,6 +315,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:background="@color/background_card"
+                    android:elevation="4dp"
                     android:padding="12dp">
 
                     <TextView
@@ -322,16 +331,18 @@
                         android:id="@+id/report_catch_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/card_value_to_title_space"
                         android:orientation="vertical"
                         app:layout_constraintTop_toBottomOf="@id/report_catch_title" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <!--       Vioaltion         -->
+                <!--       Violation         -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:background="@color/background_card"
+                    android:elevation="4dp"
                     android:padding="12dp">
 
                     <TextView
@@ -347,6 +358,7 @@
                         android:id="@+id/report_violation_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/card_value_to_title_space"
                         android:orientation="vertical"
                         app:layout_constraintTop_toBottomOf="@id/report_violation_title" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -357,6 +369,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:background="@color/background_card"
+                    android:elevation="4dp"
                     android:padding="12dp">
 
                     <TextView
@@ -371,6 +384,7 @@
                     <LinearLayout
                         android:id="@+id/report_notes_container"
                         android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/card_value_to_title_space"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         app:layout_constraintTop_toBottomOf="@id/report_notes_title" />
