@@ -11,7 +11,7 @@
             type="org.wildaid.ofish.ui.reportdetail.ReportDetailViewModel" />
     </data>
 
-    <LinearLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background_screen_with_cards"
@@ -377,5 +377,16 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-    </LinearLayout>
+
+        <Button
+            style="@style/BlueButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_gravity="bottom"
+            android:layout_margin="16dp"
+            android:onClick="@{()-> viewModel.boardVessel()}"
+            android:text="@string/board_vessel"
+            app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
