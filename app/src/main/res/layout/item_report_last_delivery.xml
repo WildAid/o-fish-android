@@ -26,8 +26,8 @@
         android:background="@color/background_card">
 
         <TextView
-            style="@style/SmallTitle"
             android:id="@+id/report_delivery_date_title"
+            style="@style/SmallTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/date"
@@ -36,8 +36,8 @@
             app:layout_constraintWidth_percent="0.5" />
 
         <TextView
-            style="@style/TextValue"
             android:id="@+id/report_delivery_date"
+            style="@style/TextValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{@string/report_last_delivery(delivery.date)}"
@@ -47,19 +47,19 @@
             tools:text="0205885544" />
 
         <TextView
-            style="@style/SmallTitle"
             android:id="@+id/report_delivery_location_title"
+            style="@style/SmallTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="@dimen/card_value_to_title_space"
             android:text="@string/location"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/report_delivery_date"
             app:layout_constraintWidth_percent="0.5" />
 
         <TextView
-            style="@style/TextValue"
             android:id="@+id/report_delivery_location"
+            style="@style/TextValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{delivery.location}"
@@ -69,8 +69,8 @@
             tools:text="Synday Australia, Some streety name, This is very long adres here" />
 
         <TextView
-            style="@style/SmallTitle"
             android:id="@+id/report_business_title"
+            style="@style/SmallTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/business"
@@ -79,8 +79,8 @@
             app:layout_constraintWidth_percent="0.5" />
 
         <TextView
-            style="@style/TextValue"
             android:id="@+id/report_business"
+            style="@style/TextValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{delivery.business}"
@@ -94,7 +94,7 @@
             layout="@layout/item_view_attachment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="@dimen/card_value_to_title_space"
             app:layout_constraintTop_toBottomOf="@id/report_delivery_location"
             app:note="@{note}"
             app:noteTitle="@{@string/note}"
