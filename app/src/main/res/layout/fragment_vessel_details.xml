@@ -242,6 +242,7 @@
             android:layout_height="@dimen/button_height"
             android:layout_gravity="bottom"
             android:layout_margin="16dp"
+            app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
             android:onClick="@{()-> viewModel.boardVessel()}"
             android:text="@string/board_vessel"
             app:layout_constraintBottom_toBottomOf="parent" />
