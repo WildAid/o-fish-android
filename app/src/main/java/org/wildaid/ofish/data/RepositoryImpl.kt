@@ -91,6 +91,8 @@ class RepositoryImpl(
 
     override fun findBoat(boatPermitNumber: String) = realmDataSource.findBoat(boatPermitNumber)
 
+    override fun getMenuData() =realmDataSource.getMenuData()
+
     override fun getPhotosWithIds(ids: List<String>) = realmDataSource.getPhotosWithIds(ids)
 
     override fun getPhotoById(id: String) = realmDataSource.getPhotoById(id)

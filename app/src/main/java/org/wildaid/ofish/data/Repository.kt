@@ -6,6 +6,7 @@ import io.realm.mongodb.AppException
 import io.realm.mongodb.User
 import org.bson.types.ObjectId
 import org.wildaid.ofish.data.report.Boat
+import org.wildaid.ofish.data.report.MenuData
 import org.wildaid.ofish.data.report.Photo
 import org.wildaid.ofish.data.report.Report
 
@@ -46,6 +47,8 @@ interface Repository {
     fun findReportsForBoat(boatPermitNumber: String): List<Report>
 
     fun findAllBoats(): List<Boat>
+
+    fun getMenuData(): List<MenuData>
 
     fun findBoat(boatPermitNumber: String): Boat?
 

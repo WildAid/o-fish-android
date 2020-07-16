@@ -196,6 +196,10 @@ class RealmDataSource {
             .findFirst()
     }
 
+    fun getMenuData(): List<MenuData> {
+        return realm.where<MenuData>().findAll().toList()
+    }
+
     private fun instantiateRealm(user: io.realm.mongodb.User) {
         currentRealmUser = user
 
