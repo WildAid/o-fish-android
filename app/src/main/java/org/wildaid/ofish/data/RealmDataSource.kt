@@ -55,21 +55,6 @@ class RealmDataSource {
         realmApp = App(appConfigBuilder.build())
     }
 
-    fun registerUser(
-        userName: String,
-        password: String,
-        loginSuccess: () -> Unit,
-        loginError: (Throwable?) -> Unit
-    ) {
-        realmApp.emailPasswordAuth.registerUserAsync(userName, password) {
-            if (it.isSuccess) {
-                loginSuccess.invoke()
-            } else {
-                loginError.invoke(it.error)
-            }
-        }
-    }
-
     fun login(
         userName: String,
         password: String,
