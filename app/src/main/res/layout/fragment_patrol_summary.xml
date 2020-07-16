@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="org.wildaid.ofish.ui.patrolsummary.PatrolSummaryViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_screen_with_cards"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/patrol_summary_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/patrol_summary_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/main_blue"
+                app:subtitleTextColor="@color/white"
+                app:title="@string/patrol_summary"
+                app:titleTextColor="@color/white" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/patrol_summary_bar">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/scroll_bottom_padding">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/date_time_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/background_card"
+                    android:elevation="4dp"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:id="@+id/time_on_duty_header"
+                            style="@style/CardHeader"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/time_on_duty"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/start_date_header"
+                            style="@style/SmallTitle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/start_date"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toLeftOf="@id/start_time_header"
+                            app:layout_constraintTop_toBottomOf="@id/time_on_duty_header" />
+
+                        <TextView
+                            android:id="@+id/start_time_header"
+                            style="@style/SmallTitle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/start_time"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintLeft_toRightOf="@id/start_date_header"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/time_on_duty_header" />
+
+                        <TextView
+                            android:id="@+id/start_date"
+                            style="@style/TextValue"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:onClick="@{() -> viewmodel.onButtonClicked(@id/start_date)}"
+                            app:dateToString="@{viewmodel.dutyStartTime}"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toLeftOf="@id/start_time"
+                            app:layout_constraintTop_toBottomOf="@id/start_date_header"
+                            tools:text="October 20, 2020" />
+
+                        <TextView
+                            android:id="@+id/start_time"
+                            style="@style/TextValue"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="4dp"
+                            android:onClick="@{() -> viewmodel.onButtonClicked(@id/start_time)}"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintLeft_toRightOf="@id/start_date"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/start_time_header"
+                            app:timeToString="@{viewmodel.dutyStartTime}"
+                            tools:text="4:54PM" />
+
+                        <View
+                            android:id="@+id/start_divider"
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="16dp"
+                            android:background="@color/divider"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/start_date" />
+
+                        <TextView
+                            android:id="@+id/end_date_header"
+                            style="@style/SmallTitle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/start_date"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toLeftOf="@id/end_time_header"
+                            app:layout_constraintTop_toBottomOf="@id/start_divider" />
+
+                        <TextView
+                            android:id="@+id/end_time_header"
+                            style="@style/SmallTitle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/start_time"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintLeft_toRightOf="@id/end_date_header"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/start_divider" />
+
+                        <TextView
+                            android:id="@+id/end_date"
+                            style="@style/TextValue"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:onClick="@{() -> viewmodel.onButtonClicked(@id/end_date)}"
+                            app:dateToString="@{viewmodel.dutyEndTime}"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toLeftOf="@id/end_time"
+                            app:layout_constraintTop_toBottomOf="@id/end_date_header"
+                            tools:text="October 20, 2020" />
+
+                        <TextView
+                            android:id="@+id/end_time"
+                            style="@style/TextValue"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="4dp"
+                            android:onClick="@{() -> viewmodel.onButtonClicked(@id/end_time)}"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintLeft_toRightOf="@id/end_date"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/end_time_header"
+                            app:timeToString="@{viewmodel.dutyEndTime}"
+                            tools:text="4:54PM" />
+
+                        <View
+                            android:id="@+id/end_divider"
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="16dp"
+                            android:background="@color/divider"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/end_date" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/date_time_card">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/boarding_count"
+                            style="@style/CardHeader"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:paddingTop="20dp"
+                            android:paddingBottom="12dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{@string/boarding_count(viewmodel.reports.size())}"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="14 Boardings"/>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/summary_recycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:itemCount="5"
+                            tools:listitem="@layout/item_record" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <Button
+            android:id="@+id/btn_off_duty"
+            style="@style/BlueButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_gravity="bottom"
+            android:layout_margin="16dp"
+            android:onClick="@{()-> viewmodel.onButtonClicked(@id/btn_off_duty)}"
+            android:text="@string/go_off_duty"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

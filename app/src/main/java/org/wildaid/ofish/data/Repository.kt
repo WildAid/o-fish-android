@@ -6,8 +6,10 @@ import io.realm.mongodb.AppException
 import io.realm.mongodb.User
 import org.bson.types.ObjectId
 import org.wildaid.ofish.data.report.Boat
+import org.wildaid.ofish.data.report.DutyChange
 import org.wildaid.ofish.data.report.Photo
 import org.wildaid.ofish.data.report.Report
+import java.util.*
 
 interface Repository {
     fun login(
@@ -19,7 +21,7 @@ interface Repository {
 
     fun restoreLoggedUser(): User?
 
-    fun saveOnDutyChange(onDuty: Boolean)
+    fun saveOnDutyChange(onDuty: Boolean, date: Date)
 
     fun saveReport(report: Report, reportPhotos: List<Pair<Photo, Uri?>>, listener: OnSaveListener)
 
@@ -51,5 +53,7 @@ interface Repository {
 
     fun getFlagStates(agency: String?): List<String>
 
-    fun getOnDutyStatus() : DutyStatus
+    fun getRecentOnDutyChange() : DutyChange?
+
+    fun updateStartDateForCurrentDuty(date: Date)
 }

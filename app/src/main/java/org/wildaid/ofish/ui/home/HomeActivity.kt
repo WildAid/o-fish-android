@@ -42,7 +42,6 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
                 HomeActivityViewModel.UserEvent.AskDutyConfirmationEvent -> askToChangeDuty()
                 HomeActivityViewModel.UserEvent.AskUserLogoutEvent -> askToLogout()
                 HomeActivityViewModel.UserEvent.UserLogoutEvent -> onUserLoggedOut()
-                HomeActivityViewModel.UserEvent.DutyReportEvent -> showDutyReport()
             }
         })
         activityViewModel.timerLiveData.observe(this, EventObserver(::setOrCancelTimer))
@@ -70,12 +69,6 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
     private fun onUserLoggedOut() {
         navigation.navigate(R.id.action_home_fragment_to_login_activity)
         finish()
-    }
-
-    private fun showDutyReport() {
-        val bundle =
-            bundleOf(BaseSearchFragment.SEARCH_ENTITY_KEY to ComplexSearchFragment.DutyReports)
-        navigation.navigate(R.id.action_home_fragment_to_complex_search, bundle)
     }
 
     private fun askToChangeDuty() {

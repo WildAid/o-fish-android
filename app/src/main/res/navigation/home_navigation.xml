@@ -25,6 +25,10 @@
         <action
             android:id="@+id/action_homeFragment_to_ask_logout_dialog"
             app:destination="@id/ask_logout_dialog"/>
+
+        <action
+            android:id="@+id/action_home_fragment_to_patrolSummaryFragment"
+            app:destination="@id/patrolSummaryFragment" />
     </fragment>
 
     <dialog
@@ -60,7 +64,7 @@
             app:destination="@id/report_details_fragment" />
     </fragment>
 
-    Z<fragment
+    <fragment
         android:id="@+id/vessel_details_fragment"
         android:name="org.wildaid.ofish.ui.vesseldetails.VesselDetailsFragment"
         android:label="VesselDetailFragment"
@@ -107,4 +111,13 @@
             android:defaultValue="@null"
             app:argType="string" />
     </activity>
+    <fragment
+        android:id="@+id/patrolSummaryFragment"
+        android:name="org.wildaid.ofish.ui.patrolsummary.PatrolSummaryFragment"
+        android:label="patrol_summary_fragment"
+        tools:layout="@layout/fragment_patrol_summary" >
+        <action
+            android:id="@+id/action_patrolSummaryFragment_to_report_details_fragment"
+            app:destination="@id/report_details_fragment" />
+    </fragment>
 </navigation>
