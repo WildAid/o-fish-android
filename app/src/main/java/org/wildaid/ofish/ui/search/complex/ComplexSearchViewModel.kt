@@ -17,8 +17,10 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
             is ComplexSearchFragment.SearchBusiness -> searchBusinessDataSource
             is ComplexSearchFragment.SearchViolation -> searchViolationDataSource
             is ComplexSearchFragment.DutyReports -> dutyReportsViolationSource
-            is ComplexSearchFragment.SearchRecords -> searchRecordsDataSource.apply {}
-            is ComplexSearchFragment.SearchVessels -> searchRecordsDataSource.apply {
+            is ComplexSearchFragment.SearchRecords -> searchRecordsDataSource.apply {
+                isAddAvailable = true
+            }
+            is ComplexSearchFragment.SearchBoardVessels -> searchRecordsDataSource.apply {
                 isAddAvailable = true
             }
             is ComplexSearchFragment.SearchCrew -> searchCrewDataSource.apply {

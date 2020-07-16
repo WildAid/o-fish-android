@@ -161,7 +161,7 @@ class HomeFragment : Fragment(R.layout.fragment_home),
 
     private fun boardVessel() {
         val bundle =
-            bundleOf(BaseSearchFragment.SEARCH_ENTITY_KEY to ComplexSearchFragment.SearchVessels)
+            bundleOf(BaseSearchFragment.SEARCH_ENTITY_KEY to ComplexSearchFragment.SearchBoardVessels)
         navigation.navigate(R.id.action_home_fragment_to_complex_search, bundle)
     }
 
