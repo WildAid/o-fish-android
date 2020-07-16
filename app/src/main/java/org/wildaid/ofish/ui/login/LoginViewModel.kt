@@ -26,16 +26,6 @@ class LoginViewModel(val repository: Repository) : ViewModel() {
         progressLiveData.value = Event(true)
     }
 
-    fun registerAndLogin(userName: String, password: String) {
-        repository.registerUser(
-            userName,
-            password,
-            loginSuccess = { login(userName, password) },
-            loginError = { Log.e("Register", "Cannot register. Error ${it?.message}") }
-        )
-    }
-
-
     sealed class LoginResult {
         object LoginSuccess : LoginResult()
         class LoginError(val errorMsg: String?) : LoginResult()

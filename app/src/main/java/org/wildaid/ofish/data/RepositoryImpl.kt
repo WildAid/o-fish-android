@@ -16,12 +16,6 @@ class RepositoryImpl(
     private val androidDataSource: AndroidDataSource
 ) : Repository {
 
-    override fun registerUser(
-        userName: String, password: String,
-        loginSuccess: () -> Unit, loginError: (Throwable?) -> Unit
-    ) =
-        realmDataSource.registerUser(userName, password, loginSuccess, loginError)
-
     override fun login(
         userName: String, password: String,
         loginSuccess: (User) -> Unit, loginError: (AppException?) -> Unit

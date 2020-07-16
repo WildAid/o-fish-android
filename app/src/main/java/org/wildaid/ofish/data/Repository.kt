@@ -10,14 +10,6 @@ import org.wildaid.ofish.data.report.Photo
 import org.wildaid.ofish.data.report.Report
 
 interface Repository {
-
-    fun registerUser(
-        userName: String,
-        password: String,
-        loginSuccess: () -> Unit,
-        loginError: (Throwable?) -> Unit
-    )
-
     fun login(
         userName: String, password: String,
         loginSuccess: (User) -> Unit, loginError: (AppException?) -> Unit
