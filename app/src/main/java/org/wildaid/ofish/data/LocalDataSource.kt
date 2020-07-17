@@ -16,17 +16,6 @@ class LocalDataSource {
         OffenceData("Other", "")
     )
 
-    fun getBusiness() = listOf(
-        Pair("P.Sherman Dentistry", "42 Wallaby way,\nSydney NSW 200,\nAustralia"),
-        Pair("P.Merlock Industry", "House of Commons,\nOttawa,\nOntario,\nCanada,\nK1A 0A6"),
-        Pair("P.Sherman Dentistry", "42 Wallaby way,\nSydney NSW 200,\nAustralia"),
-        Pair("P.Merlock Industry", "House of Commons,\nOttawa,\nOntario,\nCanada,\nK1A 0A6"),
-        Pair("P.Sherman Dentistry", "42 Wallaby way,\nSydney NSW 200,\nAustralia"),
-        Pair("P.Merlock Industry", "House of Commons,\nOttawa,\nOntario,\nCanada,\nK1A 0A6"),
-        Pair("P.Sherman Dentistry", "42 Wallaby way,\nSydney NSW 200,\nAustralia"),
-        Pair("P.Merlock Industry", "House of Commons,\nOttawa,\nOntario,\nCanada,\nK1A 0A6")
-    )
-
     fun getFlagStates() =
         listOf(
             "Afghanistan",

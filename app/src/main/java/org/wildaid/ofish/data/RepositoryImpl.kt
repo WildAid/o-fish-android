@@ -83,7 +83,11 @@ class RepositoryImpl(
 
     override fun getOffences() = localDataSource.getOffences()
 
-    override fun getBusinessAndLocation() = localDataSource.getBusiness()
+    override fun getBusinessAndLocation() : List<Pair<String, String>>{
+        return realmDataSource.getAllDeliveryBusiness().map {
+            Pair(it.business, it.location)
+        }
+    }
 
     override fun getFlagStates(agency: String?): List<String> {
         val states = localDataSource.getFlagStates().toMutableList()
