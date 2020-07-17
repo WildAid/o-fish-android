@@ -93,28 +93,14 @@ class ComplexSearchAdapter(itemListener: (SearchModel) -> Unit) :
 
     inner class ViolationHolder(view: View) : BaseViewHolder<ViolationSearchModel>(view) {
         private val binding: ItemBusinessViolationBinding = ItemBusinessViolationBinding.bind(view)
-        private val viewArray = arrayOf(
-            binding.itemBusinessAdress1,
-            binding.itemBusinessAdress2,
-            binding.itemBusinessCountry
-        )
 
         override fun bindItem(item: ViolationSearchModel) {
-            binding.itemBusinessName.text = item.value.code
+            binding.itemName.text = item.value.code
             if (item.value.explanation.isBlank()) {
-                viewArray.forEach {
-                    it.setVisible(false)
-                }
+                binding.itemAddress.setVisible(false)
             } else {
-                val dataArray = item.value.explanation.split(',', limit = viewArray.size)
-                dataArray.forEachIndexed { index, data ->
-                    viewArray[index].text = data
-                    viewArray[index].setVisible(true)
-                }
-
-                for (i in dataArray.size until viewArray.size) {
-                    viewArray[i].setVisible(false)
-                }
+                binding.itemAddress.setVisible(true)
+                binding.itemAddress.text = item.value.explanation
             }
         }
     }
@@ -123,11 +109,8 @@ class ComplexSearchAdapter(itemListener: (SearchModel) -> Unit) :
         private val binding: ItemBusinessViolationBinding = ItemBusinessViolationBinding.bind(view)
 
         override fun bindItem(item: BusinessSearchModel) {
-            binding.itemBusinessName.text = item.value.first
-            val array = item.value.second.split(',', limit = 3)
-            binding.itemBusinessAdress1.text = array[0]
-            binding.itemBusinessAdress2.text = array[1]
-            if (array.size > 2) binding.itemBusinessCountry.text = array[2]
+            binding.itemName.text = item.value.first
+            binding.itemAddress.text = item.value.second
         }
     }
 
