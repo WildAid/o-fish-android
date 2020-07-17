@@ -224,8 +224,8 @@
     <string name="chose_image_source">Choose image source</string>
 
     <!--    Notifications-->
-    <string name="channel_name">O-Fish notifications</string>
-    <string name="channel_description">O-Fish will show on duty reminders</string>
+    <string name="channel_name">O-FISH notifications</string>
+    <string name="channel_description">O-FISH will show on duty reminders</string>
 
     <!--    Time On Duty -->
     <string name="time_on_duty">Time On Duty</string>
