@@ -16,7 +16,7 @@
         android:padding="18dp">
 
         <TextView
-            android:id="@+id/item_business_name"
+            android:id="@+id/item_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -27,7 +27,7 @@
             tools:text="P.Sherman Desnistry" />
 
         <TextView
-            android:id="@+id/item_business_adress1"
+            android:id="@+id/item_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -35,26 +35,6 @@
             android:paddingTop="18dp"
             android:paddingEnd="16dp"
             android:textColor="@android:color/black"
-            tools:text="42 Wallaby Way" />
-
-        <TextView
-            android:id="@+id/item_business_adress2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="@android:color/black"
-            tools:text="Sydnay NSW 2000" />
-
-        <TextView
-            android:id="@+id/item_business_Country"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="@android:color/black"
-            tools:text="Australia" />
+            tools:text="42 Wallaby Way\nSydnay NSW 2000\nAustralia" />
     </LinearLayout>
 </layout>
