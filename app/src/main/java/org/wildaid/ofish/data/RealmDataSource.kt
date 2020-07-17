@@ -117,12 +117,18 @@ class RealmDataSource {
             .findFirst()
     }
 
+    fun getRecentStartCurrentDuty(): DutyChange? {
+        return realm.where<DutyChange>()
+            .equalTo(USER_EMAIL, currentOfficer.email)
+            .equalTo("status", ON_DUTY)
+            .sort(DATE, Sort.DESCENDING)
+            .findFirst()
+    }
+
     fun updateStartDateForCurrentDuty(date: Date) {
-        val duty = getRecentOnDutyChange()
-        duty?.let { d ->
-            realm.executeTransaction {
-                d.date = date
-            }
+        val onDuty = getRecentStartCurrentDuty()!!
+        realm.executeTransaction {
+            onDuty.date = date
         }
     }
 
@@ -168,7 +174,7 @@ class RealmDataSource {
     }
 
     fun findReportsForCurrentDuty(): List<Report> {
-        val dutyChange = getRecentOnDutyChange()
+        val dutyChange = getRecentStartCurrentDuty()
         dutyChange?.let {
             return realm.where<Report>()
                 .sort(DATE, Sort.DESCENDING)

@@ -55,5 +55,7 @@ interface Repository {
 
     fun getRecentOnDutyChange() : DutyChange?
 
+    fun getRecentStartCurrentDuty() : DutyChange?
+
     fun updateStartDateForCurrentDuty(date: Date)
 }

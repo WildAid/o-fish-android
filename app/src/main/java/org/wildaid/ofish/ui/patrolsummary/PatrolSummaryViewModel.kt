@@ -18,8 +18,11 @@ class PatrolSummaryViewModel(val repository: Repository) : ViewModel() {
 
     init {
         reports.value = repository.findReportsForCurrentDuty()
-        dutyStartTime.value = repository.getRecentOnDutyChange()?.date ?: Date()
+        dutyStartTime.value = getRecentStartDateOrNewDate()
     }
+
+    private fun getRecentStartDateOrNewDate() =
+        repository.getRecentStartCurrentDuty()?.date ?: Date()
 
     fun onButtonClicked(id: Int) {
         buttonId.value = Event(id)
@@ -53,8 +56,9 @@ class PatrolSummaryViewModel(val repository: Repository) : ViewModel() {
 
         if (startTime) {
             if (newDate.before(dutyEndTime.value)) {
-                repository.updateStartDateForCurrentDuty(dutyStartTime.value!!)
-                dutyStartTime.value = newDate
+                repository.updateStartDateForCurrentDuty(newDate)
+                dutyStartTime.value = getRecentStartDateOrNewDate()
+                reports.value = repository.findReportsForCurrentDuty()
             } else {
                 errorMessage.value = Event(R.string.error_start_date)
             }

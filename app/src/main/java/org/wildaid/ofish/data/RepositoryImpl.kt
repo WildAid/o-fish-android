@@ -95,6 +95,8 @@ class RepositoryImpl(
 
     override fun getRecentOnDutyChange(): DutyChange? = realmDataSource.getRecentOnDutyChange()
 
+    override fun getRecentStartCurrentDuty() : DutyChange? = realmDataSource.getRecentStartCurrentDuty()
+
     override fun updateStartDateForCurrentDuty(date: Date) =
         realmDataSource.updateStartDateForCurrentDuty(date)
 }
