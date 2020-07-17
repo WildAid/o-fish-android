@@ -141,8 +141,8 @@ class ComplexSearchAdapter(itemListener: (SearchModel) -> Unit) :
         override fun bindItem(item: BusinessSearchModel) {
             binding.itemBusinessName.text = item.value.first
             val array = item.value.second.split(',', limit = 3)
-            binding.itemBusinessAdress1.text = array[0]
-            binding.itemBusinessAdress2.text = array[1]
+            binding.itemBusinessAdress1.text = array.getOrNull(0)
+            binding.itemBusinessAdress2.text = array.getOrNull(1)
             if (array.size > 2) binding.itemBusinessCountry.text = array[2]
         }
     }

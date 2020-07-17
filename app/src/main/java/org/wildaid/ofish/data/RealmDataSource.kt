@@ -21,6 +21,8 @@ const val OFF_DUTY = "Off Duty"
 const val FIELD_ID = "_id"
 const val FIELD_PERMIT_NUMBER = "permitNumber"
 const val DATE = "date"
+const val BUSINESS = "business"
+const val LOCATION = "location"
 const val LAST_DELIVERY_DATE = "lastDelivery.date"
 const val VESSEL_PERMIT_NUMBER = "vessel.permitNumber"
 
@@ -197,5 +199,14 @@ class RealmDataSource {
             .Builder(user, agencyName)
             .build()
         realm = Realm.getInstance(configuration)
+    }
+
+    fun getAllDeliveryBusiness(): List<Delivery> {
+        return realm.where<Delivery>()
+            .isNotEmpty(BUSINESS)
+            .sort(BUSINESS, Sort.ASCENDING)
+            .distinct(BUSINESS, LOCATION)
+            .findAll()
+            .toList()
     }
 }

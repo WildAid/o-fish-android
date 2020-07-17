@@ -4,7 +4,6 @@ import android.net.Uri
 import io.realm.Sort
 import io.realm.mongodb.AppException
 import io.realm.mongodb.User
-import org.bson.BSON
 import org.bson.types.ObjectId
 import org.wildaid.ofish.data.report.Photo
 import org.wildaid.ofish.data.report.Report
@@ -91,7 +90,11 @@ class RepositoryImpl(
 
     override fun getOffences() = localDataSource.getOffences()
 
-    override fun getBusinessAndLocation() = localDataSource.getBusiness()
+    override fun getBusinessAndLocation() : List<Pair<String, String>>{
+        return realmDataSource.getAllDeliveryBusiness().map {
+            Pair(it.business, it.location)
+        }
+    }
 
     override fun getFlagStates(agency: String?): List<String> {
         val states = localDataSource.getFlagStates().toMutableList()
