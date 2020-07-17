@@ -8,6 +8,7 @@ import android.os.SystemClock
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import org.wildaid.ofish.data.ON_DUTY
 
 const val FOUR_HOURS_TIMER_REQUEST_ID = 13
 private const val FOUR_HOURS = 4 * 60 * 60 * 1000
@@ -25,7 +26,7 @@ class LifecycleListener(private val context: Context) : LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onMoveToBackground() {
-        if (repository.getOnDutyStatus().dutyStatus) {
+        if (repository.getRecentOnDutyChange()?.status == ON_DUTY) {
             alarmManager?.set(
                 AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 SystemClock.elapsedRealtime() + FOUR_HOURS,

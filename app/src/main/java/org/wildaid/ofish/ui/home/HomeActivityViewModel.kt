@@ -6,9 +6,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
+import org.wildaid.ofish.data.ON_DUTY
 import org.wildaid.ofish.data.OfficerData
 import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.util.getString
+import java.util.*
 
 class HomeActivityViewModel(val repository: Repository, app: Application) : AndroidViewModel(app) {
     val onDutyStatusLiveData = MutableLiveData<Boolean>()
@@ -27,25 +29,21 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
             currentOfficerLiveData.value = officer
         }
 
-        val lastOnDutyStatus = repository.getOnDutyStatus()
-        onDutyStatusLiveData.value = lastOnDutyStatus.dutyStatus
-        applyDutyStatusDrawables(lastOnDutyStatus.dutyStatus)
+        val lastOnDutyStatus = repository.getRecentOnDutyChange()?.status == ON_DUTY
+        onDutyStatusLiveData.value = lastOnDutyStatus
+        applyDutyStatusDrawables(lastOnDutyStatus)
     }
 
-    fun onDutyChanged(onDuty: Boolean) {
+    fun onDutyChanged(onDuty: Boolean, date: Date = Date()) {
         if (onDutyStatusLiveData.value == onDuty) {
             return
         }
 
         onDutyStatusLiveData.value = onDuty
         timerLiveData.value = Event(onDuty)
-        repository.saveOnDutyChange(onDuty)
+        repository.saveOnDutyChange(onDuty, date)
 
         applyDutyStatusDrawables(onDuty)
-
-        if (onDuty == false) {
-            userEventLiveData.value = Event(UserEvent.DutyReportEvent)
-        }
     }
 
     fun logOutUser() {
@@ -79,6 +77,5 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
         object AskDutyConfirmationEvent : UserEvent()
         object AskUserLogoutEvent : UserEvent()
         object UserLogoutEvent : UserEvent()
-        object DutyReportEvent: UserEvent()
     }
 }

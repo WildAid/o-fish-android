@@ -103,7 +103,7 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
         searchView.setSearchableInfo(sm.getSearchableInfo(requireActivity().componentName))
 
         searchView.queryHint = getSearchHint()
-        searchView.maxWidth = Integer.MAX_VALUE;
+        searchView.maxWidth = Integer.MAX_VALUE
         searchItem.expandActionView()
         searchView.setOnQueryTextListener(toolbarSearchListener)
 
@@ -135,13 +135,6 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
                 val detailArgs =
                     bundleOf(KEY_VESSEL_PERMIT_NUMBER to (selectedItem as RecordSearchModel).vessel.permitNumber)
                 navigation.navigate(R.id.vessel_details_fragment, detailArgs)
-            }
-            is DutyReportSearchModel -> {
-                val navigationArgs = bundleOf(KEY_REPORT_ID to (selectedItem as DutyReportSearchModel).report._id)
-                navigation.navigate(
-                    R.id.action_complex_search_to_report_details_fragment,
-                    navigationArgs
-                )
             }
             is TextViewSearchModel -> { //Nothing
             }

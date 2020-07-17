@@ -16,6 +16,7 @@ import org.wildaid.ofish.ui.home.HomeActivityViewModel
 import org.wildaid.ofish.ui.home.HomeFragmentViewModel
 import org.wildaid.ofish.ui.login.LoginViewModel
 import org.wildaid.ofish.ui.notes.NotesViewModel
+import org.wildaid.ofish.ui.patrolsummary.PatrolSummaryViewModel
 import org.wildaid.ofish.ui.reportdetail.ReportDetailViewModel
 import org.wildaid.ofish.ui.risk.RiskViewModel
 import org.wildaid.ofish.ui.search.complex.ComplexSearchViewModel
@@ -51,6 +52,8 @@ class ViewModelFactory constructor(
                 HomeActivityViewModel(repository, application)
             isAssignableFrom(HomeFragmentViewModel::class.java) ->
                 HomeFragmentViewModel(repository)
+            isAssignableFrom(PatrolSummaryViewModel::class.java) ->
+                PatrolSummaryViewModel(repository)
 
             // Create report
             isAssignableFrom(CreateReportViewModel::class.java) ->

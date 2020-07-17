@@ -7,9 +7,3 @@ data class OfficerData(
     val agency: String,
     val pictureId: String
 )
-
-data class DutyStatus(
-    var dutyStatus: Boolean,
-    var dutyStartTime: Long,
-    var onDutyEndTime: Long
-)
