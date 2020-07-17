@@ -192,11 +192,17 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         wm.updateViewLayout(container, p)
 
         statusViewBinding.switchDutyStatus.setOnCheckedChangeListener { _, isChecked ->
-            if (!isChecked) {
+            if (isChecked) {
+                activityViewModel.onDutyChanged(isChecked)
+            } else {
                 popupWindow.dismiss()
+                showDutyReport()
             }
-            activityViewModel.onDutyChanged(isChecked)
         }
+    }
+
+    private fun showDutyReport() {
+        navigation.navigate(R.id.action_home_fragment_to_patrolSummaryFragment)
     }
 
     private fun subscribeToDialogEvents() {

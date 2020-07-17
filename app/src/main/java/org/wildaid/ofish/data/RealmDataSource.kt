@@ -25,6 +25,7 @@ const val BUSINESS = "business"
 const val LOCATION = "location"
 const val LAST_DELIVERY_DATE = "lastDelivery.date"
 const val VESSEL_PERMIT_NUMBER = "vessel.permitNumber"
+const val USER_EMAIL = "user.email"
 
 private const val TAG = "Realm Setup"
 
@@ -95,7 +96,7 @@ class RealmDataSource {
         }
     }
 
-    fun saveOnDutyChange(onDuty: Boolean) {
+    fun saveOnDutyChange(onDuty: Boolean, date: Date) {
         realm.executeTransaction {
             realm.copyToRealm(DutyChange().apply {
                 this.user = User().apply {
@@ -105,8 +106,31 @@ class RealmDataSource {
                     }
                     email = currentOfficer.email
                 }
+                this.date = date
                 status = if (onDuty) ON_DUTY else OFF_DUTY
             })
+        }
+    }
+
+    fun getRecentOnDutyChange(): DutyChange? {
+        return realm.where<DutyChange>()
+            .equalTo(USER_EMAIL, currentOfficer.email)
+            .sort(DATE, Sort.DESCENDING)
+            .findFirst()
+    }
+
+    fun getRecentStartCurrentDuty(): DutyChange? {
+        return realm.where<DutyChange>()
+            .equalTo(USER_EMAIL, currentOfficer.email)
+            .equalTo("status", ON_DUTY)
+            .sort(DATE, Sort.DESCENDING)
+            .findFirst()
+    }
+
+    fun updateStartDateForCurrentDuty(date: Date) {
+        val onDuty = getRecentStartCurrentDuty()!!
+        realm.executeTransaction {
+            onDuty.date = date
         }
     }
 
@@ -129,7 +153,7 @@ class RealmDataSource {
 
     fun getCurrentOfficer() = currentOfficer
 
-    fun isLoggedIn()  = realmApp.currentUser() != null
+    fun isLoggedIn() = realmApp.currentUser() != null
 
     fun findReportsGroupedByVessel(sort: Sort): List<Report> {
         return realm.where<Report>().sort(DATE, sort).distinct(VESSEL_PERMIT_NUMBER).findAll()
@@ -151,12 +175,16 @@ class RealmDataSource {
             .toList()
     }
 
-    fun findReportsFromDate(dutyStartTime: Long): List<Report> {
-        return realm.where<Report>()
-            .sort(DATE, Sort.DESCENDING)
-            .greaterThan(DATE, Date(dutyStartTime))
-            .findAll()
-            .toList()
+    fun findReportsForCurrentDuty(): List<Report> {
+        val dutyChange = getRecentStartCurrentDuty()
+        dutyChange?.let {
+            return realm.where<Report>()
+                .sort(DATE, Sort.DESCENDING)
+                .greaterThan(DATE, it.date)
+                .findAll()
+                .toList()
+        }
+        return emptyList()
     }
 
     fun findAllBoats(): List<Boat> {
@@ -193,7 +221,8 @@ class RealmDataSource {
         val officerLastName = (userData["name"] as Document?)?.get("last") as String? ?: ""
         val profilePicId = userData["profilePic"] as String? ?: ""
 
-        currentOfficer = OfficerData(officerEmail, officerFirstName, officerLastName, agencyName, profilePicId)
+        currentOfficer =
+            OfficerData(officerEmail, officerFirstName, officerLastName, agencyName, profilePicId)
 
         val configuration = SyncConfiguration
             .Builder(user, agencyName)

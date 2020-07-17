@@ -107,7 +107,7 @@ class ViolationViewModel(val repository: Repository,
         }
         item?.violation?.offence?.let {
             it.code = violation.code
-            it.explanation = violation.explanation.replace(',', '\n')
+            it.explanation = violation.explanation
         }
     }
 

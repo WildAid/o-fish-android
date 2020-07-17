@@ -14,9 +14,19 @@ fun setDate(view: TextView, date: Date) {
     view.text = dateFormat.format(date)
 }
 
+@BindingAdapter("app:dateToString")
+fun setDate(view: TextView, date: Long) {
+    view.text = dateFormat.format(Date(date))
+}
+
 @BindingAdapter("app:timeToString")
 fun setTime(view: TextView, date: Date) {
     view.text = timeFormat.format(date)
+}
+
+@BindingAdapter("app:timeToString")
+fun setTime(view: TextView, date: Long) {
+    view.text = timeFormat.format(Date(date))
 }
 
 @BindingAdapter("app:toCount")

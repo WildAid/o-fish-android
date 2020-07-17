@@ -8,7 +8,7 @@ class LocalDataSource {
     }
 
     fun getOffences(): List<OffenceData> = listOf(
-        OffenceData("California, Fish an Game Code 7857", "No commercial license, 111, 222, 333"),
+        OffenceData("California, Fish an Game Code 7857", "No commercial license,\n111,\n222,\n333"),
         OffenceData(
             "California, Fish an Game Code 7858", "No commercial license"
         ),

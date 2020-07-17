@@ -224,6 +224,19 @@
     <string name="chose_image_source">Choose image source</string>
 
     <!--    Notifications-->
-    <string name="channel_name">O-Fish notifications</string>
-    <string name="channel_description">O-Fish will show on duty reminders</string>
+    <string name="channel_name">O-FISH notifications</string>
+    <string name="channel_description">O-FISH will show on duty reminders</string>
+
+    <!--    Time On Duty -->
+    <string name="time_on_duty">Time On Duty</string>
+    <string name="start_date">Start Date</string>
+    <string name="start_time">Start Time</string>
+    <string name="end_date">End Date</string>
+    <string name="end_time">End Time</string>
+    <string name="patrol_summary">Patrol Summary</string>
+    <string name="go_off_duty">Go Off Duty</string>
+    <string name="boarding_count">%d Boardings</string>
+    <string name="error_start_date">Start date should be before End date</string>
+    <string name="error_end_date">End date should be after Start date</string>
+    <string name="error_date_in_future">Please set correct date</string>
 </resources>

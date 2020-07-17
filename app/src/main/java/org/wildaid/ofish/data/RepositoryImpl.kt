@@ -5,6 +5,7 @@ import io.realm.Sort
 import io.realm.mongodb.AppException
 import io.realm.mongodb.User
 import org.bson.types.ObjectId
+import org.wildaid.ofish.data.report.DutyChange
 import org.wildaid.ofish.data.report.Photo
 import org.wildaid.ofish.data.report.Report
 import java.util.*
@@ -27,15 +28,8 @@ class RepositoryImpl(
 
     override fun restoreLoggedUser() = realmDataSource.restoreLoggedUser()
 
-    override fun saveOnDutyChange(onDuty: Boolean) {
-        realmDataSource.saveOnDutyChange(onDuty)
-        androidDataSource.saveOnDutyStatus(onDuty)
-        if (onDuty) {
-            androidDataSource.setOnDutyStartTime(Date().time)
-            androidDataSource.setOnDutyEndTime(0)
-        } else {
-            androidDataSource.setOnDutyEndTime(Date().time)
-        }
+    override fun saveOnDutyChange(onDuty: Boolean, date: Date) {
+        realmDataSource.saveOnDutyChange(onDuty, date)
     }
 
     override fun saveReport(
@@ -75,9 +69,8 @@ class RepositoryImpl(
     override fun findReportsForBoat(boatPermitNumber: String) =
         realmDataSource.findReportsForBoat(boatPermitNumber)
 
-    override fun findReportsForCurrentDuty() : List<Report>{
-        val currentDuty = getOnDutyStatus()
-        return realmDataSource.findReportsFromDate(currentDuty.dutyStartTime)
+    override fun findReportsForCurrentDuty(): List<Report> {
+        return realmDataSource.findReportsForCurrentDuty()
     }
 
     override fun findAllBoats() = realmDataSource.findAllBoats()
@@ -104,11 +97,10 @@ class RepositoryImpl(
         return states
     }
 
-    override fun getOnDutyStatus(): DutyStatus {
-        return DutyStatus(
-            androidDataSource.getOnDutyStatus(),
-            androidDataSource.getOnDutyStartTime(),
-            androidDataSource.getOnDtyEndTime()
-        )
-    }
+    override fun getRecentOnDutyChange(): DutyChange? = realmDataSource.getRecentOnDutyChange()
+
+    override fun getRecentStartCurrentDuty() : DutyChange? = realmDataSource.getRecentStartCurrentDuty()
+
+    override fun updateStartDateForCurrentDuty(date: Date) =
+        realmDataSource.updateStartDateForCurrentDuty(date)
 }
