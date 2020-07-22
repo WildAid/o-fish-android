@@ -59,8 +59,8 @@ class VesselRecordsAdapter(
                     it.uiSettings.isMapToolbarEnabled = false
                     val cords = if (item.report.location.size == 2) {
                         LatLng(
-                            item.report.location[0] ?: .0,
-                            item.report.location[1] ?: .0
+                            item.report.location[1] ?: .0,
+                            item.report.location[0] ?: .0
                         )
                     } else {
                         LatLng(.0, .0)

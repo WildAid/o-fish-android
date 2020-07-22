@@ -142,7 +142,7 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             childFragmentManager.findFragmentById(R.id.report_map) as SupportMapFragment
         mapFragment.getMapAsync { map ->
             val coordinates = if (report.location.size == 2)
-                LatLng(report.location[0] ?: .0, report.location[1] ?: .0)
+                LatLng(report.location[1] ?: .0, report.location[0] ?: .0)
             else LatLng(.0, .0)
             map.isMyLocationEnabled = true
             map.addMarker(MarkerOptions().position(coordinates))

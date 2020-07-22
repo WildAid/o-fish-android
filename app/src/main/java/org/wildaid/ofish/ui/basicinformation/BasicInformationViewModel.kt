@@ -28,7 +28,7 @@ class BasicInformationViewModel : ViewModel() {
     }
 
     fun setLocation(lat: Double, long: Double) {
-        currentReport.location = RealmList(lat, long)
+        currentReport.location = RealmList(long, lat)
         latitude.value = convert(lat, LATITUDE)
         longitude.value = convert(long, LONGITUDE)
     }

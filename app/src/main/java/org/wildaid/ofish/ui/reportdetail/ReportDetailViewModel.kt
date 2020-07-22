@@ -42,7 +42,7 @@ class ReportDetailViewModel(val repository: Repository) : ViewModel() {
         }
     }
 
-    fun getFormattedLatitude() = convert(reportLiveData.value?.location?.get(0), LATITUDE)
+    fun getFormattedLatitude() = convert(reportLiveData.value?.location?.get(1), LATITUDE)
 
-    fun getFormattedLongitude() = convert(reportLiveData.value?.location?.get(1), LONGITUDE)
+    fun getFormattedLongitude() = convert(reportLiveData.value?.location?.get(0), LONGITUDE)
 }
