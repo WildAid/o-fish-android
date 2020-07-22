@@ -70,6 +70,7 @@ class VesselFragment : BaseReportFragment(R.layout.fragment_vessel) {
                     onPhotoSelected = { fragmentViewModel.addPhotoForEms(it, emsItem) }
                 )
             },
+            emsOnPhotoClickListener = ::showFullImage,
             emsRemovePhotoListener = { photoItem, emsItem ->
                 fragmentViewModel.removePhotoFromEms(photoItem, emsItem)
             }
@@ -117,6 +118,11 @@ class VesselFragment : BaseReportFragment(R.layout.fragment_vessel) {
             )
         }
 
+        fragmentBinding.vesselEditPhotosLayout.onPhotoClickListener = ::showFullImage
+
+        fragmentBinding.vesselViewInfo.vesselViewAttachments.attachmentsPhotos.onPhotoClickListener =
+            ::showFullImage
+
         fragmentBinding.vesselEditPhotosLayout.onPhotoRemoveListener = {
             fragmentViewModel.removePhotoFromVessel(it)
         }
@@ -138,6 +144,11 @@ class VesselFragment : BaseReportFragment(R.layout.fragment_vessel) {
                 onPhotoSelected = fragmentViewModel::addPhotoForDelivery
             )
         }
+
+        fragmentBinding.deliveryEditPhotosLayout.onPhotoClickListener = ::showFullImage
+
+        fragmentBinding.vesselViewDelivery.deliveryViewAttachments.attachmentsPhotos.onPhotoClickListener =
+            ::showFullImage
 
         fragmentBinding.deliveryEditPhotosLayout.onPhotoRemoveListener = {
             fragmentViewModel.removePhotoFromDelivery(it)

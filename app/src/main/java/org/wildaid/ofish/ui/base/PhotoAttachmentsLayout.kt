@@ -3,6 +3,7 @@ package org.wildaid.ofish.ui.base
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.item_photos_container.view.*
 import org.wildaid.ofish.R
@@ -17,6 +18,7 @@ class PhotoAttachmentsLayout @JvmOverloads constructor(
     private var photosAdapter: PhotosAdapter? = null
     private var inEditMode: Boolean = false
 
+    var onPhotoClickListener: ((view: View, photoItem: PhotoItem) -> Unit)? = null
     var onPhotoRemoveListener: ((PhotoItem) -> Unit)? = null
 
     init {
@@ -41,9 +43,13 @@ class PhotoAttachmentsLayout @JvmOverloads constructor(
         } else {
             setVisible(true)
             photos_title.setVisible(true)
-            photos_recycler.adapter = PhotosAdapter(photos.toMutableList(), inEditMode) {
-                onPhotoRemoveListener?.invoke(it)
-            }
+            photos_recycler.adapter = PhotosAdapter(photos.toMutableList(), inEditMode,
+                { view, item ->
+                    onPhotoClickListener?.invoke(view, item)
+                },
+                {
+                    onPhotoRemoveListener?.invoke(it)
+                })
         }
     }
 }

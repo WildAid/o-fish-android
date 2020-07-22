@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/create_report_navigation_graph"
     app:startDestination="@id/tabsFragment">
 
@@ -35,6 +36,9 @@
         <action
             android:id="@+id/action_tabsFragment_to_addAmountFragment"
             app:destination="@id/addAmountFragment" />
+        <action
+            android:id="@+id/action_tabsFragment_to_fullImageFragment"
+            app:destination="@id/fullImageFragment" />
     </fragment>
 
     <fragment
@@ -86,4 +90,9 @@
         android:id="@+id/addAmountFragment"
         android:name="org.wildaid.ofish.ui.catches.AddAmountFragment"
         android:label="AddAmountFragment" />
+    <fragment
+        android:id="@+id/fullImageFragment"
+        android:name="org.wildaid.ofish.ui.fullimage.FullImageFragment"
+        android:label="fragment_full_image"
+        tools:layout="@layout/fragment_full_image" />
 </navigation>

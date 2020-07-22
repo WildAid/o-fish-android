@@ -79,6 +79,7 @@ class CatchFragment : BaseReportFragment(R.layout.fragment_catch) {
             catchRemoveNoteListener = {
                 fragmentViewModel.removeNoteFromCatch(it)
             },
+            catchOnPhotoClickListener = ::showFullImage,
             catchRemovePhotoListener = { photo, catchItem ->
                 fragmentViewModel.removePhotoFromCatch(photo, catchItem)
             })

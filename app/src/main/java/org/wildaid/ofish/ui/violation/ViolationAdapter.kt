@@ -21,6 +21,7 @@ class ViolationAdapter(
     private val violationAttachmentListener: (item: ViolationItem) -> Unit,
     private val violationRemoveListener: (Int) -> Unit,
     private val violationRemoveNoteListener: (item: ViolationItem) -> Unit,
+    private val violationOnPhotoClickListener: (View, PhotoItem) -> Unit,
     private val violationRemovePhotoListener: (PhotoItem, item: ViolationItem) -> Unit
 ) : RecyclerView.Adapter<ViolationAdapter.ViolationViewHolder>() {
 
@@ -83,6 +84,9 @@ class ViolationAdapter(
                 violationRemoveNoteListener.invoke(item)
             }
 
+            binding.violationEditPhotos.onPhotoClickListener = violationOnPhotoClickListener::invoke
+            binding.violationViewLayout.violationAttachments.attachmentsPhotos.onPhotoClickListener =
+                violationOnPhotoClickListener::invoke
             binding.violationEditPhotos.onPhotoRemoveListener = {
                 violationRemovePhotoListener.invoke(it, item)
             }

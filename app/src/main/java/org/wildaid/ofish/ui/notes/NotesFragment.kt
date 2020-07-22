@@ -53,6 +53,7 @@ class NotesFragment : BaseReportFragment(R.layout.fragment_notes) {
                     fragmentViewModel.addPhotoAttachmentForNote(imageUri, note)
                 }
             },
+            noteOnPhotoClickListener = ::showFullImage,
             removePhotoAttachmentListener = { photo, note ->
                 fragmentViewModel.removePhotoAttachment(photo, note)
             }
