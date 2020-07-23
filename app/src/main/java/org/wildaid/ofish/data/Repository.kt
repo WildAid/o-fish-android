@@ -43,7 +43,7 @@ interface Repository {
 
     fun findAllBoats(): List<Boat>
 
-    fun getMenuData(): List<MenuData>
+    fun getMenuData(): MenuData?
 
     fun findBoat(boatPermitNumber: String): Boat?
 
