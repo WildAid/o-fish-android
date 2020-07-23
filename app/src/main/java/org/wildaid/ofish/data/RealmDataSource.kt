@@ -211,6 +211,10 @@ class RealmDataSource {
             .findFirst()
     }
 
+    fun getMenuData(): MenuData? {
+        return realm.where<MenuData>().findFirst()
+    }
+
     private fun instantiateRealm(user: io.realm.mongodb.User) {
         currentRealmUser = user
 

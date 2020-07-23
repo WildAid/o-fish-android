@@ -77,13 +77,15 @@ class RepositoryImpl(
 
     override fun findBoat(boatPermitNumber: String) = realmDataSource.findBoat(boatPermitNumber)
 
+    override fun getMenuData() = realmDataSource.getMenuData()
+
     override fun getPhotosWithIds(ids: List<String>) = realmDataSource.getPhotosWithIds(ids)
 
     override fun getPhotoById(id: String) = realmDataSource.getPhotoById(id)
 
     override fun getOffences() = localDataSource.getOffences()
 
-    override fun getBusinessAndLocation() : List<Pair<String, String>>{
+    override fun getBusinessAndLocation(): List<Pair<String, String>> {
         return realmDataSource.getAllDeliveryBusiness().map {
             Pair(it.business, it.location)
         }
@@ -99,7 +101,8 @@ class RepositoryImpl(
 
     override fun getRecentOnDutyChange(): DutyChange? = realmDataSource.getRecentOnDutyChange()
 
-    override fun getRecentStartCurrentDuty() : DutyChange? = realmDataSource.getRecentStartCurrentDuty()
+    override fun getRecentStartCurrentDuty(): DutyChange? =
+        realmDataSource.getRecentStartCurrentDuty()
 
     override fun updateStartDateForCurrentDuty(date: Date) =
         realmDataSource.updateStartDateForCurrentDuty(date)
