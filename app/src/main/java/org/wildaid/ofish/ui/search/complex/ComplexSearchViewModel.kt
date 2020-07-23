@@ -16,9 +16,10 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
         return when (searchEntity) {
             is ComplexSearchFragment.SearchBusiness -> searchBusinessDataSource
             is ComplexSearchFragment.SearchViolation -> searchViolationDataSource
-            is ComplexSearchFragment.DutyReports -> dutyReportsViolationSource
-            is ComplexSearchFragment.SearchRecords -> searchRecordsDataSource.apply {}
-            is ComplexSearchFragment.SearchVessels -> searchRecordsDataSource.apply {
+            is ComplexSearchFragment.SearchRecords -> searchRecordsDataSource.apply {
+                isAddAvailable = true
+            }
+            is ComplexSearchFragment.SearchBoardVessels -> searchRecordsDataSource.apply {
                 isAddAvailable = true
             }
             is ComplexSearchFragment.SearchCrew -> searchCrewDataSource.apply {
@@ -160,17 +161,5 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
 
         private fun containFilter(member: CrewMember, filter: String) =
             member.name.contains(filter, true) || member.license.contains(filter, true)
-    }
-
-    private val dutyReportsViolationSource = object : SearchDataSource() {
-        override fun initiateData(): List<SearchModel> {
-            return repository.findReportsForCurrentDuty().map { DutyReportSearchModel(it) }
-        }
-
-        override fun applyFilter(filter: String): List<SearchModel> {
-            return repository.findReportsForCurrentDuty()
-                .filter { it.vessel?.name?.contains(filter, true) == true }
-                .map { DutyReportSearchModel(it) }
-        }
     }
 }

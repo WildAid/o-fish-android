@@ -23,7 +23,6 @@ import org.wildaid.ofish.R
 import org.wildaid.ofish.ui.base.ProgressDialogFragment
 import org.wildaid.ofish.ui.createreport.CreateReportActivity
 import org.wildaid.ofish.ui.createreport.CreateReportViewModel
-import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER
 import org.wildaid.ofish.ui.reportdetail.KEY_REPORT_ID
 import org.wildaid.ofish.ui.search.complex.*
 import org.wildaid.ofish.ui.vessel.CREATE_NEW_BUSINESS
@@ -104,7 +103,7 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
         searchView.setSearchableInfo(sm.getSearchableInfo(requireActivity().componentName))
 
         searchView.queryHint = getSearchHint()
-        searchView.maxWidth = Integer.MAX_VALUE;
+        searchView.maxWidth = Integer.MAX_VALUE
         searchItem.expandActionView()
         searchView.setOnQueryTextListener(toolbarSearchListener)
 
@@ -137,13 +136,6 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
                     bundleOf(KEY_VESSEL_PERMIT_NUMBER to (selectedItem as RecordSearchModel).vessel.permitNumber)
                 navigation.navigate(R.id.vessel_details_fragment, detailArgs)
             }
-            is DutyReportSearchModel -> {
-                val navigationArgs = bundleOf(KEY_REPORT_ID to (selectedItem as DutyReportSearchModel).report._id)
-                navigation.navigate(
-                    R.id.action_complex_search_to_report_details_fragment,
-                    navigationArgs
-                )
-            }
             is TextViewSearchModel -> { //Nothing
             }
             else -> {
@@ -168,7 +160,8 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
 
     private fun navigateFromAdd() {
         when (currentSearchEntity) {
-            is ComplexSearchFragment.SearchVessels -> navigation.navigate(R.id.action_complex_search_to_create_report)
+            is ComplexSearchFragment.SearchBoardVessels -> navigation.navigate(R.id.action_complex_search_to_create_report)
+            is ComplexSearchFragment.SearchRecords -> navigation.navigate(R.id.action_complex_search_to_create_report)
             is ComplexSearchFragment.SearchCrew -> navigation.navigate(R.id.add_crew_fragment)
             is ComplexSearchFragment.SearchBusiness -> {
                 navigation.previousBackStackEntry?.let {

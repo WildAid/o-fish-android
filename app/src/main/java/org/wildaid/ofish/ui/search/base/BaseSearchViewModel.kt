@@ -38,7 +38,7 @@ abstract class BaseSearchViewModel<T>(
 
     private fun isRecordSearch(searchEntity: BaseSearchType) = when (searchEntity) {
         is ComplexSearchFragment.SearchRecords -> true
-        is ComplexSearchFragment.SearchVessels -> true
+        is ComplexSearchFragment.SearchBoardVessels -> true
         is ComplexSearchFragment.DutyReports -> true
         else -> false
     }

@@ -135,7 +135,7 @@
     <string name="change_status_to_on_duty">Change status to "On Duty?"</string>
     <string name="board_vessel">Board Vessel</string>
     <string name="find_records">Find Records</string>
-    <string name="first_last_name">Officer %s %s</string>
+    <string name="first_last_name">%s %s</string>
 
     <string name="logout_dialog_title">You sure you want to log out</string>
     <string name="logout_dialog_message">You can only log back in once you have cellular service or are connected to WIFI with internet</string>
@@ -224,6 +224,19 @@
     <string name="chose_image_source">Choose image source</string>
 
     <!--    Notifications-->
-    <string name="channel_name">O-Fish notifications</string>
-    <string name="channel_description">O-Fish will show on duty reminders</string>
+    <string name="channel_name">O-FISH notifications</string>
+    <string name="channel_description">O-FISH will show on duty reminders</string>
+
+    <!--    Time On Duty -->
+    <string name="time_on_duty">Time On Duty</string>
+    <string name="start_date">Start Date</string>
+    <string name="start_time">Start Time</string>
+    <string name="end_date">End Date</string>
+    <string name="end_time">End Time</string>
+    <string name="patrol_summary">Patrol Summary</string>
+    <string name="go_off_duty">Go Off Duty</string>
+    <string name="boarding_count">%d Boardings</string>
+    <string name="error_start_date">Start date should be before End date</string>
+    <string name="error_end_date">End date should be after Start date</string>
+    <string name="error_date_in_future">Please set correct date</string>
 </resources>

@@ -4,8 +4,8 @@ import android.net.Uri
 import io.realm.Sort
 import io.realm.mongodb.AppException
 import io.realm.mongodb.User
-import org.bson.BSON
 import org.bson.types.ObjectId
+import org.wildaid.ofish.data.report.DutyChange
 import org.wildaid.ofish.data.report.Photo
 import org.wildaid.ofish.data.report.Report
 import java.util.*
@@ -15,12 +15,6 @@ class RepositoryImpl(
     private val localDataSource: LocalDataSource,
     private val androidDataSource: AndroidDataSource
 ) : Repository {
-
-    override fun registerUser(
-        userName: String, password: String,
-        loginSuccess: () -> Unit, loginError: (Throwable?) -> Unit
-    ) =
-        realmDataSource.registerUser(userName, password, loginSuccess, loginError)
 
     override fun login(
         userName: String, password: String,
@@ -34,15 +28,8 @@ class RepositoryImpl(
 
     override fun restoreLoggedUser() = realmDataSource.restoreLoggedUser()
 
-    override fun saveOnDutyChange(onDuty: Boolean) {
-        realmDataSource.saveOnDutyChange(onDuty)
-        androidDataSource.saveOnDutyStatus(onDuty)
-        if (onDuty) {
-            androidDataSource.setOnDutyStartTime(Date().time)
-            androidDataSource.setOnDutyEndTime(0)
-        } else {
-            androidDataSource.setOnDutyEndTime(Date().time)
-        }
+    override fun saveOnDutyChange(onDuty: Boolean, date: Date) {
+        realmDataSource.saveOnDutyChange(onDuty, date)
     }
 
     override fun saveReport(
@@ -82,9 +69,8 @@ class RepositoryImpl(
     override fun findReportsForBoat(boatPermitNumber: String) =
         realmDataSource.findReportsForBoat(boatPermitNumber)
 
-    override fun findReportsForCurrentDuty() : List<Report>{
-        val currentDuty = getOnDutyStatus()
-        return realmDataSource.findReportsFromDate(currentDuty.dutyStartTime)
+    override fun findReportsForCurrentDuty(): List<Report> {
+        return realmDataSource.findReportsForCurrentDuty()
     }
 
     override fun findAllBoats() = realmDataSource.findAllBoats()
@@ -99,7 +85,11 @@ class RepositoryImpl(
 
     override fun getOffences() = localDataSource.getOffences()
 
-    override fun getBusinessAndLocation() = localDataSource.getBusiness()
+    override fun getBusinessAndLocation() : List<Pair<String, String>>{
+        return realmDataSource.getAllDeliveryBusiness().map {
+            Pair(it.business, it.location)
+        }
+    }
 
     override fun getFlagStates(agency: String?): List<String> {
         val states = localDataSource.getFlagStates().toMutableList()
@@ -109,11 +99,10 @@ class RepositoryImpl(
         return states
     }
 
-    override fun getOnDutyStatus(): DutyStatus {
-        return DutyStatus(
-            androidDataSource.getOnDutyStatus(),
-            androidDataSource.getOnDutyStartTime(),
-            androidDataSource.getOnDtyEndTime()
-        )
-    }
+    override fun getRecentOnDutyChange(): DutyChange? = realmDataSource.getRecentOnDutyChange()
+
+    override fun getRecentStartCurrentDuty() : DutyChange? = realmDataSource.getRecentStartCurrentDuty()
+
+    override fun updateStartDateForCurrentDuty(date: Date) =
+        realmDataSource.updateStartDateForCurrentDuty(date)
 }

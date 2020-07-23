@@ -8,23 +8,12 @@ class LocalDataSource {
     }
 
     fun getOffences(): List<OffenceData> = listOf(
-        OffenceData("California, Fish an Game Code 7857", "No commercial license, 111, 222, 333"),
+        OffenceData("California, Fish an Game Code 7857", "No commercial license,\n111,\n222,\n333"),
         OffenceData(
             "California, Fish an Game Code 7858", "No commercial license"
         ),
         OffenceData("California, Fish an Game Code 7859", "No commercial license"),
         OffenceData("Other", "")
-    )
-
-    fun getBusiness() = listOf(
-        Pair("P.Sherman Dentistry", "42 Wallaby way, Sydney NSW 200, Australia"),
-        Pair("P.Merlock Industry", "House of Commons, Ottawa, Ontario, Canada, K1A 0A6"),
-        Pair("P.Sherman Dentistry", "42 Wallaby way, Sydney NSW 200, Australia"),
-        Pair("P.Merlock Industry", "House of Commons, Ottawa, Ontario, Canada, K1A 0A6"),
-        Pair("P.Sherman Dentistry", "42 Wallaby way, Sydney NSW 200, Australia"),
-        Pair("P.Merlock Industry", "House of Commons, Ottawa, Ontario, Canada, K1A 0A6"),
-        Pair("P.Sherman Dentistry", "42 Wallaby way, Sydney NSW 200, Australia"),
-        Pair("P.Merlock Industry", "House of Commons, Ottawa, Ontario, Canada, K1A 0A6")
     )
 
     fun getFlagStates() =
