@@ -55,7 +55,7 @@ interface Repository {
 
     fun getBusinessAndLocation(): List<Pair<String, String>>
 
-    fun getFlagStates(agency: String?): List<String>
+    fun getFlagStates(): List<String>
 
     fun getRecentOnDutyChange() : DutyChange?
 

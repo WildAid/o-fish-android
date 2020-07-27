@@ -83,7 +83,18 @@ class RepositoryImpl(
 
     override fun getPhotoById(id: String) = realmDataSource.getPhotoById(id)
 
-    override fun getOffences() = localDataSource.getOffences()
+    override fun getOffences(): List<OffenceData> {
+        val offences = mutableListOf<OffenceData>()
+        getMenuData()?.let {
+            if (it.violationCodes.size == it.violationDescriptions.size) {
+                it.violationCodes.forEachIndexed { index, code ->
+                    offences.add(OffenceData(code, it.violationDescriptions[index] ?: ""))
+                }
+            }
+        }
+
+        return offences
+    }
 
     override fun getBusinessAndLocation(): List<Pair<String, String>> {
         return realmDataSource.getAllDeliveryBusiness().map {
@@ -91,11 +102,16 @@ class RepositoryImpl(
         }
     }
 
-    override fun getFlagStates(agency: String?): List<String> {
+    override fun getFlagStates(): List<String> {
         val states = localDataSource.getFlagStates().toMutableList()
-        val prior = listOf("Ecuador", "Panama") //todo extract from agency
-        states.removeAll(prior)
-        states.addAll(0, prior)
+        val prior = getMenuData()?.countryPickerPriorityList?.map {
+            val locale = Locale("", it)
+            locale.displayCountry
+        }?.toList()
+        if (prior != null) {
+            states.removeAll(prior)
+            states.addAll(0, prior)
+        }
         return states
     }
 
