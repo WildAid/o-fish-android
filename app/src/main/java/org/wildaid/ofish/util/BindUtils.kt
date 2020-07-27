@@ -10,8 +10,8 @@ import java.util.*
 
 
 @BindingAdapter("app:dateToString")
-fun setDate(view: TextView, date: Date) {
-    view.text = dateFormat.format(date)
+fun setDate(view: TextView, date: Date?) {
+    view.text = if (date == null || date == Date(0)) "" else dateFormat.format(date)
 }
 
 @BindingAdapter("app:dateToString")
