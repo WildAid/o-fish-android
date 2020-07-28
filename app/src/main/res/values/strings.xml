@@ -158,7 +158,6 @@
     <string name="captains_name">Captains Name</string>
     <string name="report_date">%1$tB %1$td, %1$tY</string>
     <string name="report_time">%1$tI:%1$tM%1$Tp %1$tZ</string>
-    <string name="report_last_delivery">%1$tB %1$tm, %1$tY</string>
     <string name="report_crew_count">Crew (%d)</string>
     <string name="report_catch_count">Catch (%d)</string>
     <string name="report_violations_count">Violations (%d)</string>
@@ -212,7 +211,9 @@
 
     <!--    Submit/Cancel report dialogs-->
     <string name="submit_boarding">Submit boarding?</string>
+    <string name="you_left_blank">You left the following sections blank:</string>
     <string name="sure_to_submit">Are you sure you want to submit?</string>
+    <string name="sure_to_submit_with_skipped">%s\n\nAre you sure you want to submit?</string>
     <string name="cancel_boarding">Cancel boarding?</string>
     <string name="board_not_saved">This boarding will not be saved</string>
     <string name="keep_editing">Keep Editing</string>

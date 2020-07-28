@@ -152,8 +152,9 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.report_map) as SupportMapFragment
         mapFragment.getMapAsync { map ->
-            val coordinates =
-                LatLng(report.location?.latitude ?: 0.0, report.location?.longitude ?: 0.0)
+            val coordinates = if (report.location.size == 2)
+                LatLng(report.location[1] ?: .0, report.location[0] ?: .0)
+            else LatLng(.0, .0)
             map.isMyLocationEnabled = true
             map.addMarker(MarkerOptions().position(coordinates))
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 10f))

@@ -77,29 +77,48 @@ class RepositoryImpl(
 
     override fun findBoat(boatPermitNumber: String) = realmDataSource.findBoat(boatPermitNumber)
 
+    override fun getMenuData() = realmDataSource.getMenuData()
+
     override fun getPhotosWithIds(ids: List<String>) = realmDataSource.getPhotosWithIds(ids)
 
     override fun getPhotoById(id: String) = realmDataSource.getPhotoById(id)
 
-    override fun getOffences() = localDataSource.getOffences()
+    override fun getOffences(): List<OffenceData> {
+        val offences = mutableListOf<OffenceData>()
+        getMenuData()?.let {
+            if (it.violationCodes.size == it.violationDescriptions.size) {
+                it.violationCodes.forEachIndexed { index, code ->
+                    offences.add(OffenceData(code, it.violationDescriptions[index] ?: ""))
+                }
+            }
+        }
 
-    override fun getBusinessAndLocation() : List<Pair<String, String>>{
+        return offences
+    }
+
+    override fun getBusinessAndLocation(): List<Pair<String, String>> {
         return realmDataSource.getAllDeliveryBusiness().map {
             Pair(it.business, it.location)
         }
     }
 
-    override fun getFlagStates(agency: String?): List<String> {
+    override fun getFlagStates(): List<String> {
         val states = localDataSource.getFlagStates().toMutableList()
-        val prior = listOf("Ecuador", "Panama") //todo extract from agency
-        states.removeAll(prior)
-        states.addAll(0, prior)
+        val prior = getMenuData()?.countryPickerPriorityList?.map {
+            val locale = Locale("", it)
+            locale.displayCountry
+        }?.toList()
+        if (prior != null) {
+            states.removeAll(prior)
+            states.addAll(0, prior)
+        }
         return states
     }
 
     override fun getRecentOnDutyChange(): DutyChange? = realmDataSource.getRecentOnDutyChange()
 
-    override fun getRecentStartCurrentDuty() : DutyChange? = realmDataSource.getRecentStartCurrentDuty()
+    override fun getRecentStartCurrentDuty(): DutyChange? =
+        realmDataSource.getRecentStartCurrentDuty()
 
     override fun updateStartDateForCurrentDuty(date: Date) =
         realmDataSource.updateStartDateForCurrentDuty(date)

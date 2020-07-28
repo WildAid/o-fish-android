@@ -197,10 +197,22 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
     }
 
     private fun showSubmitReportDialog() {
+        val tabs = fragmentViewModel.getSkippedAndNotVisitedTabs()
+        val title: String
+        val message: String
+        if (tabs.isEmpty()) {
+            title = getString(R.string.submit_boarding)
+            message = getString(R.string.sure_to_submit)
+        } else {
+            title = getString(R.string.you_left_blank)
+            message = getString(
+                R.string.sure_to_submit_with_skipped,
+                tabs.joinToString("\n") { "- ${it.title}" })
+        }
         val dialogBundle = ConfirmationDialogFragment.Bundler(
             SUBMIT_DIALOG_ID,
-            getString(R.string.submit_boarding),
-            getString(R.string.sure_to_submit),
+            title,
+            message,
             getString(R.string.menu_submit_report),
             getString(R.string.keep_editing)
         ).bundle()
