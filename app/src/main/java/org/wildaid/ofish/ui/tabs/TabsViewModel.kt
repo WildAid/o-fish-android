@@ -93,6 +93,10 @@ class TabsViewModel(val repository: Repository, application: Application) :
         )
     }
 
+    fun getSkippedAndNotVisitedTabs(): List<TabItem> {
+        return tabs.filterNot { it.status == TabStatus.VISITED }
+    }
+
     sealed class UserEvent {
         class AskSkipSectionsEvent(var skippedTabs: List<TabItem>) : UserEvent()
         class ChangeTabEvent(var tabItem: TabItem) : UserEvent()
