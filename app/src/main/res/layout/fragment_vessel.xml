@@ -257,7 +257,7 @@
                                 android:imeOptions="actionNext"
                                 android:nextFocusDown="@id/delivery_business"
                                 android:singleLine="true"
-                                android:text="@{@string/report_last_delivery(viewModel.deliveryItemItemLiveData.lastDelivery.date)}"
+                                app:dateToString="@{viewModel.deliveryItemItemLiveData.lastDelivery.date}"
                                 app:onFocusChangeListener="@{viewModel.fieldFocusListener}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
