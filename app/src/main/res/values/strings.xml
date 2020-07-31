@@ -193,6 +193,9 @@
     <string name="crew_member">Crew Member</string>
     <string name="add_crew_member_title">Add Crew Member</string>
     <string name="validation_error">Fill in all the fields</string>
+    <string name="report_already_contains_captain">This report already contains a captain</string>
+    <string name="replace_captain">Are you sure you want to replace the captain?</string>
+    <string name="continue_editing">Continue editing</string>
 
     <!--  Vessel details  -->
     <string name="previous_boardings">Previous Boardings</string>
