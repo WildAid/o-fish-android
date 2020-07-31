@@ -2,7 +2,10 @@ package org.wildaid.ofish.ui.home
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -35,10 +38,7 @@ import org.wildaid.ofish.R
 import org.wildaid.ofish.data.mpa.addTestMpa
 import org.wildaid.ofish.databinding.FragmentHomeBinding
 import org.wildaid.ofish.databinding.ItemUserStatusBinding
-import org.wildaid.ofish.ui.base.ConfirmationDialogFragment
-import org.wildaid.ofish.ui.base.DIALOG_CLICK_EVENT
-import org.wildaid.ofish.ui.base.DialogButton
-import org.wildaid.ofish.ui.base.DialogClickEvent
+import org.wildaid.ofish.ui.base.*
 import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
 import org.wildaid.ofish.util.*
@@ -56,6 +56,8 @@ class HomeFragment : Fragment(R.layout.fragment_home),
     private lateinit var androidPermissions: AndroidPermissions
     private lateinit var dataBinding: FragmentHomeBinding
     private lateinit var googleMap: GoogleMap
+    private lateinit var pendingImageUri: Uri
+    private var statusViewBinding: ItemUserStatusBinding? = null
 
     private val navigation: NavController by lazy { findNavController() }
     private val fragmentViewModel: HomeFragmentViewModel by viewModels { getViewModelFactory() }
@@ -87,7 +89,7 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         })
 
         activityViewModel.currentOfficerLiveData.observe(viewLifecycleOwner, Observer {
-            showOfficerPhoto(it.pictureId, image_user)
+            showOfficerPhoto(image_user)
         })
 
         arguments?.let {
@@ -99,12 +101,31 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         }
     }
 
-    private fun showOfficerPhoto(pictureId: String, view: ImageView) {
-        val photo = fragmentViewModel.repository.getPhotoById(pictureId)
+    private fun showOfficerPhoto(view: ImageView?) {
+        view?.let {
+            val photo = fragmentViewModel.repository.getCurrentOfficerPhoto()
+            Glide.with(this)
+                .load(photo?.getResourceForLoading())
+                .placeholder(R.drawable.ic_account_circle)
+                .into(it)
+        }
+    }
+
+    private fun updateProfilePhoto() {
         Glide.with(this)
-            .load(photo?.getResourceForLoading())
-            .placeholder(R.drawable.ic_account_circle)
-            .into(view)
+            .clear(image_user)
+        statusViewBinding?.imageUser?.let {
+            Glide.with(this)
+                .clear(it)
+        }
+
+        Glide.get(requireContext()).clearMemory()
+        Thread {
+            Glide.get(requireContext()).clearDiskCache()
+        }.start()
+
+        showOfficerPhoto(image_user)
+        showOfficerPhoto(statusViewBinding?.imageUser)
     }
 
     private fun initUI(view: View) {
@@ -166,7 +187,7 @@ class HomeFragment : Fragment(R.layout.fragment_home),
     }
 
     private fun showUserStatusPopUp() {
-        val statusViewBinding =
+        statusViewBinding =
             ItemUserStatusBinding.inflate(LayoutInflater.from(requireContext())).apply {
                 this.lifecycleOwner = viewLifecycleOwner
                 this.homeActivityViewModel = activityViewModel
@@ -175,12 +196,10 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         // Show status
         val width = search_layout.width - 30 // Make it smaller than search panel
         val height = LinearLayout.LayoutParams.WRAP_CONTENT
-        val popupWindow = PopupWindow(statusViewBinding.root, width, height, true)
+        val popupWindow = PopupWindow(statusViewBinding!!.root, width, height, true)
         popupWindow.showAsDropDown(search_layout, 15, 20, Gravity.BOTTOM)
 
-        activityViewModel.currentOfficerLiveData.value?.pictureId?.let {
-            showOfficerPhoto(it, statusViewBinding.imageUser)
-        }
+        showOfficerPhoto(statusViewBinding?.imageUser)
 
         // Dim background
         val container = popupWindow.contentView.rootView
@@ -191,13 +210,49 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         p.dimAmount = 0.5f
         wm.updateViewLayout(container, p)
 
-        statusViewBinding.switchDutyStatus.setOnCheckedChangeListener { _, isChecked ->
+        statusViewBinding!!.switchDutyStatus.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 activityViewModel.onDutyChanged(isChecked)
             } else {
                 popupWindow.dismiss()
                 showDutyReport()
             }
+        }
+
+        statusViewBinding!!.imageUser.setOnClickListener {
+            pickUserImage()
+        }
+    }
+
+    private fun pickUserImage() {
+        val pickImageIntent = createGalleryIntent()
+        pendingImageUri = createImageUri()
+        val takePhotoIntent = createCameraIntent(pendingImageUri)
+
+        val intentList: MutableList<Intent> = mutableListOf()
+        combineIntents(intentList, pickImageIntent)
+        combineIntents(intentList, takePhotoIntent)
+
+        val chooserIntent: Intent?
+        if (intentList.size > 0) {
+            chooserIntent = Intent.createChooser(
+                intentList.removeAt(intentList.size - 1),
+                getString(R.string.chose_image_source)
+            )
+            chooserIntent.putExtra(
+                Intent.EXTRA_INITIAL_INTENTS,
+                intentList.toTypedArray()
+            )
+
+            startActivityForResult(chooserIntent, REQUEST_PICK_IMAGE)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
+            val uri = data?.data ?: pendingImageUri
+            fragmentViewModel.saveProfileImage(uri)
+            updateProfilePhoto()
         }
     }
 
