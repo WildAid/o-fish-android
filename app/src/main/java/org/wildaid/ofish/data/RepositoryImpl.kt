@@ -122,4 +122,19 @@ class RepositoryImpl(
 
     override fun updateStartDateForCurrentDuty(date: Date) =
         realmDataSource.updateStartDateForCurrentDuty(date)
+
+    override fun updateCurrentOfficerPhoto(uri: Uri) {
+        val pictureId = getCurrentOfficer().pictureId
+        val photo = Photo().apply {
+            _id = ObjectId(pictureId)
+            picture = androidDataSource.readCompressedBytes(uri)
+            thumbNail = androidDataSource.generateImagePreview(uri)
+        }
+        realmDataSource.savePhoto(photo)
+    }
+
+    override fun getCurrentOfficerPhoto(): Photo? {
+        val pictureId = getCurrentOfficer().pictureId
+        return getPhotoById(pictureId)
+    }
 }

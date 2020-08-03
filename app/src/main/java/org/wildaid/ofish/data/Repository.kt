@@ -62,4 +62,8 @@ interface Repository {
     fun getRecentStartCurrentDuty() : DutyChange?
 
     fun updateStartDateForCurrentDuty(date: Date)
+
+    fun updateCurrentOfficerPhoto(uri: Uri)
+
+    fun getCurrentOfficerPhoto(): Photo?
 }

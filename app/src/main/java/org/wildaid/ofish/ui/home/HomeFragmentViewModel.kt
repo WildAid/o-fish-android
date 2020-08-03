@@ -1,5 +1,6 @@
 package org.wildaid.ofish.ui.home
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.wildaid.ofish.Event
@@ -30,6 +31,10 @@ class HomeFragmentViewModel(val repository: Repository) : ViewModel() {
 
     fun showUserStatus() {
         userEventLiveData.value = Event(UserEvent.ShowUserStatus)
+    }
+
+    fun saveProfileImage(uri: Uri) {
+        repository.updateCurrentOfficerPhoto(uri)
     }
 
     sealed class UserEvent {

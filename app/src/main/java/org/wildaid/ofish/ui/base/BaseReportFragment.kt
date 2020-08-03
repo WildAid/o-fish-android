@@ -4,11 +4,8 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
 import android.view.View
 import androidx.annotation.LayoutRes
-import androidx.core.content.FileProvider.getUriForFile
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -20,18 +17,18 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import org.wildaid.ofish.R
-import org.wildaid.ofish.app.OFISH_PROVIDER_SUFFIX
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.crew.N_A
-import java.io.File
+import org.wildaid.ofish.util.combineIntents
+import org.wildaid.ofish.util.createCameraIntent
+import org.wildaid.ofish.util.createGalleryIntent
+import org.wildaid.ofish.util.createImageUri
 
 
 const val CARDS_OFFSET_SIZE = 48
 
 private const val ATTACHMENT_DIALOG_ID = 1231
-private const val REQUEST_PICK_IMAGE = 10001
-private const val TEMP_TAKE_IMAGE_PREFIX = "taken_image"
-private const val TEMP_TAKE_IMAGE_SUFFIX = ".jpeg"
+const val REQUEST_PICK_IMAGE = 10001
 const val PHOTO_ID = "photo_id"
 
 abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayoutId) {
@@ -99,7 +96,8 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
         this.pendingPhotoSelection = pendingPhotoSelection
 
         val pickImageIntent = createGalleryIntent()
-        val takePhotoIntent = createCameraIntent()
+        pendingImageUri = createImageUri()
+        val takePhotoIntent = createCameraIntent(pendingImageUri!!)
 
         val intentList: MutableList<Intent> = mutableListOf()
         combineIntents(intentList, pickImageIntent)
@@ -118,39 +116,6 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
 
             startActivityForResult(chooserIntent, REQUEST_PICK_IMAGE)
         }
-    }
-
-    private fun combineIntents(list: MutableList<Intent>, intent: Intent) {
-        val resolvedInfo = requireContext().packageManager.queryIntentActivities(intent, 0)
-        for (info in resolvedInfo) {
-            val packageName = info.activityInfo.packageName
-            val targetedIntent = Intent(intent).apply {
-                setPackage(packageName)
-            }
-            list.add(targetedIntent)
-        }
-    }
-
-    private fun createGalleryIntent() = Intent().apply {
-        type = "image/*";
-        action = Intent.ACTION_GET_CONTENT;
-    }
-
-    private fun createCameraIntent(): Intent {
-        val imageCachePath = File(requireContext().externalCacheDir, Environment.DIRECTORY_PICTURES)
-        imageCachePath.mkdirs()
-
-        val tempImageFile =
-            File.createTempFile(TEMP_TAKE_IMAGE_PREFIX, TEMP_TAKE_IMAGE_SUFFIX, imageCachePath)
-
-        pendingImageUri = getUriForFile(
-            requireContext(),
-            requireContext().packageName + OFISH_PROVIDER_SUFFIX,
-            tempImageFile
-        )
-
-        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        return cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, pendingImageUri);
     }
 
     private fun subscribeForAttachmentDialogResult() {

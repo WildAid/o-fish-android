@@ -242,4 +242,10 @@ class RealmDataSource {
             .findAll()
             .toList()
     }
+
+    fun savePhoto(photo: Photo) {
+        realm.executeTransaction {
+            it.copyToRealmOrUpdate(photo)
+        }
+    }
 }
