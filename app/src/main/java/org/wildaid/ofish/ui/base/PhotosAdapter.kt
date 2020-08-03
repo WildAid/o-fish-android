@@ -15,6 +15,7 @@ import org.wildaid.ofish.util.setVisible
 class PhotosAdapter(
     private val dataList: MutableList<PhotoItem> = ArrayList(),
     var editMode: Boolean,
+    private val photoOnClickListener: (view: View, item: PhotoItem) -> Unit,
     private val photoRemoveListener: (item: PhotoItem) -> Unit
 ) : RecyclerView.Adapter<PhotosAdapter.EditPhotoViewHolder>() {
 
@@ -47,15 +48,18 @@ class PhotosAdapter(
             Glide
                 .with(itemView.context)
                 .load(
-                    item.localUri ?:
-                    item.photo.pictureURL.ifBlank { null } ?:
-                    item.photo.picture ?:
-                    item.photo.thumbNail
+                    item.localUri ?: item.photo.pictureURL.ifBlank { null } ?: item.photo.picture
+                    ?: item.photo.thumbNail
                 )
-
                 .transform(CenterCrop(), RoundedCorners(radiusInPixels))
                 .placeholder(R.drawable.ic_image_placeholder)
                 .into(itemView.item_edit_photo)
+
+            itemView.item_edit_photo.transitionName = item.photo._id.toHexString()
+
+            itemView.item_edit_photo.setOnClickListener {
+                photoOnClickListener.invoke(itemView.item_edit_photo, item)
+            }
 
             itemView.item_edit_photo_remove.setVisible(editMode)
 

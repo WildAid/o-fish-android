@@ -94,6 +94,9 @@
         <action
             android:id="@+id/action_report_details_fragment_to_create_report"
             app:destination="@id/create_report_activity" />
+        <action
+            android:id="@+id/action_report_details_fragment_to_fullImageFragment"
+            app:destination="@id/fullImageFragment" />
     </fragment>
 
     <activity
@@ -120,4 +123,8 @@
             android:id="@+id/action_patrolSummaryFragment_to_report_details_fragment"
             app:destination="@id/report_details_fragment" />
     </fragment>
+    <fragment
+        android:id="@+id/fullImageFragment"
+        android:name="org.wildaid.ofish.ui.fullimage.FullImageFragment"
+        android:label="FullImageFragment" />
 </navigation>

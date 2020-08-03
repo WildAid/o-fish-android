@@ -54,6 +54,10 @@ class ActivitiesFragment : BaseReportFragment(R.layout.fragment_activity) {
             fragmentDataBinding.activityGearNoteLayout.setVisible(it.attachments.hasNotes())
         })
 
+        fragmentDataBinding.activitiesPhotosLayout.onPhotoClickListener = ::showFullImage
+            fragmentDataBinding.fisheryPhotosLayout.onPhotoClickListener = ::showFullImage
+        fragmentDataBinding.gearPhotosLayout.onPhotoClickListener = ::showFullImage
+
         fragmentDataBinding.activitiesPhotosLayout.onPhotoRemoveListener = fragmentViewModel::removePhotoFromActivity
         fragmentDataBinding.fisheryPhotosLayout.onPhotoRemoveListener = fragmentViewModel::removePhotoFromFishery
         fragmentDataBinding.gearPhotosLayout.onPhotoRemoveListener = fragmentViewModel::removePhotoFromGear

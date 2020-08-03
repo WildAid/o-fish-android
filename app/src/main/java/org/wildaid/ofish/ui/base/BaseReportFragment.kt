@@ -9,10 +9,12 @@ import android.provider.MediaStore
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.core.content.FileProvider.getUriForFile
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
@@ -30,6 +32,7 @@ private const val ATTACHMENT_DIALOG_ID = 1231
 private const val REQUEST_PICK_IMAGE = 10001
 private const val TEMP_TAKE_IMAGE_PREFIX = "taken_image"
 private const val TEMP_TAKE_IMAGE_SUFFIX = ".jpeg"
+const val PHOTO_ID = "photo_id"
 
 abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayoutId) {
     lateinit var onNextListener: OnNextClickedListener
@@ -197,6 +200,12 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
             setAction(R.string.continue_action) { onNextListener.onNextClicked() }
             setActionTextColor(resources.getColor(R.color.tabs_amber, null))
         }.show()
+    }
+
+    protected fun showFullImage(view: View, photoItem: PhotoItem) {
+        val bundle = bundleOf(PHOTO_ID to photoItem.photo._id.toHexString())
+        val extra = FragmentNavigatorExtras(view to view.transitionName)
+        navigation.navigate(R.id.action_tabsFragment_to_fullImageFragment, bundle, null, extra)
     }
 }
 

@@ -89,6 +89,7 @@ class ViolationFragment : BaseReportFragment(R.layout.fragment_violation) {
                 hideKeyboard()
                 fragmentViewModel.removeViolation(it)
             },
+            violationOnPhotoClickListener = ::showFullImage,
             violationRemovePhotoListener = fragmentViewModel::removePhotoFromViolation,
             violationRemoveNoteListener = fragmentViewModel::removeNoteFromViolation
         )

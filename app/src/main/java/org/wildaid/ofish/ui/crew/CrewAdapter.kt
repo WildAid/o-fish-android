@@ -17,6 +17,7 @@ class CrewAdapter(
     private val crewRemoveListener: (Int) -> Unit,
     private val crewEditModeListener: (CrewMemberItem) -> Unit,
     private val crewAddAttachmentListener: (CrewMemberItem) -> Unit,
+    private val crewOnPhotoClickListener:  (View, PhotoItem) -> Unit,
     private val crewRemovePhotoListener: (PhotoItem, CrewMemberItem) -> Unit,
     private val crewRemoveNoteListener: (CrewMemberItem) -> Unit,
     private val crewChangeListener: () -> Unit
@@ -70,6 +71,14 @@ class CrewAdapter(
             binding.crewMemberRemoveGroup.setVisible(item.isRemovable && item.inEditMode)
             binding.crewMemberEditNoteLayout.setVisible(item.inEditMode && item.attachments.hasNotes())
             binding.crewViewInfoLayout.crewViewAttachments.attachmentNoteGroup.setVisible(item.attachments.hasNotes())
+
+            binding.crewEditPhotos.onPhotoClickListener = {view, photoItem ->
+                crewOnPhotoClickListener.invoke(view, photoItem)
+            }
+
+            binding.crewViewInfoLayout.crewViewAttachments.attachmentsPhotos.onPhotoClickListener = {view, photoItem ->
+                crewOnPhotoClickListener.invoke(view, photoItem)
+            }
 
             binding.crewEditPhotos.onPhotoRemoveListener = {
                 crewRemovePhotoListener.invoke(it, item)

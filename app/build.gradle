@@ -57,7 +57,7 @@ android {
 }
 
 dependencies {
-    def nav_version = "2.3.0-rc01"
+    def nav_version = "2.3.0"
 
     // Local dependencies
     implementation fileTree(dir: 'libs', include: ['*.jar'])

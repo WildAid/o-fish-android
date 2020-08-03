@@ -60,7 +60,7 @@ class CrewFragment : BaseReportFragment(R.layout.fragment_crew) {
             },
             crewChangeListener = fragmentViewModel::onCrewMemberChanged,
             crewAddAttachmentListener = { crewItem ->
-            askForAttachmentType(
+                askForAttachmentType(
                     onNoteSelected = {
                         fragmentViewModel.addNoteForMember(crewItem)
                     },
@@ -68,7 +68,7 @@ class CrewFragment : BaseReportFragment(R.layout.fragment_crew) {
                         fragmentViewModel.addPhotoForMember(it, crewItem)
                     })
             },
-
+            crewOnPhotoClickListener = ::showFullImage,
             crewRemoveNoteListener = fragmentViewModel::removeNoteFromMember,
             crewRemovePhotoListener = fragmentViewModel::removePhotoFromMember
         )
