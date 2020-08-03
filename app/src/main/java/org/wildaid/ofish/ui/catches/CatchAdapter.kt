@@ -21,6 +21,7 @@ class CatchAdapter(
     private val catchAddAttachmentListener: (CatchItem) -> Unit,
     private val catchRemoveListener: (Int) -> Unit,
     private val catchRemoveNoteListener: (CatchItem) -> Unit,
+    private val catchOnPhotoClickListener: (View, PhotoItem) -> Unit,
     private val catchRemovePhotoListener: (PhotoItem, CatchItem) -> Unit
 ) : RecyclerView.Adapter<CatchAdapter.CatchViewHolder>() {
 
@@ -77,6 +78,12 @@ class CatchAdapter(
             catchEditBinding.catchEditGroup.setVisible(editVisible)
             catchEditBinding.catchNoteLayout.setVisible(editVisible && item.attachmentItem.hasNotes())
 
+            catchEditBinding.catchEditPhotos.onPhotoClickListener =
+                catchOnPhotoClickListener::invoke
+
+            catchEditBinding.catchViewLayout.catchViewAttachments.attachmentsPhotos.onPhotoClickListener =
+                catchOnPhotoClickListener::invoke
+
             catchEditBinding.catchEditPhotos.onPhotoRemoveListener = {
                 catchRemovePhotoListener.invoke(it, item)
             }
@@ -110,7 +117,8 @@ class CatchAdapter(
 
             if (item.catch.unit.isBlank() || item.catch.weight <= 0) {
                 catchEditBinding.catchViewLayout.reportCatchAmountType1.setText(R.string.count)
-                catchEditBinding.catchViewLayout.reportCatchAmount1.text = item.catch.number.toString()
+                catchEditBinding.catchViewLayout.reportCatchAmount1.text =
+                    item.catch.number.toString()
             } else {
                 catchEditBinding.catchViewLayout.reportCatchAmountType1.setText(R.string.weight)
                 catchEditBinding.catchViewLayout.reportCatchAmount1.text =
@@ -148,7 +156,8 @@ class CatchAdapter(
             }
 
             if (unit.isNotBlank()) {
-                val array = catchEditBinding.root.context.resources.getStringArray(R.array.weight_units)
+                val array =
+                    catchEditBinding.root.context.resources.getStringArray(R.array.weight_units)
                 spinner.setSelection(array.indexOf(unit))
             }
 

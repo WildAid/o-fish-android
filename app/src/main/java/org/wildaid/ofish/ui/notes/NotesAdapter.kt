@@ -17,6 +17,7 @@ class NotesAdapter(
     private val noteRemoveListener: (Int) -> Unit,
     private val editNoteListener: (item: NoteItem) -> Unit,
     private val addPhotoAttachmentListener: (item: NoteItem) -> Unit,
+    private val noteOnPhotoClickListener: (View, PhotoItem) -> Unit,
     private val removePhotoAttachmentListener: (photo: PhotoItem, item: NoteItem) -> Unit
 ) : RecyclerView.Adapter<NotesAdapter.NoteViewHolder>() {
 
@@ -62,8 +63,10 @@ class NotesAdapter(
             currentItem = item
 
             binding.groupNoteEdit.setVisible(item.inEditMode)
-            binding.groupNoteView.
-            setVisible(!item.inEditMode)
+            binding.groupNoteView.setVisible(!item.inEditMode)
+            binding.reportNoteEditPhotos.onPhotoClickListener = noteOnPhotoClickListener::invoke
+            binding.viewNoteLayout.attachmentsPhotos.onPhotoClickListener =
+                noteOnPhotoClickListener::invoke
             binding.reportNoteEditPhotos.onPhotoRemoveListener = {
                 removePhotoAttachmentListener.invoke(it, currentItem)
             }

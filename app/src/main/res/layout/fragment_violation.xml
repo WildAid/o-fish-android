@@ -16,6 +16,7 @@
         android:background="@color/background_screen_with_cards">
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/violation_scroll"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
@@ -162,6 +163,12 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
             setAction(R.string.continue_action) { onNextListener.onNextClicked() }
             setActionTextColor(resources.getColor(R.color.tabs_amber, null))
         }.show()
+    }
+
+    protected fun showFullImage(view: View, photoItem: PhotoItem) {
+        val bundle = bundleOf(PHOTO_ID to photoItem.photo._id.toHexString())
+        val extra = FragmentNavigatorExtras(view to view.transitionName)
+        navigation.navigate(R.id.action_tabsFragment_to_fullImageFragment, bundle, null, extra)
     }
 }
 

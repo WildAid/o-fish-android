@@ -15,12 +15,10 @@ class CreateReportViewModel(val repository: Repository) : ViewModel() {
     var isAddingCrewMember: Boolean = false
 
     lateinit var report: Report
-    lateinit var reportPhotos: MutableList<PhotoItem>
+    val reportPhotos: MutableList<PhotoItem> = mutableListOf()
 
     fun initReport() {
         val officer = repository.getCurrentOfficer()
-
-        reportPhotos = mutableListOf()
         report = Report().apply {
             reportingOfficer?.apply {
                 email = officer.email
