@@ -69,7 +69,11 @@
     <fragment
         android:id="@+id/add_crew_fragment"
         android:name="org.wildaid.ofish.ui.violation.AddCrewFragment"
-        android:label="@string/add_crew_member" />
+        android:label="@string/add_crew_member" >
+        <action
+            android:id="@+id/action_add_crew_fragment_to_confirmation_dialog"
+            app:destination="@id/confirmation_dialog" />
+    </fragment>
 
     <dialog
         android:id="@+id/confirmation_dialog"
