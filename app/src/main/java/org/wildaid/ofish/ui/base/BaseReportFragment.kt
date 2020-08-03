@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.LayoutRes
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -28,6 +29,7 @@ const val CARDS_OFFSET_SIZE = 48
 
 private const val ATTACHMENT_DIALOG_ID = 1231
 const val REQUEST_PICK_IMAGE = 10001
+const val PHOTO_ID = "photo_id"
 
 abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayoutId) {
     lateinit var onNextListener: OnNextClickedListener
