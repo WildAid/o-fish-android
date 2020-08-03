@@ -33,12 +33,6 @@
     <string name="new_business">+\tНовий Бізнес</string>
     <string name="photos">Світлина:</string>
     <string name="remove_note">Видалити Примітку</string>
-    <string-array name="ems_array">
-        <item>Automatic identification System (AIS)</item>
-        <item>Visible Infrared Imaging Radiometer Suite (VIIRS)</item>
-        <item>Vessel Monitoring System (VMS)</item>
-        <item>Інше</item>
-    </string-array>
 
     <!--  Report  -->
     <string name="menu_submit_report">Подати</string>
@@ -74,24 +68,6 @@
     <string name="gear">Спорядження</string>
     <string name="note">Примітка</string>
     <string name="catch_next">Улов\t\t\u279C</string>
-    <string-array name="activity_array">
-        <item>Рибальство</item>
-        <item>Транзит</item>
-        <item>Розвантаження</item>
-        <item>Інше</item>
-    </string-array>
-    <string-array name="fishery_array">
-        <item>Тунець</item>
-        <item>Камбала</item>
-        <item>Блакитна риба</item>
-        <item>Інше</item>
-    </string-array>
-    <string-array name="gear_array">
-        <item>Траловий лов</item>
-        <item>Ярусний лов</item>
-        <item>Ciточний лов</item>
-        <item>Інше</item>
-    </string-array>
 
     <!--    Violation -->
     <string name="violation">Порушення</string>
@@ -167,12 +143,6 @@
     <string name="count">Кількість</string>
     <string name="remove_catch">- Видалити Улов %1$d</string>
     <string name="violation_next">Порушення\t\t\u279C</string>
-    <string-array name="species_array">
-        <item>Тунець</item>
-        <item>Камбала</item>
-        <item>Блакитна риба</item>
-        <item>Інше</item>
-    </string-array>
     <string-array name="weight_units">
         <item>кг</item>
         <item>тони</item>

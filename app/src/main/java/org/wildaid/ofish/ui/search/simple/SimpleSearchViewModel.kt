@@ -1,12 +1,10 @@
 package org.wildaid.ofish.ui.search.simple
 
 import android.app.Application
-import org.wildaid.ofish.R
 import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.search.base.BaseSearchType
 import org.wildaid.ofish.ui.search.base.BaseSearchViewModel
-import org.wildaid.ofish.util.getStringArray
 
 class SimpleSearchViewModel(repository: Repository, application: Application) :
     BaseSearchViewModel<String>(repository, application) {
@@ -26,27 +24,27 @@ class SimpleSearchViewModel(repository: Repository, application: Application) :
 
     private fun getSpecies(): List<String> {
         return repository.getMenuData()?.species?.toList()
-            ?: getStringArray(R.array.species_array).toList()
+            ?: emptyList()
     }
 
     private fun getGears(): List<String> {
         return repository.getMenuData()?.gear?.toList()
-            ?: getStringArray(R.array.gear_array).toList()
+            ?: emptyList()
     }
 
     private fun getFisheries(): List<String> {
         return repository.getMenuData()?.fisheries?.toList()
-            ?: getStringArray(R.array.fishery_array).toList()
+            ?: emptyList()
     }
 
     private fun getActivities(): List<String> {
         return repository.getMenuData()?.activities?.toList()
-            ?: getStringArray(R.array.activity_array).toList()
+            ?: emptyList()
     }
 
     private fun getEms(): List<String> {
         return repository.getMenuData()?.emsTypes?.toList()
-            ?: getStringArray(R.array.ems_array).toList()
+            ?: emptyList()
     }
 
     inner class SimpleSearchDataSource(private val dataSource: List<String>) :

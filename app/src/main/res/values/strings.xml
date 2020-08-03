@@ -33,12 +33,6 @@
     <string name="new_business">New Business</string>
     <string name="photos">Photos:</string>
     <string name="remove_note">Remove Note</string>
-    <string-array name="ems_array">
-        <item>Automatic identification System (AIS)</item>
-        <item>Visible Infrared Imaging Radiometer Suite (VIIRS)</item>
-        <item>Vessel Monitoring System (VMS)</item>
-        <item>Other</item>
-    </string-array>
 
     <!--  Report  -->
     <string name="menu_submit_report">Submit</string>
@@ -74,24 +68,6 @@
     <string name="gear">Gear</string>
     <string name="note">Note</string>
     <string name="catch_next">Catch\t\t\u279C</string>
-    <string-array name="activity_array">
-        <item>Fishing</item>
-        <item>Transiting</item>
-        <item>Offloading</item>
-        <item>Other</item>
-    </string-array>
-    <string-array name="fishery_array">
-        <item>Tuna</item>
-        <item>Groundfish</item>
-        <item>Bluefish</item>
-        <item>Other</item>
-    </string-array>
-    <string-array name="gear_array">
-        <item>Trawl</item>
-        <item>Long-line</item>
-        <item>Nets</item>
-        <item>Other</item>
-    </string-array>
 
     <!--    Violation -->
     <string name="violation">Violation</string>
@@ -171,12 +147,6 @@
     <string name="count">Count</string>
     <string name="remove_catch">Remove Catch %1$d</string>
     <string name="violation_next">Violation\t\t\u279C</string>
-    <string-array name="species_array">
-        <item>Tuna</item>
-        <item>Groundfish</item>
-        <item>Bluefish</item>
-        <item>Other</item>
-    </string-array>
     <string-array name="weight_units">
         <item>kg</item>
         <item>tonnes</item>
