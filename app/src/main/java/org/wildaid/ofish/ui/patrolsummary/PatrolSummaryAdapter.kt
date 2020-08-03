@@ -69,11 +69,12 @@ class PatrolSummaryAdapter(
                 context.getString(R.string.records_permit_number, item.vessel?.permitNumber)
             binding.recordVesselLastBoarding.text =
                 context.getString(R.string.record_last_contact, item.date)
+            val crewSize = getCrewSize(item)
             binding.recordVesselCrewSize.text =
-                context.getString(
-                    R.string.crew_member_size,
-                    item.crew.size + 1
-                ) // Adding Captain
+                context.resources.getQuantityString(
+                    R.plurals.crew_member_size,
+                    crewSize, crewSize
+                )
 
             val safetyLevel = item.inspection?.summary?.safetyLevel?.level
             for (value in SafetyColor.values()) {
@@ -87,6 +88,13 @@ class PatrolSummaryAdapter(
             }
 
             bindImage(item, context)
+        }
+
+        private fun getCrewSize(lastReport: Report): Int {
+            val captain = lastReport.captain
+            val captainCount =
+                if (captain?.name.isNullOrBlank() && captain?.license.isNullOrBlank()) 0 else 1
+            return lastReport.crew.size + captainCount
         }
 
         private fun bindImage(report: Report, context: Context) {

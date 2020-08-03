@@ -9,6 +9,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.SafetyColor
+import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.databinding.*
 import org.wildaid.ofish.ui.search.base.BaseSearchAdapter
 import org.wildaid.ofish.ui.search.base.BaseViewHolder
@@ -128,11 +129,12 @@ class ComplexSearchAdapter(itemListener: (SearchModel) -> Unit) :
                 context.getString(R.string.records_permit_number, item.vessel.permitNumber)
             binding.recordVesselLastBoarding.text =
                 context.getString(R.string.record_last_contact, lastReport.date)
+            val crewSize = getCrewSize(lastReport)
             binding.recordVesselCrewSize.text =
-                context.getString(
-                    R.string.crew_member_size,
-                    lastReport.crew.size + 1
-                ) // Adding Captain
+                context.resources.getQuantityString(
+                    R.plurals.crew_member_size,
+                    crewSize, crewSize
+                )
 
             val safetyLevel = lastReport.inspection?.summary?.safetyLevel?.level
             for (value in SafetyColor.values()) {
@@ -146,6 +148,13 @@ class ComplexSearchAdapter(itemListener: (SearchModel) -> Unit) :
             }
 
             bindImage(item, context)
+        }
+
+        private fun getCrewSize(lastReport: Report): Int {
+            val captain = lastReport.captain
+            val captainCount =
+                if (captain?.name.isNullOrBlank() && captain?.license.isNullOrBlank()) 0 else 1
+            return lastReport.crew.size + captainCount
         }
 
         private fun bindImage(item: RecordSearchModel, context: Context) {

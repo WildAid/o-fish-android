@@ -117,7 +117,10 @@
     <string name="logout_dialog_yes">Yes</string>
 
     <!--  Find records  -->
-    <string name="crew_member_size">%d Crew Members</string>
+    <plurals name="crew_member_size">
+        <item quantity="one">%d Crew Member</item>
+        <item quantity="other">%d Crew Members</item>
+    </plurals>
     <string name="records_permit_number">Permit # %s</string>
     <string name="record_last_contact">Last contact %1$tB %1$td, %1$tY</string>
     <string name="recently_boarded">Recently Boarded Vessels</string>

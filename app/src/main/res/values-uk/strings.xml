@@ -113,7 +113,11 @@
     <string name="first_last_name">Офіцер %s %s</string>
 
     <!--  Find records  -->
-    <string name="crew_member_size">%d Члени команди</string>
+    <plurals name="crew_member_size">
+        <item quantity="one">%d Член команди</item>
+        <item quantity="few">%d Члени команди</item>
+        <item quantity="many">%d Членів команди</item>
+    </plurals>
     <string name="records_permit_number">Дозвіл # %s</string>
     <string name="record_last_contact">Останній контакт %1$tB %1$td, %1$tY</string>
     <string name="recently_boarded">Нещодавні прибуття</string>
