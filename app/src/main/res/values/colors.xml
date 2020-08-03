@@ -6,7 +6,6 @@
 
     <color name="background_card">#FFFFFF</color>
     <color name="background_screen_with_cards">#F9FAFA</color>
-    <color name="duty_switch">#FFFFFF</color>
     <color name="map_coordinates_background">#B4FFFFFF</color>
 
     <color name="divider">#CCC7C7</color>
@@ -38,10 +37,8 @@
     <color name="light_grey_background">#F7F7F7</color>
     <color name="grey_text">#818181</color>
     <color name="search_record_background">#FFFFFF</color>
-    <color name="vessel_details_background">#d2d1d0</color>
     <color name="status_bar_blue">#002548</color>
     <color name="search_icon_color">#8A000000</color>
 
-    <color name="text_input_underline">#E6E6E6</color>
     <color name="text_input_hint">#979797</color>
 </resources>

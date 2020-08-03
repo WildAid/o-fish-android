@@ -25,7 +25,6 @@
     <string name="ems_type">Тип ЕСМ</string>
     <string name="registry_number">Номер реєстрації</string>
     <string name="crew_next">Екіпаж\t\t\u279C</string>
-    <string name="select_image">Вибрати світлину</string>
     <string name="select_attachment_dialog_title">Виберіть вкладення</string>
     <string name="select_attachment_dialog_message">Ви можете вибрати Примітку або Світлину як вкладення</string>
     <string name="select_attachment_dialog_note">Примітка</string>
@@ -33,12 +32,6 @@
     <string name="new_business">+\tНовий Бізнес</string>
     <string name="photos">Світлина:</string>
     <string name="remove_note">Видалити Примітку</string>
-    <string-array name="ems_array">
-        <item>Automatic identification System (AIS)</item>
-        <item>Visible Infrared Imaging Radiometer Suite (VIIRS)</item>
-        <item>Vessel Monitoring System (VMS)</item>
-        <item>Інше</item>
-    </string-array>
 
     <!--  Report  -->
     <string name="menu_submit_report">Подати</string>
@@ -74,24 +67,6 @@
     <string name="gear">Спорядження</string>
     <string name="note">Примітка</string>
     <string name="catch_next">Улов\t\t\u279C</string>
-    <string-array name="activity_array">
-        <item>Рибальство</item>
-        <item>Транзит</item>
-        <item>Розвантаження</item>
-        <item>Інше</item>
-    </string-array>
-    <string-array name="fishery_array">
-        <item>Тунець</item>
-        <item>Камбала</item>
-        <item>Блакитна риба</item>
-        <item>Інше</item>
-    </string-array>
-    <string-array name="gear_array">
-        <item>Траловий лов</item>
-        <item>Ярусний лов</item>
-        <item>Ciточний лов</item>
-        <item>Інше</item>
-    </string-array>
 
     <!--    Violation -->
     <string name="violation">Порушення</string>
@@ -145,7 +120,6 @@
     <string name="no_results_for">Немає результатів для \"%s\"</string>
 
     <!--  Report details  -->
-    <string name="boarding">Висадка</string>
     <string name="boarding_record">Boarding Record</string>
     <string name="description">Опис</string>
     <string name="captain">Капітан</string>
@@ -153,7 +127,6 @@
     <string name="report_note_indexed">Примітка %d</string>
     <string name="captains_name">Ім\'я капітана</string>
     <string name="report_date">%1$tB %1$td, %1$tY</string>
-    <string name="report_time">%1$tI:%1$tM%1$Tp %1$tZ</string>
     <string name="report_crew_count">Екіпаж (%d)</string>
     <string name="report_catch_count">Улов (%d)</string>
     <string name="report_violations_count">Порушення (%d)</string>
@@ -167,12 +140,6 @@
     <string name="count">Кількість</string>
     <string name="remove_catch">- Видалити Улов %1$d</string>
     <string name="violation_next">Порушення\t\t\u279C</string>
-    <string-array name="species_array">
-        <item>Тунець</item>
-        <item>Камбала</item>
-        <item>Блакитна риба</item>
-        <item>Інше</item>
-    </string-array>
     <string-array name="weight_units">
         <item>кг</item>
         <item>тони</item>
