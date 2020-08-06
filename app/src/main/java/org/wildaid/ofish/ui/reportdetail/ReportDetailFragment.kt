@@ -249,7 +249,6 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             this.gearAttachments.note = inspection.gearType?.attachments?.notes?.firstOrNull()
             this.fisheryAttachments.note = inspection.fishery?.attachments?.notes?.firstOrNull()
 
-
             this.activityAttachments.attachmentNoteGroup.setVisible(
                 inspection.activity?.attachments?.notes?.isNotEmpty() ?: false
             )

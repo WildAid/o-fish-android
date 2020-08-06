@@ -42,7 +42,7 @@ class ViewModelFactory constructor(
         handle: SavedStateHandle
     ) = with(modelClass) {
         when {
-            //Splash
+            // Splash
             isAssignableFrom(SplashViewModel::class.java) ->
                 SplashViewModel(repository)
             // Login

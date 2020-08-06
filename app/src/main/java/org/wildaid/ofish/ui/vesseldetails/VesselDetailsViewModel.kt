@@ -50,8 +50,8 @@ class VesselDetailsViewModel(private val repository: Repository, application: Ap
         }.flatten().ifEmpty {
             listOf(Photo()) // invalid photo, just to display holder
         }.also {
-                vesselPhotosLiveData.value = it
-            }
+            vesselPhotosLiveData.value = it
+        }
     }
 
     fun getPermitNumberDescription(): String {

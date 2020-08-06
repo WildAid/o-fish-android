@@ -7,9 +7,8 @@ import android.net.Uri
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 
-
-private const val MAX_BYTES_SIZE = 3 * 1024 * 1024  // 3mb
-private const val THUMBNAIL_IMAGE_PIXEL_SIZE = 100  // 100 PIXELS
+private const val MAX_BYTES_SIZE = 3 * 1024 * 1024 // 3mb
+private const val THUMBNAIL_IMAGE_PIXEL_SIZE = 100 // 100 PIXELS
 private const val COMPRESS_STEP = 10
 
 class AndroidDataSource(

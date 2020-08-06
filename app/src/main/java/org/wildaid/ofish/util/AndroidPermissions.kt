@@ -84,7 +84,7 @@ class AndroidPermissions(
         return false
     }
 
-    fun getPermissionsDeniedPermanently(vararg permissions: String): Array<String> {
+    private fun getPermissionsDeniedPermanently(vararg permissions: String): Array<String> {
         val permissionsShouldShowRationale: MutableList<String> = ArrayList()
         for (permission in permissions) {
             if (!ActivityCompat.shouldShowRequestPermissionRationale(

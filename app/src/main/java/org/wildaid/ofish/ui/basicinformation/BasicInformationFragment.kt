@@ -27,7 +27,6 @@ import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.hideKeyboard
 import java.util.*
 
-
 class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_information),
     OnMapReadyCallback {
 

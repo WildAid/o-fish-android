@@ -11,7 +11,6 @@ import android.widget.FrameLayout
 import androidx.core.widget.NestedScrollView
 import com.google.android.gms.maps.SupportMapFragment
 
-
 class NestedScrollMapFragment : SupportMapFragment() {
     private var parentScrollView: NestedScrollView? = null
 

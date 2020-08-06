@@ -16,7 +16,7 @@ open class Report : RealmObject() {
     var reportingOfficer: User? = User()
     var timestamp: Date = Date()
     @Required
-    var location: RealmList<Double> = RealmList() //in order longitude, latitude
+    var location: RealmList<Double> = RealmList() // In order longitude, latitude
     var date: Date? = Date()
     var vessel: Boat? = Boat()
     var captain: CrewMember? = CrewMember()

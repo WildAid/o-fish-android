@@ -43,7 +43,6 @@ import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
 import org.wildaid.ofish.util.*
 
-
 const val KEY_CREATE_REPORT_RESULT = "create_report_message_result"
 
 private const val REQUEST_CODE_PERMISSIONS = 1444

@@ -42,7 +42,7 @@ class SwipeToDeleteTouchCallback(
         }
     }
 
-    override fun getSwipeDirs (recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+    override fun getSwipeDirs(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
         if (viewHolder.adapterPosition in noSwipePositions) {
             return 0
         }

@@ -5,7 +5,6 @@ import android.view.View
 import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.ItemTouchHelper
 import kotlinx.android.synthetic.main.fragment_crew.*
 import kotlinx.android.synthetic.main.item_crew_member.view.*
 import org.wildaid.ofish.EventObserver

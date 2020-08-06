@@ -8,7 +8,7 @@ import org.wildaid.ofish.data.report.CrewMember
 import org.wildaid.ofish.data.report.Report
 import java.io.Serializable
 
-open class SearchModel: Serializable
+open class SearchModel : Serializable
 class BusinessSearchModel(val value: Pair<String, String>) : SearchModel()
 class ViolationSearchModel(val value: OffenceData) : SearchModel()
 class RecordSearchModel(val vessel: Boat, val reports: List<Report>, val repository: Repository) : SearchModel()

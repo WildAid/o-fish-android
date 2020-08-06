@@ -15,8 +15,10 @@ import java.util.*
 interface Repository {
 
     fun login(
-        userName: String, password: String,
-        loginSuccess: (User) -> Unit, loginError: (AppException?) -> Unit
+        userName: String,
+        password: String,
+        loginSuccess: (User) -> Unit,
+        loginError: (AppException?) -> Unit
     )
 
     fun logOut(logoutSuccess: () -> Unit, logoutError: (Throwable?) -> Unit)
@@ -57,9 +59,9 @@ interface Repository {
 
     fun getFlagStates(): List<String>
 
-    fun getRecentOnDutyChange() : DutyChange?
+    fun getRecentOnDutyChange(): DutyChange?
 
-    fun getRecentStartCurrentDuty() : DutyChange?
+    fun getRecentStartCurrentDuty(): DutyChange?
 
     fun updateStartDateForCurrentDuty(date: Date)
 

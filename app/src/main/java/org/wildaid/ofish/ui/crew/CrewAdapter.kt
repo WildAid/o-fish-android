@@ -11,13 +11,12 @@ import org.wildaid.ofish.ui.base.AdapterDiffCallback
 import org.wildaid.ofish.ui.base.PhotoItem
 import org.wildaid.ofish.util.setVisible
 
-
 class CrewAdapter(
     private val dataList: ArrayList<CrewMemberItem> = ArrayList(),
     private val crewRemoveListener: (Int) -> Unit,
     private val crewEditModeListener: (CrewMemberItem) -> Unit,
     private val crewAddAttachmentListener: (CrewMemberItem) -> Unit,
-    private val crewOnPhotoClickListener:  (View, PhotoItem) -> Unit,
+    private val crewOnPhotoClickListener: (View, PhotoItem) -> Unit,
     private val crewRemovePhotoListener: (PhotoItem, CrewMemberItem) -> Unit,
     private val crewRemoveNoteListener: (CrewMemberItem) -> Unit,
     private val crewChangeListener: () -> Unit

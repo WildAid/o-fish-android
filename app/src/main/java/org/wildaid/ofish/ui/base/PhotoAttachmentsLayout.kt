@@ -9,7 +9,6 @@ import kotlinx.android.synthetic.main.item_photos_container.view.*
 import org.wildaid.ofish.R
 import org.wildaid.ofish.util.setVisible
 
-
 class PhotoAttachmentsLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {

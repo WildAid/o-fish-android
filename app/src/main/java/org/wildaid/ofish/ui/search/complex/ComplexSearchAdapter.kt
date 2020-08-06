@@ -25,8 +25,11 @@ const val TEXTVIEW_TYPE = 101
 class ComplexSearchAdapter(itemListener: (SearchModel) -> Unit) :
     BaseSearchAdapter<SearchModel>(itemListener) {
     @Suppress("UNCHECKED_CAST")
-    override fun createHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int)
-            : BaseViewHolder<SearchModel> {
+    override fun createHolder(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        viewType: Int
+    ): BaseViewHolder<SearchModel> {
         return when (viewType) {
             BUSINESS_TYPE -> BusinessHolder(
                 inflater.inflate(

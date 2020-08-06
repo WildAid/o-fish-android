@@ -15,7 +15,6 @@ import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.simple.SimpleSearchFragment
 import org.wildaid.ofish.util.getViewModelFactory
 
-
 class AddAmountFragment : Fragment(R.layout.fragment_add_amount) {
     private val amountAdapter: AddAmountAdapter by lazy { createAdapter() }
     private val navigation: NavController by lazy { findNavController() }
@@ -59,4 +58,3 @@ class AddAmountFragment : Fragment(R.layout.fragment_add_amount) {
         navigation.popBackStack()
     }
 }
-

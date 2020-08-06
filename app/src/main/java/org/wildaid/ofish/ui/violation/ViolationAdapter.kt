@@ -12,7 +12,6 @@ import org.wildaid.ofish.ui.base.AdapterDiffCallback
 import org.wildaid.ofish.ui.base.PhotoItem
 import org.wildaid.ofish.util.setVisible
 
-
 class ViolationAdapter(
     private val dataList: ArrayList<ViolationItem> = ArrayList(),
     private val captain: CrewMember?,

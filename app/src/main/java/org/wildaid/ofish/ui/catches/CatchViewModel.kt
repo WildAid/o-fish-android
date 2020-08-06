@@ -116,7 +116,6 @@ class CatchViewModel(
         }
     }
 
-
     private fun createPhoto(imageUri: Uri): PhotoItem {
         return PhotoItem(
             Photo().apply {

@@ -15,7 +15,6 @@ import org.wildaid.ofish.data.SafetyColor
 import org.wildaid.ofish.databinding.ItemVesselRecordBinding
 import org.wildaid.ofish.ui.base.AdapterDiffCallback
 
-
 class VesselRecordsAdapter(
     val onItemClick: (ReportItem) -> Unit
 ) : RecyclerView.Adapter<VesselRecordsAdapter.RecordViewHolder>() {
