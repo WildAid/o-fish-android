@@ -69,9 +69,11 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
 
         override fun initiateData(): List<SearchModel> {
             fetchReports()
-            val result = mutableListOf<SearchModel>()
 
+            val result = mutableListOf<SearchModel>()
             result.add(TextViewSearchModel(R.string.recently_boarded))
+
+            if (isAddAvailable) result.add(addSearchModel)
 
             result.addAll(cachedAllReports
                 .asSequence()
@@ -84,7 +86,6 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
                     )
                 }.take(RECENT_BOARDINGS_COUNT)
             )
-            if (isAddAvailable) result.add(addSearchModel)
 
             return result
         }
@@ -97,6 +98,7 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
             }
 
             val result = mutableListOf<SearchModel>()
+            if (isAddAvailable) result.add(addSearchModel)
 
             result.addAll(cachedAllReports
                 .filterNot { it.vessel?.name.isNullOrBlank() }
@@ -108,8 +110,6 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
                         pair.value.sortedByDescending { report -> report.date }, repository
                     )
                 })
-
-            if (isAddAvailable) result.add(addSearchModel)
 
             return result
         }
