@@ -8,7 +8,6 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import java.util.*
 
-
 @BindingAdapter("app:dateToString")
 fun setDate(view: TextView, date: Date?) {
     view.text = if (date == null || date == Date(0)) "" else dateFormat.format(date)

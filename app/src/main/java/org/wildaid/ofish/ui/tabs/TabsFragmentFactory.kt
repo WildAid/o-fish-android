@@ -16,7 +16,6 @@ import org.wildaid.ofish.ui.risk.RiskFragment
 import org.wildaid.ofish.ui.vessel.VesselFragment
 import org.wildaid.ofish.ui.violation.ViolationFragment
 
-
 class TabsFragmentFactory(
     private val context: Context,
     private val listener: OnNextClickedListener,

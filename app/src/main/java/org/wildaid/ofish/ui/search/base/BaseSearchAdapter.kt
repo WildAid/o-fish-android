@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.wildaid.ofish.ui.base.AdapterDiffCallback
 
-abstract class BaseSearchAdapter<T>(val itemListener: (T) -> Unit):
+abstract class BaseSearchAdapter<T>(val itemListener: (T) -> Unit) :
     RecyclerView.Adapter<BaseViewHolder<T>>() {
 
     protected val dataList: ArrayList<T> = ArrayList()

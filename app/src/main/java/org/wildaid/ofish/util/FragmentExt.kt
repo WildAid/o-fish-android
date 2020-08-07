@@ -27,9 +27,9 @@ fun Fragment.hideKeyboard() {
     val activity = this.requireActivity()
     val imm: InputMethodManager =
         activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-    //Find the currently focused view, so we can grab the correct window token from it.
+    // Find the currently focused view, so we can grab the correct window token from it.
     var view: View? = activity.currentFocus
-    //If no view currently has focus, create a new one, just so we can grab a window token from it
+    // If no view currently has focus, create a new one, just so we can grab a window token from it
     if (view == null) {
         view = View(activity)
     } else {
@@ -50,15 +50,14 @@ fun Fragment.combineIntents(list: MutableList<Intent>, intent: Intent) {
 }
 
 fun Fragment.createGalleryIntent() = Intent().apply {
-    type = "image/*";
-    action = Intent.ACTION_GET_CONTENT;
+    type = "image/*"
+    action = Intent.ACTION_GET_CONTENT
 }
 
 fun Fragment.createCameraIntent(pendingImageUri: Uri): Intent {
     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-    return cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, pendingImageUri);
+    return cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, pendingImageUri)
 }
-
 
 fun Fragment.createImageUri(): Uri {
     val imageCachePath = File(requireContext().externalCacheDir, Environment.DIRECTORY_PICTURES)

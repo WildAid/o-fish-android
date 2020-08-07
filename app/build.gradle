@@ -10,6 +10,10 @@ def localPropsFile = rootProject.file("local.properties");
 def localProps = new Properties()
 localProps.load(new InputStreamReader(new FileInputStream(localPropsFile), StandardCharsets.UTF_8))
 
+configurations {
+    ktlint
+}
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -94,8 +98,21 @@ dependencies {
     // Android test dependencies
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    ktlint "com.pinterest:ktlint:0.37.2"
 }
 
 realm {
     syncEnabled = true
 }
+
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    classpath = configurations.ktlint
+    main = "com.pinterest.ktlint.Main"
+    args "src/**/*.kt"
+    // to generate report in checkstyle format prepend following args:
+    // "--reporter=plain", "--reporter=checkstyle,output=${buildDir}/ktlint.xml"
+    // see https://github.com/pinterest/ktlint#usage for more
+}
+check.dependsOn ktlint

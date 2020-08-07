@@ -8,5 +8,4 @@ import io.realm.annotations.RealmClass
 open class Fishery : RealmObject() {
     var name: String = ""
     var attachments: Attachments? = Attachments()
-
 }

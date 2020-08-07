@@ -7,22 +7,17 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
 import org.wildaid.ofish.app.OnDutyAlarmReminder
 import org.wildaid.ofish.ui.base.ConfirmationDialogFragment
 import org.wildaid.ofish.ui.search.base.BaseSearchFragment
-import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
 import org.wildaid.ofish.util.getViewModelFactory
-
 
 const val ASK_CHANGE_DUTY_DIALOG_ID = 10
 const val ASK_TO_LOGOUT_DIALOG_ID = 11

@@ -17,8 +17,10 @@ class RepositoryImpl(
 ) : Repository {
 
     override fun login(
-        userName: String, password: String,
-        loginSuccess: (User) -> Unit, loginError: (AppException?) -> Unit
+        userName: String,
+        password: String,
+        loginSuccess: (User) -> Unit,
+        loginError: (AppException?) -> Unit
     ) =
         realmDataSource.login(userName, password, loginSuccess, loginError)
 
@@ -37,22 +39,25 @@ class RepositoryImpl(
         reportPhotos: List<Pair<Photo, Uri?>>,
         listener: OnSaveListener
     ) {
-        realmDataSource.saveReportWithTransaction(report, listener, object : Iterator<Photo> {
-            val originalIterator = reportPhotos.iterator()
-            override fun hasNext() = originalIterator.hasNext()
+        realmDataSource.saveReportWithTransaction(
+            report, listener,
+            object : Iterator<Photo> {
+                val originalIterator = reportPhotos.iterator()
+                override fun hasNext() = originalIterator.hasNext()
 
-            override fun next(): Photo {
-                val pair = originalIterator.next()
-                val imageUri = pair.second
+                override fun next(): Photo {
+                    val pair = originalIterator.next()
+                    val imageUri = pair.second
 
-                return pair.first.also {
-                    if (imageUri != null) {
-                        it.picture = androidDataSource.readCompressedBytes(imageUri)
-                        it.thumbNail = androidDataSource.generateImagePreview(imageUri)
+                    return pair.first.also {
+                        if (imageUri != null) {
+                            it.picture = androidDataSource.readCompressedBytes(imageUri)
+                            it.thumbNail = androidDataSource.generateImagePreview(imageUri)
+                        }
                     }
                 }
             }
-        })
+        )
     }
 
     override fun getCurrentOfficer() = realmDataSource.getCurrentOfficer()

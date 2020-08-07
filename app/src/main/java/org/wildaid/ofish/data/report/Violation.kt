@@ -10,5 +10,4 @@ open class Violation : RealmObject() {
     var offence: Offence? = Offence()
     var crewMember: CrewMember? = CrewMember()
     var attachments: Attachments? = Attachments()
-
 }

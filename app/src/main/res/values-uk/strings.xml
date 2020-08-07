@@ -87,7 +87,7 @@
     <string name="log_in">Зайти</string>
     <string name="log_out">Вийти</string>
     <string name="forgot_password">Забули пароль?</string>
-    <string name="processing">Працюэмо...</string>
+    <string name="processing">Працюэмо…</string>
 
     <!--  Risk  -->
     <string name="risk">Ризик</string>

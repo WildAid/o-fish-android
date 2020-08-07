@@ -7,7 +7,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.ItemTouchHelper
 import kotlinx.android.synthetic.main.fragment_catch.*
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
@@ -101,7 +100,6 @@ class CatchFragment : BaseReportFragment(R.layout.fragment_catch) {
                 val bundle =
                     bundleOf(BaseSearchFragment.SEARCH_ENTITY_KEY to SimpleSearchFragment.SearchSpecies)
                 navigation.navigate(R.id.action_tabsFragment_to_simple_search, bundle)
-
             }
             R.id.amount_edit_name -> navigation.navigate(R.id.action_tabsFragment_to_addAmountFragment)
         }
