@@ -23,7 +23,7 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
 
     init {
         val officer = repository.getCurrentOfficer()
-        if (!repository.isLoggedIn() || officer == null) {
+        if (!repository.isLoggedIn()) {
             logOutUser()
         } else {
             currentOfficerLiveData.value = officer

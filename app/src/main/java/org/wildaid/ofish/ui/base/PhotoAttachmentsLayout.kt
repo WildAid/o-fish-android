@@ -21,7 +21,6 @@ class PhotoAttachmentsLayout @JvmOverloads constructor(
     var onPhotoRemoveListener: ((PhotoItem) -> Unit)? = null
 
     init {
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         inflate(context, R.layout.item_photos_container, this)
     }
 

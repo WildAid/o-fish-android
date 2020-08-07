@@ -45,7 +45,7 @@ class ConfirmationDialogFragment : DialogFragment() {
         builder.setTitle(title)
         builder.setMessage(message)
 
-        builder.setPositiveButton(positive) { dialog: DialogInterface?, which: Int ->
+        builder.setPositiveButton(positive) { _: DialogInterface?, _: Int ->
             findNavController().previousBackStackEntry?.savedStateHandle?.set(
                 DIALOG_CLICK_EVENT,
                 DialogClickEvent(dialogId, DialogButton.POSITIVE)
@@ -53,7 +53,7 @@ class ConfirmationDialogFragment : DialogFragment() {
         }
 
         if (negative != null) {
-            builder.setNegativeButton(negative) { dialog: DialogInterface?, which: Int ->
+            builder.setNegativeButton(negative) { _: DialogInterface?, _: Int ->
                 findNavController().previousBackStackEntry?.savedStateHandle?.set(
                     DIALOG_CLICK_EVENT,
                     DialogClickEvent(dialogId, DialogButton.NEGATIVE)
@@ -62,7 +62,7 @@ class ConfirmationDialogFragment : DialogFragment() {
         }
 
         if (neutral != null) {
-            builder.setNeutralButton(neutral) { dialog: DialogInterface?, which: Int ->
+            builder.setNeutralButton(neutral) { _: DialogInterface?, _: Int ->
                 findNavController().previousBackStackEntry?.savedStateHandle?.set(
                     DIALOG_CLICK_EVENT,
                     DialogClickEvent(dialogId, DialogButton.NEUTRAL)

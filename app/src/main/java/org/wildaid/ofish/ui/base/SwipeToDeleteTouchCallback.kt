@@ -20,8 +20,8 @@ import org.wildaid.ofish.R
 
 class SwipeToDeleteTouchCallback(
     val context: Context,
-    val noSwipePositions: Array<Int> = emptyArray(),
-    val onSwipeListener: (Int) -> Unit
+    private val noSwipePositions: Array<Int> = emptyArray(),
+    private val onSwipeListener: (Int) -> Unit
 ) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
     val icon = ContextCompat.getDrawable(context, R.drawable.ic_delete)

@@ -21,7 +21,7 @@ class NestedScrollMapFragment : SupportMapFragment() {
     ): View? {
         val layout: View? = super.onCreateView(inflater, parent, savedInstanceState)
         val frameLayout = TouchableWrapper(requireContext())
-        frameLayout.setBackgroundColor(resources.getColor(android.R.color.transparent))
+        frameLayout.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
         (layout as ViewGroup?)!!.addView(
             frameLayout,
             ViewGroup.LayoutParams(

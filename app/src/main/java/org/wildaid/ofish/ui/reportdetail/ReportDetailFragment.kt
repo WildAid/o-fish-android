@@ -31,6 +31,7 @@ import org.wildaid.ofish.ui.base.*
 import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER
 import org.wildaid.ofish.ui.home.ASK_CHANGE_DUTY_DIALOG_ID
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
+import org.wildaid.ofish.ui.home.ZOOM_LEVEL
 import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.setVisible
 
@@ -157,7 +158,7 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             else LatLng(.0, .0)
             map.isMyLocationEnabled = true
             map.addMarker(MarkerOptions().position(coordinates))
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 10f))
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, ZOOM_LEVEL))
         }
     }
 

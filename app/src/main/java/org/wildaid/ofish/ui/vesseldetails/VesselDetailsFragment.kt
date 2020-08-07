@@ -129,7 +129,7 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
     private fun updateVesselImages(photos: List<Photo>) {
         photosAdapter.setItems(photos)
 
-        TabLayoutMediator(vessel_image_pager_indicator, vessel_image_pager) { tab, position ->
+        TabLayoutMediator(vessel_image_pager_indicator, vessel_image_pager) { _, _ ->
             // Empty
         }.attach()
 

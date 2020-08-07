@@ -162,9 +162,12 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
 
     private fun navigateFromAdd() {
         when (currentSearchEntity) {
-            is ComplexSearchFragment.SearchBoardVessels -> navigation.navigate(R.id.action_complex_search_to_create_report)
-            is ComplexSearchFragment.SearchRecords -> navigation.navigate(R.id.action_complex_search_to_create_report)
-            is ComplexSearchFragment.SearchCrew -> navigation.navigate(R.id.add_crew_fragment)
+            is ComplexSearchFragment.SearchBoardVessels ->
+                navigation.navigate(R.id.action_complex_search_to_create_report)
+            is ComplexSearchFragment.SearchRecords ->
+                navigation.navigate(R.id.action_complex_search_to_create_report)
+            is ComplexSearchFragment.SearchCrew ->
+                navigation.navigate(R.id.add_crew_fragment)
             is ComplexSearchFragment.SearchBusiness -> {
                 navigation.previousBackStackEntry?.let {
                     it.savedStateHandle.set(CREATE_NEW_BUSINESS, true)
