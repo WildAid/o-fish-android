@@ -58,7 +58,6 @@ class NotesViewModel(
         notesLiveData.value = notesLiveData.value
     }
 
-
     fun removePhotoAttachment(photo: PhotoItem, note: NoteItem) {
         currentReportPhotos.remove(photo)
         note.removePhoto(photo)

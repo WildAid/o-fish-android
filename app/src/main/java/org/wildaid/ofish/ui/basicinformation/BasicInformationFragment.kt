@@ -23,10 +23,10 @@ import org.wildaid.ofish.R
 import org.wildaid.ofish.data.mpa.addTestMpa
 import org.wildaid.ofish.databinding.FragmentBasicInformationBinding
 import org.wildaid.ofish.ui.base.BaseReportFragment
+import org.wildaid.ofish.ui.home.ZOOM_LEVEL
 import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.hideKeyboard
 import java.util.*
-
 
 class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_information),
     OnMapReadyCallback {
@@ -71,7 +71,7 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
             )
         }
         map.isMyLocationEnabled = true
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(coord, 10f))
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(coord, ZOOM_LEVEL))
     }
 
     private fun subscribeToNavigationResult() {

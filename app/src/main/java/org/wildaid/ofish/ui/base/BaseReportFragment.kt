@@ -24,9 +24,7 @@ import org.wildaid.ofish.util.createCameraIntent
 import org.wildaid.ofish.util.createGalleryIntent
 import org.wildaid.ofish.util.createImageUri
 
-
 const val CARDS_OFFSET_SIZE = 48
-
 private const val ATTACHMENT_DIALOG_ID = 1231
 const val REQUEST_PICK_IMAGE = 10001
 const val PHOTO_ID = "photo_id"

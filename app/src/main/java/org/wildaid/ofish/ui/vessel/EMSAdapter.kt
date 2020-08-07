@@ -47,7 +47,6 @@ class EMSAdapter(
         )
     }
 
-
     override fun onBindViewHolder(holder: EMSHolder, position: Int) {
         holder.bindItem(dataList[position])
     }
@@ -103,4 +102,3 @@ class EMSAdapter(
         }
     }
 }
-

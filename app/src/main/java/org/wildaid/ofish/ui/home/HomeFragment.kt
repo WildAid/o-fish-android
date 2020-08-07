@@ -43,8 +43,8 @@ import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
 import org.wildaid.ofish.util.*
 
-
 const val KEY_CREATE_REPORT_RESULT = "create_report_message_result"
+const val ZOOM_LEVEL = 10f
 
 private const val REQUEST_CODE_PERMISSIONS = 1444
 private const val CREATE_REPORT_FINISHED_DIALOG_ID = 100
@@ -321,7 +321,7 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         fusedLocationClient.lastLocation.addOnSuccessListener {
             it?.let {
                 val coordinates = LatLng(it.latitude, it.longitude)
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 10f))
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, ZOOM_LEVEL))
                 googleMap.isMyLocationEnabled = true
                 fragmentViewModel.onLocationAvailable(it.latitude, it.longitude)
             }

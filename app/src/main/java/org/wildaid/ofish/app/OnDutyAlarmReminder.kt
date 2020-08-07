@@ -7,7 +7,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import org.wildaid.ofish.R
 
-private const val notificationId = 119
+private const val NOTIFICATION_ID = 119
 
 class OnDutyAlarmReminder : BroadcastReceiver() {
 
@@ -19,7 +19,7 @@ class OnDutyAlarmReminder : BroadcastReceiver() {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         with(NotificationManagerCompat.from(context)) {
-            notify(notificationId, builder.build())
+            notify(NOTIFICATION_ID, builder.build())
         }
     }
 }

@@ -13,7 +13,6 @@ import org.wildaid.ofish.ui.base.AdapterDiffCallback
 import org.wildaid.ofish.ui.base.PhotoItem
 import org.wildaid.ofish.util.setVisible
 
-
 class CatchAdapter(
     private val dataList: ArrayList<CatchItem> = ArrayList(),
     private val searchListener: (id: Int, CatchItem) -> Unit,
@@ -69,7 +68,6 @@ class CatchAdapter(
         fun bindItem(item: CatchItem) {
             catchEditBinding.holder = this
             currentItem = item
-
 
             // Edit Views
             val editVisible = item.inEditMode
@@ -179,7 +177,6 @@ class CatchAdapter(
         fun onCatchEditClicked() {
             catchEditModeListener.invoke(currentItem)
         }
-
 
         fun onCatchAddAttachmentClicked() {
             catchAddAttachmentListener.invoke(currentItem)

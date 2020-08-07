@@ -64,6 +64,7 @@
                     android:layout_height="56dp"
                     android:onClick="@{()-> fragmentViewModel.showUserStatus()}"
                     android:padding="12dp"
+                    android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:shapeAppearanceOverlay="@style/circleImageView"

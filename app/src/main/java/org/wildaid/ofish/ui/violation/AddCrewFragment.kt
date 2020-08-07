@@ -91,7 +91,6 @@ class AddCrewFragment : Fragment(R.layout.fragment_add_crew) {
             savedStateHandle.set(SEARCH_ENTITY_KEY, ComplexSearchFragment.SearchCrew)
         }
         navigation.popBackStack(R.id.tabsFragment, false)
-
     }
 
     private fun onButtonClicked(validated: AddCrewValidation) {

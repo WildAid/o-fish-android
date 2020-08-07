@@ -8,5 +8,4 @@ import io.realm.annotations.RealmClass
 open class Name : RealmObject() {
     var first: String = ""
     var last: String = ""
-
 }

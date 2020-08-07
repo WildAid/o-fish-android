@@ -150,8 +150,7 @@ class CrewViewModel(
 
     private fun isCrewChanged() =
         // report crew size is less by 1 because captain is stored separately in another field
-        currentReport.captain != currentCrewItems[0].crewMember ||
-                currentReport.crew.size != currentCrewItems.size - 1
+        currentReport.captain != currentCrewItems[0].crewMember || currentReport.crew.size != currentCrewItems.size - 1
 
     private fun initiateCrewMembers(): List<CrewMemberItem> {
         val captain = CrewMember()

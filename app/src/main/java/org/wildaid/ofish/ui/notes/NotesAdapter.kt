@@ -11,7 +11,6 @@ import org.wildaid.ofish.ui.base.AdapterDiffCallback
 import org.wildaid.ofish.ui.base.PhotoItem
 import org.wildaid.ofish.util.setVisible
 
-
 class NotesAdapter(
     private val dataList: ArrayList<NoteItem> = ArrayList(),
     private val noteRemoveListener: (Int) -> Unit,

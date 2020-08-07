@@ -1,6 +1,5 @@
 package org.wildaid.ofish.ui.createreport
 
-
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +16,6 @@ import org.wildaid.ofish.ui.base.DialogButton
 import org.wildaid.ofish.ui.base.DialogClickEvent
 import org.wildaid.ofish.ui.home.KEY_CREATE_REPORT_RESULT
 import org.wildaid.ofish.util.getViewModelFactory
-
 
 const val KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER = "permit_number"
 private const val DISCARD_DIALOG_ID = 17

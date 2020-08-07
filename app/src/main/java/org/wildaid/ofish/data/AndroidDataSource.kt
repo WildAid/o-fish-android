@@ -7,10 +7,10 @@ import android.net.Uri
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 
-
-private const val MAX_BYTES_SIZE = 3 * 1024 * 1024  // 3mb
-private const val THUMBNAIL_IMAGE_PIXEL_SIZE = 100  // 100 PIXELS
+private const val MAX_BYTES_SIZE = 3 * 1024 * 1024 // 3mb
+private const val THUMBNAIL_IMAGE_PIXEL_SIZE = 100 // 100 PIXELS
 private const val COMPRESS_STEP = 10
+private const val MIN_COMPRESS_QUALITY = 10
 
 class AndroidDataSource(
     val context: Context
@@ -26,7 +26,7 @@ class AndroidDataSource(
         if (size > MAX_BYTES_SIZE) {
             var compressQuality = 100
             val stream = ByteArrayOutputStream()
-            while (size >= MAX_BYTES_SIZE && compressQuality > 10) {
+            while (size >= MAX_BYTES_SIZE && compressQuality > MIN_COMPRESS_QUALITY) {
                 stream.use {
                     it.flush()
                     it.reset()

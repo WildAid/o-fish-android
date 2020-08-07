@@ -15,7 +15,6 @@ import org.wildaid.ofish.data.SafetyColor
 import org.wildaid.ofish.databinding.ItemVesselRecordBinding
 import org.wildaid.ofish.ui.base.AdapterDiffCallback
 
-
 class VesselRecordsAdapter(
     val onItemClick: (ReportItem) -> Unit
 ) : RecyclerView.Adapter<VesselRecordsAdapter.RecordViewHolder>() {
@@ -83,17 +82,21 @@ class VesselRecordsAdapter(
             }
 
             dataBinding.vesselRecordViolations.text = when {
-                item.citationCount <= 0 && item.warningsCount <= 0 -> itemView.context.getString(R.string.zero_violations)
-                item.citationCount > 0 && item.warningsCount > 0 -> itemView.context.getString(
+                item.citationCount <= 0 && item.warningsCount <= 0 ->
+                    itemView.context.getString(R.string.zero_violations)
+                item.citationCount > 0 && item.warningsCount > 0 ->
+                    itemView.context.getString(
                     R.string.warnings_citation_count,
                     item.warningsCount,
                     item.citationCount
                 )
-                item.warningsCount > 0 -> itemView.context.getString(
+                item.warningsCount > 0 ->
+                    itemView.context.getString(
                     R.string.warnings_count,
                     item.warningsCount
                 )
-                item.citationCount > 0 -> itemView.context.getString(
+                item.citationCount > 0 ->
+                    itemView.context.getString(
                     R.string.citation_count,
                     item.citationCount
                 )

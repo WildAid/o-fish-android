@@ -35,7 +35,6 @@ import org.wildaid.ofish.ui.vessel.VesselFragment
 import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.setVisible
 
-
 const val BASIC_INFO_FRAGMENT_POSITION = 0
 const val VESSEL_FRAGMENT_POSITION = 1
 const val CREW_FRAGMENT_POSITION = 2
@@ -45,7 +44,7 @@ const val VIOLATION_FRAGMENT_POSITION = 5
 const val RISK_FRAGMENT_POSITION = 6
 const val NOTES_FRAGMENT_POSITION = 7
 
-const val VESSEL_FRAGMENT_TAG_PREFIX = "f"
+const val FRAGMENT_TAG_PREFIX = "f"
 private const val ASK_PREFILL_VESSEL_DIALOG_ID = 13
 private const val ASK_SKIP_TABS_DIALOG_ID = 14
 private const val SUBMIT_DIALOG_ID = 15
@@ -119,7 +118,7 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
 
     private fun onTabChanged(previousTabIndex: Int, currentTabIndex: Int) {
         currentReportFragment =
-            childFragmentManager.findFragmentByTag("$VESSEL_FRAGMENT_TAG_PREFIX${currentTabIndex}") as BaseReportFragment
+            childFragmentManager.findFragmentByTag("$FRAGMENT_TAG_PREFIX${currentTabIndex}") as BaseReportFragment
 
         val previousReportFragment =
             childFragmentManager.findFragmentByTag("f$previousTabIndex") as BaseReportFragment?
@@ -231,7 +230,7 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
             when (click.dialogId) {
                 ASK_PREFILL_VESSEL_DIALOG_ID -> {
                     val vesselFragment =
-                        childFragmentManager.findFragmentByTag("$VESSEL_FRAGMENT_TAG_PREFIX$VESSEL_FRAGMENT_POSITION") as VesselFragment
+                        childFragmentManager.findFragmentByTag("$FRAGMENT_TAG_PREFIX$VESSEL_FRAGMENT_POSITION") as VesselFragment
                     fragmentViewModel.vesselToPrefill?.let {
                         vesselFragment.fillVesselInfo(it)
                     }

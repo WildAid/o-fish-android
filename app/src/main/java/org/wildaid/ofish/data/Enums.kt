@@ -1,6 +1,6 @@
 package org.wildaid.ofish.data
 
-enum class ViolationRisk{
+enum class ViolationRisk {
     Warning, Citation
 }
 
