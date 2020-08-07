@@ -83,7 +83,7 @@ class ActivitiesFragment : BaseReportFragment(R.layout.fragment_activity) {
             }
 
             R.id.btn_next -> {
-                if (isFieldCheckPassed || isAllRequiredFieldsNotEmpty()) {
+                if (isFieldCheckPassed || validateForms()) {
                     onNextListener.onNextClicked()
                 } else {
                     showSnackbarWarning()

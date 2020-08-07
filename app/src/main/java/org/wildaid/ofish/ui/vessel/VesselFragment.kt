@@ -177,7 +177,7 @@ class VesselFragment : BaseReportFragment(R.layout.fragment_vessel) {
             }
 
             R.id.btn_next -> {
-                if (isFieldCheckPassed || isAllRequiredFieldsNotEmpty()) {
+                if (isFieldCheckPassed || validateForms()) {
                     onNextListener.onNextClicked()
                 } else {
                     showSnackbarWarning()
