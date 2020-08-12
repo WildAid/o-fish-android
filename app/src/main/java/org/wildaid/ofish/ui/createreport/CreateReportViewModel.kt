@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.data.OnSaveListener
 import org.wildaid.ofish.data.Repository
-import org.wildaid.ofish.data.report.Report
+import org.wildaid.ofish.data.report.*
 import org.wildaid.ofish.ui.base.PhotoItem
 import java.util.*
 
@@ -28,6 +28,10 @@ class CreateReportViewModel(val repository: Repository) : ViewModel() {
                 }
             }
             vessel?.lastDelivery?.date = Date(0)
+
+            // Prefilled empty items for create report flow
+            inspection?.summary?.violations?.add(Violation())
+            notes.add(AnnotatedNote())
         }
     }
 

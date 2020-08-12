@@ -45,7 +45,7 @@ class TabsViewModel(val repository: Repository, application: Application) :
         userEventLiveData.value = Event(UserEvent.ChangeTabEvent(nextTab))
     }
 
-    fun onTabClicked(currentTabPosition: Int, newPosition: Int, previousFormValid: Boolean): Boolean {
+    fun onTabClicked(currentTabPosition: Int, newPosition: Int, currentFormValid: Boolean): Boolean {
         val notVisitedTabs = mutableListOf<TabItem>()
         tabs.forEachIndexed { index, tab ->
             if (tab.status == TabStatus.NOT_VISITED && newPosition > index) {
@@ -53,13 +53,16 @@ class TabsViewModel(val repository: Repository, application: Application) :
             }
         }
 
+        val currentTab = tabs[currentTabPosition]
         if (notVisitedTabs.isNotEmpty()) {
+            if (!currentFormValid) {
+                notVisitedTabs.add(0, currentTab)
+            }
             userEventLiveData.value = Event(UserEvent.AskSkipSectionsEvent(notVisitedTabs))
             return true
         }
 
-        val currentTab = tabs[currentTabPosition]
-        if (!previousFormValid && newPosition > currentTabPosition) {
+        if (!currentFormValid && newPosition > currentTabPosition) {
             userEventLiveData.value = Event(UserEvent.AskLeftEmptyFields(listOf(currentTab)))
             return true
         }

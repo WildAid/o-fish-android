@@ -28,6 +28,7 @@ class NotesViewModel(
     fun initNotes(report: Report, currentReportPhotos: MutableList<PhotoItem>) {
         this.currentReport = report
         this.currentReportPhotos = currentReportPhotos
+        addNote()
     }
 
     fun addNote() {

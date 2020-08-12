@@ -35,7 +35,8 @@ class CrewViewModel(
     ) {
         this.currentReport = currentReport
         this.currentReportPhotos = currentReportPhotos
-        crewMembersData.value = initiateCrewMembers()
+        this.crewMembersData.value = initiateCrewMembers()
+        addCrewMember()
     }
 
     fun updateCrewMembersIfNeeded() {
@@ -109,7 +110,7 @@ class CrewViewModel(
         currentCrewItems.add(
             CrewMemberItem(
                 newCrewMember,
-                title = "Crew Member ${currentCrewItems.size}",
+                title = "${getString(R.string.crew_member)} ${currentCrewItems.size}",
                 attachments = AttachmentItem(newCrewMember.attachments!!)
             )
         )
@@ -154,15 +155,28 @@ class CrewViewModel(
 
     private fun initiateCrewMembers(): List<CrewMemberItem> {
         val captain = CrewMember()
+        val crewMember = CrewMember()
         currentReport.captain = captain
+        currentReport.crew.add(crewMember)
+
         currentCrewItems = mutableListOf<CrewMemberItem>().apply {
             add(
                 CrewMemberItem(
                     captain,
-                    title = "Captain",
+                    title = captainTitle,
                     attachments = AttachmentItem(captain.attachments!!),
                     isRemovable = false,
                     isCaptain = true
+                )
+            )
+
+            add(
+                CrewMemberItem(
+                    crewMember,
+                    title =  "$memberTitle 1",
+                    attachments = AttachmentItem(crewMember.attachments!!),
+                    isRemovable = true,
+                    isCaptain = false
                 )
             )
         }

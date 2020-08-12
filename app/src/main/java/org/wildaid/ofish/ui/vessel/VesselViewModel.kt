@@ -60,6 +60,7 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
         }
 
         currentEMSItems = mutableListOf()
+        addEms()
         emsLiveData.value = currentEMSItems
     }
 
