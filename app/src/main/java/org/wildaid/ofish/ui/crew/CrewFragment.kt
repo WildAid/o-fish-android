@@ -97,7 +97,7 @@ class CrewFragment : BaseReportFragment(R.layout.fragment_crew) {
         hideKeyboard()
         when (buttonId) {
             R.id.btn_next -> {
-                if (isFieldCheckPassed || isAllRequiredFieldsNotEmpty()) {
+                if (isFieldCheckPassed || validateForms()) {
                     onNextListener.onNextClicked()
                 } else {
                     showSnackbarWarning()

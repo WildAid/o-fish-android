@@ -44,7 +44,7 @@ const val VIOLATION_FRAGMENT_POSITION = 5
 const val RISK_FRAGMENT_POSITION = 6
 const val NOTES_FRAGMENT_POSITION = 7
 
-const val VESSEL_FRAGMENT_TAG = "f1" // It means fragment with position 1
+const val FRAGMENT_TAG_PREFIX = "f"
 private const val ASK_PREFILL_VESSEL_DIALOG_ID = 13
 private const val ASK_SKIP_TABS_DIALOG_ID = 14
 private const val SUBMIT_DIALOG_ID = 15
@@ -56,6 +56,7 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
 
     private lateinit var fragmentFactory: TabsFragmentFactory
     private lateinit var tabsFragmentAdapter: TabsFragmentAdapter
+    private lateinit var currentReportFragment: BaseReportFragment
     private var pendingSkippingTabs: List<TabItem>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,6 +93,7 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
         fragmentViewModel.userEventLiveData.observe(viewLifecycleOwner, EventObserver {
             when (it) {
                 is TabsViewModel.UserEvent.AskSkipSectionsEvent -> showSkipSectionsDialog(it.skippedTabs)
+                is TabsViewModel.UserEvent.AskLeftEmptyFields -> showSkipSectionsDialog(it.skippedTabs)
                 is TabsViewModel.UserEvent.ChangeTabEvent -> selectTab(it.tabItem)
                 TabsViewModel.UserEvent.AskPrefillVesselEvent -> showAskPrefillBoatDialog()
             }
@@ -115,6 +117,9 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
     }
 
     private fun onTabChanged(previousTabIndex: Int, currentTabIndex: Int) {
+        currentReportFragment =
+            childFragmentManager.findFragmentByTag("$FRAGMENT_TAG_PREFIX${currentTabIndex}") as BaseReportFragment
+
         val previousReportFragment =
             childFragmentManager.findFragmentByTag("f$previousTabIndex") as BaseReportFragment?
 
@@ -225,7 +230,7 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
             when (click.dialogId) {
                 ASK_PREFILL_VESSEL_DIALOG_ID -> {
                     val vesselFragment =
-                        childFragmentManager.findFragmentByTag(VESSEL_FRAGMENT_TAG) as VesselFragment
+                        childFragmentManager.findFragmentByTag("$FRAGMENT_TAG_PREFIX$VESSEL_FRAGMENT_POSITION") as VesselFragment
                     fragmentViewModel.vesselToPrefill?.let {
                         vesselFragment.fillVesselInfo(it)
                     }
@@ -294,14 +299,19 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
         // Unable to use tabs_layout.addOnTabSelectedListener() since we need to intercept click
         val tabTouchClickDetector = GestureTouchClickDetector(requireContext())
         val tabStrip = tabs_layout.getChildAt(0) as LinearLayout
-        for (i in 0 until tabStrip.childCount) {
-            tabStrip.getChildAt(i).setOnLongClickListener {
-                return@setOnLongClickListener fragmentViewModel.onTabClicked(i)
+        for (newPosition in 0 until tabStrip.childCount) {
+            val currentTabPosition = tabs_layout.selectedTabPosition
+            tabStrip.getChildAt(newPosition).setOnLongClickListener {
+                return@setOnLongClickListener currentTabPosition != newPosition &&
+                        fragmentViewModel.onTabClicked(currentTabPosition, newPosition, currentReportFragment.isAllRequiredFieldsNotEmpty())
             }
 
-            tabStrip.getChildAt(i).setOnTouchListener { _, event ->
+            tabStrip.getChildAt(newPosition).setOnTouchListener { _, event ->
                 val isClick = tabTouchClickDetector.onTouchEvent(event)
-                return@setOnTouchListener isClick && fragmentViewModel.onTabClicked(i)
+                val currentTabPosition = tabs_layout.selectedTabPosition
+                return@setOnTouchListener currentTabPosition != newPosition &&
+                        isClick &&
+                        fragmentViewModel.onTabClicked(currentTabPosition, newPosition, currentReportFragment.isAllRequiredFieldsNotEmpty())
             }
         }
     }

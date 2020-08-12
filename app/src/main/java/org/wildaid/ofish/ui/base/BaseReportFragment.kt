@@ -58,9 +58,26 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
         }
     }
 
-    fun isFormValid(): Boolean {
-        val result = isAllRequiredFieldsNotEmpty()
-        isFieldCheckPassed = false
+    fun isAllRequiredFieldsNotEmpty(): Boolean {
+        requiredFields.forEach {
+            val text = it.editText?.text
+            if (it.visibility == View.VISIBLE && (text.isNullOrBlank() || text.toString() == N_A)) {
+                return false
+            }
+        }
+        return true
+    }
+
+    fun validateForms(): Boolean {
+        var result = true
+        requiredFields.forEach {
+            val text = it.editText?.text
+            if (it.visibility == View.VISIBLE && (text.isNullOrBlank() || text.toString() == N_A)) {
+                result = false
+                it.errorIconDrawable = resources.getDrawable(R.drawable.ic_error_outline, null)
+            }
+        }
+        isFieldCheckPassed = true
         return result
     }
 
@@ -138,19 +155,6 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
                 }
             }
         })
-    }
-
-    protected fun isAllRequiredFieldsNotEmpty(): Boolean {
-        var result = true
-        requiredFields.forEach {
-            val text = it.editText?.text
-            if (it.visibility == View.VISIBLE && (text.isNullOrBlank() || text.toString() == N_A)) {
-                result = false
-                it.errorIconDrawable = resources.getDrawable(R.drawable.ic_error_outline, null)
-            }
-        }
-        isFieldCheckPassed = true
-        return result
     }
 
     protected fun showSnackbarWarning() {
