@@ -20,6 +20,7 @@ const val ON_DUTY = "On Duty"
 const val OFF_DUTY = "Off Duty"
 const val FIELD_ID = "_id"
 const val FIELD_PERMIT_NUMBER = "permitNumber"
+const val FIELD_STATUS = "status"
 const val DATE = "date"
 const val BUSINESS = "business"
 const val LOCATION = "location"
@@ -123,7 +124,7 @@ class RealmDataSource {
     fun getRecentStartCurrentDuty(): DutyChange? {
         return realm.where<DutyChange>()
             .equalTo(USER_EMAIL, currentOfficer.email)
-            .equalTo("status", ON_DUTY)
+            .equalTo(FIELD_STATUS, ON_DUTY)
             .sort(DATE, Sort.DESCENDING)
             .findFirst()
     }
@@ -156,11 +157,11 @@ class RealmDataSource {
 
     fun isLoggedIn() = realmApp.currentUser() != null
 
-    fun findReportsGroupedByVessel(sort: Sort): List<Report> {
+    fun findReportsGroupedByVesselNameAndPermitNumber(sort: Sort): List<Report> {
         return realm.where<Report>()
             .isNotEmpty(VESSEL_NAME)
             .sort(DATE, sort)
-            .distinct(VESSEL_PERMIT_NUMBER)
+            .distinct(VESSEL_NAME, VESSEL_PERMIT_NUMBER)
             .findAll()
     }
 

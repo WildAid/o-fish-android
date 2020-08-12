@@ -65,7 +65,7 @@ class RepositoryImpl(
     override fun isLoggedIn() = realmDataSource.isLoggedIn()
 
     override fun findReportsGroupedByVessel(sort: Sort) =
-        realmDataSource.findReportsGroupedByVessel(sort)
+        realmDataSource.findReportsGroupedByVesselNameAndPermitNumber(sort)
 
     override fun findAllReports(sort: Sort) = realmDataSource.findAllReports(sort)
 
