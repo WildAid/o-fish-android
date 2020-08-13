@@ -161,7 +161,6 @@ class RealmDataSource {
         return realm.where<Report>()
             .isNotEmpty(VESSEL_NAME)
             .sort(DATE, sort)
-            .distinct(VESSEL_NAME, VESSEL_PERMIT_NUMBER)
             .findAll()
     }
 
