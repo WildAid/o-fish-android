@@ -58,6 +58,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -94,6 +100,16 @@ dependencies {
     // JUnit test dependencies
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
+
+    // Robolectric to run android code and  resources on JVM
+    testImplementation 'org.robolectric:robolectric:4.3'
+
+    // Android dependencies for unit tests
+    testImplementation 'androidx.test:core:1.2.0'
+
+    // Kotlin mock library  Mockk.io
+    testImplementation "io.mockk:mockk:1.10.0"
+
 
     // Android test dependencies
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

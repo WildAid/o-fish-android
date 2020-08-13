@@ -1,5 +1,6 @@
 package org.wildaid.ofish.data
 
+import android.content.Context
 import android.util.Log
 import io.realm.*
 import io.realm.kotlin.where
@@ -30,7 +31,7 @@ const val USER_EMAIL = "user.email"
 
 private const val TAG = "Realm Setup"
 
-class RealmDataSource {
+class RealmDataSource(context: Context) {
     private val realmApp: App
 
     private lateinit var realm: Realm
@@ -39,6 +40,7 @@ class RealmDataSource {
 
     init {
         Log.w("DataSource", "Created new instance of Realm data source")
+        Realm.init(context)
         if (BuildConfig.DEBUG) {
             RealmLog.setLevel(LogLevel.ALL)
         }

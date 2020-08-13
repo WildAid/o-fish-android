@@ -6,16 +6,16 @@ import android.app.NotificationManager
 import android.content.Context
 import androidx.lifecycle.ProcessLifecycleOwner
 import org.wildaid.ofish.R
-import org.wildaid.ofish.data.Repository
 
 const val OFISH_PROVIDER_SUFFIX = ".fileprovider"
 const val CHANNEL_ID = "o_fish_channel"
 
 class OFishApplication : Application() {
-    val repository: Repository
-        get() = ServiceLocator.provideRepository(this)
-
-    private val lifecycleListener: LifecycleListener by lazy { LifecycleListener(applicationContext) }
+    private val appLifecycleListener: AppLifecycleListener by lazy {
+        AppLifecycleListener(
+            applicationContext
+        )
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -36,6 +36,6 @@ class OFishApplication : Application() {
     }
 
     private fun setupLifecycleListener() {
-        ProcessLifecycleOwner.get().lifecycle.addObserver(lifecycleListener)
+        ProcessLifecycleOwner.get().lifecycle.addObserver(appLifecycleListener)
     }
 }

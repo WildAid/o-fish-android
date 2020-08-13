@@ -11,17 +11,19 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import org.wildaid.ofish.app.OFISH_PROVIDER_SUFFIX
 import org.wildaid.ofish.app.OFishApplication
+import org.wildaid.ofish.app.ServiceLocator
 import org.wildaid.ofish.ui.base.ViewModelFactory
 import java.io.File
 
 const val TEMP_TAKE_IMAGE_PREFIX = "taken_image"
 const val TEMP_TAKE_IMAGE_SUFFIX = ".jpeg"
 
-fun Fragment.getViewModelFactory(): ViewModelFactory {
-    val application = requireContext().applicationContext as OFishApplication
-    val repository = application.repository
-    return ViewModelFactory(repository, application, this)
-}
+fun Fragment.getViewModelFactory() =
+    ViewModelFactory(
+        ServiceLocator.provideRepository(this.requireContext()),
+        this.requireActivity().application,
+        this
+    )
 
 fun Fragment.hideKeyboard() {
     val activity = this.requireActivity()
