@@ -1,13 +1,12 @@
 package org.wildaid.ofish.data
 
 import android.net.Uri
+import io.realm.RealmList
 import io.realm.Sort
 import io.realm.mongodb.AppException
 import io.realm.mongodb.User
 import org.bson.types.ObjectId
-import org.wildaid.ofish.data.report.DutyChange
-import org.wildaid.ofish.data.report.Photo
-import org.wildaid.ofish.data.report.Report
+import org.wildaid.ofish.data.report.*
 import java.util.*
 
 class RepositoryImpl(
@@ -39,6 +38,24 @@ class RepositoryImpl(
         reportPhotos: List<Pair<Photo, Uri?>>,
         listener: OnSaveListener
     ) {
+        // Remove empty items before save
+        report.vessel?.ems?.removeAll {
+            it.emsType.isBlank() && it.registryNumber.isBlank()
+        }
+        report.crew.removeAll {
+            it.license.isBlank() && it.name.isBlank()
+        }
+
+        report.inspection?.actualCatch?.removeAll {
+            it.fish.isBlank()
+        }
+        report.inspection?.summary?.violations?.removeAll {
+            it.offence == null || it.offence?.code?.isBlank() == true
+        }
+        report.notes.removeAll {
+            it.note.isBlank()
+        }
+
         realmDataSource.saveReportWithTransaction(
             report, listener,
             object : Iterator<Photo> {
@@ -59,6 +76,7 @@ class RepositoryImpl(
             }
         )
     }
+
 
     override fun getCurrentOfficer() = realmDataSource.getCurrentOfficer()
 
