@@ -13,11 +13,11 @@ import org.wildaid.ofish.data.ON_DUTY
 const val FOUR_HOURS_TIMER_REQUEST_ID = 13
 private const val FOUR_HOURS = 4 * 60 * 60 * 1000
 
-class LifecycleListener(private val context: Context) : LifecycleObserver {
-
+class AppLifecycleListener(
+    private val context: Context
+) : LifecycleObserver {
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as? AlarmManager
     private val alarmIntent: PendingIntent by lazy { getAlarmPendingIntent() }
-    private val repository = (context.applicationContext as OFishApplication).repository
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onMoveToForeground() {
@@ -26,6 +26,7 @@ class LifecycleListener(private val context: Context) : LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onMoveToBackground() {
+        val repository = ServiceLocator.provideRepository(context)
         if (repository.getRecentOnDutyChange()?.status == ON_DUTY) {
             alarmManager?.set(
                 AlarmManager.ELAPSED_REALTIME_WAKEUP,

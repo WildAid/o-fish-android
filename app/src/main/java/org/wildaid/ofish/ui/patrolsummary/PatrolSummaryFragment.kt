@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_patrol_summary.*
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
 import org.wildaid.ofish.app.OFishApplication
+import org.wildaid.ofish.app.ServiceLocator
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.databinding.FragmentPatrolSummaryBinding
 import org.wildaid.ofish.ui.base.CARDS_OFFSET_SIZE
@@ -69,9 +70,7 @@ class PatrolSummaryFragment : Fragment(R.layout.fragment_patrol_summary) {
     }
 
     private fun createAdapter(): PatrolSummaryAdapter {
-        val application = requireContext().applicationContext as OFishApplication
-        val repository = application.repository
-        return PatrolSummaryAdapter(repository, ::itemListener)
+        return PatrolSummaryAdapter(ServiceLocator.provideRepository(requireContext()), ::itemListener)
     }
 
     private fun onButtonClicked(id: Int) {
