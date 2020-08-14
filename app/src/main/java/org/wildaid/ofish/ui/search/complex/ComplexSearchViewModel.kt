@@ -104,10 +104,10 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
             result.addAll(cachedAllReports
                 .filterNot { it.vessel?.name.isNullOrBlank() }
                 .filter { it.vessel?.name.orEmpty().contains(filter, true) }
-                .groupBy { it.vessel?.permitNumber }
+                .groupBy { it.vessel?.permitNumber to it.vessel?.name }
                 .map { pair ->
                     RecordSearchModel(
-                        pair.value.find { it.vessel?.permitNumber == pair.key }?.vessel!!,
+                        pair.value.find { (it.vessel?.permitNumber to it.vessel?.name) == pair.key }?.vessel!!,
                         pair.value.sortedByDescending { report -> report.date }, repository
                     )
                 })
