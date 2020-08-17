@@ -23,6 +23,8 @@ class LoginViewModel(val repository: Repository) : ViewModel() {
                 loginLiveData.value = LoginResult.LoginError(it?.errorMessage)
             }
         )
+
+
         progressLiveData.value = Event(true)
     }
 
