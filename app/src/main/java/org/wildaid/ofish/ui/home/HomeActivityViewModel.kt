@@ -56,6 +56,7 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
                 userEventLiveData.value = Event(UserEvent.UserLogoutEvent)
             },
             logoutError = {
+                // TODO add message here
                 Log.d("Logout", "Cannot logout, error -> $it")
             }
         )
