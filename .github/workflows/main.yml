@@ -1,16 +1,14 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: CI/CD
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   build:
-    name: Build
+    name: CI/CD flow
     runs-on: ubuntu-latest
 
     steps:
@@ -40,3 +38,6 @@ jobs:
 
       - name: Run Fastlane Compile Lane
         run: fastlane compile
+
+      - name: Run Fastlane test Lane
+        run: fastlane test
