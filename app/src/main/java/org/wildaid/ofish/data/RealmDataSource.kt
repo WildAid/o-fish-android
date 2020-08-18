@@ -21,6 +21,7 @@ const val ON_DUTY = "On Duty"
 const val OFF_DUTY = "Off Duty"
 const val FIELD_ID = "_id"
 const val FIELD_PERMIT_NUMBER = "permitNumber"
+const val FIELD_NAME = "name"
 const val FIELD_STATUS = "status"
 const val DATE = "date"
 const val BUSINESS = "business"
@@ -176,9 +177,11 @@ class RealmDataSource(context: Context) {
         return realm.where<Report>().equalTo(FIELD_ID, reportId).findFirst()
     }
 
-    fun findReportsForBoat(boatPermitNumber: String): List<Report> {
+    fun findReportsForBoat(boatPermitNumber: String, vesselName: String): List<Report> {
         return realm.where<Report>()
             .equalTo(VESSEL_PERMIT_NUMBER, boatPermitNumber)
+            .and()
+            .equalTo(VESSEL_NAME, vesselName)
             .sort(DATE, Sort.DESCENDING)
             .findAll()
             .toList()
@@ -213,9 +216,11 @@ class RealmDataSource(context: Context) {
         return realm.where<Photo>().equalTo(FIELD_ID, ObjectId(id)).findFirst()
     }
 
-    fun findBoat(boatPermitNumber: String): Boat? {
+    fun findBoat(boatPermitNumber: String, vesselName: String): Boat? {
         return realm.where<Boat>()
             .equalTo(FIELD_PERMIT_NUMBER, boatPermitNumber)
+            .and()
+            .equalTo(FIELD_NAME, vesselName)
             .sort(LAST_DELIVERY_DATE, Sort.DESCENDING)
             .findFirst()
     }
