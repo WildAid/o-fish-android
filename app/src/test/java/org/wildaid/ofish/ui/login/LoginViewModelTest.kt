@@ -1,22 +1,18 @@
 package org.wildaid.ofish.ui.login
 
 import android.os.Build
-import com.google.android.gms.common.api.ApiException
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import io.realm.mongodb.AppException
 import io.realm.mongodb.ErrorCode
 import io.realm.mongodb.User
-import junit.framework.Assert.assertFalse
 import junit.framework.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.wildaid.ofish.data.Repository
-import java.lang.RuntimeException
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.P])

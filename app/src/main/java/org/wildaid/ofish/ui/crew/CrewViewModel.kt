@@ -7,7 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.Repository
-import org.wildaid.ofish.data.report.*
+import org.wildaid.ofish.data.report.CrewMember
+import org.wildaid.ofish.data.report.Photo
+import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.base.AttachmentItem
 import org.wildaid.ofish.ui.base.PhotoItem
 import org.wildaid.ofish.util.getString
@@ -37,6 +39,11 @@ class CrewViewModel(
         this.currentReportPhotos = currentReportPhotos
         this.crewMembersData.value = initiateCrewMembers()
         addCrewMember()
+    }
+
+    fun fillCrew(crews: List<CrewMemberItem>) {
+//        get list
+//        crewMembersData.value = crews
     }
 
     fun updateCrewMembersIfNeeded() {
@@ -173,7 +180,7 @@ class CrewViewModel(
             add(
                 CrewMemberItem(
                     crewMember,
-                    title =  "$memberTitle 1",
+                    title = "$memberTitle 1",
                     attachments = AttachmentItem(crewMember.attachments!!),
                     isRemovable = true,
                     isCaptain = false
