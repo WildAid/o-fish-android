@@ -74,6 +74,11 @@
             android:name="vessel_id"
             android:defaultValue="INVALID_ID"
             app:argType="string" />
+
+        <argument
+            android:name="vessel_name"
+            android:defaultValue="INVALID_ID"
+            app:argType="string" />
         <action
             android:id="@+id/action_vessel_details_fragment_to_report_details_fragment"
             app:destination="@id/report_details_fragment" />

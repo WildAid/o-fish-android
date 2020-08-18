@@ -25,6 +25,7 @@ import org.wildaid.ofish.ui.base.DIALOG_CLICK_EVENT
 import org.wildaid.ofish.ui.base.DialogButton
 import org.wildaid.ofish.ui.base.DialogClickEvent
 import org.wildaid.ofish.ui.base.ItemDivider
+import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_VESSEL_NAME
 import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER
 import org.wildaid.ofish.ui.home.ASK_CHANGE_DUTY_DIALOG_ID
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
@@ -33,6 +34,7 @@ import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.setVisible
 
 const val KEY_VESSEL_PERMIT_NUMBER = "permit_number"
+const val KEY_VESSEL_NAME = "name"
 
 class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
     private val fragmentViewModel: VesselDetailsViewModel by viewModels { getViewModelFactory() }
@@ -42,6 +44,13 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
         requireArguments().getString(
             KEY_VESSEL_PERMIT_NUMBER,
             "INVALID_ID"
+        )
+    }
+
+    private val vesselName: String by lazy {
+        requireArguments().getString(
+            KEY_VESSEL_NAME,
+            "INVALID_NAME"
         )
     }
     private lateinit var dataBinding: FragmentVesselDetailsBinding
@@ -86,15 +95,17 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
         })
 
         fragmentViewModel.boardVesselLiveData.observe(viewLifecycleOwner, EventObserver {
-            val navigationArgs =
-                bundleOf(KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER to vesselPermitNumber)
+            val navigationArgs = bundleOf(
+                KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER to vesselPermitNumber,
+                KEY_CREATE_REPORT_VESSEL_NAME to vesselName
+            )
             navigation.navigate(
                 R.id.action_vessel_details_fragment_to_create_report,
                 navigationArgs
             )
         })
 
-        fragmentViewModel.loadVessel(vesselPermitNumber)
+        fragmentViewModel.loadVessel(vesselPermitNumber, vesselName)
         subscribeToDialogEvents()
     }
 

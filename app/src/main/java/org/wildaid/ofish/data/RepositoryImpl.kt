@@ -1,7 +1,6 @@
 package org.wildaid.ofish.data
 
 import android.net.Uri
-import io.realm.RealmList
 import io.realm.Sort
 import io.realm.mongodb.AppException
 import io.realm.mongodb.User
@@ -89,8 +88,8 @@ class RepositoryImpl(
 
     override fun findReport(reportId: ObjectId) = realmDataSource.findReport(reportId)
 
-    override fun findReportsForBoat(boatPermitNumber: String) =
-        realmDataSource.findReportsForBoat(boatPermitNumber)
+    override fun findReportsForBoat(boatPermitNumber: String, vesselName: String) =
+        realmDataSource.findReportsForBoat(boatPermitNumber, vesselName)
 
     override fun findReportsForCurrentDuty(): List<Report> {
         return realmDataSource.findReportsForCurrentDuty()
@@ -98,7 +97,7 @@ class RepositoryImpl(
 
     override fun findAllBoats() = realmDataSource.findAllBoats()
 
-    override fun findBoat(boatPermitNumber: String) = realmDataSource.findBoat(boatPermitNumber)
+    override fun findBoat(boatPermitNumber: String, vesselName: String) = realmDataSource.findBoat(boatPermitNumber, vesselName)
 
     override fun getMenuData() = realmDataSource.getMenuData()
 
