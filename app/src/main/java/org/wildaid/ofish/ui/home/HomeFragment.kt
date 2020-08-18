@@ -2,12 +2,16 @@ package org.wildaid.ofish.ui.home
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.RelativeLayout
@@ -31,19 +35,16 @@ import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
+import org.wildaid.ofish.data.mpa.addTestMpa
 import org.wildaid.ofish.databinding.FragmentHomeBinding
 import org.wildaid.ofish.databinding.ItemUserStatusBinding
-import org.wildaid.ofish.ui.base.ConfirmationDialogFragment
-import org.wildaid.ofish.ui.base.DIALOG_CLICK_EVENT
-import org.wildaid.ofish.ui.base.DialogButton
-import org.wildaid.ofish.ui.base.DialogClickEvent
+import org.wildaid.ofish.ui.base.*
 import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
-import org.wildaid.ofish.util.AndroidPermissions
-import org.wildaid.ofish.util.getViewModelFactory
-
+import org.wildaid.ofish.util.*
 
 const val KEY_CREATE_REPORT_RESULT = "create_report_message_result"
+const val ZOOM_LEVEL = 10f
 
 private const val REQUEST_CODE_PERMISSIONS = 1444
 private const val CREATE_REPORT_FINISHED_DIALOG_ID = 100
@@ -55,6 +56,8 @@ class HomeFragment : Fragment(R.layout.fragment_home),
     private lateinit var androidPermissions: AndroidPermissions
     private lateinit var dataBinding: FragmentHomeBinding
     private lateinit var googleMap: GoogleMap
+    private lateinit var pendingImageUri: Uri
+    private var statusViewBinding: ItemUserStatusBinding? = null
 
     private val navigation: NavController by lazy { findNavController() }
     private val fragmentViewModel: HomeFragmentViewModel by viewModels { getViewModelFactory() }
@@ -73,11 +76,11 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         initUI(view)
 
         fragmentViewModel.locationLiveData.observe(viewLifecycleOwner, Observer {
-            home_latitude.text = it.first.toString()
-            home_longitude.text = it.second.toString()
+            home_latitude.text = convert(it.first, LATITUDE)
+            home_longitude.text = convert(it.second, LONGITUDE)
         })
 
-        fragmentViewModel.userEventLiveData.observe(viewLifecycleOwner, EventObserver() {
+        fragmentViewModel.userEventLiveData.observe(viewLifecycleOwner, EventObserver {
             when (it) {
                 HomeFragmentViewModel.UserEvent.BoardVessel -> boardVessel()
                 HomeFragmentViewModel.UserEvent.FindRecords -> findRecords()
@@ -85,11 +88,8 @@ class HomeFragment : Fragment(R.layout.fragment_home),
             }
         })
 
-        activityViewModel.currentUserLiveData.observe(viewLifecycleOwner, Observer {
-            Glide.with(this)
-                .load(it.pictureUrl)
-                .placeholder(R.drawable.ic_account_circle)
-                .into(image_user)
+        activityViewModel.currentOfficerLiveData.observe(viewLifecycleOwner, Observer {
+            showOfficerPhoto(image_user)
         })
 
         arguments?.let {
@@ -99,6 +99,33 @@ class HomeFragment : Fragment(R.layout.fragment_home),
                 showCreateReportDialog(message)
             }
         }
+    }
+
+    private fun showOfficerPhoto(view: ImageView?) {
+        view?.let {
+            val photo = fragmentViewModel.repository.getCurrentOfficerPhoto()
+            Glide.with(this)
+                .load(photo?.getResourceForLoading())
+                .placeholder(R.drawable.ic_account_circle)
+                .into(it)
+        }
+    }
+
+    private fun updateProfilePhoto() {
+        Glide.with(this)
+            .clear(image_user)
+        statusViewBinding?.imageUser?.let {
+            Glide.with(this)
+                .clear(it)
+        }
+
+        Glide.get(requireContext()).clearMemory()
+        Thread {
+            Glide.get(requireContext()).clearDiskCache()
+        }.start()
+
+        showOfficerPhoto(image_user)
+        showOfficerPhoto(statusViewBinding?.imageUser)
     }
 
     private fun initUI(view: View) {
@@ -115,6 +142,7 @@ class HomeFragment : Fragment(R.layout.fragment_home),
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
         checkPermissions()
+        addTestMpa(googleMap, resources)
     }
 
     @SuppressLint("ResourceType")
@@ -154,12 +182,12 @@ class HomeFragment : Fragment(R.layout.fragment_home),
 
     private fun boardVessel() {
         val bundle =
-            bundleOf(BaseSearchFragment.SEARCH_ENTITY_KEY to ComplexSearchFragment.SearchVessels)
+            bundleOf(BaseSearchFragment.SEARCH_ENTITY_KEY to ComplexSearchFragment.SearchBoardVessels)
         navigation.navigate(R.id.action_home_fragment_to_complex_search, bundle)
     }
 
     private fun showUserStatusPopUp() {
-        val statusViewBinding =
+        statusViewBinding =
             ItemUserStatusBinding.inflate(LayoutInflater.from(requireContext())).apply {
                 this.lifecycleOwner = viewLifecycleOwner
                 this.homeActivityViewModel = activityViewModel
@@ -168,8 +196,10 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         // Show status
         val width = search_layout.width - 30 // Make it smaller than search panel
         val height = LinearLayout.LayoutParams.WRAP_CONTENT
-        val popupWindow = PopupWindow(statusViewBinding.root, width, height, true)
+        val popupWindow = PopupWindow(statusViewBinding!!.root, width, height, true)
         popupWindow.showAsDropDown(search_layout, 15, 20, Gravity.BOTTOM)
+
+        showOfficerPhoto(statusViewBinding?.imageUser)
 
         // Dim background
         val container = popupWindow.contentView.rootView
@@ -179,6 +209,55 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         p.flags = p.flags or WindowManager.LayoutParams.FLAG_DIM_BEHIND
         p.dimAmount = 0.5f
         wm.updateViewLayout(container, p)
+
+        statusViewBinding!!.switchDutyStatus.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                activityViewModel.onDutyChanged(isChecked)
+            } else {
+                popupWindow.dismiss()
+                showDutyReport()
+            }
+        }
+
+        statusViewBinding!!.imageUser.setOnClickListener {
+            pickUserImage()
+        }
+    }
+
+    private fun pickUserImage() {
+        val pickImageIntent = createGalleryIntent()
+        pendingImageUri = createImageUri()
+        val takePhotoIntent = createCameraIntent(pendingImageUri)
+
+        val intentList: MutableList<Intent> = mutableListOf()
+        combineIntents(intentList, pickImageIntent)
+        combineIntents(intentList, takePhotoIntent)
+
+        val chooserIntent: Intent?
+        if (intentList.size > 0) {
+            chooserIntent = Intent.createChooser(
+                intentList.removeAt(intentList.size - 1),
+                getString(R.string.chose_image_source)
+            )
+            chooserIntent.putExtra(
+                Intent.EXTRA_INITIAL_INTENTS,
+                intentList.toTypedArray()
+            )
+
+            startActivityForResult(chooserIntent, REQUEST_PICK_IMAGE)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
+            val uri = data?.data ?: pendingImageUri
+            fragmentViewModel.saveProfileImage(uri)
+            updateProfilePhoto()
+        }
+    }
+
+    private fun showDutyReport() {
+        navigation.navigate(R.id.action_home_fragment_to_patrolSummaryFragment)
     }
 
     private fun subscribeToDialogEvents() {
@@ -189,17 +268,25 @@ class HomeFragment : Fragment(R.layout.fragment_home),
             }
 
             if (navStack.savedStateHandle.contains(DIALOG_CLICK_EVENT)) {
-                val click = navStack.savedStateHandle.remove<DialogClickEvent>(DIALOG_CLICK_EVENT)!!
-                handleDialogClick(click)
+                val click = navStack.savedStateHandle.get<DialogClickEvent>(DIALOG_CLICK_EVENT)!!
+                if (handleDialogClick(click)) {
+                    navStack.savedStateHandle.remove<DialogClickEvent>(DIALOG_CLICK_EVENT)!!
+                }
             }
         })
     }
 
-    private fun handleDialogClick(event: DialogClickEvent) {
-        when {
-            event.dialogId == ASK_CHANGE_DUTY_DIALOG_ID && event.dialogBtn == DialogButton.POSITIVE -> {
-                activityViewModel.onDutyChanged(true)
+    private fun handleDialogClick(event: DialogClickEvent): Boolean {
+        return when (event.dialogId) {
+            ASK_CHANGE_DUTY_DIALOG_ID -> {
+                if (event.dialogBtn == DialogButton.POSITIVE) activityViewModel.onDutyChanged(true)
+                true
             }
+            ASK_TO_LOGOUT_DIALOG_ID -> {
+                if (event.dialogBtn == DialogButton.POSITIVE) activityViewModel.logoutConfirmed()
+                true
+            }
+            else -> false
         }
     }
 
@@ -234,7 +321,7 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         fusedLocationClient.lastLocation.addOnSuccessListener {
             it?.let {
                 val coordinates = LatLng(it.latitude, it.longitude)
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 10f))
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, ZOOM_LEVEL))
                 googleMap.isMyLocationEnabled = true
                 fragmentViewModel.onLocationAvailable(it.latitude, it.longitude)
             }

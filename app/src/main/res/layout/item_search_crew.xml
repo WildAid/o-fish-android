@@ -17,31 +17,40 @@
         android:layout_height="wrap_content"
         android:background="@drawable/selector_adapter_item"
         android:orientation="vertical"
-        android:padding="18dp">
+        android:padding="16dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_member"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/circleImageView"
+            app:srcCompat="@drawable/ic_account_circle" />
 
         <TextView
             android:id="@+id/item_crew_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="16dp"
+            android:paddingStart="8dp"
             android:paddingEnd="16dp"
             android:text="@{holder.item.value.name}"
             android:textColor="@android:color/black"
             android:textSize="17sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/image_member"
+            app:layout_constraintTop_toTopOf="@id/image_member"
             tools:text="P.Sherman Desnistry" />
 
         <TextView
             android:id="@+id/item_crew_license"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="16dp"
+            android:paddingStart="8dp"
             android:paddingEnd="16dp"
             android:text="@{@string/license_number(holder.item.value.license)}"
             android:textColor="@android:color/black"
             android:textSize="13sp"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/image_member"
             app:layout_constraintTop_toBottomOf="@id/item_crew_name"
             tools:text="42 Wallaby Way" />
 
@@ -50,6 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_captain_background"
+            android:fontFamily="sans-serif-medium"
             android:gravity="center"
             android:paddingStart="16dp"
             android:paddingTop="6dp"
@@ -62,8 +72,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/captain"
-            tools:ignore="SmallSp" />
+            tools:ignore="SmallSp"
+            tools:text="@string/captain" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,6 +1,8 @@
 package org.wildaid.ofish.ui.login
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -26,17 +28,37 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         if (BuildConfig.REALM_USER.isBlank() || BuildConfig.REALM_PASSWORD.isBlank()) {
             Log.i(
-                "Login Setup", "You can specify properties realm_user and/or realm_password in realm.properties to pre fill credentials"
+                "Login Setup",
+                "You can specify properties realm_user and/or realm_password in realm.properties to pre fill credentials"
             )
         }
         ed_user.setText(BuildConfig.REALM_USER)
         ed_password.setText(BuildConfig.REALM_PASSWORD)
+
+        btn_login.isEnabled = isUserFieldsValid()
+
+        ed_user.addTextChangedListener(watcher)
+        ed_password.addTextChangedListener(watcher)
 
         btn_login.setOnClickListener {
             loginViewModel.login(ed_user.text.toString(), ed_password.text.toString())
         }
     }
 
+    private val watcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            btn_login.isEnabled = isUserFieldsValid()
+        }
+    }
+
+    private fun isUserFieldsValid() =
+        !(ed_user.text.isNullOrBlank() || ed_password.text.isNullOrBlank())
 
     private fun handleLoginResult(loginResult: LoginViewModel.LoginResult) {
         when (loginResult) {
@@ -44,8 +66,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 navigation.navigate(R.id.home_screen)
                 requireActivity().finish()
             }
-            is LoginViewModel.LoginResult.LoginError ->{
-                Snackbar.make(requireView(), loginResult.errorMsg.orEmpty(), Snackbar.LENGTH_LONG).show()
+            is LoginViewModel.LoginResult.LoginError -> {
+                Snackbar.make(requireView(), loginResult.errorMsg.orEmpty(), Snackbar.LENGTH_LONG)
+                    .show()
             }
         }
     }

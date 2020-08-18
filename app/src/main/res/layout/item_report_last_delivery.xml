@@ -27,20 +27,20 @@
 
         <TextView
             android:id="@+id/report_delivery_date_title"
+            style="@style/SmallTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/date"
-            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.5" />
 
         <TextView
             android:id="@+id/report_delivery_date"
+            style="@style/TextValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{@string/report_last_delivery(delivery.date)}"
-            android:textColor="@android:color/black"
+            app:dateToString="@{delivery.date}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/report_delivery_date_title"
             app:layout_constraintWidth_percent="0.5"
@@ -48,21 +48,21 @@
 
         <TextView
             android:id="@+id/report_delivery_location_title"
+            style="@style/SmallTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="@dimen/card_value_to_title_space"
             android:text="@string/location"
-            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/report_delivery_date"
             app:layout_constraintWidth_percent="0.5" />
 
         <TextView
             android:id="@+id/report_delivery_location"
+            style="@style/TextValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{delivery.location}"
-            android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/report_delivery_location_title"
             app:layout_constraintWidth_percent="0.5"
@@ -70,20 +70,20 @@
 
         <TextView
             android:id="@+id/report_business_title"
+            style="@style/SmallTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/business"
-            android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@id/report_delivery_date_title"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.5" />
 
         <TextView
             android:id="@+id/report_business"
+            style="@style/TextValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{delivery.business}"
-            android:textColor="@android:color/black"
             app:layout_constraintStart_toEndOf="@+id/report_delivery_date"
             app:layout_constraintTop_toBottomOf="@id/report_business_title"
             app:layout_constraintWidth_percent="0.5"
@@ -94,7 +94,7 @@
             layout="@layout/item_view_attachment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="@dimen/card_value_to_title_space"
             app:layout_constraintTop_toBottomOf="@id/report_delivery_location"
             app:note="@{note}"
             app:noteTitle="@{@string/note}"

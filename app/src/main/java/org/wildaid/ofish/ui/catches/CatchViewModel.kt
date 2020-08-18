@@ -6,12 +6,14 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
+import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.*
 import org.wildaid.ofish.ui.base.AttachmentItem
 import org.wildaid.ofish.ui.base.PhotoItem
 import org.wildaid.ofish.util.getString
 
 class CatchViewModel(
+    val repository: Repository,
     application: Application
 ) : AndroidViewModel(application) {
 
@@ -27,11 +29,25 @@ class CatchViewModel(
     fun initCatch(report: Report, currentReportPhotos: MutableList<PhotoItem>) {
         this.currentReport = report
         this.currentReportPhotos = currentReportPhotos
+        addCatch()
     }
 
     fun updateSpeciesForCatch(species: String, catchItem: CatchItem) {
         catchItem.catch.fish = species
         catchItemsLiveData.value = currentCatchItems
+
+        val newCatch = Catch()
+        currentReport.inspection?.actualCatch?.add(newCatch)
+
+        val newItem = CatchItem(
+            catch = newCatch,
+            title = "$catchTitle ${currentCatchItems.size + 1}",
+            inEditMode = true,
+            amount = "",
+            attachmentItem = AttachmentItem(newCatch.attachments!!)
+        )
+
+        currentCatchItems.add(newItem)
     }
 
     fun updateAmountForCatch(amount: String, catchItem: CatchItem) {
@@ -113,7 +129,6 @@ class CatchViewModel(
             }
         }
     }
-
 
     private fun createPhoto(imageUri: Uri): PhotoItem {
         return PhotoItem(

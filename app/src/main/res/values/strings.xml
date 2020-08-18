@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">O-FISH</string>
     <string name="no">no</string>
     <string name="empty" />
@@ -17,7 +17,7 @@
     <string name="date">Date</string>
     <string name="yes">yes</string>
     <string name="business">Business</string>
-    <string name="add_ems">+\tAdd Electronic Monitoring System</string>
+    <string name="add_ems">Add Electronic Monitoring System</string>
     <string name="location">Location</string>
     <string name="remove_ems">Remove EMS</string>
     <string name="flag_state">Flag State</string>
@@ -25,20 +25,13 @@
     <string name="ems_type">EMS Type</string>
     <string name="registry_number">Registry Number</string>
     <string name="crew_next">Crew\t\t\u279C</string>
-    <string name="select_image">Select image</string>
     <string name="select_attachment_dialog_title">Please select an Attachment</string>
     <string name="select_attachment_dialog_message">You can add Note or Photo as Attachment</string>
     <string name="select_attachment_dialog_note">Note</string>
     <string name="select_attachment_dialog_photo">Photo</string>
-    <string name="new_business">+\tNew Business</string>
+    <string name="new_business">New Business</string>
     <string name="photos">Photos:</string>
     <string name="remove_note">Remove Note</string>
-    <string-array name="ems_array">
-        <item>Automatic identification System (AIS)</item>
-        <item>Visible Infrared Imaging Radiometer Suite (VIIRS)</item>
-        <item>Vessel Monitoring System (VMS)</item>
-        <item>Other</item>
-    </string-array>
 
     <!--  Report  -->
     <string name="menu_submit_report">Submit</string>
@@ -54,8 +47,8 @@
     <string name="crew">Crew</string>
     <string name="crew_member_name">Crew member name</string>
     <string name="crew_member_license_number">License Number</string>
-    <string name="crew_member_add_member">+\tAdd crew member</string>
-    <string name="crew_member_remove_member">-\tRemove %s</string>
+    <string name="crew_member_add_member">Add crew member</string>
+    <string name="crew_member_remove_member">Remove %s</string>
     <string name="activity_next">Activity\t\t\u279C</string>
     <string name="license_number">License Number %s</string>
 
@@ -74,37 +67,19 @@
     <string name="gear">Gear</string>
     <string name="note">Note</string>
     <string name="catch_next">Catch\t\t\u279C</string>
-    <string-array name="activity_array">
-        <item>Fishing</item>
-        <item>Transiting</item>
-        <item>Offloading</item>
-        <item>Other</item>
-    </string-array>
-    <string-array name="fishery_array">
-        <item>Tuna</item>
-        <item>Groundfish</item>
-        <item>Bluefish</item>
-        <item>Other</item>
-    </string-array>
-    <string-array name="gear_array">
-        <item>Trawl</item>
-        <item>Long-line</item>
-        <item>Nets</item>
-        <item>Other</item>
-    </string-array>
 
     <!--    Violation -->
     <string name="violation">Violation</string>
-    <string name="violation_add_violation">+\tAdd violation</string>
+    <string name="violation_add_violation">Add violation</string>
     <string name="violation_seizures">Seizures</string>
     <string name="violation_description">Description</string>
     <string name="result_of_violation">Result of Violation</string>
     <string name="warning">Warning</string>
     <string name="citation">Citation</string>
-    <string name="remove_violation">- Remove %1$s</string>
+    <string name="remove_violation">Remove %1$s</string>
     <string name="risk_next">Risk\t\t\u279C</string>
     <string name="issued_to">Issued to</string>
-    <string name="add_crew_member">+\tCrew Member</string>
+    <string name="add_crew_member">Crew Member</string>
 
     <!--  Login  -->
     <string name="password">Password</string>
@@ -125,7 +100,7 @@
     <!--    Notes -->
     <string name="notes">Notes</string>
     <string name="btn_save">Save</string>
-    <string name="notes_add_note">+\tAdd Note</string>
+    <string name="notes_add_note">Add Note</string>
     <string name="new_note">New Note</string>
 
     <!--  Home  -->
@@ -135,47 +110,43 @@
     <string name="change_status_to_on_duty">Change status to "On Duty?"</string>
     <string name="board_vessel">Board Vessel</string>
     <string name="find_records">Find Records</string>
-    <string name="first_last_name">Officer %s %s</string>
+    <string name="first_last_name">%s %s</string>
+
+    <string name="logout_dialog_title">You sure you want to log out</string>
+    <string name="logout_dialog_message">You can only log back in once you have cellular service or are connected to WIFI with internet</string>
+    <string name="logout_dialog_yes">Yes</string>
 
     <!--  Find records  -->
-    <string name="crew_member_size">%d Crew Members</string>
+    <plurals name="crew_member_size">
+        <item quantity="one">%d Crew Member</item>
+        <item quantity="other">%d Crew Members</item>
+    </plurals>
     <string name="records_permit_number">Permit # %s</string>
     <string name="record_last_contact">Last contact %1$tB %1$td, %1$tY</string>
     <string name="recently_boarded">Recently Boarded Vessels</string>
     <string name="no_results_for">No results for \"%s\"</string>
 
     <!--  Report details  -->
-    <string name="boarding">Boarding</string>
     <string name="boarding_record">Boarding Record</string>
     <string name="description">Description</string>
     <string name="captain">Captain</string>
     <string name="report_catch">Catch</string>
-    <string name="report_weight">Weight</string>
-    <string name="report_count">Count</string>
     <string name="report_note_indexed">Note %d</string>
     <string name="captains_name">Captains Name</string>
     <string name="report_date">%1$tB %1$td, %1$tY</string>
-    <string name="report_time">%1$tI:%1$tM%1$Tp %1$tZ</string>
-    <string name="report_last_delivery">%1$tB %1$tm, %1$tY</string>
     <string name="report_crew_count">Crew (%d)</string>
     <string name="report_catch_count">Catch (%d)</string>
     <string name="report_violations_count">Violations (%d)</string>
 
     <!--  Catch  -->
     <string name="catch_title">Catch</string>
-    <string name="add_catch">+\tAdd Catch</string>
+    <string name="add_catch">Add Catch</string>
     <string name="species">Species</string>
     <string name="weight">Weight</string>
     <string name="amount">Amount</string>
     <string name="count">Count</string>
-    <string name="remove_catch">- Remove Catch %1$d</string>
+    <string name="remove_catch">Remove Catch %1$d</string>
     <string name="violation_next">Violation\t\t\u279C</string>
-    <string-array name="species_array">
-        <item>Tuna</item>
-        <item>Groundfish</item>
-        <item>Bluefish</item>
-        <item>Other</item>
-    </string-array>
     <string-array name="weight_units">
         <item>kg</item>
         <item>tonnes</item>
@@ -192,6 +163,9 @@
     <string name="crew_member">Crew Member</string>
     <string name="add_crew_member_title">Add Crew Member</string>
     <string name="validation_error">Fill in all the fields</string>
+    <string name="report_already_contains_captain">This report already contains a captain</string>
+    <string name="replace_captain">Are you sure you want to replace the captain?</string>
+    <string name="continue_editing">Continue editing</string>
 
     <!--  Vessel details  -->
     <string name="previous_boardings">Previous Boardings</string>
@@ -205,11 +179,14 @@
 
     <!--  Vessel Search  -->
     <string name="new_boarding">New Boarding</string>
-    <string name="add_new_vessel">+\tAdd New Vessel</string>
+    <string name="add_new_vessel">Add New Vessel</string>
+    <string name="duty_report">Duty Report</string>
 
     <!--    Submit/Cancel report dialogs-->
     <string name="submit_boarding">Submit boarding?</string>
+    <string name="you_left_blank">You left the following sections blank:</string>
     <string name="sure_to_submit">Are you sure you want to submit?</string>
+    <string name="sure_to_submit_with_skipped">%s\n\nAre you sure you want to submit?</string>
     <string name="cancel_boarding">Cancel boarding?</string>
     <string name="board_not_saved">This boarding will not be saved</string>
     <string name="keep_editing">Keep Editing</string>
@@ -219,4 +196,21 @@
     <string name="continue_with_empty_fields">Continue with empty fields?</string>
     <string name="continue_action">Continue</string>
     <string name="chose_image_source">Choose image source</string>
+
+    <!--    Notifications-->
+    <string name="channel_name">O-FISH notifications</string>
+    <string name="channel_description">O-FISH will show on duty reminders</string>
+
+    <!--    Time On Duty -->
+    <string name="time_on_duty">Time On Duty</string>
+    <string name="start_date">Start Date</string>
+    <string name="start_time">Start Time</string>
+    <string name="end_date">End Date</string>
+    <string name="end_time">End Time</string>
+    <string name="patrol_summary">Patrol Summary</string>
+    <string name="go_off_duty">Go Off Duty</string>
+    <string name="boarding_count">%d Boardings</string>
+    <string name="error_start_date">Start date should be before End date</string>
+    <string name="error_end_date">End date should be after Start date</string>
+    <string name="error_date_in_future">Please set correct date</string>
 </resources>

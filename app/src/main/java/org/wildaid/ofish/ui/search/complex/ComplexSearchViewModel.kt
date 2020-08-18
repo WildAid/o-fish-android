@@ -1,14 +1,16 @@
 package org.wildaid.ofish.ui.search.complex
 
 import android.app.Application
+import android.util.Log
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.CrewMember
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.search.base.BaseSearchType
 import org.wildaid.ofish.ui.search.base.BaseSearchViewModel
+import java.util.*
 
-private const val FIND_RECORDS_LIMIT = 5
+private const val RECENT_BOARDINGS_COUNT = 5
 
 class ComplexSearchViewModel(repository: Repository, application: Application) :
     BaseSearchViewModel<SearchModel>(repository, application) {
@@ -17,9 +19,9 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
             is ComplexSearchFragment.SearchBusiness -> searchBusinessDataSource
             is ComplexSearchFragment.SearchViolation -> searchViolationDataSource
             is ComplexSearchFragment.SearchRecords -> searchRecordsDataSource.apply {
-                limit = FIND_RECORDS_LIMIT
+                isAddAvailable = true
             }
-            is ComplexSearchFragment.SearchVessels -> searchRecordsDataSource.apply {
+            is ComplexSearchFragment.SearchBoardVessels -> searchRecordsDataSource.apply {
                 isAddAvailable = true
             }
             is ComplexSearchFragment.SearchCrew -> searchCrewDataSource.apply {
@@ -51,60 +53,72 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
 
     private val searchViolationDataSource = object : SearchDataSource() {
         override fun initiateData(): List<SearchModel> {
-            return repository.getViolations().map { ViolationSearchModel(it) }
+            return repository.getOffences().map { ViolationSearchModel(it) }
         }
 
         override fun applyFilter(filter: String): List<SearchModel> {
-            return repository.getViolations()
-                .filter { it.contains(filter, true) }
+            return repository.getOffences()
+                .filter { it.code.contains(filter, true) || it.explanation.contains(filter, true) }
                 .map { ViolationSearchModel(it) }
         }
     }
 
     private val searchRecordsDataSource = object : SearchDataSource() {
         var isAddAvailable: Boolean = false
-        var limit = 0
 
         private val addSearchModel = AddSearchModel(R.string.add_new_vessel)
+        private var cachedAllReports = emptyList<Report>()
 
         override fun initiateData(): List<SearchModel> {
-            val list = mutableListOf<SearchModel>()
-            if (limit > 0) {
-                list.add(TextViewSearchModel(R.string.recently_boarded))
-            }
-            val allReports = repository.findAllReports()
-            list.addAll(allReports
+            fetchReports()
+
+            val result = mutableListOf<SearchModel>()
+            result.add(TextViewSearchModel(R.string.recently_boarded))
+
+            if (isAddAvailable) result.add(addSearchModel)
+
+            result.addAll(cachedAllReports
                 .asSequence()
                 .filterNot { it.vessel?.name.isNullOrBlank() }
-                .groupBy { it.vessel?.permitNumber }
+                .groupBy { it.vessel?.permitNumber to it.vessel?.name }
                 .map { pair ->
-                    RecordSearchModel(allReports.find { it.vessel?.permitNumber == pair.key }?.vessel!!,
-                        pair.value.sortedByDescending { report -> report.date })
-                }.take(limit)
+                    RecordSearchModel(
+                        pair.value.find { (it.vessel?.permitNumber to it.vessel?.name) == pair.key }?.vessel!!,
+                        pair.value.sortedByDescending { report -> report.date }, repository
+                    )
+                }.take(RECENT_BOARDINGS_COUNT)
             )
-            if (isAddAvailable) list.add(addSearchModel)
-
-            return list
+            return result
         }
 
         override fun applyFilter(filter: String): List<SearchModel> {
+            fetchReports()
+
             if (filter.isBlank()) {
-                return if (isAddAvailable) listOf(addSearchModel) else emptyList()
+                return initiateData()
             }
 
-            val list = mutableListOf<SearchModel>()
-            list.addAll(repository.findAllReports()
+            val result = mutableListOf<SearchModel>()
+            if (isAddAvailable) result.add(addSearchModel)
+
+            result.addAll(cachedAllReports
                 .filterNot { it.vessel?.name.isNullOrBlank() }
                 .filter { it.vessel?.name.orEmpty().contains(filter, true) }
-                .groupBy { it.vessel }
-                .map {
+                .groupBy { it.vessel?.permitNumber to it.vessel?.name }
+                .map { pair ->
                     RecordSearchModel(
-                        it.key!!,
-                        it.value.sortedByDescending { report -> report.date })
+                        pair.value.find { (it.vessel?.permitNumber to it.vessel?.name) == pair.key }?.vessel!!,
+                        pair.value.sortedByDescending { report -> report.date }, repository
+                    )
                 })
-            if (isAddAvailable) list.add(addSearchModel)
 
-            return list
+            return result
+        }
+
+        private fun fetchReports() {
+            if (cachedAllReports.isNullOrEmpty()) {
+                cachedAllReports = repository.findReportsGroupedByVessel()
+            }
         }
     }
 

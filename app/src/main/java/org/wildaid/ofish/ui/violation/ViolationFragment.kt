@@ -7,14 +7,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.ItemTouchHelper
 import kotlinx.android.synthetic.main.fragment_violation.*
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
 import org.wildaid.ofish.databinding.FragmentViolationBinding
 import org.wildaid.ofish.ui.base.BaseReportFragment
 import org.wildaid.ofish.ui.base.CARDS_OFFSET_SIZE
-import org.wildaid.ofish.ui.base.SwipeToDeleteTouchCallback
 import org.wildaid.ofish.ui.crew.VerticalSpaceItemDecoration
 import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
@@ -23,8 +21,6 @@ import org.wildaid.ofish.ui.search.complex.ViolationSearchModel
 import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.hideKeyboard
 import org.wildaid.ofish.util.setVisible
-
-const val NOT_REMOVABLE_VIOLATION_POSITION = 0
 
 class ViolationFragment : BaseReportFragment(R.layout.fragment_violation) {
     private val fragmentViewModel: ViolationViewModel by viewModels { getViewModelFactory() }
@@ -92,6 +88,7 @@ class ViolationFragment : BaseReportFragment(R.layout.fragment_violation) {
                 hideKeyboard()
                 fragmentViewModel.removeViolation(it)
             },
+            violationOnPhotoClickListener = ::showFullImage,
             violationRemovePhotoListener = fragmentViewModel::removePhotoFromViolation,
             violationRemoveNoteListener = fragmentViewModel::removeNoteFromViolation
         )
@@ -100,13 +97,6 @@ class ViolationFragment : BaseReportFragment(R.layout.fragment_violation) {
             adapter = violationAdapter
             addItemDecoration(VerticalSpaceItemDecoration(CARDS_OFFSET_SIZE))
         }
-
-        ItemTouchHelper(
-            SwipeToDeleteTouchCallback(requireContext(), arrayOf(NOT_REMOVABLE_VIOLATION_POSITION)) {
-                hideKeyboard()
-                fragmentViewModel.removeViolation(it)
-            }
-        ).attachToRecyclerView(violation_recycler)
 
         violation_add_footer.setOnClickListener {
             requireActivity().currentFocus?.clearFocus()

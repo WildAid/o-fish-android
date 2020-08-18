@@ -15,13 +15,14 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath 'com.android.tools.build:gradle:4.0.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
-//        classpath "io.realm:realm-gradle-plugin:6.0.2"
-        classpath "io.realm:realm-gradle-plugin:10.0.0-SNAPSHOT"
+        classpath "io.realm:realm-gradle-plugin:10.0.0-BETA.5"
 
         classpath 'com.google.gms:google-services:4.3.3'
+
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.11.0-RC1"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -29,6 +30,7 @@ buildscript {
 }
 
 allprojects {
+    apply from: "$rootDir/detekt.gradle"
     repositories {
         google()
         jcenter()

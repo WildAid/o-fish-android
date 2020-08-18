@@ -16,6 +16,7 @@
         android:background="@color/background_screen_with_cards">
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/catch_scroll"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@color/background_screen_with_cards"
@@ -39,12 +40,19 @@
 
                 <TextView
                     android:id="@+id/catch_add_footer"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
+                    android:drawableStart="@drawable/ic_add"
+                    android:drawablePadding="4dp"
                     android:gravity="center"
+                    android:paddingTop="24dp"
+                    android:paddingBottom="24dp"
                     android:text="@string/add_catch"
                     android:textColor="@color/main_blue"
+                    android:textSize="@dimen/add_remove_text_size"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/catch_recycler" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -55,7 +63,7 @@
             android:id="@+id/btn_next"
             style="@style/BlueButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_height"
             android:layout_margin="16dp"
             android:onClick="@{() -> viewmodel.onNextClicked()}"
             android:text="@string/violation_next"

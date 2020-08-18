@@ -17,6 +17,7 @@
             android:layout_width="match_parent"
             android:background="@color/main_blue"
             app:titleTextColor="@color/white"
+            app:title="@string/new_boarding"
             app:subtitleTextColor="@color/white"
             android:layout_height="wrap_content" />
 

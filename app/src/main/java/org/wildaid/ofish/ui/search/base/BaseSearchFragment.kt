@@ -1,8 +1,11 @@
 package org.wildaid.ofish.ui.search.base
 
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
@@ -36,9 +39,10 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
     protected val baseSearchViewModel: BaseSearchViewModel<T> by lazy { createViewModel() }
     protected val activityViewModel: CreateReportViewModel by activityViewModels { getViewModelFactory() }
 
-    private lateinit var baseSearchAdapter: BaseSearchAdapter<T>
     private val navigation: NavController by lazy { findNavController() }
     private var progressDialog: ProgressDialogFragment? = null
+    private lateinit var baseSearchAdapter: BaseSearchAdapter<T>
+    private lateinit var searchView: SearchView
 
     abstract fun createAdapter(itemListener: (T) -> Unit): BaseSearchAdapter<T>
     abstract fun createViewModel(): BaseSearchViewModel<T>
@@ -67,7 +71,9 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
 
         search_recycler.apply {
             adapter = baseSearchAdapter
-            addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
+            addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL).apply {
+                setDrawable(requireContext().getDrawable(R.drawable.ic_recycler_divider)!!)
+            })
         }
 
         val report =
@@ -86,16 +92,31 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
 
     abstract fun getSearchTitle(): String
 
+    abstract fun getSearchHint(): String
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         inflater.inflate(R.menu.menu_search_fragment, menu)
         val searchItem = menu.findItem(R.id.menu_search)
-        val searchView = searchItem.actionView as SearchView
+        searchView = searchItem.actionView as SearchView
 
-        searchView.queryHint = getSearchTitle()
+        val sm = requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        // Assumes current activity is the searchable activity
+        searchView.setSearchableInfo(sm.getSearchableInfo(requireActivity().componentName))
+
+        searchView.queryHint = getSearchHint()
+        searchView.maxWidth = Integer.MAX_VALUE
         searchItem.expandActionView()
-
         searchView.setOnQueryTextListener(toolbarSearchListener)
+
+        searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(item: MenuItem?) = true
+
+            override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
+                navigation.popBackStack()
+                return true
+            }
+        })
         searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 searchView.showKeyboard()
@@ -103,6 +124,10 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
                 searchView.hideKeyboard()
             }
         }
+    }
+
+    fun applySearchQuery(query: String?) {
+        searchView.setQuery(query, false)
     }
 
     protected open fun onItemSelected(selectedItem: T) {
@@ -113,7 +138,7 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
                     bundleOf(KEY_VESSEL_PERMIT_NUMBER to (selectedItem as RecordSearchModel).vessel.permitNumber)
                 navigation.navigate(R.id.vessel_details_fragment, detailArgs)
             }
-            is TextViewSearchModel -> { //Nothing
+            is TextViewSearchModel -> { // Nothing
             }
             else -> {
                 navigation.previousBackStackEntry?.let {
@@ -137,8 +162,12 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
 
     private fun navigateFromAdd() {
         when (currentSearchEntity) {
-            is ComplexSearchFragment.SearchVessels -> navigation.navigate(R.id.action_complex_search_to_create_report)
-            is ComplexSearchFragment.SearchCrew -> navigation.navigate(R.id.add_crew_fragment)
+            is ComplexSearchFragment.SearchBoardVessels ->
+                navigation.navigate(R.id.action_complex_search_to_create_report)
+            is ComplexSearchFragment.SearchRecords ->
+                navigation.navigate(R.id.action_complex_search_to_create_report)
+            is ComplexSearchFragment.SearchCrew ->
+                navigation.navigate(R.id.add_crew_fragment)
             is ComplexSearchFragment.SearchBusiness -> {
                 navigation.previousBackStackEntry?.let {
                     it.savedStateHandle.set(CREATE_NEW_BUSINESS, true)
@@ -173,11 +202,9 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
 
     private fun showNecessaryLayout(isSearchEmpty: Boolean, query: String?) {
         if (isSearchEmpty) {
-            search_recycler.visibility = View.GONE
             empty_result_layout.visibility = View.VISIBLE
             empty_result_text.text = getString(R.string.no_results_for, query)
         } else {
-            search_recycler.visibility = View.VISIBLE
             empty_result_layout.visibility = View.GONE
         }
     }

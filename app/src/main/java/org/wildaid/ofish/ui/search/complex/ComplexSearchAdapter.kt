@@ -1,10 +1,15 @@
 package org.wildaid.ofish.ui.search.complex
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.SafetyColor
+import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.databinding.*
 import org.wildaid.ofish.ui.search.base.BaseSearchAdapter
 import org.wildaid.ofish.ui.search.base.BaseViewHolder
@@ -20,8 +25,11 @@ const val TEXTVIEW_TYPE = 101
 class ComplexSearchAdapter(itemListener: (SearchModel) -> Unit) :
     BaseSearchAdapter<SearchModel>(itemListener) {
     @Suppress("UNCHECKED_CAST")
-    override fun createHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int)
-            : BaseViewHolder<SearchModel> {
+    override fun createHolder(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        viewType: Int
+    ): BaseViewHolder<SearchModel> {
         return when (viewType) {
             BUSINESS_TYPE -> BusinessHolder(
                 inflater.inflate(
@@ -89,21 +97,14 @@ class ComplexSearchAdapter(itemListener: (SearchModel) -> Unit) :
 
     inner class ViolationHolder(view: View) : BaseViewHolder<ViolationSearchModel>(view) {
         private val binding: ItemBusinessViolationBinding = ItemBusinessViolationBinding.bind(view)
-        private val viewArray = arrayOf(
-            binding.itemBusinessName,
-            binding.itemBusinessAdress1,
-            binding.itemBusinessAdress2,
-            binding.itemBusinessCountry
-        )
 
         override fun bindItem(item: ViolationSearchModel) {
-            val dataArray = item.value.split(',', limit = viewArray.size)
-            dataArray.forEachIndexed { index, data ->
-                viewArray[index].text = data
-            }
-
-            for (i in dataArray.size until viewArray.size) {
-                viewArray[i].setVisible(false)
+            binding.itemName.text = item.value.code
+            if (item.value.explanation.isBlank()) {
+                binding.itemAddress.setVisible(false)
+            } else {
+                binding.itemAddress.setVisible(true)
+                binding.itemAddress.text = item.value.explanation
             }
         }
     }
@@ -112,16 +113,15 @@ class ComplexSearchAdapter(itemListener: (SearchModel) -> Unit) :
         private val binding: ItemBusinessViolationBinding = ItemBusinessViolationBinding.bind(view)
 
         override fun bindItem(item: BusinessSearchModel) {
-            binding.itemBusinessName.text = item.value.first
-            val array = item.value.second.split(',', limit = 3)
-            binding.itemBusinessAdress1.text = array[0]
-            binding.itemBusinessAdress2.text = array[1]
-            if (array.size > 2) binding.itemBusinessCountry.text = array[2]
+            binding.itemName.text = item.value.first
+            binding.itemAddress.text = item.value.second
         }
     }
 
     inner class RecordHolder(view: View) : BaseViewHolder<RecordSearchModel>(view) {
         private val binding: ItemRecordBinding = ItemRecordBinding.bind(view)
+        private val radiusInPixels =
+            view.context.resources.getDimensionPixelSize(R.dimen.photo_corner_radius)
 
         override fun bindItem(item: RecordSearchModel) {
             val lastReport = item.reports.first()
@@ -132,14 +132,46 @@ class ComplexSearchAdapter(itemListener: (SearchModel) -> Unit) :
                 context.getString(R.string.records_permit_number, item.vessel.permitNumber)
             binding.recordVesselLastBoarding.text =
                 context.getString(R.string.record_last_contact, lastReport.date)
+            val crewSize = getCrewSize(lastReport)
             binding.recordVesselCrewSize.text =
-                context.getString(R.string.crew_member_size, lastReport.crew.size + 1) // Adding Captain
+                context.resources.getQuantityString(
+                    R.plurals.crew_member_size,
+                    crewSize, crewSize
+                )
 
             val safetyLevel = lastReport.inspection?.summary?.safetyLevel?.level
             for (value in SafetyColor.values()) {
                 if (value.name == safetyLevel) {
-                    binding.recordVesselSafetyLevel.setSafetyColor(value, R.dimen.safety_background_radius_small)
+                    binding.recordVesselSafetyLevel.setSafetyColor(
+                        value,
+                        R.dimen.safety_background_radius_small
+                    )
                     break
+                }
+            }
+
+            bindImage(item, context)
+        }
+
+        private fun getCrewSize(lastReport: Report): Int {
+            val captain = lastReport.captain
+            val captainCount =
+                if (captain?.name.isNullOrBlank() && captain?.license.isNullOrBlank()) 0 else 1
+            return lastReport.crew.size + captainCount
+        }
+
+        private fun bindImage(item: RecordSearchModel, context: Context) {
+            item.reports.forEach { report ->
+                report.vessel?.attachments?.photoIDs?.firstOrNull()?.let {
+                    item.repository.getPhotoById(it).also { photo ->
+                        Glide
+                            .with(context)
+                            .load(photo?.getResourceForLoading())
+                            .transform(CenterCrop(), RoundedCorners(radiusInPixels))
+                            .placeholder(R.drawable.ic_vessel_placeholder_2)
+                            .into(binding.recordVesselImage)
+                        return
+                    }
                 }
             }
         }

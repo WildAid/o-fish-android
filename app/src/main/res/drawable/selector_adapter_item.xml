@@ -6,6 +6,8 @@
             <item
                 android:drawable="@android:color/darker_gray"
                 android:state_pressed="true" />
+
+            <item android:drawable="@color/white" />
         </selector>
     </item>
 </ripple>

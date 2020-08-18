@@ -56,8 +56,8 @@
 
             <ImageView
                 android:id="@+id/btn_vessel_info_edit"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="@dimen/edit_icon_size"
+                android:layout_height="@dimen/edit_icon_size"
                 android:onClick="@{()-> currentHolder.onEmsEditMode(emsItem)}"
                 android:src="@drawable/ic_edit"
                 app:layout_constraintBottom_toBottomOf="@id/vessel_ems_title"
@@ -67,8 +67,8 @@
 
             <ImageView
                 android:id="@+id/btn_vessel_info_attachment"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="@dimen/add_attachment_icon_size"
+                android:layout_height="@dimen/add_attachment_icon_size"
                 android:onClick="@{()-> currentHolder.onEmsAddAttachment(emsItem)}"
                 android:src="@drawable/ic_add_attachment"
                 app:layout_constraintBottom_toBottomOf="@id/vessel_ems_title"
@@ -178,12 +178,20 @@
 
             <TextView
                 android:id="@+id/ems_action_remove"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
+                android:drawableStart="@drawable/ic_baseline_remove"
+                android:drawablePadding="4dp"
                 android:gravity="center"
                 android:onClick="@{() -> currentHolder.onEmsRemove(emsItem)}"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
                 android:text="@string/remove_ems"
+                android:textColor="@color/text_input_hint"
+                android:textSize="@dimen/add_remove_text_size"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ems_item_edit_photos" />
 
             <include

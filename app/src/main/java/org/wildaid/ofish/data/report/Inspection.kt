@@ -13,5 +13,4 @@ open class Inspection : RealmObject() {
     var actualCatch: RealmList<Catch> = RealmList()
     var summary: Summary? = Summary()
     var attachments: Attachments? = Attachments()
-
 }

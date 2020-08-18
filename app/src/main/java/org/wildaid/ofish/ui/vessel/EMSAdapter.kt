@@ -19,6 +19,7 @@ class EMSAdapter(
     private val emsAddAttachmentListener: (EMSItem) -> Unit,
     private val emsRemoveListener: (Int) -> Unit,
     private val emsRemoveNoteListener: (EMSItem) -> Unit,
+    private val emsOnPhotoClickListener: (View, PhotoItem) -> Unit,
     private val emsRemovePhotoListener: (PhotoItem, EMSItem) -> Unit
 ) : RecyclerView.Adapter<EMSAdapter.EMSHolder>() {
 
@@ -46,7 +47,6 @@ class EMSAdapter(
         )
     }
 
-
     override fun onBindViewHolder(holder: EMSHolder, position: Int) {
         holder.bindItem(dataList[position])
     }
@@ -69,6 +69,13 @@ class EMSAdapter(
                 emsItem.inEditMode && emsItem.ems.emsType.equals(stringOther, true)
             )
 
+            binding.emsItemEditPhotos.onPhotoClickListener = { view, item ->
+                emsOnPhotoClickListener.invoke(view, item)
+            }
+            binding.emsViewLayout.emsItemAttachments.attachmentsPhotos.onPhotoClickListener =
+                { view, item ->
+                    emsOnPhotoClickListener.invoke(view, item)
+                }
             binding.emsItemEditPhotos.onPhotoRemoveListener = {
                 emsRemovePhotoListener.invoke(it, currentItem)
             }
@@ -95,4 +102,3 @@ class EMSAdapter(
         }
     }
 }
-

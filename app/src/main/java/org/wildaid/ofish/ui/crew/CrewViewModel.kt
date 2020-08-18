@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
+import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.*
 import org.wildaid.ofish.ui.base.AttachmentItem
 import org.wildaid.ofish.ui.base.PhotoItem
@@ -14,6 +15,7 @@ import org.wildaid.ofish.util.getString
 const val N_A = "N/A"
 
 class CrewViewModel(
+    val repository: Repository,
     application: Application
 ) : AndroidViewModel(application) {
     val crewMembersData = MutableLiveData<List<CrewMemberItem>>()
@@ -33,7 +35,8 @@ class CrewViewModel(
     ) {
         this.currentReport = currentReport
         this.currentReportPhotos = currentReportPhotos
-        crewMembersData.value = initiateCrewMembers()
+        this.crewMembersData.value = initiateCrewMembers()
+        addCrewMember()
     }
 
     fun updateCrewMembersIfNeeded() {
@@ -107,7 +110,7 @@ class CrewViewModel(
         currentCrewItems.add(
             CrewMemberItem(
                 newCrewMember,
-                title = "Crew Member ${currentCrewItems.size}",
+                title = "${getString(R.string.crew_member)} ${currentCrewItems.size}",
                 attachments = AttachmentItem(newCrewMember.attachments!!)
             )
         )
@@ -148,20 +151,32 @@ class CrewViewModel(
 
     private fun isCrewChanged() =
         // report crew size is less by 1 because captain is stored separately in another field
-        currentReport.captain != currentCrewItems[0].crewMember ||
-                currentReport.crew.size != currentCrewItems.size - 1
+        currentReport.captain != currentCrewItems[0].crewMember || currentReport.crew.size != currentCrewItems.size - 1
 
     private fun initiateCrewMembers(): List<CrewMemberItem> {
         val captain = CrewMember()
+        val crewMember = CrewMember()
         currentReport.captain = captain
+        currentReport.crew.add(crewMember)
+
         currentCrewItems = mutableListOf<CrewMemberItem>().apply {
             add(
                 CrewMemberItem(
                     captain,
-                    title = "Captain",
+                    title = captainTitle,
                     attachments = AttachmentItem(captain.attachments!!),
                     isRemovable = false,
                     isCaptain = true
+                )
+            )
+
+            add(
+                CrewMemberItem(
+                    crewMember,
+                    title =  "$memberTitle 1",
+                    attachments = AttachmentItem(crewMember.attachments!!),
+                    isRemovable = true,
+                    isCaptain = false
                 )
             )
         }

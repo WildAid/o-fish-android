@@ -37,8 +37,7 @@ class TabsViewModel(val repository: Repository, application: Application) :
 
     fun onTabsSkipped(skippedTabs: List<TabItem>) {
         skippedTabs.forEach {
-            it.wasVisited = true
-            it.isFormValid = false
+            it.status = TabStatus.SKIPPED
         }
 
         tabsStateLiveData.value = tabs
@@ -46,38 +45,46 @@ class TabsViewModel(val repository: Repository, application: Application) :
         userEventLiveData.value = Event(UserEvent.ChangeTabEvent(nextTab))
     }
 
-    fun onTabClicked(newPosition: Int): Boolean {
+    fun onTabClicked(currentTabPosition: Int, newPosition: Int, currentFormValid: Boolean): Boolean {
         val notVisitedTabs = mutableListOf<TabItem>()
         tabs.forEachIndexed { index, tab ->
-            if (!tab.wasVisited && newPosition > index) {
+            if (tab.status == TabStatus.NOT_VISITED && newPosition > index) {
                 notVisitedTabs.add(tab)
             }
         }
 
+        val currentTab = tabs[currentTabPosition]
         if (notVisitedTabs.isNotEmpty()) {
+            if (!currentFormValid) {
+                notVisitedTabs.add(0, currentTab)
+            }
             userEventLiveData.value = Event(UserEvent.AskSkipSectionsEvent(notVisitedTabs))
+            return true
+        }
+
+        if (!currentFormValid && newPosition > currentTabPosition) {
+            userEventLiveData.value = Event(UserEvent.AskLeftEmptyFields(listOf(currentTab)))
             return true
         }
 
         return false
     }
 
-    fun onTabChanged(previousTabIndex: Int, previousTabFormIsValid: Boolean, currentTabIndex: Int) {
+    fun onTabChanged(previousTabIndex: Int, currentTabIndex: Int) {
         if (!vesselFragmentWasVisited && currentTabIndex == VESSEL_FRAGMENT_POSITION && vesselToPrefill != null) {
             vesselFragmentWasVisited = true
             userEventLiveData.value = Event(UserEvent.AskPrefillVesselEvent)
         }
 
-        if (previousTabIndex != TabLayout.Tab.INVALID_POSITION) {
-            tabs[previousTabIndex].also {
-                it.isFormValid = previousTabFormIsValid
-                it.wasVisited = true
+        val previousTab = tabs[previousTabIndex]
+        if (previousTabIndex != TabLayout.Tab.INVALID_POSITION && previousTab.status != TabStatus.SKIPPED) {
+            previousTab.apply {
+                status = TabStatus.VISITED
             }
             tabsStateLiveData.value = tabs
         }
         tabs[currentTabIndex].apply {
-            wasVisited = true
-            isFormValid = true
+            status = TabStatus.VISITED
         }
 
         tabsStateLiveData.value = tabs
@@ -85,7 +92,7 @@ class TabsViewModel(val repository: Repository, application: Application) :
 
     private fun initTabStates() {
         tabs = listOf(
-            TabItem(BASIC_INFO_FRAGMENT_POSITION, getString(R.string.basic_information), wasVisited = true, isFormValid = true),
+            TabItem(BASIC_INFO_FRAGMENT_POSITION, getString(R.string.basic_information), TabStatus.VISITED),
             TabItem(VESSEL_FRAGMENT_POSITION, getString(R.string.vessel)),
             TabItem(CREW_FRAGMENT_POSITION, getString(R.string.crew)),
             TabItem(ACTIVITIES_FRAGMENT_POSITION, getString(R.string.activity)),
@@ -96,8 +103,13 @@ class TabsViewModel(val repository: Repository, application: Application) :
         )
     }
 
+    fun getSkippedAndNotVisitedTabs(): List<TabItem> {
+        return tabs.filterNot { it.status == TabStatus.VISITED }
+    }
+
     sealed class UserEvent {
         class AskSkipSectionsEvent(var skippedTabs: List<TabItem>) : UserEvent()
+        class AskLeftEmptyFields(var skippedTabs: List<TabItem>) : UserEvent()
         class ChangeTabEvent(var tabItem: TabItem) : UserEvent()
         object AskPrefillVesselEvent : UserEvent()
     }

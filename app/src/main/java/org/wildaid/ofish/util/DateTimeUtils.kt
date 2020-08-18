@@ -7,4 +7,3 @@ import java.text.SimpleDateFormat
 val dateFormat: SimpleDateFormat = SimpleDateFormat("MMMM dd, yyyy")
 @SuppressLint("SimpleDateFormat")
 val timeFormat: SimpleDateFormat = SimpleDateFormat("KK:mma z")
-

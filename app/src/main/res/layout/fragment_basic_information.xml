@@ -20,16 +20,15 @@
             android:id="@+id/date_time_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/background_card"
+            android:elevation="4dp"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:paddingStart="16dp"
-                android:paddingTop="16dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="16dp">
+                android:padding="18dp">
 
                 <TextView
                     android:id="@+id/basic_info_date_time_header"
@@ -69,6 +68,8 @@
                     style="@style/TextValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:onClick="@{() -> viewmodel.onButtonClicked(@id/basic_info_date)}"
                     app:dateToString="@{viewmodel.reportLiveData.date}"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -82,6 +83,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:onClick="@{() -> viewmodel.onButtonClicked(@id/basic_info_time)}"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintLeft_toRightOf="@id/basic_info_date"
                     app:layout_constraintRight_toRightOf="parent"
@@ -120,6 +123,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:background="@color/background_card"
+            android:elevation="4dp"
             app:layout_constraintTop_toBottomOf="@id/date_time_card">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -190,6 +195,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
                     android:text="@{viewmodel.latitude}"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -204,6 +210,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginEnd="16dp"
                     android:text="@{viewmodel.longitude}"
                     app:layout_constraintHorizontal_weight="1"
@@ -244,9 +251,9 @@
             android:id="@+id/btn_next"
             style="@style/BlueButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_height"
             android:layout_margin="16dp"
-            android:onClick="@{() -> viewmodel.onNextClicked()}"
+            android:onClick="@{() -> viewmodel.onButtonClicked(@id/btn_next)}"
             android:text="@string/vessel_next"
             app:layout_constraintBottom_toBottomOf="parent" />
 

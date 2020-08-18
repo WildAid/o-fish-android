@@ -16,6 +16,7 @@
         android:background="@color/background_screen_with_cards">
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/crew_scroll"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -25,8 +26,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="@dimen/scroll_bottom_padding"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/scroll_bottom_padding">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/crew_recycler"
@@ -35,26 +36,40 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintTop_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:itemCount="3"
+                    tools:itemCount="1"
                     tools:listitem="@layout/item_crew_member" />
 
                 <TextView
                     android:id="@+id/crew_add_member_footer"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableStart="@drawable/ic_add"
+                    android:drawablePadding="4dp"
+                    android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:gravity="center"
+                    android:textSize="@dimen/add_remove_text_size"
+                    android:paddingTop="24dp"
+                    android:paddingBottom="24dp"
                     android:text="@string/crew_member_add_member"
                     android:textColor="@color/main_blue"
                     app:layout_constraintTop_toBottomOf="@id/crew_recycler" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@id/snackbar_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@id/btn_next"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <Button
             android:id="@+id/btn_next"
             style="@style/BlueButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_height"
             android:layout_margin="16dp"
             android:onClick="@{() -> viewModel.onNextClicked()}"
             android:text="@string/activity_next"

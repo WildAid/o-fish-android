@@ -54,10 +54,16 @@ class ActivitiesFragment : BaseReportFragment(R.layout.fragment_activity) {
             fragmentDataBinding.activityGearNoteLayout.setVisible(it.attachments.hasNotes())
         })
 
-        fragmentDataBinding.activitiesPhotosLayout.onPhotoRemoveListener = fragmentViewModel::removePhotoFromActivity
-        fragmentDataBinding.fisheryPhotosLayout.onPhotoRemoveListener = fragmentViewModel::removePhotoFromFishery
-        fragmentDataBinding.gearPhotosLayout.onPhotoRemoveListener = fragmentViewModel::removePhotoFromGear
+        fragmentDataBinding.activitiesPhotosLayout.onPhotoClickListener = ::showFullImage
+        fragmentDataBinding.fisheryPhotosLayout.onPhotoClickListener = ::showFullImage
+        fragmentDataBinding.gearPhotosLayout.onPhotoClickListener = ::showFullImage
 
+        fragmentDataBinding.activitiesPhotosLayout.onPhotoRemoveListener =
+            fragmentViewModel::removePhotoFromActivity
+        fragmentDataBinding.fisheryPhotosLayout.onPhotoRemoveListener =
+            fragmentViewModel::removePhotoFromFishery
+        fragmentDataBinding.gearPhotosLayout.onPhotoRemoveListener =
+            fragmentViewModel::removePhotoFromGear
     }
 
     private fun onButtonClicked(id: Int) {
@@ -79,7 +85,7 @@ class ActivitiesFragment : BaseReportFragment(R.layout.fragment_activity) {
             }
 
             R.id.btn_next -> {
-                if (isFieldCheckPassed || isAllRequiredFieldsNotEmpty()) {
+                if (isFieldCheckPassed || validateForms()) {
                     onNextListener.onNextClicked()
                 } else {
                     showSnackbarWarning()

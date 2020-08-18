@@ -6,16 +6,17 @@ import java.util.Date
 import io.realm.RealmList
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
+import io.realm.annotations.Required
 import org.bson.types.ObjectId
 
 @RealmClass
 open class Report : RealmObject() {
     @PrimaryKey
     var _id: ObjectId = ObjectId.get()
-    var agency = "WildAid"
     var reportingOfficer: User? = User()
     var timestamp: Date = Date()
-    var location: Location? = Location()
+    @Required
+    var location: RealmList<Double> = RealmList() // In order longitude, latitude
     var date: Date? = Date()
     var vessel: Boat? = Boat()
     var captain: CrewMember? = CrewMember()

@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:text="@{holder.item.titleId}"
             android:textAllCaps="true"
+            android:fontFamily="sans-serif-medium"
             android:textColor="@color/grey_text"
             android:textSize="14sp"
             tools:text="@string/recently_boarded" />

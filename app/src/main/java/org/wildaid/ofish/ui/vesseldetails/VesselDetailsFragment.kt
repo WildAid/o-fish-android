@@ -14,20 +14,23 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_vessel_details.*
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
+import org.wildaid.ofish.data.report.Photo
 import org.wildaid.ofish.databinding.FragmentVesselDetailsBinding
 import org.wildaid.ofish.ui.base.DIALOG_CLICK_EVENT
 import org.wildaid.ofish.ui.base.DialogButton
 import org.wildaid.ofish.ui.base.DialogClickEvent
+import org.wildaid.ofish.ui.base.ItemDivider
 import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER
 import org.wildaid.ofish.ui.home.ASK_CHANGE_DUTY_DIALOG_ID
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
 import org.wildaid.ofish.ui.reportdetail.KEY_REPORT_ID
 import org.wildaid.ofish.util.getViewModelFactory
+import org.wildaid.ofish.util.setVisible
 
 const val KEY_VESSEL_PERMIT_NUMBER = "permit_number"
 
@@ -43,28 +46,34 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
     }
     private lateinit var dataBinding: FragmentVesselDetailsBinding
     private lateinit var recordsAdapter: VesselRecordsAdapter
+    private lateinit var photosAdapter: VesselPhotosAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fragmentViewModel.activityViewModel = activityViewModel
         setHasOptionsMenu(true)
+
+        recordsAdapter = VesselRecordsAdapter {
+            val bundle = bundleOf(KEY_REPORT_ID to it.report._id)
+            navigation.navigate(R.id.report_details_fragment, bundle)
+        }
+
+        photosAdapter = VesselPhotosAdapter()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (requireActivity() as AppCompatActivity).setSupportActionBar(vessel_details_toolbar)
         vessel_details_toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white)
-        recordsAdapter = VesselRecordsAdapter {
-            val bundle = bundleOf(KEY_REPORT_ID to it.report._id)
-            navigation.navigate(R.id.report_details_fragment, bundle)
-        }
 
         dataBinding = FragmentVesselDetailsBinding.bind(view).apply {
             viewModel = fragmentViewModel
             lifecycleOwner = viewLifecycleOwner
         }
 
+        vessel_image_pager.adapter = photosAdapter
+
         vessel_reports_recycler.apply {
-            addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
+            addItemDecoration(ItemDivider(requireContext(), LinearLayoutManager.VERTICAL))
             adapter = recordsAdapter
         }
 
@@ -72,8 +81,13 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
             recordsAdapter.setItems(it.reports)
         })
 
+        fragmentViewModel.vesselPhotosLiveData.observe(viewLifecycleOwner, Observer {
+            updateVesselImages(it)
+        })
+
         fragmentViewModel.boardVesselLiveData.observe(viewLifecycleOwner, EventObserver {
-            val navigationArgs = bundleOf(KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER to vesselPermitNumber)
+            val navigationArgs =
+                bundleOf(KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER to vesselPermitNumber)
             navigation.navigate(
                 R.id.action_vessel_details_fragment_to_create_report,
                 navigationArgs
@@ -110,6 +124,16 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
                 handleDialogClick(click)
             }
         })
+    }
+
+    private fun updateVesselImages(photos: List<Photo>) {
+        photosAdapter.setItems(photos)
+
+        TabLayoutMediator(vessel_image_pager_indicator, vessel_image_pager) { _, _ ->
+            // Empty
+        }.attach()
+
+        vessel_image_pager_indicator.setVisible(photos.size > 1)
     }
 
     private fun handleDialogClick(event: DialogClickEvent) {

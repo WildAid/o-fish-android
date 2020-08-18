@@ -6,12 +6,15 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
+import org.wildaid.ofish.data.OffenceData
+import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.*
 import org.wildaid.ofish.ui.base.AttachmentItem
 import org.wildaid.ofish.ui.base.PhotoItem
 import org.wildaid.ofish.util.getString
 
-class ViolationViewModel(application: Application) :
+class ViolationViewModel(val repository: Repository,
+                         application: Application) :
     AndroidViewModel(application) {
 
     val violationLiveData = MutableLiveData<List<ViolationItem>>()
@@ -98,10 +101,14 @@ class ViolationViewModel(application: Application) :
         }
     }
 
-    fun updateViolationExplanation(id: String?, violation: String) {
-        currentViolationItems.findLast { v ->
+    fun updateViolationExplanation(id: String?, violation: OffenceData) {
+        val item = currentViolationItems.findLast { v ->
             v.title == id
-        }?.violation?.offence?.explanation = violation.replace(',', '\n')
+        }
+        item?.violation?.offence?.let {
+            it.code = violation.code
+            it.explanation = violation.explanation
+        }
     }
 
     fun updateIssuedTo(id: String?, crewMember: CrewMember) {

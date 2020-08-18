@@ -13,5 +13,4 @@ open class Attachments : RealmObject() {
 
     @Required
     var photoIDs: RealmList<String> = RealmList()
-
 }

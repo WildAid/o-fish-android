@@ -12,10 +12,12 @@ import org.wildaid.ofish.ui.basicinformation.BasicInformationViewModel
 import org.wildaid.ofish.ui.catches.CatchViewModel
 import org.wildaid.ofish.ui.createreport.CreateReportViewModel
 import org.wildaid.ofish.ui.crew.CrewViewModel
+import org.wildaid.ofish.ui.fullimage.FullImageViewModel
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
 import org.wildaid.ofish.ui.home.HomeFragmentViewModel
 import org.wildaid.ofish.ui.login.LoginViewModel
 import org.wildaid.ofish.ui.notes.NotesViewModel
+import org.wildaid.ofish.ui.patrolsummary.PatrolSummaryViewModel
 import org.wildaid.ofish.ui.reportdetail.ReportDetailViewModel
 import org.wildaid.ofish.ui.risk.RiskViewModel
 import org.wildaid.ofish.ui.search.complex.ComplexSearchViewModel
@@ -40,7 +42,7 @@ class ViewModelFactory constructor(
         handle: SavedStateHandle
     ) = with(modelClass) {
         when {
-            //Splash
+            // Splash
             isAssignableFrom(SplashViewModel::class.java) ->
                 SplashViewModel(repository)
             // Login
@@ -51,6 +53,8 @@ class ViewModelFactory constructor(
                 HomeActivityViewModel(repository, application)
             isAssignableFrom(HomeFragmentViewModel::class.java) ->
                 HomeFragmentViewModel(repository)
+            isAssignableFrom(PatrolSummaryViewModel::class.java) ->
+                PatrolSummaryViewModel(repository)
 
             // Create report
             isAssignableFrom(CreateReportViewModel::class.java) ->
@@ -60,21 +64,21 @@ class ViewModelFactory constructor(
             isAssignableFrom((BasicInformationViewModel::class.java)) ->
                 BasicInformationViewModel()
             isAssignableFrom(VesselViewModel::class.java) ->
-                VesselViewModel()
+                VesselViewModel(repository)
             isAssignableFrom(CrewViewModel::class.java) ->
-                CrewViewModel(application)
+                CrewViewModel(repository, application)
             isAssignableFrom(ActivitiesViewModel::class.java) ->
-                ActivitiesViewModel()
+                ActivitiesViewModel(repository)
             isAssignableFrom(CatchViewModel::class.java) ->
-                CatchViewModel(application)
+                CatchViewModel(repository, application)
             isAssignableFrom(ViolationViewModel::class.java) ->
-                ViolationViewModel(application)
+                ViolationViewModel(repository, application)
             isAssignableFrom(AddCrewViewModel::class.java) ->
                 AddCrewViewModel()
             isAssignableFrom(RiskViewModel::class.java) ->
                 RiskViewModel(application)
             isAssignableFrom(NotesViewModel::class.java) ->
-                NotesViewModel(application)
+                NotesViewModel(repository, application)
 
             // Report Details
             isAssignableFrom(ReportDetailViewModel::class.java) ->
@@ -89,6 +93,9 @@ class ViewModelFactory constructor(
                 SimpleSearchViewModel(repository, application)
             isAssignableFrom(ComplexSearchViewModel::class.java) ->
                 ComplexSearchViewModel(repository, application)
+
+            isAssignableFrom(FullImageViewModel::class.java) ->
+                FullImageViewModel(repository)
             else ->
                 throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }

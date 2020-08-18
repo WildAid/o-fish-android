@@ -18,6 +18,7 @@
         android:background="@color/background_screen_with_cards">
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/vessel_scroll"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:animateLayoutChanges="true"
@@ -37,7 +38,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/background_card"
                     android:elevation="4dp"
-                    android:padding="12dp"
+                    android:padding="18dp"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
@@ -50,8 +51,8 @@
 
                     <ImageView
                         android:id="@+id/btn_vessel_info_edit"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="@dimen/edit_icon_size"
+                        android:layout_height="@dimen/edit_icon_size"
                         android:onClick="@{(View)-> viewModel.fieldFocusListener.onFocusChange(View, true)}"
                         android:src="@drawable/ic_edit"
                         app:layout_constraintEnd_toEndOf="@id/vessel_information_title"
@@ -59,8 +60,8 @@
 
                     <ImageView
                         android:id="@+id/btn_vessel_add_attachment"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="@dimen/add_attachment_icon_size"
+                        android:layout_height="@dimen/add_attachment_icon_size"
                         android:src="@drawable/ic_add_attachment"
                         app:layout_constraintEnd_toEndOf="@id/vessel_information_title"
                         app:layout_constraintTop_toTopOf="@id/vessel_information_title" />
@@ -191,7 +192,7 @@
                         layout="@layout/item_vessel_information"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="@dimen/card_value_to_title_space"
                         app:layout_constraintTop_toBottomOf="@id/vessel_information_title"
                         app:note="@{viewModel.vesselItemLiveData.attachments.note}"
                         app:photos="@{viewModel.vesselItemLiveData.attachments.photos}"
@@ -220,8 +221,8 @@
 
                     <ImageView
                         android:id="@+id/btn_vessel_delivery_edit"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="@dimen/edit_icon_size"
+                        android:layout_height="@dimen/edit_icon_size"
                         android:onClick="@{(View)-> viewModel.fieldFocusListener.onFocusChange(View, true)}"
                         android:src="@drawable/ic_edit"
                         app:layout_constraintEnd_toEndOf="@id/vessel_last_delivery_title"
@@ -229,8 +230,8 @@
 
                     <ImageView
                         android:id="@+id/btn_vessel_delivery_attachment"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="@dimen/add_attachment_icon_size"
+                        android:layout_height="@dimen/add_attachment_icon_size"
                         android:src="@drawable/ic_add_attachment"
                         app:layout_constraintEnd_toEndOf="@id/vessel_last_delivery_title"
                         app:layout_constraintTop_toTopOf="@id/vessel_last_delivery_title" />
@@ -245,6 +246,7 @@
                             android:id="@+id/delivery_date_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
                             app:endIconContentDescription="@string/date"
                             app:layout_constraintTop_toTopOf="parent">
 
@@ -256,7 +258,7 @@
                                 android:imeOptions="actionNext"
                                 android:nextFocusDown="@id/delivery_business"
                                 android:singleLine="true"
-                                android:text="@{@string/report_last_delivery(viewModel.deliveryItemItemLiveData.lastDelivery.date)}"
+                                app:dateToString="@{viewModel.deliveryItemItemLiveData.lastDelivery.date}"
                                 app:onFocusChangeListener="@{viewModel.fieldFocusListener}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -264,6 +266,7 @@
                             android:id="@+id/delivery_business_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
                             app:endIconContentDescription="@string/business"
                             app:errorEnabled="true"
                             app:layout_constraintTop_toBottomOf="@id/delivery_date_layout">
@@ -283,6 +286,7 @@
                             android:id="@+id/delivery_location_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
                             app:endIconContentDescription="@string/location"
                             app:errorEnabled="true"
                             app:layout_constraintTop_toBottomOf="@id/delivery_business_layout">
@@ -301,6 +305,7 @@
                             android:id="@+id/delivery_note_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
                             app:endIconContentDescription="@string/remove_note"
                             app:endIconDrawable="@drawable/ic_remove"
                             app:endIconMode="custom"
@@ -335,9 +340,9 @@
                         layout="@layout/item_report_last_delivery"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        app:layout_constraintTop_toBottomOf="@id/delivery_edit_layout"
+                        android:layout_marginTop="@dimen/card_value_to_title_space"
                         app:delivery="@{viewModel.deliveryItemItemLiveData.lastDelivery}"
+                        app:layout_constraintTop_toBottomOf="@id/delivery_edit_layout"
                         app:note="@{viewModel.deliveryItemItemLiveData.attachments.note}"
                         app:photos="@{viewModel.deliveryItemItemLiveData.attachments.photos}" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -348,28 +353,44 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/background_card"
+                    android:elevation="4dp"
                     android:orientation="vertical"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintTop_toBottomOf="@id/vessel_delivery_container" />
 
                 <TextView
                     android:id="@+id/ems_add_footer"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
+                    android:drawableStart="@drawable/ic_add"
+                    android:drawablePadding="4dp"
                     android:gravity="center"
                     android:onClick="@{() -> viewModel.addEms()}"
+                    android:paddingTop="24dp"
+                    android:paddingBottom="24dp"
                     android:text="@string/add_ems"
                     android:textColor="@color/main_blue"
+                    android:textSize="@dimen/add_remove_text_size"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/vessel_ems_recycler" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@id/snackbar_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@id/btn_next"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btn_next"
             style="@style/BlueButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_height"
             android:layout_margin="16dp"
             android:onClick="@{() -> viewModel.onNextClicked()}"
             android:text="@string/crew_next"

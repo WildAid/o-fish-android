@@ -5,7 +5,6 @@ import android.view.View
 import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.ItemTouchHelper
 import kotlinx.android.synthetic.main.fragment_crew.*
 import kotlinx.android.synthetic.main.item_crew_member.view.*
 import org.wildaid.ofish.EventObserver
@@ -13,12 +12,9 @@ import org.wildaid.ofish.R
 import org.wildaid.ofish.databinding.FragmentCrewBinding
 import org.wildaid.ofish.ui.base.BaseReportFragment
 import org.wildaid.ofish.ui.base.CARDS_OFFSET_SIZE
-import org.wildaid.ofish.ui.base.SwipeToDeleteTouchCallback
 import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.hideKeyboard
 import org.wildaid.ofish.util.setVisible
-
-const val CAPTAIN_POSITION = 0
 
 class CrewFragment : BaseReportFragment(R.layout.fragment_crew) {
     private val fragmentViewModel: CrewViewModel by viewModels { getViewModelFactory() }
@@ -63,7 +59,7 @@ class CrewFragment : BaseReportFragment(R.layout.fragment_crew) {
             },
             crewChangeListener = fragmentViewModel::onCrewMemberChanged,
             crewAddAttachmentListener = { crewItem ->
-            askForAttachmentType(
+                askForAttachmentType(
                     onNoteSelected = {
                         fragmentViewModel.addNoteForMember(crewItem)
                     },
@@ -71,7 +67,7 @@ class CrewFragment : BaseReportFragment(R.layout.fragment_crew) {
                         fragmentViewModel.addPhotoForMember(it, crewItem)
                     })
             },
-
+            crewOnPhotoClickListener = ::showFullImage,
             crewRemoveNoteListener = fragmentViewModel::removeNoteFromMember,
             crewRemovePhotoListener = fragmentViewModel::removePhotoFromMember
         )
@@ -80,12 +76,6 @@ class CrewFragment : BaseReportFragment(R.layout.fragment_crew) {
             adapter = crewAdapter
             addItemDecoration(VerticalSpaceItemDecoration(CARDS_OFFSET_SIZE))
         }
-
-        ItemTouchHelper(SwipeToDeleteTouchCallback(requireContext(), arrayOf(CAPTAIN_POSITION)) {
-            requireActivity().currentFocus?.clearFocus()
-            fragmentViewModel.removeCrewMember(it)
-        }).attachToRecyclerView(crew_recycler)
-
 
         crew_add_member_footer.setOnClickListener {
             requireActivity().currentFocus?.clearFocus()
@@ -107,7 +97,7 @@ class CrewFragment : BaseReportFragment(R.layout.fragment_crew) {
         hideKeyboard()
         when (buttonId) {
             R.id.btn_next -> {
-                if (isFieldCheckPassed || isAllRequiredFieldsNotEmpty()) {
+                if (isFieldCheckPassed || validateForms()) {
                     onNextListener.onNextClicked()
                 } else {
                     showSnackbarWarning()

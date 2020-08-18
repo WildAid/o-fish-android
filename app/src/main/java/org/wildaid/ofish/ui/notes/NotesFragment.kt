@@ -4,14 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.ItemTouchHelper
 import kotlinx.android.synthetic.main.fragment_notes.*
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
 import org.wildaid.ofish.databinding.FragmentNotesBinding
 import org.wildaid.ofish.ui.base.BaseReportFragment
 import org.wildaid.ofish.ui.base.CARDS_OFFSET_SIZE
-import org.wildaid.ofish.ui.base.SwipeToDeleteTouchCallback
 import org.wildaid.ofish.ui.crew.VerticalSpaceItemDecoration
 import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.hideKeyboard
@@ -54,6 +52,7 @@ class NotesFragment : BaseReportFragment(R.layout.fragment_notes) {
                     fragmentViewModel.addPhotoAttachmentForNote(imageUri, note)
                 }
             },
+            noteOnPhotoClickListener = ::showFullImage,
             removePhotoAttachmentListener = { photo, note ->
                 fragmentViewModel.removePhotoAttachment(photo, note)
             }
@@ -63,11 +62,6 @@ class NotesFragment : BaseReportFragment(R.layout.fragment_notes) {
             adapter = notesAdapter
             addItemDecoration(VerticalSpaceItemDecoration(CARDS_OFFSET_SIZE))
         }
-
-        ItemTouchHelper(SwipeToDeleteTouchCallback(requireContext()) {
-            hideKeyboard()
-            fragmentViewModel.removeNote(it)
-        }).attachToRecyclerView(notes_recycler)
 
         notes_add_footer.setOnClickListener {
             requireActivity().currentFocus?.clearFocus()

@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.ItemTouchHelper
 import kotlinx.android.synthetic.main.fragment_vessel.*
 import kotlinx.android.synthetic.main.fragment_vessel.view.*
 import org.wildaid.ofish.EventObserver
@@ -17,7 +16,6 @@ import org.wildaid.ofish.R
 import org.wildaid.ofish.data.report.Boat
 import org.wildaid.ofish.databinding.FragmentVesselBinding
 import org.wildaid.ofish.ui.base.BaseReportFragment
-import org.wildaid.ofish.ui.base.SwipeToDeleteTouchCallback
 import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.complex.BusinessSearchModel
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
@@ -72,16 +70,13 @@ class VesselFragment : BaseReportFragment(R.layout.fragment_vessel) {
                     onPhotoSelected = { fragmentViewModel.addPhotoForEms(it, emsItem) }
                 )
             },
+            emsOnPhotoClickListener = ::showFullImage,
             emsRemovePhotoListener = { photoItem, emsItem ->
                 fragmentViewModel.removePhotoFromEms(photoItem, emsItem)
             }
         )
 
         vessel_ems_recycler.adapter = emsAdapter
-        ItemTouchHelper(SwipeToDeleteTouchCallback(requireContext()) {
-            hideKeyboard()
-            fragmentViewModel.removeEms(position = it)
-        }).attachToRecyclerView(vessel_ems_recycler)
 
         fragmentViewModel.vesselItemLiveData.observe(
             viewLifecycleOwner,
@@ -123,6 +118,11 @@ class VesselFragment : BaseReportFragment(R.layout.fragment_vessel) {
             )
         }
 
+        fragmentBinding.vesselEditPhotosLayout.onPhotoClickListener = ::showFullImage
+
+        fragmentBinding.vesselViewInfo.vesselViewAttachments.attachmentsPhotos.onPhotoClickListener =
+            ::showFullImage
+
         fragmentBinding.vesselEditPhotosLayout.onPhotoRemoveListener = {
             fragmentViewModel.removePhotoFromVessel(it)
         }
@@ -144,6 +144,11 @@ class VesselFragment : BaseReportFragment(R.layout.fragment_vessel) {
                 onPhotoSelected = fragmentViewModel::addPhotoForDelivery
             )
         }
+
+        fragmentBinding.deliveryEditPhotosLayout.onPhotoClickListener = ::showFullImage
+
+        fragmentBinding.vesselViewDelivery.deliveryViewAttachments.attachmentsPhotos.onPhotoClickListener =
+            ::showFullImage
 
         fragmentBinding.deliveryEditPhotosLayout.onPhotoRemoveListener = {
             fragmentViewModel.removePhotoFromDelivery(it)
@@ -172,7 +177,7 @@ class VesselFragment : BaseReportFragment(R.layout.fragment_vessel) {
             }
 
             R.id.btn_next -> {
-                if (isFieldCheckPassed || isAllRequiredFieldsNotEmpty()) {
+                if (isFieldCheckPassed || validateForms()) {
                     onNextListener.onNextClicked()
                 } else {
                     showSnackbarWarning()

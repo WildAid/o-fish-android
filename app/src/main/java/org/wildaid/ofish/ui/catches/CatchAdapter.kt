@@ -13,7 +13,6 @@ import org.wildaid.ofish.ui.base.AdapterDiffCallback
 import org.wildaid.ofish.ui.base.PhotoItem
 import org.wildaid.ofish.util.setVisible
 
-
 class CatchAdapter(
     private val dataList: ArrayList<CatchItem> = ArrayList(),
     private val searchListener: (id: Int, CatchItem) -> Unit,
@@ -21,6 +20,7 @@ class CatchAdapter(
     private val catchAddAttachmentListener: (CatchItem) -> Unit,
     private val catchRemoveListener: (Int) -> Unit,
     private val catchRemoveNoteListener: (CatchItem) -> Unit,
+    private val catchOnPhotoClickListener: (View, PhotoItem) -> Unit,
     private val catchRemovePhotoListener: (PhotoItem, CatchItem) -> Unit
 ) : RecyclerView.Adapter<CatchAdapter.CatchViewHolder>() {
 
@@ -57,9 +57,8 @@ class CatchAdapter(
     inner class CatchViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         lateinit var currentItem: CatchItem
 
-        //todo should we take these values from repository or string resources?
-        private val weightString = "weight"
-        private val countString = "count"
+        private val weightString = view.resources.getString(R.string.weight)
+        private val countString = view.resources.getString(R.string.count)
 
         private val catchEditBinding: ItemEditCatchBinding =
             ItemEditCatchBinding.bind(view).apply {
@@ -70,13 +69,18 @@ class CatchAdapter(
             catchEditBinding.holder = this
             currentItem = item
 
-
             // Edit Views
             val editVisible = item.inEditMode
             initUnitSpinner()
 
             catchEditBinding.catchEditGroup.setVisible(editVisible)
             catchEditBinding.catchNoteLayout.setVisible(editVisible && item.attachmentItem.hasNotes())
+
+            catchEditBinding.catchEditPhotos.onPhotoClickListener =
+                catchOnPhotoClickListener::invoke
+
+            catchEditBinding.catchViewLayout.catchViewAttachments.attachmentsPhotos.onPhotoClickListener =
+                catchOnPhotoClickListener::invoke
 
             catchEditBinding.catchEditPhotos.onPhotoRemoveListener = {
                 catchRemovePhotoListener.invoke(it, item)
@@ -110,15 +114,16 @@ class CatchAdapter(
                 .setVisible(currentItem.attachmentItem.hasNotes())
 
             if (item.catch.unit.isBlank() || item.catch.weight <= 0) {
-                catchEditBinding.catchViewLayout.reportCatchAmountType1.setText(R.string.report_count)
-                catchEditBinding.catchViewLayout.reportCatchAmount1.text = item.catch.number.toString()
+                catchEditBinding.catchViewLayout.reportCatchAmountType1.setText(R.string.count)
+                catchEditBinding.catchViewLayout.reportCatchAmount1.text =
+                    item.catch.number.toString()
             } else {
-                catchEditBinding.catchViewLayout.reportCatchAmountType1.setText(R.string.report_weight)
+                catchEditBinding.catchViewLayout.reportCatchAmountType1.setText(R.string.weight)
                 catchEditBinding.catchViewLayout.reportCatchAmount1.text =
                     "${item.catch.weight} ${item.catch.unit}"
 
                 if (item.catch.number > 0) {
-                    catchEditBinding.catchViewLayout.reportCatchAmountType2.setText(R.string.report_count)
+                    catchEditBinding.catchViewLayout.reportCatchAmountType2.setText(R.string.count)
                     catchEditBinding.catchViewLayout.reportCatchAmount2.text =
                         item.catch.number.toString()
                 } else {
@@ -149,7 +154,8 @@ class CatchAdapter(
             }
 
             if (unit.isNotBlank()) {
-                val array = catchEditBinding.root.context.resources.getStringArray(R.array.weight_units)
+                val array =
+                    catchEditBinding.root.context.resources.getStringArray(R.array.weight_units)
                 spinner.setSelection(array.indexOf(unit))
             }
 
@@ -171,7 +177,6 @@ class CatchAdapter(
         fun onCatchEditClicked() {
             catchEditModeListener.invoke(currentItem)
         }
-
 
         fun onCatchAddAttachmentClicked() {
             catchAddAttachmentListener.invoke(currentItem)

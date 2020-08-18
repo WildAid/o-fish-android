@@ -26,39 +26,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fitsSystemWindows="true"
+                app:collapsedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Collapsed"
                 app:contentScrim="@color/main_blue"
                 app:expandedTitleGravity="bottom|center"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:expandedTitleMarginBottom="6dp"
                 app:expandedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Expanded"
-                app:collapsedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Collapsed"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:title="@{viewModel.vesselItemLiveData.vessel.name}"
                 tools:title="Predator">
 
-                <LinearLayout
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/vessel_image_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="198dp"
+                    android:layout_marginBottom="46dp"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    app:layout_collapseMode="parallax" />
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/vessel_image_pager_indicator"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <FrameLayout
-                        android:id="@+id/vessel_image_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="185dp"
-                        android:background="@color/vessel_details_background"
-                        app:layout_collapseMode="parallax">
-
-                        <ImageView
-                            android:id="@+id/vessel_image"
-                            android:layout_width="360dp"
-                            android:layout_height="185dp"
-                            android:layout_gravity="center_horizontal|bottom"
-                            android:src="@drawable/ic_vessel_profile" />
-                    </FrameLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="64dp"
-                        android:background="@color/background_card" />
-                </LinearLayout>
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="40dp"
+                    app:layout_collapseMode="parallax"
+                    app:tabBackground="@drawable/selector_vessel_images_indicator"
+                    app:tabGravity="center"
+                    app:tabIndicatorHeight="0dp" />
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/vessel_details_toolbar"
@@ -78,12 +72,14 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/background_screen_with_cards">
+                android:background="@color/background_screen_with_cards"
+                android:paddingBottom="@dimen/scroll_bottom_padding">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/vessel_info_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/background_card"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -116,7 +112,7 @@
                             android:gravity="center"
                             android:text="@{String.valueOf(viewModel.vesselItemLiveData.reportCount)}"
                             android:textColor="@android:color/black"
-                            android:textSize="28sp"
+                            android:textSize="34sp"
                             android:textStyle="bold"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/vessel_details_permit_number"
@@ -131,7 +127,7 @@
                             android:gravity="center"
                             android:text="@{String.valueOf(viewModel.vesselItemLiveData.warningsCount)}"
                             android:textColor="@android:color/black"
-                            android:textSize="28sp"
+                            android:textSize="34sp"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toStartOf="@id/vessel_citations_count"
                             app:layout_constraintStart_toEndOf="@id/vessel_boardings_count"
@@ -147,7 +143,7 @@
                             android:gravity="center"
                             android:text="@{String.valueOf(viewModel.vesselItemLiveData.citationCount)}"
                             android:textColor="@android:color/black"
-                            android:textSize="28sp"
+                            android:textSize="34sp"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/vessel_details_permit_number"
@@ -195,19 +191,6 @@
                             app:layout_constraintTop_toBottomOf="@id/vessel_citations_count"
                             app:layout_constraintWidth_percent="0.33" />
 
-                        <Button
-                            style="@style/BlueButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="18dp"
-                            android:layout_marginTop="28dp"
-                            android:layout_marginEnd="18dp"
-                            android:onClick="@{()-> viewModel.boardVessel()}"
-                            android:text="@string/board_vessel"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/vessel_citations_count_title" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -222,8 +205,7 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white">
+                        android:layout_height="wrap_content">
 
                         <TextView
                             android:id="@+id/previous_boardings_title"
@@ -231,6 +213,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
                             android:layout_marginTop="18dp"
+                            android:background="@color/background_card"
+                            android:fontFamily="sans-serif-medium"
                             android:text="@string/previous_boardings"
                             android:textColor="@android:color/black"
                             android:textSize="22sp"
@@ -242,15 +226,25 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:nestedScrollingEnabled="true"
-                            android:padding="12dp"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             app:layout_constraintTop_toBottomOf="@id/previous_boardings_title"
-                            tools:itemCount="5"
+                            tools:itemCount="3"
                             tools:listitem="@layout/item_vessel_record" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
+
+        <Button
+            style="@style/BlueButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_gravity="bottom"
+            android:layout_margin="16dp"
+            app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+            android:onClick="@{()-> viewModel.boardVessel()}"
+            android:text="@string/board_vessel"
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

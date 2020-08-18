@@ -44,7 +44,7 @@
                     android:layout_width="56dp"
                     android:layout_height="56dp"
                     android:padding="12dp"
-                    android:src="@drawable/ic_search"
+                    android:src="@drawable/ic_search_home"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -64,6 +64,7 @@
                     android:layout_height="56dp"
                     android:onClick="@{()-> fragmentViewModel.showUserStatus()}"
                     android:padding="12dp"
+                    android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:shapeAppearanceOverlay="@style/circleImageView"
@@ -71,12 +72,12 @@
 
                 <ImageView
                     android:id="@+id/image_user_status"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
                     android:layout_margin="12dp"
                     app:layout_constraintBottom_toBottomOf="@id/image_user"
                     app:layout_constraintEnd_toEndOf="@id/image_user"
-                    app:srcId="@{homeActivityViewModel.onDutyImageStatusLiveData}"
+                    app:srcId="@{homeActivityViewModel.onDutyImageStatusSmallLiveData}"
                     tools:src="@drawable/shape_red_circle" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
@@ -88,7 +89,10 @@
             android:layout_marginTop="24dp"
             android:background="@drawable/shape_map_coordinates"
             android:orientation="horizontal"
-            android:padding="6dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/search_layout">
@@ -116,7 +120,7 @@
             </LinearLayout>
 
             <View
-                android:layout_width="64dp"
+                android:layout_width="18dp"
                 android:layout_height="0dp" />
 
             <LinearLayout

@@ -9,7 +9,7 @@ import org.wildaid.ofish.ui.search.complex.CrewSearchModel
 
 class AddCrewViewModel : ViewModel() {
     val crewMember = MutableLiveData<Event<CrewSearchModel>>()
-    val validated = MutableLiveData<Event<Boolean>>()
+    val validated = MutableLiveData<Event<AddCrewValidation>>()
     val isCaptain = MutableLiveData(false)
     var newCrewMember: CrewMember = CrewMember()
 
@@ -22,16 +22,25 @@ class AddCrewViewModel : ViewModel() {
     fun onAddClicked() {
         if (validated()) {
             if (isCaptain.value!!) {
-                report.captain = newCrewMember
+                validated.value = Event(AddCrewValidation.IS_CAPTAIN)
             } else {
                 report.crew.add(newCrewMember)
+                crewMember.value = Event(CrewSearchModel(newCrewMember, false))
             }
-            crewMember.value = Event(CrewSearchModel(newCrewMember, isCaptain.value!!))
         } else {
-            validated.value = Event(false)
+            validated.value = Event(AddCrewValidation.NOT_VALID)
         }
+    }
+
+    fun updateCaptain() {
+        report.captain = newCrewMember
+        crewMember.value = Event(CrewSearchModel(newCrewMember, true))
     }
 
     private fun validated() =
         newCrewMember.name.isNotBlank() && newCrewMember.license.isNotBlank()
+}
+
+enum class AddCrewValidation {
+    NOT_VALID, IS_CAPTAIN
 }

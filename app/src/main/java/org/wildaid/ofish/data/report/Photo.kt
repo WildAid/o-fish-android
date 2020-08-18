@@ -9,10 +9,15 @@ import java.util.Date
 open class Photo : RealmObject() {
     @PrimaryKey
     var _id: ObjectId = ObjectId.get()
-    var agency = "WildAid"
     var thumbNail: ByteArray? = null
     var picture: ByteArray? = null
     var pictureURL: String = ""
     var referencingReportID: String = ""
     var date: Date = Date()
+
+    fun getResourceForLoading(): Any? {
+        return pictureURL.ifBlank { null }
+            ?: picture
+            ?: thumbNail
+    }
 }

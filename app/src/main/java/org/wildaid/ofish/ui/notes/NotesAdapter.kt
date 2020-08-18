@@ -11,12 +11,12 @@ import org.wildaid.ofish.ui.base.AdapterDiffCallback
 import org.wildaid.ofish.ui.base.PhotoItem
 import org.wildaid.ofish.util.setVisible
 
-
 class NotesAdapter(
     private val dataList: ArrayList<NoteItem> = ArrayList(),
     private val noteRemoveListener: (Int) -> Unit,
     private val editNoteListener: (item: NoteItem) -> Unit,
     private val addPhotoAttachmentListener: (item: NoteItem) -> Unit,
+    private val noteOnPhotoClickListener: (View, PhotoItem) -> Unit,
     private val removePhotoAttachmentListener: (photo: PhotoItem, item: NoteItem) -> Unit
 ) : RecyclerView.Adapter<NotesAdapter.NoteViewHolder>() {
 
@@ -62,8 +62,10 @@ class NotesAdapter(
             currentItem = item
 
             binding.groupNoteEdit.setVisible(item.inEditMode)
-            binding.groupNoteView.
-            setVisible(!item.inEditMode)
+            binding.groupNoteView.setVisible(!item.inEditMode)
+            binding.reportNoteEditPhotos.onPhotoClickListener = noteOnPhotoClickListener::invoke
+            binding.viewNoteLayout.attachmentsPhotos.onPhotoClickListener =
+                noteOnPhotoClickListener::invoke
             binding.reportNoteEditPhotos.onPhotoRemoveListener = {
                 removePhotoAttachmentListener.invoke(it, currentItem)
             }

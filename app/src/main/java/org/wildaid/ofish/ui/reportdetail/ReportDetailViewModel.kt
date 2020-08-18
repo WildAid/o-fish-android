@@ -8,6 +8,9 @@ import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.base.PhotoItem
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
+import org.wildaid.ofish.util.LATITUDE
+import org.wildaid.ofish.util.LONGITUDE
+import org.wildaid.ofish.util.convert
 
 class ReportDetailViewModel(val repository: Repository) : ViewModel() {
     val reportLiveData = MutableLiveData<Report>()
@@ -38,4 +41,8 @@ class ReportDetailViewModel(val repository: Repository) : ViewModel() {
                 Event(HomeActivityViewModel.UserEvent.AskDutyConfirmationEvent)
         }
     }
+
+    fun getFormattedLatitude() = convert(reportLiveData.value?.location?.get(1), LATITUDE)
+
+    fun getFormattedLongitude() = convert(reportLiveData.value?.location?.get(0), LONGITUDE)
 }

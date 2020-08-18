@@ -6,11 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
+import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.*
 import org.wildaid.ofish.ui.base.AttachmentItem
 import org.wildaid.ofish.ui.base.PhotoItem
 
-class VesselViewModel : ViewModel() {
+class VesselViewModel(val repository: Repository) : ViewModel() {
     val vesselItemLiveData = MutableLiveData<VesselItem>()
     val deliveryItemItemLiveData = MutableLiveData<DeliveryItem>()
     val emsLiveData = MutableLiveData<List<EMSItem>>()
@@ -59,6 +60,7 @@ class VesselViewModel : ViewModel() {
         }
 
         currentEMSItems = mutableListOf()
+        addEms()
         emsLiveData.value = currentEMSItems
     }
 
@@ -69,6 +71,8 @@ class VesselViewModel : ViewModel() {
             nationality = vesselToPrefill.nationality
             permitNumber = vesselToPrefill.permitNumber
         }
+
+        lastFocusInInfo = true
 
         vesselItemLiveData.value = currentVesselItem
     }

@@ -4,33 +4,30 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
 import android.view.View
-import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
-import androidx.core.content.FileProvider.getUriForFile
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.android.synthetic.main.fragment_vessel.*
 import org.wildaid.ofish.R
-import org.wildaid.ofish.app.OFISH_PROVIDER_SUFFIX
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.crew.N_A
-import java.io.File
-
+import org.wildaid.ofish.util.combineIntents
+import org.wildaid.ofish.util.createCameraIntent
+import org.wildaid.ofish.util.createGalleryIntent
+import org.wildaid.ofish.util.createImageUri
 
 const val CARDS_OFFSET_SIZE = 48
-
 private const val ATTACHMENT_DIALOG_ID = 1231
-private const val REQUEST_PICK_IMAGE = 10001
-private const val TEMP_TAKE_IMAGE_PREFIX = "taken_image"
-private const val TEMP_TAKE_IMAGE_SUFFIX = ".jpeg"
+const val REQUEST_PICK_IMAGE = 10001
+const val PHOTO_ID = "photo_id"
 
 abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayoutId) {
     lateinit var onNextListener: OnNextClickedListener
@@ -61,9 +58,26 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
         }
     }
 
-    fun isFormValid(): Boolean {
-        val result = isAllRequiredFieldsNotEmpty()
-        isFieldCheckPassed = false
+    fun isAllRequiredFieldsNotEmpty(): Boolean {
+        requiredFields.forEach {
+            val text = it.editText?.text
+            if (it.visibility == View.VISIBLE && (text.isNullOrBlank() || text.toString() == N_A)) {
+                return false
+            }
+        }
+        return true
+    }
+
+    fun validateForms(): Boolean {
+        var result = true
+        requiredFields.forEach {
+            val text = it.editText?.text
+            if (it.visibility == View.VISIBLE && (text.isNullOrBlank() || text.toString() == N_A)) {
+                result = false
+                it.errorIconDrawable = resources.getDrawable(R.drawable.ic_error_outline, null)
+            }
+        }
+        isFieldCheckPassed = true
         return result
     }
 
@@ -97,7 +111,8 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
         this.pendingPhotoSelection = pendingPhotoSelection
 
         val pickImageIntent = createGalleryIntent()
-        val takePhotoIntent = createCameraIntent()
+        pendingImageUri = createImageUri()
+        val takePhotoIntent = createCameraIntent(pendingImageUri!!)
 
         val intentList: MutableList<Intent> = mutableListOf()
         combineIntents(intentList, pickImageIntent)
@@ -116,39 +131,6 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
 
             startActivityForResult(chooserIntent, REQUEST_PICK_IMAGE)
         }
-    }
-
-    private fun combineIntents(list: MutableList<Intent>, intent: Intent) {
-        val resolvedInfo = requireContext().packageManager.queryIntentActivities(intent, 0)
-        for (info in resolvedInfo) {
-            val packageName = info.activityInfo.packageName
-            val targetedIntent = Intent(intent).apply {
-                setPackage(packageName)
-            }
-            list.add(targetedIntent)
-        }
-    }
-
-    private fun createGalleryIntent() = Intent().apply {
-        type = "image/*";
-        action = Intent.ACTION_GET_CONTENT;
-    }
-
-    private fun createCameraIntent(): Intent {
-        val imageCachePath = File(requireContext().externalCacheDir, Environment.DIRECTORY_PICTURES)
-        imageCachePath.mkdirs()
-
-        val tempImageFile =
-            File.createTempFile(TEMP_TAKE_IMAGE_PREFIX, TEMP_TAKE_IMAGE_SUFFIX, imageCachePath)
-
-        pendingImageUri = getUriForFile(
-            requireContext(),
-            requireContext().packageName + OFISH_PROVIDER_SUFFIX,
-            tempImageFile
-        )
-
-        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        return cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, pendingImageUri);
     }
 
     private fun subscribeForAttachmentDialogResult() {
@@ -175,42 +157,22 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
         })
     }
 
-    protected fun isAllRequiredFieldsNotEmpty(): Boolean {
-        var result = true
-        requiredFields.forEach {
-            val text = it.editText?.text
-            if (it.visibility == View.VISIBLE && (text.isNullOrBlank() || text.toString() == N_A)) {
-                result = false
-                it.errorIconDrawable = resources.getDrawable(R.drawable.ic_error_outline, null)
-            }
-        }
-        isFieldCheckPassed = true
-        return result
-    }
-
     protected fun showSnackbarWarning() {
-        val snackbar = Snackbar.make(
-            requireView(),
+        Snackbar.make(
+            requireView().findViewById(R.id.snackbar_container) ?: requireView(),
             R.string.continue_with_empty_fields,
             Snackbar.LENGTH_LONG
-        )
-            .setAction(R.string.continue_action) {
-                onNextListener.onNextClicked()
-            }
-            .setAnchorView(btn_next)
-            .setActionTextColor(resources.getColor(R.color.tabs_amber, null))
-        setupSnackbarBottomMargin(snackbar)
-        snackbar.show()
+        ).apply {
+            animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
+            setAction(R.string.continue_action) { onNextListener.onNextClicked() }
+            setActionTextColor(resources.getColor(R.color.tabs_amber, null))
+        }.show()
     }
 
-    //todo Doesn't work for now, known issue in Material library
-    private fun setupSnackbarBottomMargin(snackbar: Snackbar) {
-        val snackbarLayout = snackbar.view as Snackbar.SnackbarLayout
-        val layoutParams = snackbarLayout.layoutParams as FrameLayout.LayoutParams
-        layoutParams.setMargins(0, 0, 0,
-            resources.getDimension(R.dimen.snackbar_bottom_margin).toInt()
-        )
-        snackbarLayout.layoutParams = layoutParams
+    protected fun showFullImage(view: View, photoItem: PhotoItem) {
+        val bundle = bundleOf(PHOTO_ID to photoItem.photo._id.toHexString())
+        val extra = FragmentNavigatorExtras(view to view.transitionName)
+        navigation.navigate(R.id.action_tabsFragment_to_fullImageFragment, bundle, null, extra)
     }
 }
 

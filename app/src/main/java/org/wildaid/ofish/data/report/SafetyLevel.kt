@@ -7,6 +7,6 @@ import io.realm.annotations.RealmClass
 @RealmClass(embedded = true)
 open class SafetyLevel : RealmObject() {
     var level: String = ""
-    var amberReason:String = ""
+    var amberReason: String = ""
     var attachments: Attachments? = Attachments()
 }

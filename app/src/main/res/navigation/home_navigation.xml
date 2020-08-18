@@ -21,12 +21,26 @@
             android:id="@+id/action_home_fragment_to_login_activity"
             app:popUpToInclusive="true"
             app:destination="@id/login_activity" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_ask_logout_dialog"
+            app:destination="@id/ask_logout_dialog"/>
+
+        <action
+            android:id="@+id/action_home_fragment_to_patrolSummaryFragment"
+            app:destination="@id/patrolSummaryFragment" />
     </fragment>
 
     <dialog
         android:id="@+id/ask_change_duty_dialog"
         android:name="org.wildaid.ofish.ui.base.ConfirmationDialogFragment"
         android:label="SimpleConfirmationDialog" />
+
+    <dialog
+        android:id="@+id/ask_logout_dialog"
+        android:name="org.wildaid.ofish.ui.base.ConfirmationDialogFragment"
+        android:label="SimpleConfirmationDialog" />
+
 
     <fragment
         android:id="@+id/complex_search"
@@ -40,11 +54,14 @@
             app:argType="org.wildaid.ofish.ui.search.base.BaseSearchType" />
 
         <action
-            android:id="@+id/action_complex_search_to_report_details_fragment"
+            android:id="@+id/action_complex_search_to_vessel_details_fragment"
             app:destination="@id/vessel_details_fragment" />
         <action
             android:id="@+id/action_complex_search_to_create_report"
             app:destination="@id/create_report_activity" />
+        <action
+            android:id="@+id/action_complex_search_to_report_details_fragment"
+            app:destination="@id/report_details_fragment" />
     </fragment>
 
     <fragment
@@ -77,6 +94,9 @@
         <action
             android:id="@+id/action_report_details_fragment_to_create_report"
             app:destination="@id/create_report_activity" />
+        <action
+            android:id="@+id/action_report_details_fragment_to_fullImageFragment"
+            app:destination="@id/fullImageFragment" />
     </fragment>
 
     <activity
@@ -94,4 +114,17 @@
             android:defaultValue="@null"
             app:argType="string" />
     </activity>
+    <fragment
+        android:id="@+id/patrolSummaryFragment"
+        android:name="org.wildaid.ofish.ui.patrolsummary.PatrolSummaryFragment"
+        android:label="patrol_summary_fragment"
+        tools:layout="@layout/fragment_patrol_summary" >
+        <action
+            android:id="@+id/action_patrolSummaryFragment_to_report_details_fragment"
+            app:destination="@id/report_details_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fullImageFragment"
+        android:name="org.wildaid.ofish.ui.fullimage.FullImageFragment"
+        android:label="FullImageFragment" />
 </navigation>

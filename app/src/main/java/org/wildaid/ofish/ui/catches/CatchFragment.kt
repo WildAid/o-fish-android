@@ -7,14 +7,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.ItemTouchHelper
 import kotlinx.android.synthetic.main.fragment_catch.*
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
 import org.wildaid.ofish.databinding.FragmentCatchBinding
 import org.wildaid.ofish.ui.base.BaseReportFragment
 import org.wildaid.ofish.ui.base.CARDS_OFFSET_SIZE
-import org.wildaid.ofish.ui.base.SwipeToDeleteTouchCallback
 import org.wildaid.ofish.ui.crew.VerticalSpaceItemDecoration
 import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.simple.SimpleSearchFragment
@@ -80,6 +78,7 @@ class CatchFragment : BaseReportFragment(R.layout.fragment_catch) {
             catchRemoveNoteListener = {
                 fragmentViewModel.removeNoteFromCatch(it)
             },
+            catchOnPhotoClickListener = ::showFullImage,
             catchRemovePhotoListener = { photo, catchItem ->
                 fragmentViewModel.removePhotoFromCatch(photo, catchItem)
             })
@@ -88,12 +87,6 @@ class CatchFragment : BaseReportFragment(R.layout.fragment_catch) {
             adapter = catchAdapter
             addItemDecoration(VerticalSpaceItemDecoration(CARDS_OFFSET_SIZE))
         }
-
-        ItemTouchHelper(SwipeToDeleteTouchCallback(requireContext()) {
-            hideKeyboard()
-            fragmentViewModel.removeCatch(it)
-        }).attachToRecyclerView(catch_recycler)
-
 
         catch_add_footer.setOnClickListener {
             requireActivity().currentFocus?.clearFocus()
@@ -107,7 +100,6 @@ class CatchFragment : BaseReportFragment(R.layout.fragment_catch) {
                 val bundle =
                     bundleOf(BaseSearchFragment.SEARCH_ENTITY_KEY to SimpleSearchFragment.SearchSpecies)
                 navigation.navigate(R.id.action_tabsFragment_to_simple_search, bundle)
-
             }
             R.id.amount_edit_name -> navigation.navigate(R.id.action_tabsFragment_to_addAmountFragment)
         }

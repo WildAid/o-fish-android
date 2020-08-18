@@ -16,6 +16,7 @@
         android:background="@color/background_screen_with_cards">
 
         <ScrollView
+            android:id="@+id/activities_scroll"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:fillViewport="true"
@@ -25,8 +26,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/scroll_bottom_padding"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/scroll_bottom_padding">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/activities_layout"
@@ -51,8 +52,8 @@
 
                     <ImageView
                         android:id="@+id/activity_activity_add_attachment"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="@dimen/add_attachment_icon_size"
+                        android:layout_height="@dimen/add_attachment_icon_size"
                         android:onClick="@{()-> viewModel.onButtonClicked(@id/activity_activity_add_attachment)}"
                         android:src="@drawable/ic_add_attachment"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -120,7 +121,7 @@
                     android:layout_marginTop="18dp"
                     android:background="@color/background_card"
                     android:elevation="4dp"
-                    android:padding="18dp"
+                    android:padding="12dp"
                     app:layout_constraintTop_toBottomOf="@+id/activities_layout">
 
                     <TextView
@@ -135,8 +136,8 @@
 
                     <ImageView
                         android:id="@+id/activity_fishery_add_attachment"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="@dimen/add_attachment_icon_size"
+                        android:layout_height="@dimen/add_attachment_icon_size"
                         android:onClick="@{()-> viewModel.onButtonClicked(@id/activity_fishery_add_attachment)}"
                         android:src="@drawable/ic_add_attachment"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -203,7 +204,7 @@
                     android:layout_marginTop="18dp"
                     android:background="@color/background_card"
                     android:elevation="4dp"
-                    android:padding="18dp"
+                    android:padding="12dp"
                     app:layout_constraintTop_toBottomOf="@+id/fishery_layout">
 
                     <TextView
@@ -218,8 +219,8 @@
 
                     <ImageView
                         android:id="@+id/activity_gear_add_attachment"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="@dimen/add_attachment_icon_size"
+                        android:layout_height="@dimen/add_attachment_icon_size"
                         android:onClick="@{()-> viewModel.onButtonClicked(@id/activity_gear_add_attachment)}"
                         android:src="@drawable/ic_add_attachment"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -281,11 +282,19 @@
             </LinearLayout>
         </ScrollView>
 
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@id/snackbar_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@id/btn_next"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <Button
             android:id="@+id/btn_next"
             style="@style/BlueButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_height"
             android:layout_margin="16dp"
             android:onClick="@{() -> viewModel.onButtonClicked(@id/btn_next)}"
             android:text="@string/catch_next"

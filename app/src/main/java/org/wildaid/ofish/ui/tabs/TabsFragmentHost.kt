@@ -35,7 +35,6 @@ import org.wildaid.ofish.ui.vessel.VesselFragment
 import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.setVisible
 
-
 const val BASIC_INFO_FRAGMENT_POSITION = 0
 const val VESSEL_FRAGMENT_POSITION = 1
 const val CREW_FRAGMENT_POSITION = 2
@@ -45,7 +44,7 @@ const val VIOLATION_FRAGMENT_POSITION = 5
 const val RISK_FRAGMENT_POSITION = 6
 const val NOTES_FRAGMENT_POSITION = 7
 
-const val VESSEL_FRAGMENT_TAG = "f1"  // It means fragment with position 1
+const val FRAGMENT_TAG_PREFIX = "f"
 private const val ASK_PREFILL_VESSEL_DIALOG_ID = 13
 private const val ASK_SKIP_TABS_DIALOG_ID = 14
 private const val SUBMIT_DIALOG_ID = 15
@@ -57,6 +56,7 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
 
     private lateinit var fragmentFactory: TabsFragmentFactory
     private lateinit var tabsFragmentAdapter: TabsFragmentAdapter
+    private lateinit var currentReportFragment: BaseReportFragment
     private var pendingSkippingTabs: List<TabItem>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,6 +93,7 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
         fragmentViewModel.userEventLiveData.observe(viewLifecycleOwner, EventObserver {
             when (it) {
                 is TabsViewModel.UserEvent.AskSkipSectionsEvent -> showSkipSectionsDialog(it.skippedTabs)
+                is TabsViewModel.UserEvent.AskLeftEmptyFields -> showSkipSectionsDialog(it.skippedTabs)
                 is TabsViewModel.UserEvent.ChangeTabEvent -> selectTab(it.tabItem)
                 TabsViewModel.UserEvent.AskPrefillVesselEvent -> showAskPrefillBoatDialog()
             }
@@ -116,24 +117,32 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
     }
 
     private fun onTabChanged(previousTabIndex: Int, currentTabIndex: Int) {
+        currentReportFragment =
+            childFragmentManager.findFragmentByTag("$FRAGMENT_TAG_PREFIX${currentTabIndex}") as BaseReportFragment
+
         val previousReportFragment =
             childFragmentManager.findFragmentByTag("f$previousTabIndex") as BaseReportFragment?
 
         previousReportFragment?.let {
             fragmentViewModel.onTabChanged(
                 previousTabIndex,
-                it.isFormValid(),
                 currentTabIndex
             )
         }
     }
 
     private fun updateTabsDrawable(tabs: List<TabItem>) {
-        tabs.forEachIndexed { index, tabState ->
-            if (tabState.wasVisited) {
+        tabs.forEach { tabState ->
+            if (tabState.status == TabStatus.NOT_VISITED) {
+                tabs_layout.getTabAt(tabState.position)?.customView?.also {
+                    val textSelector = resources.getColorStateList(R.color.selector_tabs_text, null)
+                    it.findViewById<CheckedTextView>(android.R.id.text1)?.setTextColor(textSelector)
+                    it.findViewById<View>(R.id.tab_bottom_line)?.setVisible(false)
+                }
+            } else {
                 val visitedStatusColorRes =
-                    if (!tabState.isFormValid && tabState.wasVisited) R.color.tabs_amber else R.color.main_blue
-                val visitedStatusColor = resources.getColor(visitedStatusColorRes)
+                    if (tabState.status == TabStatus.SKIPPED) R.color.tabs_amber else R.color.main_blue
+                val visitedStatusColor = resources.getColor(visitedStatusColorRes, null)
 
                 tabs_layout.getTabAt(tabState.position)?.customView?.also { view ->
                     view.findViewById<View>(R.id.tab_bottom_line)?.setVisible(true)
@@ -141,12 +150,6 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
                         ?.setBackgroundColor(visitedStatusColor)
                     view.findViewById<CheckedTextView>(android.R.id.text1)
                         ?.setTextColor(visitedStatusColor)
-                }
-            } else {
-                tabs_layout.getTabAt(tabState.position)?.customView?.also {
-                    val textSelector = resources.getColorStateList(R.color.selector_tabs_text)
-                    it.findViewById<CheckedTextView>(android.R.id.text1)?.setTextColor(textSelector)
-                    it.findViewById<View>(R.id.tab_bottom_line)?.setVisible(false)
                 }
             }
         }
@@ -161,7 +164,10 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
 
             if (navStack.savedStateHandle.contains(DIALOG_CLICK_EVENT)) {
                 val click = navStack.savedStateHandle.get<DialogClickEvent>(DIALOG_CLICK_EVENT)!!
-                handleDialogClick(click)
+                val handled = handleDialogClick(click)
+                if (handled) {
+                    navStack.savedStateHandle.remove<DialogClickEvent>(DIALOG_CLICK_EVENT)!!
+                }
             }
         })
     }
@@ -195,10 +201,22 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
     }
 
     private fun showSubmitReportDialog() {
+        val tabs = fragmentViewModel.getSkippedAndNotVisitedTabs()
+        val title: String
+        val message: String
+        if (tabs.isEmpty()) {
+            title = getString(R.string.submit_boarding)
+            message = getString(R.string.sure_to_submit)
+        } else {
+            title = getString(R.string.you_left_blank)
+            message = getString(
+                R.string.sure_to_submit_with_skipped,
+                tabs.joinToString("\n") { "- ${it.title}" })
+        }
         val dialogBundle = ConfirmationDialogFragment.Bundler(
             SUBMIT_DIALOG_ID,
-            getString(R.string.submit_boarding),
-            getString(R.string.sure_to_submit),
+            title,
+            message,
             getString(R.string.menu_submit_report),
             getString(R.string.keep_editing)
         ).bundle()
@@ -206,15 +224,17 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
         navigation.navigate(R.id.confirmation_dialog, dialogBundle)
     }
 
-    private fun handleDialogClick(click: DialogClickEvent) {
+    private fun handleDialogClick(click: DialogClickEvent): Boolean {
+        var clickHandled = false
         if (click.dialogBtn == DialogButton.POSITIVE) {
             when (click.dialogId) {
                 ASK_PREFILL_VESSEL_DIALOG_ID -> {
                     val vesselFragment =
-                        childFragmentManager.findFragmentByTag(VESSEL_FRAGMENT_TAG) as VesselFragment
+                        childFragmentManager.findFragmentByTag("$FRAGMENT_TAG_PREFIX$VESSEL_FRAGMENT_POSITION") as VesselFragment
                     fragmentViewModel.vesselToPrefill?.let {
                         vesselFragment.fillVesselInfo(it)
                     }
+                    clickHandled = true
                 }
                 SUBMIT_DIALOG_ID -> {
                     activityViewModel.saveReport(listener = object : OnSaveListener {
@@ -234,6 +254,8 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
                             ).show()
                         }
                     })
+
+                    clickHandled = true
                 }
 
                 ASK_SKIP_TABS_DIALOG_ID -> {
@@ -241,15 +263,18 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
                         fragmentViewModel.onTabsSkipped(pendingSkippingTabs.orEmpty())
                         pendingSkippingTabs = null
                     }
+
+                    clickHandled = true
                 }
             }
         }
+
+        return clickHandled
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initUI(report: Report, reportPhotos: MutableList<PhotoItem>) {
         (requireActivity() as AppCompatActivity).setSupportActionBar(tabs_toolbar)
-        tabs_toolbar.setTitle(R.string.new_boarding)
         tabs_toolbar.setNavigationIcon(R.drawable.ic_close_white)
 
         fragmentFactory = TabsFragmentFactory(requireContext(), this, report, reportPhotos)
@@ -274,14 +299,19 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
         // Unable to use tabs_layout.addOnTabSelectedListener() since we need to intercept click
         val tabTouchClickDetector = GestureTouchClickDetector(requireContext())
         val tabStrip = tabs_layout.getChildAt(0) as LinearLayout
-        for (i in 0 until tabStrip.childCount) {
-            tabStrip.getChildAt(i).setOnLongClickListener {
-                return@setOnLongClickListener fragmentViewModel.onTabClicked(i)
+        for (newPosition in 0 until tabStrip.childCount) {
+            val currentTabPosition = tabs_layout.selectedTabPosition
+            tabStrip.getChildAt(newPosition).setOnLongClickListener {
+                return@setOnLongClickListener currentTabPosition != newPosition &&
+                        fragmentViewModel.onTabClicked(currentTabPosition, newPosition, currentReportFragment.isAllRequiredFieldsNotEmpty())
             }
 
-            tabStrip.getChildAt(i).setOnTouchListener { v, event ->
+            tabStrip.getChildAt(newPosition).setOnTouchListener { _, event ->
                 val isClick = tabTouchClickDetector.onTouchEvent(event)
-                return@setOnTouchListener isClick && fragmentViewModel.onTabClicked(i)
+                val currentTabPosition = tabs_layout.selectedTabPosition
+                return@setOnTouchListener currentTabPosition != newPosition &&
+                        isClick &&
+                        fragmentViewModel.onTabClicked(currentTabPosition, newPosition, currentReportFragment.isAllRequiredFieldsNotEmpty())
             }
         }
     }

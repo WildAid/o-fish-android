@@ -2,7 +2,6 @@ package org.wildaid.ofish.ui.base
 
 import androidx.recyclerview.widget.DiffUtil
 
-
 class AdapterDiffCallback<T>(newList: List<T>, oldList: List<T>) : DiffUtil.Callback() {
     private var oldItems: List<T> = oldList
     private var newItems: List<T> = newList
@@ -24,7 +23,7 @@ class AdapterDiffCallback<T>(newList: List<T>, oldList: List<T>) : DiffUtil.Call
     }
 
     override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
-        //you can return particular field for changed item.
+        // You can return particular field for changed item.
         return super.getChangePayload(oldItemPosition, newItemPosition)
     }
 }

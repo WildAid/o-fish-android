@@ -10,5 +10,4 @@ open class EMS : RealmObject() {
     var emsDescription: String = ""
     var registryNumber: String = ""
     var attachments: Attachments? = Attachments()
-
 }

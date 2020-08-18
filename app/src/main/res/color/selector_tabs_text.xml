@@ -4,5 +4,5 @@
     <item android:color="@color/main_blue" android:state_activated="true" />
     <item android:color="@color/main_blue" android:state_selected="true" />
     <item android:color="@color/main_blue" android:state_pressed="true" />
-    <item android:color="@color/grey" />
+    <item android:color="@color/tab_inactive" />
 </selector>

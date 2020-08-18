@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.SupportMapFragment
@@ -26,12 +27,11 @@ import org.wildaid.ofish.R
 import org.wildaid.ofish.data.SafetyColor
 import org.wildaid.ofish.data.report.*
 import org.wildaid.ofish.databinding.*
-import org.wildaid.ofish.ui.base.DIALOG_CLICK_EVENT
-import org.wildaid.ofish.ui.base.DialogButton
-import org.wildaid.ofish.ui.base.DialogClickEvent
+import org.wildaid.ofish.ui.base.*
 import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER
 import org.wildaid.ofish.ui.home.ASK_CHANGE_DUTY_DIALOG_ID
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
+import org.wildaid.ofish.ui.home.ZOOM_LEVEL
 import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.setVisible
 
@@ -58,6 +58,9 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             this.lifecycleOwner = viewLifecycleOwner
             this.viewModel = fragmentViewModel
         }
+
+        collectPhotoAttachments()
+
         fragmentViewModel.reportLiveData.observe(viewLifecycleOwner, Observer(::displayReport))
 
         fragmentViewModel.boardVesselLiveData.observe(viewLifecycleOwner, EventObserver {
@@ -67,8 +70,23 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
                 navigationArgs
             )
         })
+
+        (childFragmentManager.findFragmentById(R.id.report_map) as NestedScrollMapFragment?)?.attachParentScroll(
+            report_scroll_view
+        )
+
         report_toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white)
         subscribeToDialogEvents()
+    }
+
+    private fun collectPhotoAttachments() {
+        listOf(
+            fragmentBinding.reportVesselViewInfo.vesselViewAttachments.attachmentsPhotos,
+            fragmentBinding.reportViewLastDelivery.deliveryViewAttachments.attachmentsPhotos,
+            fragmentBinding.reportCaptainView.crewViewAttachments.attachmentsPhotos
+        ).forEach {
+            it.onPhotoClickListener = ::showFullImage
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -135,11 +153,12 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.report_map) as SupportMapFragment
         mapFragment.getMapAsync { map ->
-            val coordinates =
-                LatLng(report.location?.latitude ?: 0.0, report.location?.longitude ?: 0.0)
+            val coordinates = if (report.location.size == 2)
+                LatLng(report.location[1] ?: .0, report.location[0] ?: .0)
+            else LatLng(.0, .0)
             map.isMyLocationEnabled = true
             map.addMarker(MarkerOptions().position(coordinates))
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 10f))
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, ZOOM_LEVEL))
         }
     }
 
@@ -178,6 +197,7 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
                     item.attachments?.notes?.isNotEmpty() ?: false
                 )
                 reportEmsDivider.setVisible(index != emsList.size - 1)
+                this.emsItemAttachments.attachmentsPhotos.onPhotoClickListener = ::showFullImage
             }
             fragmentBinding.reportEmsContainer.addView(emsBinding.root)
         }
@@ -207,6 +227,8 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
                         item.attachments?.notes?.isNotEmpty() ?: false
                     )
                     reportCrewDivider.setVisible(index != it.size - 1)
+                    this.crewViewAttachments.attachmentsPhotos.onPhotoClickListener =
+                        ::showFullImage
                 }
                 report_crew_container.addView(crewBinding.root)
             }
@@ -228,7 +250,6 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             this.gearAttachments.note = inspection.gearType?.attachments?.notes?.firstOrNull()
             this.fisheryAttachments.note = inspection.fishery?.attachments?.notes?.firstOrNull()
 
-
             this.activityAttachments.attachmentNoteGroup.setVisible(
                 inspection.activity?.attachments?.notes?.isNotEmpty() ?: false
             )
@@ -238,6 +259,9 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             this.fisheryAttachments.attachmentNoteGroup.setVisible(
                 inspection.fishery?.attachments?.notes?.isNotEmpty() ?: false
             )
+            this.activityAttachments.attachmentsPhotos.onPhotoClickListener = ::showFullImage
+            this.gearAttachments.attachmentsPhotos.onPhotoClickListener = ::showFullImage
+            this.fisheryAttachments.attachmentsPhotos.onPhotoClickListener = ::showFullImage
         }
 
         report_activity_container.addView(activityBinding.root)
@@ -246,7 +270,7 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
     private fun inflateCatch(catch: List<Catch>) {
         report_catch_title.text = getString(R.string.report_catch_count, catch.size)
 
-        catch.forEachIndexed { index, item ->
+        catch.forEach { item ->
             val catchBinding = ItemReportCatchBinding.inflate(layoutInflater)
             catchBinding.reportSpecies.text = item.fish
             catchBinding.photos = fragmentViewModel.getPhotosForIds(item.attachments?.photoIDs)
@@ -256,20 +280,23 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             )
 
             if (item.unit.isBlank() || item.weight <= 0) {
-                catchBinding.reportCatchAmountType1.text = getString(R.string.report_count)
+                catchBinding.reportCatchAmountType1.text = getString(R.string.count)
                 catchBinding.reportCatchAmount1.text = item.number.toString()
             } else {
-                catchBinding.reportCatchAmountType1.text = getString(R.string.report_weight)
+                catchBinding.reportCatchAmountType1.text = getString(R.string.weight)
                 catchBinding.reportCatchAmount1.text = "${item.weight} ${item.unit}"
 
                 if (item.number > 0) {
-                    catchBinding.reportCatchAmountType2.text = getString(R.string.report_count)
+                    catchBinding.reportCatchAmountType2.text = getString(R.string.count)
                     catchBinding.reportCatchAmount2.text = item.number.toString()
                 } else {
                     catchBinding.reportCatchAmountType2.setVisible(false)
                     catchBinding.reportCatchAmount2.setVisible(false)
                 }
             }
+
+            catchBinding.catchViewAttachments.attachmentsPhotos.onPhotoClickListener =
+                ::showFullImage
 
             report_catch_container.addView(catchBinding.root)
         }
@@ -287,6 +314,8 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             violationBinding.violationAttachments.attachmentNoteGroup.setVisible(
                 item.attachments?.notes?.isNotEmpty() ?: false
             )
+            violationBinding.violationAttachments.attachmentsPhotos.onPhotoClickListener =
+                ::showFullImage
             report_violation_container.addView(violationBinding.root)
         }
     }
@@ -298,6 +327,7 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             noteBinding.photos = fragmentViewModel.getPhotosForIds(note.photoIDs)
             noteBinding.noteTitle = getString(R.string.report_note_indexed, index + 1)
             noteBinding.reportNotesDivider.setVisible(index != notes.lastIndex)
+            noteBinding.attachmentsPhotos.onPhotoClickListener = ::showFullImage
             report_notes_container.addView(noteBinding.root)
         }
     }
@@ -309,5 +339,16 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
                 break
             }
         }
+    }
+
+    private fun showFullImage(view: View, photoItem: PhotoItem) {
+        val bundle = bundleOf(PHOTO_ID to photoItem.photo._id.toHexString())
+        val extra = FragmentNavigatorExtras(view to view.transitionName)
+        navigation.navigate(
+            R.id.action_report_details_fragment_to_fullImageFragment,
+            bundle,
+            null,
+            extra
+        )
     }
 }

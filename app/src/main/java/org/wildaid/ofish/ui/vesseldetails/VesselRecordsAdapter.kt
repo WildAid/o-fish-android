@@ -15,7 +15,6 @@ import org.wildaid.ofish.data.SafetyColor
 import org.wildaid.ofish.databinding.ItemVesselRecordBinding
 import org.wildaid.ofish.ui.base.AdapterDiffCallback
 
-
 class VesselRecordsAdapter(
     val onItemClick: (ReportItem) -> Unit
 ) : RecyclerView.Adapter<VesselRecordsAdapter.RecordViewHolder>() {
@@ -55,13 +54,16 @@ class VesselRecordsAdapter(
             dataBinding.vesselRecordMap.apply {
                 onCreate(null)
                 getMapAsync {
-                    MapsInitializer.initialize(rootView.context.applicationContext);
+                    MapsInitializer.initialize(rootView.context.applicationContext)
                     it.uiSettings.isMapToolbarEnabled = false
-                    val cords =
+                    val cords = if (item.report.location.size == 2) {
                         LatLng(
-                            item.report.location?.latitude ?: 0.0,
-                            item.report.location?.longitude ?: 0.0
+                            item.report.location[1] ?: .0,
+                            item.report.location[0] ?: .0
                         )
+                    } else {
+                        LatLng(.0, .0)
+                    }
                     it.moveCamera(CameraUpdateFactory.newLatLngZoom(cords, 10f))
                     it.addMarker(MarkerOptions().position(cords))
                     it.mapType = GoogleMap.MAP_TYPE_NORMAL
@@ -71,23 +73,30 @@ class VesselRecordsAdapter(
             val safetyLevel = item.report.inspection?.summary?.safetyLevel?.level
             for (value in SafetyColor.values()) {
                 if (value.name == safetyLevel) {
-                    dataBinding.vesselSafetyLevel.setSafetyColor(value, R.dimen.safety_background_radius_small)
+                    dataBinding.vesselSafetyLevel.setSafetyColor(
+                        value,
+                        R.dimen.safety_background_radius_small
+                    )
                     break
                 }
             }
 
             dataBinding.vesselRecordViolations.text = when {
-                item.citationCount <= 0 && item.warningsCount <= 0 -> itemView.context.getString(R.string.zero_violations)
-                item.citationCount > 0 && item.warningsCount > 0 -> itemView.context.getString(
+                item.citationCount <= 0 && item.warningsCount <= 0 ->
+                    itemView.context.getString(R.string.zero_violations)
+                item.citationCount > 0 && item.warningsCount > 0 ->
+                    itemView.context.getString(
                     R.string.warnings_citation_count,
                     item.warningsCount,
                     item.citationCount
                 )
-                item.warningsCount > 0 -> itemView.context.getString(
+                item.warningsCount > 0 ->
+                    itemView.context.getString(
                     R.string.warnings_count,
                     item.warningsCount
                 )
-                item.citationCount > 0 -> itemView.context.getString(
+                item.citationCount > 0 ->
+                    itemView.context.getString(
                     R.string.citation_count,
                     item.citationCount
                 )

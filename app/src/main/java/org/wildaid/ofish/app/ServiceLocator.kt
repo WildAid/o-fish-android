@@ -1,11 +1,9 @@
 package org.wildaid.ofish.app
 
 import android.content.Context
-import io.realm.Realm
 import org.wildaid.ofish.data.*
 
 object ServiceLocator {
-
     @Volatile
     private var repository: Repository? = null
 
@@ -13,20 +11,17 @@ object ServiceLocator {
         synchronized(this) {
             return repository
                 ?: repository
-                ?: createRepository(
-                    context
-                )
+                ?: createRepository(context.applicationContext)
         }
     }
 
     private fun createRepository(context: Context): Repository {
-        Realm.init(context)
-        return RepositoryImpl(
-            RealmDataSource(),
+        repository = RepositoryImpl(
+            RealmDataSource(context),
             LocalDataSource(),
             AndroidDataSource(context)
-        ).also {
-            repository = it
-        }
+        )
+
+        return repository as Repository
     }
 }

@@ -8,5 +8,4 @@ import io.realm.annotations.RealmClass
 open class Seizures : RealmObject() {
     var text: String = ""
     var attachments: Attachments? = Attachments()
-
 }
