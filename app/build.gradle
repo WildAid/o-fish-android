@@ -6,9 +6,13 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
-def localPropsFile = rootProject.file("realm.properties");
-def localProps = new Properties()
-localProps.load(new InputStreamReader(new FileInputStream(localPropsFile), StandardCharsets.UTF_8))
+def realmPropsFile = rootProject.file("realm.properties");
+def realmProperties = new Properties()
+realmProperties.load(new InputStreamReader(new FileInputStream(realmPropsFile), StandardCharsets.UTF_8))
+
+def localPropsFile = rootProject.file("local.properties");
+def localProperties = new Properties()
+localProperties.load(new InputStreamReader(new FileInputStream(localPropsFile), StandardCharsets.UTF_8))
 
 configurations {
     ktlint
@@ -30,17 +34,19 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
-            buildConfigField "String", "REALM_PASSWORD", "\"${localProps.getProperty("realm_password", "")}\""
-            buildConfigField "String", "REALM_USER", "\"${localProps.getProperty("realm_user", "")}\""
-            buildConfigField "String", "REALM_APP_ID", "\"${localProps.getProperty("realm_app_id", "")}\""
-            buildConfigField "String", "REALM_URL", "\"${localProps.getProperty("realm_url", "")}\""
+            buildConfigField "String", "REALM_APP_ID", "\"${realmProperties.getProperty("realm_app_id", "")}\""
+
+            buildConfigField "String", "REALM_PASSWORD", "\"${localProperties.getProperty("realm_password", "")}\""
+            buildConfigField "String", "REALM_USER", "\"${localProperties.getProperty("realm_user", "")}\""
+            buildConfigField "String", "REALM_URL", "\"${localProperties.getProperty("realm_url", "")}\""
         }
 
         debug {
-            buildConfigField "String", "REALM_PASSWORD", "\"${localProps.getProperty("realm_password", "")}\""
-            buildConfigField "String", "REALM_USER", "\"${localProps.getProperty("realm_user", "")}\""
-            buildConfigField "String", "REALM_APP_ID", "\"${localProps.getProperty("realm_app_id", "")}\""
-            buildConfigField "String", "REALM_URL", "\"${localProps.getProperty("realm_url", "")}\""
+            buildConfigField "String", "REALM_APP_ID", "\"${realmProperties.getProperty("realm_app_id", "")}\""
+
+            buildConfigField "String", "REALM_PASSWORD", "\"${localProperties.getProperty("realm_password", "")}\""
+            buildConfigField "String", "REALM_USER", "\"${localProperties.getProperty("realm_user", "")}\""
+            buildConfigField "String", "REALM_URL", "\"${localProperties.getProperty("realm_url", "")}\""
         }
     }
 
