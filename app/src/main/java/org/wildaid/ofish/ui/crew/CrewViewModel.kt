@@ -41,9 +41,12 @@ class CrewViewModel(
         addCrewMember()
     }
 
-    fun fillCrew(crews: List<CrewMemberItem>) {
+    fun fillCrew(crews: List<CrewMember>) {
+        crews.forEach {
+            addCrewMember(it)
+        }
 //        get list
-//        crewMembersData.value = crews
+//        crewMembersData.value = crews as List<CrewMemberItem>
     }
 
     fun updateCrewMembersIfNeeded() {
@@ -105,14 +108,14 @@ class CrewViewModel(
         crewMembersData.value = currentCrewItems
     }
 
-    fun addCrewMember() {
+    fun addCrewMember(crewMember: CrewMember? = null) {
         fillEmptyFields(currentCrewItems)
 
         currentCrewItems.forEach {
             it.inEditMode = false
         }
 
-        val newCrewMember = CrewMember()
+        val newCrewMember = crewMember ?: CrewMember()
         currentReport.crew.add(newCrewMember)
         currentCrewItems.add(
             CrewMemberItem(

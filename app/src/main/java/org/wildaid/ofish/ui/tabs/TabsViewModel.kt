@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.tabs.TabLayout
+import io.realm.RealmList
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.Repository
@@ -22,17 +23,18 @@ class TabsViewModel(val repository: Repository, application: Application) :
     private lateinit var tabs: List<TabItem>
     private lateinit var report: Report
 
-    fun initReport(report: Report, reportPhotos: MutableList<PhotoItem>, vesselId: String?) {
+    fun initReport(creationReport: Report, reportPhotos: MutableList<PhotoItem>, vesselId: String?) {
         if (vesselId != null) {
             this.vesselToPrefill = repository.findBoat(vesselId)
+            this.crewToPrefill = creationReport.crew
         } else {
             this.vesselToPrefill = null
         }
 
         initTabStates()
 
-        this.report = report
-        this.reportLiveData.value = report to reportPhotos
+        this.report = creationReport
+        this.reportLiveData.value = creationReport to reportPhotos
     }
 
     fun onTabsSkipped(skippedTabs: List<TabItem>) {
