@@ -30,6 +30,7 @@ import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.base.*
 import org.wildaid.ofish.ui.createreport.CreateReportViewModel
 import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER
+import org.wildaid.ofish.ui.crew.CrewFragment
 import org.wildaid.ofish.ui.home.KEY_CREATE_REPORT_RESULT
 import org.wildaid.ofish.ui.vessel.VesselFragment
 import org.wildaid.ofish.util.getViewModelFactory
@@ -48,6 +49,7 @@ const val FRAGMENT_TAG_PREFIX = "f"
 private const val ASK_PREFILL_VESSEL_DIALOG_ID = 13
 private const val ASK_SKIP_TABS_DIALOG_ID = 14
 private const val SUBMIT_DIALOG_ID = 15
+private const val ASK_PREFILL_CREW_DIALOG_ID = 191232
 
 class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener {
     private val fragmentViewModel by viewModels<TabsViewModel> { getViewModelFactory() }
@@ -96,6 +98,7 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
                 is TabsViewModel.UserEvent.AskLeftEmptyFields -> showSkipSectionsDialog(it.skippedTabs)
                 is TabsViewModel.UserEvent.ChangeTabEvent -> selectTab(it.tabItem)
                 TabsViewModel.UserEvent.AskPrefillVesselEvent -> showAskPrefillBoatDialog()
+                TabsViewModel.UserEvent.AskPrefillCrewEvent -> showAskPrefillCrewDialog()
             }
         })
 
@@ -200,6 +203,18 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
         navigation.navigate(R.id.confirmation_dialog, dialogBundle)
     }
 
+    private fun showAskPrefillCrewDialog() {
+        val dialogBundle = ConfirmationDialogFragment.Bundler(
+            ASK_PREFILL_CREW_DIALOG_ID,
+            getString(R.string.prefill_crew_dialog_title),
+            getString(R.string.prefill_crew_dialog_description),
+            getString(R.string.prefill_crew_dialog_yes),
+            getString(R.string.no)
+        ).bundle()
+
+        navigation.navigate(R.id.confirmation_dialog, dialogBundle)
+    }
+
     private fun showSubmitReportDialog() {
         val tabs = fragmentViewModel.getSkippedAndNotVisitedTabs()
         val title: String
@@ -233,6 +248,14 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
                         childFragmentManager.findFragmentByTag("$FRAGMENT_TAG_PREFIX$VESSEL_FRAGMENT_POSITION") as VesselFragment
                     fragmentViewModel.vesselToPrefill?.let {
                         vesselFragment.fillVesselInfo(it)
+                    }
+                    clickHandled = true
+                }
+                ASK_PREFILL_CREW_DIALOG_ID -> {
+                    val crewFragment =
+                        childFragmentManager.findFragmentByTag("$FRAGMENT_TAG_PREFIX$CREW_FRAGMENT_POSITION") as CrewFragment
+                    fragmentViewModel.crewToPrefill?.let {
+                        crewFragment.fillCrewInfo(it)
                     }
                     clickHandled = true
                 }
@@ -303,7 +326,11 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
             val currentTabPosition = tabs_layout.selectedTabPosition
             tabStrip.getChildAt(newPosition).setOnLongClickListener {
                 return@setOnLongClickListener currentTabPosition != newPosition &&
-                        fragmentViewModel.onTabClicked(currentTabPosition, newPosition, currentReportFragment.isAllRequiredFieldsNotEmpty())
+                        fragmentViewModel.onTabClicked(
+                            currentTabPosition,
+                            newPosition,
+                            currentReportFragment.isAllRequiredFieldsNotEmpty()
+                        )
             }
 
             tabStrip.getChildAt(newPosition).setOnTouchListener { _, event ->
@@ -311,7 +338,11 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
                 val currentTabPosition = tabs_layout.selectedTabPosition
                 return@setOnTouchListener currentTabPosition != newPosition &&
                         isClick &&
-                        fragmentViewModel.onTabClicked(currentTabPosition, newPosition, currentReportFragment.isAllRequiredFieldsNotEmpty())
+                        fragmentViewModel.onTabClicked(
+                            currentTabPosition,
+                            newPosition,
+                            currentReportFragment.isAllRequiredFieldsNotEmpty()
+                        )
             }
         }
     }

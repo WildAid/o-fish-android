@@ -48,6 +48,10 @@ class CrewFragment : BaseReportFragment(R.layout.fragment_crew) {
         )
     }
 
+    fun fillCrewInfo(crews: List<CrewMember>) {
+        fragmentViewModel.fillCrew(crews)
+    }
+
     private fun initUI() {
         crewAdapter = CrewAdapter(
             crewRemoveListener = {

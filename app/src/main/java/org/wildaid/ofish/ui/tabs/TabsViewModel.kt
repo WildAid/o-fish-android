@@ -8,7 +8,9 @@ import io.realm.RealmList
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.Repository
-import org.wildaid.ofish.data.report.*
+import org.wildaid.ofish.data.report.Boat
+import org.wildaid.ofish.data.report.CrewMember
+import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.base.PhotoItem
 import org.wildaid.ofish.util.getString
 
@@ -19,7 +21,9 @@ class TabsViewModel(val repository: Repository, application: Application) :
     val tabsStateLiveData = MutableLiveData<List<TabItem>>()
 
     var vesselToPrefill: Boat? = null
+    var crewToPrefill: RealmList<CrewMember>? = null
     private var vesselFragmentWasVisited: Boolean = false
+    private var crewFragmentWasVisited: Boolean = false
     private lateinit var tabs: List<TabItem>
     private lateinit var report: Report
 
@@ -47,7 +51,11 @@ class TabsViewModel(val repository: Repository, application: Application) :
         userEventLiveData.value = Event(UserEvent.ChangeTabEvent(nextTab))
     }
 
-    fun onTabClicked(currentTabPosition: Int, newPosition: Int, currentFormValid: Boolean): Boolean {
+    fun onTabClicked(
+        currentTabPosition: Int,
+        newPosition: Int,
+        currentFormValid: Boolean
+    ): Boolean {
         val notVisitedTabs = mutableListOf<TabItem>()
         tabs.forEachIndexed { index, tab ->
             if (tab.status == TabStatus.NOT_VISITED && newPosition > index) {
@@ -78,6 +86,11 @@ class TabsViewModel(val repository: Repository, application: Application) :
             userEventLiveData.value = Event(UserEvent.AskPrefillVesselEvent)
         }
 
+        if (!crewFragmentWasVisited && currentTabIndex == CREW_FRAGMENT_POSITION /*&& crewToPrefill != null*/) {
+            crewFragmentWasVisited = true
+            userEventLiveData.value = Event(UserEvent.AskPrefillCrewEvent)
+        }
+
         val previousTab = tabs[previousTabIndex]
         if (previousTabIndex != TabLayout.Tab.INVALID_POSITION && previousTab.status != TabStatus.SKIPPED) {
             previousTab.apply {
@@ -94,7 +107,11 @@ class TabsViewModel(val repository: Repository, application: Application) :
 
     private fun initTabStates() {
         tabs = listOf(
-            TabItem(BASIC_INFO_FRAGMENT_POSITION, getString(R.string.basic_information), TabStatus.VISITED),
+            TabItem(
+                BASIC_INFO_FRAGMENT_POSITION,
+                getString(R.string.basic_information),
+                TabStatus.VISITED
+            ),
             TabItem(VESSEL_FRAGMENT_POSITION, getString(R.string.vessel)),
             TabItem(CREW_FRAGMENT_POSITION, getString(R.string.crew)),
             TabItem(ACTIVITIES_FRAGMENT_POSITION, getString(R.string.activity)),
@@ -114,5 +131,6 @@ class TabsViewModel(val repository: Repository, application: Application) :
         class AskLeftEmptyFields(var skippedTabs: List<TabItem>) : UserEvent()
         class ChangeTabEvent(var tabItem: TabItem) : UserEvent()
         object AskPrefillVesselEvent : UserEvent()
+        object AskPrefillCrewEvent : UserEvent()
     }
 }
