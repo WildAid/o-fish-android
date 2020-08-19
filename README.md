@@ -16,7 +16,7 @@ This is the Android Mobile app for O-FISH. To build and use the app, you must fi
 
 ## Building and running the app
 
-Build and run the app using Android Studio - but before building, set these values in the project's `local.properties` file:
+Build and run the app using Android Studio - but before building, set these values in the project's `realm.properties` file:
 
 ```
 # Find this from the [MongoDB Realm UI](https://realm.mongodb.com)

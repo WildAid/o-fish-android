@@ -29,7 +29,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         if (BuildConfig.REALM_USER.isBlank() || BuildConfig.REALM_PASSWORD.isBlank()) {
             Log.i(
                 "Login Setup",
-                "You can specify properties realm_user and/or realm_password in local.properties to pre fill credentials"
+                "You can specify properties realm_user and/or realm_password in realm.properties to pre fill credentials"
             )
         }
         ed_user.setText(BuildConfig.REALM_USER)

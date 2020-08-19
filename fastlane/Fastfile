@@ -1,0 +1,16 @@
+default_platform(:android)
+
+platform :android do
+
+    desc "Compile application to verify there is no syntax error"
+    lane :compile do
+        gradle(task: "clean")
+
+        gradle(task: 'assemble', build_type: 'Release')
+    end
+
+      desc "Runs all tests in the projects"
+      lane :test do
+        gradle(task: "test")
+      end
+end
