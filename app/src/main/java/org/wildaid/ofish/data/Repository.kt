@@ -41,13 +41,13 @@ interface Repository {
 
     fun findReport(reportId: ObjectId): Report?
 
-    fun findReportsForBoat(boatPermitNumber: String): List<Report>
+    fun findReportsForBoat(boatPermitNumber: String, vesselName: String): List<Report>
 
     fun findAllBoats(): List<Boat>
 
     fun getMenuData(): MenuData?
 
-    fun findBoat(boatPermitNumber: String): Boat?
+    fun findBoat(boatPermitNumber: String, vesselName: String): Boat?
 
     fun getPhotosWithIds(ids: List<String>): List<Photo>
 
