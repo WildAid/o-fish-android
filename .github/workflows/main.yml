@@ -20,7 +20,7 @@ jobs:
         with:
           java-version: 1.8
           
-      - name: Install NDK
+      - name: Setup NDK
         run: echo "y" | sudo /usr/local/lib/android/sdk/tools/bin/sdkmanager --install "ndk;21.0.6113669" --sdk_root=${ANDROID_SDK_ROOT}
 
       #    - name: Build debug APK
@@ -31,16 +31,16 @@ jobs:
       #        name: app
       #        path: app/build/outputs/apk/debug/app-debug.apk
 
-      - name: Set up Ruby 2.6
+      - name: Setup Ruby 2.6
         uses: actions/setup-ruby@v1
         with:
             ruby-version: 2.6.x
 
-      - name: Install Dependencies
+      - name: Install Fastlane dependencies
         run: gem install bundler && bundle install
 
-      - name: Run Fastlane Compile Lane
+      - name: Run Fastlane Compile
         run: fastlane compile
 
-      - name: Run Fastlane test Lane
+      - name: Run Fastlane Test
         run: fastlane test

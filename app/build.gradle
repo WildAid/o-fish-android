@@ -12,7 +12,9 @@ realmProperties.load(new InputStreamReader(new FileInputStream(realmPropsFile), 
 
 def localPropsFile = rootProject.file("local.properties");
 def localProperties = new Properties()
-localProperties.load(new InputStreamReader(new FileInputStream(localPropsFile), StandardCharsets.UTF_8))
+if (localPropsFile.exists()) {
+    localProperties.load(new InputStreamReader(new FileInputStream(localPropsFile), StandardCharsets.UTF_8))
+}
 
 configurations {
     ktlint
