@@ -45,7 +45,7 @@
                     android:id="@+id/risk_action_icon"
                     android:layout_width="@dimen/add_attachment_icon_size"
                     android:layout_height="@dimen/add_attachment_icon_size"
-                    android:onClick="@{() -> viewmodel.onActionClicked()}"
+                    android:visibility="gone"
                     android:src="@drawable/ic_add_attachment"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -57,7 +57,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/selector_button_green"
-                    android:onClick="@{() -> viewmodel.onButtonClicked(@id/btn_green)}"
+                    android:onClick="@{() -> viewmodel.onGreenChosen()}"
                     android:text="@string/green"
                     android:textColor="@color/button_selector_text_green"
                     android:textSize="16sp"
@@ -72,7 +72,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/selector_button_amber"
-                    android:onClick="@{() -> viewmodel.onButtonClicked(@id/btn_amber)}"
+                    android:onClick="@{() -> viewmodel.onAmberChosen()}"
                     android:text="@string/amber"
                     android:textColor="@color/button_selector_text_amber"
                     android:textSize="16sp"
@@ -86,7 +86,7 @@
                     android:layout_height="40dp"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/selector_button_red"
-                    android:onClick="@{() -> viewmodel.onButtonClicked(@id/btn_red)}"
+                    android:onClick="@{() -> viewmodel.onRedChosen()}"
                     android:text="@string/red"
                     android:textColor="@color/button_selector_text_red"
                     android:textSize="16sp"
@@ -99,14 +99,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:visibility="@{viewmodel.noteVisibility}"
                     app:layout_constraintTop_toBottomOf="@id/btn_green">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/note_edit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@={viewmodel.note}" />
+                        android:text="@={viewmodel.safetyLevel.amberReason}" />
                 </com.google.android.material.textfield.TextInputLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
