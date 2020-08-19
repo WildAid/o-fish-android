@@ -28,6 +28,7 @@ import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
 import org.wildaid.ofish.ui.search.complex.RecordSearchModel
 import org.wildaid.ofish.ui.search.complex.TextViewSearchModel
 import org.wildaid.ofish.ui.vessel.CREATE_NEW_BUSINESS
+import org.wildaid.ofish.ui.vesseldetails.KEY_VESSEL_NAME
 import org.wildaid.ofish.ui.vesseldetails.KEY_VESSEL_PERMIT_NUMBER
 import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.hideKeyboard
@@ -71,9 +72,13 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
 
         search_recycler.apply {
             adapter = baseSearchAdapter
-            addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL).apply {
-                setDrawable(requireContext().getDrawable(R.drawable.ic_recycler_divider)!!)
-            })
+            addItemDecoration(
+                DividerItemDecoration(
+                    requireContext(),
+                    LinearLayoutManager.VERTICAL
+                ).apply {
+                    setDrawable(requireContext().getDrawable(R.drawable.ic_recycler_divider)!!)
+                })
         }
 
         val report =
@@ -134,8 +139,12 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
         when (selectedItem) {
             is AddSearchModel -> navigateFromAdd()
             is RecordSearchModel -> {
+                val clickedRecord = (selectedItem as RecordSearchModel)
                 val detailArgs =
-                    bundleOf(KEY_VESSEL_PERMIT_NUMBER to (selectedItem as RecordSearchModel).vessel.permitNumber)
+                    bundleOf(
+                        KEY_VESSEL_PERMIT_NUMBER to clickedRecord.vessel.permitNumber,
+                        KEY_VESSEL_NAME to clickedRecord.vessel.name
+                    )
                 navigation.navigate(R.id.vessel_details_fragment, detailArgs)
             }
             is TextViewSearchModel -> { // Nothing

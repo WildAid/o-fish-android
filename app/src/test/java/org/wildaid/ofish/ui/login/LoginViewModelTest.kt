@@ -6,7 +6,6 @@ import io.mockk.impl.annotations.MockK
 import io.realm.mongodb.AppException
 import io.realm.mongodb.ErrorCode
 import io.realm.mongodb.User
-import junit.framework.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -35,13 +34,13 @@ class LoginViewModelTest {
 
         every {
             mockedRepository.login("Username", any(), any(), any())
-        } answers {
-            val success: (User) -> Unit = thirdArg()
-            success.invoke(mockkClass(User::class))
-        }
+        } returns Unit
+
+        assert(!(loginVM.progressLiveData.value?.peekContent()?: false))
 
         loginVM.login("Username", "Password")
-        assertTrue("Should be true", loginVM.progressLiveData.value?.peekContent()!!)
+
+        assert(loginVM.progressLiveData.value?.peekContent() == true)
 
         verify(exactly = 1) {
             mockedRepository.login(
@@ -77,9 +76,6 @@ class LoginViewModelTest {
             success.invoke(mockkClass(User::class))
         }
         loginVM.login("UserName", "Password")
-        assertTrue(
-            "Should be success",
-            loginVM.loginLiveData.value == LoginViewModel.LoginResult.LoginSuccess
-        )
+        assert(loginVM.loginLiveData.value == LoginViewModel.LoginResult.LoginSuccess)
     }
 }

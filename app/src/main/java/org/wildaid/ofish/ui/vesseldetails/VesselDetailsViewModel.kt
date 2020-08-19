@@ -21,9 +21,10 @@ class VesselDetailsViewModel(private val repository: Repository, application: Ap
 
     lateinit var activityViewModel: HomeActivityViewModel
 
-    fun loadVessel(vesselPermitNumber: String) {
-        val vessel = repository.findBoat(vesselPermitNumber) ?: return
-        val vesselReports = repository.findReportsForBoat(vesselPermitNumber)
+    fun loadVessel(vesselPermitNumber: String, vesselName: String) {
+        val vessel = repository.findBoat(vesselPermitNumber, vesselName) ?: return
+        val vesselReports = repository.findReportsForBoat(vesselPermitNumber, vesselName)
+//            .filter { it.vessel?.name.orEmpty() == vesselName }
         val warnings = vesselReports
             .flatMap { it.inspection?.summary?.violations!! }
             .count { it.disposition == ViolationRisk.Warning.name }

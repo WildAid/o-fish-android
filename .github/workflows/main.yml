@@ -1,0 +1,46 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI/CD
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: CI/CD flow
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v2
+
+      - name: Setup JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+          
+      - name: Setup NDK
+        run: echo "y" | sudo /usr/local/lib/android/sdk/tools/bin/sdkmanager --install "ndk;21.0.6113669" --sdk_root=${ANDROID_SDK_ROOT}
+
+      #    - name: Build debug APK
+      #      run: bash ./gradlew assembleDebug --stacktrace
+      #    - name: Upload APK
+      #      uses: actions/upload-artifact@v1
+      #      with:
+      #        name: app
+      #        path: app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Setup Ruby 2.6
+        uses: actions/setup-ruby@v1
+        with:
+            ruby-version: 2.6.x
+
+      - name: Install Fastlane dependencies
+        run: gem install bundler && bundle install
+
+      - name: Run Fastlane Compile
+        run: fastlane compile
+
+      - name: Run Fastlane Test
+        run: fastlane test

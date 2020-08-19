@@ -27,9 +27,9 @@ class TabsViewModel(val repository: Repository, application: Application) :
     private lateinit var tabs: List<TabItem>
     private lateinit var report: Report
 
-    fun initReport(creationReport: Report, reportPhotos: MutableList<PhotoItem>, vesselId: String?) {
-        if (vesselId != null) {
-            this.vesselToPrefill = repository.findBoat(vesselId)
+    fun initReport(creationReport: Report, reportPhotos: MutableList<PhotoItem>, vesselId: String?, vesselName: String?) {
+        if (vesselId != null && vesselName != null) {
+            this.vesselToPrefill = repository.findBoat(vesselId, vesselName)
             this.crewToPrefill = creationReport.crew
         } else {
             this.vesselToPrefill = null

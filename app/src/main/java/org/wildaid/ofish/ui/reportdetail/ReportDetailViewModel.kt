@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import org.bson.types.ObjectId
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.data.Repository
+import org.wildaid.ofish.data.report.Boat
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.base.PhotoItem
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
@@ -14,7 +15,7 @@ import org.wildaid.ofish.util.convert
 
 class ReportDetailViewModel(val repository: Repository) : ViewModel() {
     val reportLiveData = MutableLiveData<Report>()
-    val boardVesselLiveData = MutableLiveData<Event<String>>()
+    val boardVesselLiveData = MutableLiveData<Event<Boat>>()
     lateinit var activityViewModel: HomeActivityViewModel
 
     private var loadedReport: Report? = null
@@ -33,7 +34,7 @@ class ReportDetailViewModel(val repository: Repository) : ViewModel() {
 
     fun boardVessel() {
         if (activityViewModel.onDutyStatusLiveData.value == true) {
-            loadedReport?.vessel?.permitNumber?.let {
+            loadedReport?.vessel?.let {
                 boardVesselLiveData.value = Event(it)
             }
         } else {
