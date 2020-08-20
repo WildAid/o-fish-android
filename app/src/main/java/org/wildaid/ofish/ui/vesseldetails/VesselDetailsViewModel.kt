@@ -17,12 +17,13 @@ class VesselDetailsViewModel(private val repository: Repository, application: Ap
     AndroidViewModel(application) {
     val vesselItemLiveData = MutableLiveData<VesselItem>()
     val vesselPhotosLiveData = MutableLiveData<List<Photo>>()
-    val boardVesselLiveData = MutableLiveData<Event<String>>()
+    val boardVesselLiveData = MutableLiveData<Event<Boat>>()
+
 
     lateinit var activityViewModel: HomeActivityViewModel
 
     fun loadVessel(vesselPermitNumber: String, vesselName: String) {
-        val vessel = repository.findBoat(vesselPermitNumber, vesselName) ?: return
+        val currentVessel = repository.findBoat(vesselPermitNumber, vesselName) ?: return
         val vesselReports = repository.findReportsForBoat(vesselPermitNumber, vesselName)
 //            .filter { it.vessel?.name.orEmpty() == vesselName }
         val warnings = vesselReports
@@ -44,7 +45,7 @@ class VesselDetailsViewModel(private val repository: Repository, application: Ap
         }
 
         vesselItemLiveData.value =
-            VesselItem(vessel, vesselReportItems, vesselReports.size, warnings, citations)
+            VesselItem(currentVessel, vesselReportItems, vesselReports.size, warnings, citations)
 
         vesselReports.map {
             repository.getPhotosWithIds(it.vessel?.attachments?.photoIDs.orEmpty())
@@ -65,7 +66,7 @@ class VesselDetailsViewModel(private val repository: Repository, application: Ap
     fun boardVessel() {
         if (activityViewModel.onDutyStatusLiveData.value == true) {
             vesselItemLiveData.value?.let {
-                boardVesselLiveData.value = Event(it.vessel.permitNumber)
+                boardVesselLiveData.value = Event(it.vessel)
             }
         } else {
             activityViewModel.userEventLiveData.value =

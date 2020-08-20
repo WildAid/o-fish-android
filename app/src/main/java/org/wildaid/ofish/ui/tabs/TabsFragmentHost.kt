@@ -28,9 +28,9 @@ import org.wildaid.ofish.R
 import org.wildaid.ofish.data.OnSaveListener
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.base.*
+import org.wildaid.ofish.ui.createreport.CreateReportBundle
 import org.wildaid.ofish.ui.createreport.CreateReportViewModel
-import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_VESSEL_NAME
-import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER
+import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_ARGS
 import org.wildaid.ofish.ui.crew.CrewFragment
 import org.wildaid.ofish.ui.home.KEY_CREATE_REPORT_RESULT
 import org.wildaid.ofish.ui.vessel.VesselFragment
@@ -64,14 +64,15 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val boatPermitNumber = requireArguments().getString(KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER)
-        val boatName = requireArguments().getString(KEY_CREATE_REPORT_VESSEL_NAME)
+        val arguments: CreateReportBundle? = requireArguments().getParcelable(KEY_CREATE_REPORT_ARGS)
+//        val boatName = requireArguments().getString(KEY_CREATE_REPORT_VESSEL_NAME)
+        // args
 
         fragmentViewModel.initReport(
             activityViewModel.report,
             activityViewModel.reportPhotos,
-            boatPermitNumber,
-            boatName
+            "boatPermitNumber",
+            "boatName"
         )
         subscribeToDialogEvents()
         setHasOptionsMenu(true)

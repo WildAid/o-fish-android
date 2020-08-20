@@ -2,7 +2,8 @@ package org.wildaid.ofish.data
 
 import android.content.Context
 import android.util.Log
-import io.realm.*
+import io.realm.Realm
+import io.realm.Sort
 import io.realm.kotlin.where
 import io.realm.log.LogLevel
 import io.realm.log.RealmLog
@@ -30,6 +31,7 @@ const val LAST_DELIVERY_DATE = "lastDelivery.date"
 const val VESSEL_PERMIT_NUMBER = "vessel.permitNumber"
 const val VESSEL_NAME = "vessel.name"
 const val USER_EMAIL = "user.email"
+const val FIELD_LICENSE = "license"
 
 private const val TAG = "Realm Setup"
 
@@ -262,4 +264,21 @@ class RealmDataSource(context: Context) {
             it.copyToRealmOrUpdate(photo)
         }
     }
+
+    fun findCrewMembers(crewPair: List<Pair<String, String>>): List<CrewMember> {
+        if (crewPair.isEmpty()) return emptyList()
+
+        val query = realm.where<CrewMember>().equalTo(FIELD_NAME, crewPair.first().second)
+            .and()
+            .equalTo(FIELD_LICENSE, crewPair.first().first)
+    }
+
+//    fun getPhotosWithIds(ids: List<String>): List<Photo> {
+//        if (ids.isNullOrEmpty()) return emptyList()
+//
+//        val query = realm.where<Photo>().equalTo(FIELD_ID, ObjectId(ids.first()))
+//        ids.forEach { query.or().equalTo(FIELD_ID, ObjectId(it)) }
+//        return query.findAll()
+//    }
+
 }

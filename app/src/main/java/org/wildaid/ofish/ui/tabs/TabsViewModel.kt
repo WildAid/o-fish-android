@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.tabs.TabLayout
-import io.realm.RealmList
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.Repository
@@ -21,16 +20,22 @@ class TabsViewModel(val repository: Repository, application: Application) :
     val tabsStateLiveData = MutableLiveData<List<TabItem>>()
 
     var vesselToPrefill: Boat? = null
-    var crewToPrefill: RealmList<CrewMember>? = null
+    var crewToPrefill: List<CrewMember>? = null
     private var vesselFragmentWasVisited: Boolean = false
     private var crewFragmentWasVisited: Boolean = false
     private lateinit var tabs: List<TabItem>
     private lateinit var report: Report
 
-    fun initReport(creationReport: Report, reportPhotos: MutableList<PhotoItem>, vesselId: String?, vesselName: String?) {
+    fun initReport(
+        creationReport: Report,
+        reportPhotos: MutableList<PhotoItem>,
+        vesselId: String?,
+        vesselName: String?,
+        crewPair: List<Pair<String, String>>
+    ) {
         if (vesselId != null && vesselName != null) {
             this.vesselToPrefill = repository.findBoat(vesselId, vesselName)
-            this.crewToPrefill = creationReport.crew
+            this.crewToPrefill = repository.findCrewMembers(crewPair)//name lic
         } else {
             this.vesselToPrefill = null
         }
