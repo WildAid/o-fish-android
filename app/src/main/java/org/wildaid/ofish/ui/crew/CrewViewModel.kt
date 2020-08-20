@@ -42,11 +42,10 @@ class CrewViewModel(
     }
 
     fun fillCrew(crews: List<CrewMember>) {
+        currentCrewItems.clear()
         crews.forEach {
             addCrewMember(it)
         }
-//        get list
-//        crewMembersData.value = crews as List<CrewMemberItem>
     }
 
     fun updateCrewMembersIfNeeded() {

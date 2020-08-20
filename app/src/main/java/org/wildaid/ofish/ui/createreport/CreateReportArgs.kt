@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class CreateReportBundle(val prefillVessel: PrefillVessel, val prefillCrew: PrefillCrew) :
+data class CreateReportBundle(val prefillVessel: PrefillVessel, val prefillCrew: PrefillCrew?) :
     Parcelable
 
 @Parcelize
@@ -17,6 +17,6 @@ data class PrefillVessel(
 
 @Parcelize
 data class PrefillCrew(
-    val prefillCaptain: Pair<String, String>?,
+    val prefillCaptain: Pair<String, String>,
     val listOfCrewMembers: List<Pair<String, String>>
 ) : Parcelable

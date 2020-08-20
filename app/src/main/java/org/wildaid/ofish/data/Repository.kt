@@ -64,6 +64,4 @@ interface Repository {
     fun updateCurrentOfficerPhoto(uri: Uri)
 
     fun getCurrentOfficerPhoto(): Photo?
-
-    fun findCrewMembers(crewPair: List<Pair<String, String>>): List<CrewMember>
 }

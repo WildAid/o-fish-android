@@ -5,7 +5,6 @@ import io.realm.Sort
 import io.realm.mongodb.AppException
 import io.realm.mongodb.User
 import org.bson.types.ObjectId
-import org.wildaid.ofish.data.report.CrewMember
 import org.wildaid.ofish.data.report.DutyChange
 import org.wildaid.ofish.data.report.Photo
 import org.wildaid.ofish.data.report.Report
@@ -162,9 +161,5 @@ class RepositoryImpl(
     override fun getCurrentOfficerPhoto(): Photo? {
         val pictureId = getCurrentOfficer().pictureId
         return getPhotoById(pictureId)
-    }
-
-    override fun findCrewMembers(crewPair: List<Pair<String, String>>): List<CrewMember> {
-        return realmDataSource.findCrewMembers(crewPair)
     }
 }

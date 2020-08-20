@@ -11,6 +11,8 @@ import org.wildaid.ofish.data.report.Boat
 import org.wildaid.ofish.data.report.CrewMember
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.base.PhotoItem
+import org.wildaid.ofish.ui.createreport.PrefillCrew
+import org.wildaid.ofish.ui.createreport.PrefillVessel
 import org.wildaid.ofish.util.getString
 
 class TabsViewModel(val repository: Repository, application: Application) :
@@ -29,18 +31,36 @@ class TabsViewModel(val repository: Repository, application: Application) :
     fun initReport(
         creationReport: Report,
         reportPhotos: MutableList<PhotoItem>,
-        vesselId: String?,
-        vesselName: String?,
-        crewPair: List<Pair<String, String>>
+        vesselToPrefill: PrefillVessel?,
+        crewToPrefill: PrefillCrew?
     ) {
-        if (vesselId != null && vesselName != null) {
-            this.vesselToPrefill = repository.findBoat(vesselId, vesselName)
-            this.crewToPrefill = repository.findCrewMembers(crewPair)//name lic
-        } else {
-            this.vesselToPrefill = null
+        initTabStates()
+
+        vesselToPrefill?.let {
+            this.vesselToPrefill = Boat().apply {
+                this.name = vesselToPrefill.prefillVesselName
+                this.homePort = vesselToPrefill.prefillPort
+                this.nationality = vesselToPrefill.prefillFlagState
+                this.permitNumber = vesselToPrefill.prefillVesselNumber
+            }
         }
 
-        initTabStates()
+        crewToPrefill?.let { crew ->
+            this.crewToPrefill = mutableListOf<CrewMember>().apply {
+                add(CrewMember().apply {
+                    name = crew.prefillCaptain.first
+                    license = crew.prefillCaptain.second
+                })
+                addAll(
+                    crewToPrefill.listOfCrewMembers.map {
+                        CrewMember().apply {
+                            name = it.first
+                            license = it.second
+                        }
+                    }
+                )
+            }
+        }
 
         this.report = creationReport
         this.reportLiveData.value = creationReport to reportPhotos
@@ -91,7 +111,7 @@ class TabsViewModel(val repository: Repository, application: Application) :
             userEventLiveData.value = Event(UserEvent.AskPrefillVesselEvent)
         }
 
-        if (!crewFragmentWasVisited && currentTabIndex == CREW_FRAGMENT_POSITION /*&& crewToPrefill != null*/) {
+        if (!crewFragmentWasVisited && currentTabIndex == CREW_FRAGMENT_POSITION && crewToPrefill != null) {
             crewFragmentWasVisited = true
             userEventLiveData.value = Event(UserEvent.AskPrefillCrewEvent)
         }

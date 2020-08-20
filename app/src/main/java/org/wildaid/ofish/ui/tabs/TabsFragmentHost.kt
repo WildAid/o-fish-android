@@ -65,14 +65,12 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val arguments: CreateReportBundle? = requireArguments().getParcelable(KEY_CREATE_REPORT_ARGS)
-//        val boatName = requireArguments().getString(KEY_CREATE_REPORT_VESSEL_NAME)
-        // args
 
         fragmentViewModel.initReport(
             activityViewModel.report,
             activityViewModel.reportPhotos,
-            "boatPermitNumber",
-            "boatName"
+            arguments?.prefillVessel,
+            arguments?.prefillCrew
         )
         subscribeToDialogEvents()
         setHasOptionsMenu(true)
