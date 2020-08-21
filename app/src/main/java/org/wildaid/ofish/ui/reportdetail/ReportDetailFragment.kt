@@ -66,23 +66,8 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
 
         fragmentViewModel.reportLiveData.observe(viewLifecycleOwner, Observer(::displayReport))
 
-        fragmentViewModel.boardVesselLiveData.observe(viewLifecycleOwner, EventObserver { it ->
-            val prefillCrew = PrefillCrew(
-                Pair(it.captain?.name!!, it.captain?.license!!),
-                it.crew.map { Pair(it.name, it.license) })
-            val prefillVessel = PrefillVessel(
-                it.vessel?.name!!,
-                it.vessel?.permitNumber!!,
-                it.vessel?.nationality!!,
-                it.vessel?.homePort!!
-            )
-            val navigationArgs =
-                bundleOf(KEY_CREATE_REPORT_ARGS to CreateReportBundle(prefillVessel, prefillCrew))
-
-            navigation.navigate(
-                R.id.action_report_details_fragment_to_create_report,
-                navigationArgs
-            )
+        fragmentViewModel.boardVesselLiveData.observe(viewLifecycleOwner, EventObserver {
+            navigateToCreateReport(it)
         })
 
         (childFragmentManager.findFragmentById(R.id.report_map) as NestedScrollMapFragment?)?.attachParentScroll(
@@ -91,6 +76,25 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
 
         report_toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white)
         subscribeToDialogEvents()
+    }
+
+    private fun navigateToCreateReport(it: Report) {
+        val prefillCrew = PrefillCrew(
+            Pair(it.captain?.name!!, it.captain?.license!!),
+            it.crew.map { Pair(it.name, it.license) })
+        val prefillVessel = PrefillVessel(
+            it.vessel?.name!!,
+            it.vessel?.permitNumber!!,
+            it.vessel?.nationality!!,
+            it.vessel?.homePort!!
+        )
+        val navigationArgs =
+            bundleOf(KEY_CREATE_REPORT_ARGS to CreateReportBundle(prefillVessel, prefillCrew))
+
+        navigation.navigate(
+            R.id.action_report_details_fragment_to_create_report,
+            navigationArgs
+        )
     }
 
     private fun collectPhotoAttachments() {
@@ -135,6 +139,7 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
         when {
             event.dialogId == ASK_CHANGE_DUTY_DIALOG_ID && event.dialogBtn == DialogButton.POSITIVE -> {
                 activityViewModel.onDutyChanged(true)
+                fragmentViewModel.boardVessel()
             }
         }
     }

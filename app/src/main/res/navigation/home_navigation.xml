@@ -118,6 +118,7 @@
         <argument
             android:name="bundle_of_info1"
             app:argType="org.wildaid.ofish.ui.createreport.CreateReportBundle" />
+
     </activity>
     <fragment
         android:id="@+id/patrolSummaryFragment"
