@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.fragment_crew.*
 import kotlinx.android.synthetic.main.item_crew_member.view.*
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
+import org.wildaid.ofish.data.report.CrewMember
 import org.wildaid.ofish.databinding.FragmentCrewBinding
 import org.wildaid.ofish.ui.base.BaseReportFragment
 import org.wildaid.ofish.ui.base.CARDS_OFFSET_SIZE
@@ -45,6 +46,10 @@ class CrewFragment : BaseReportFragment(R.layout.fragment_crew) {
         fragmentViewModel.buttonIdData.observe(
             viewLifecycleOwner, EventObserver(::onButtonClicked)
         )
+    }
+
+    fun fillCrewInfo(captain: CrewMember, crews: List<CrewMember>) {
+        fragmentViewModel.fillCrew(captain, crews)
     }
 
     private fun initUI() {

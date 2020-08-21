@@ -5,7 +5,9 @@ import io.realm.Sort
 import io.realm.mongodb.AppException
 import io.realm.mongodb.User
 import org.bson.types.ObjectId
-import org.wildaid.ofish.data.report.*
+import org.wildaid.ofish.data.report.DutyChange
+import org.wildaid.ofish.data.report.Photo
+import org.wildaid.ofish.data.report.Report
 import java.util.*
 
 class RepositoryImpl(
@@ -97,7 +99,8 @@ class RepositoryImpl(
 
     override fun findAllBoats() = realmDataSource.findAllBoats()
 
-    override fun findBoat(boatPermitNumber: String, vesselName: String) = realmDataSource.findBoat(boatPermitNumber, vesselName)
+    override fun findBoat(boatPermitNumber: String, vesselName: String) =
+        realmDataSource.findBoat(boatPermitNumber, vesselName)
 
     override fun getMenuData() = realmDataSource.getMenuData()
 

@@ -7,7 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.Repository
-import org.wildaid.ofish.data.report.*
+import org.wildaid.ofish.data.report.CrewMember
+import org.wildaid.ofish.data.report.Photo
+import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.base.AttachmentItem
 import org.wildaid.ofish.ui.base.PhotoItem
 import org.wildaid.ofish.util.getString
@@ -37,6 +39,15 @@ class CrewViewModel(
         this.currentReportPhotos = currentReportPhotos
         this.crewMembersData.value = initiateCrewMembers()
         addCrewMember()
+    }
+
+    fun fillCrew(captain: CrewMember, crews: List<CrewMember>) {
+        currentCrewItems.clear()
+
+        addCrewMember(captain, isCaptain = true)
+        crews.forEach {
+            addCrewMember(it)
+        }
     }
 
     fun updateCrewMembersIfNeeded() {
@@ -98,20 +109,22 @@ class CrewViewModel(
         crewMembersData.value = currentCrewItems
     }
 
-    fun addCrewMember() {
+    fun addCrewMember(crewMember: CrewMember? = null, isCaptain: Boolean = false) {
         fillEmptyFields(currentCrewItems)
 
         currentCrewItems.forEach {
             it.inEditMode = false
         }
 
-        val newCrewMember = CrewMember()
+        val newCrewMember = crewMember ?: CrewMember()
         currentReport.crew.add(newCrewMember)
         currentCrewItems.add(
             CrewMemberItem(
                 newCrewMember,
-                title = "${getString(R.string.crew_member)} ${currentCrewItems.size}",
-                attachments = AttachmentItem(newCrewMember.attachments!!)
+                isCaptain = isCaptain,
+                title = if (isCaptain) getString(R.string.captain) else "${getString(R.string.crew_member)} ${currentCrewItems.size}",
+                attachments = AttachmentItem(newCrewMember.attachments!!),
+                isRemovable = !isCaptain
             )
         )
 
@@ -173,7 +186,7 @@ class CrewViewModel(
             add(
                 CrewMemberItem(
                     crewMember,
-                    title =  "$memberTitle 1",
+                    title = "$memberTitle 1",
                     attachments = AttachmentItem(crewMember.attachments!!),
                     isRemovable = true,
                     isCaptain = false

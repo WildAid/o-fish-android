@@ -9,10 +9,14 @@
         android:id="@+id/tabsFragment"
         android:name="org.wildaid.ofish.ui.tabs.TabsFragmentHost"
         android:label="TabsFragment">
+
         <argument
+            android:name="bundle_of_info"
+            app:argType="org.wildaid.ofish.ui.createreport.CreateReportBundle" />
+        <!--<argument
             android:name="vessel_id"
             android:defaultValue="INVALID_ID"
-            app:argType="string" />
+            app:argType="string" />-->
         <action
             android:id="@+id/action_tabsFragment_to_complex_search"
             app:destination="@id/complex_search"

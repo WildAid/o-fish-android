@@ -17,8 +17,7 @@ import org.wildaid.ofish.ui.base.DialogClickEvent
 import org.wildaid.ofish.ui.home.KEY_CREATE_REPORT_RESULT
 import org.wildaid.ofish.util.getViewModelFactory
 
-const val KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER = "permit_number"
-const val KEY_CREATE_REPORT_VESSEL_NAME = "name"
+const val KEY_CREATE_REPORT_ARGS = "bundle_of_info"
 private const val DISCARD_DIALOG_ID = 17
 
 class CreateReportActivity : AppCompatActivity() {
@@ -33,7 +32,7 @@ class CreateReportActivity : AppCompatActivity() {
         }
 
         activityViewModel.initReport()
-        activityViewModel.discardReportLiveData.observe(this, EventObserver() {
+        activityViewModel.discardReportLiveData.observe(this, EventObserver {
             showDiscardReportDialog()
         })
 

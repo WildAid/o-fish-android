@@ -19,12 +19,12 @@
             app:popExitAnim="@anim/slide_in_up" />
         <action
             android:id="@+id/action_home_fragment_to_login_activity"
-            app:popUpToInclusive="true"
-            app:destination="@id/login_activity" />
+            app:destination="@id/login_activity"
+            app:popUpToInclusive="true" />
 
         <action
             android:id="@+id/action_homeFragment_to_ask_logout_dialog"
-            app:destination="@id/ask_logout_dialog"/>
+            app:destination="@id/ask_logout_dialog" />
 
         <action
             android:id="@+id/action_home_fragment_to_patrolSummaryFragment"
@@ -71,7 +71,7 @@
         tools:layout="@layout/fragment_vessel_details">
 
         <argument
-            android:name="vessel_id"
+            android:name="permit_number"
             android:defaultValue="INVALID_ID"
             app:argType="string" />
 
@@ -79,6 +79,7 @@
             android:name="vessel_name"
             android:defaultValue="INVALID_ID"
             app:argType="string" />
+
         <action
             android:id="@+id/action_vessel_details_fragment_to_report_details_fragment"
             app:destination="@id/report_details_fragment" />
@@ -115,15 +116,14 @@
         tools:layout="@layout/fragment_basic_information">
 
         <argument
-            android:name="vessel_id"
-            android:defaultValue="@null"
-            app:argType="string" />
+            android:name="bundle_of_info1"
+            app:argType="org.wildaid.ofish.ui.createreport.CreateReportBundle" />
     </activity>
     <fragment
         android:id="@+id/patrolSummaryFragment"
         android:name="org.wildaid.ofish.ui.patrolsummary.PatrolSummaryFragment"
         android:label="patrol_summary_fragment"
-        tools:layout="@layout/fragment_patrol_summary" >
+        tools:layout="@layout/fragment_patrol_summary">
         <action
             android:id="@+id/action_patrolSummaryFragment_to_report_details_fragment"
             app:destination="@id/report_details_fragment" />

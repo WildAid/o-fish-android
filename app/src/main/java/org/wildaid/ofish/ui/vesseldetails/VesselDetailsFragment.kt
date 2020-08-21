@@ -25,8 +25,10 @@ import org.wildaid.ofish.ui.base.DIALOG_CLICK_EVENT
 import org.wildaid.ofish.ui.base.DialogButton
 import org.wildaid.ofish.ui.base.DialogClickEvent
 import org.wildaid.ofish.ui.base.ItemDivider
-import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_VESSEL_NAME
-import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER
+import org.wildaid.ofish.ui.createreport.CreateReportBundle
+import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_ARGS
+import org.wildaid.ofish.ui.createreport.PrefillCrew
+import org.wildaid.ofish.ui.createreport.PrefillVessel
 import org.wildaid.ofish.ui.home.ASK_CHANGE_DUTY_DIALOG_ID
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
 import org.wildaid.ofish.ui.reportdetail.KEY_REPORT_ID
@@ -34,13 +36,14 @@ import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.setVisible
 
 const val KEY_VESSEL_PERMIT_NUMBER = "permit_number"
-const val KEY_VESSEL_NAME = "name"
+const val KEY_VESSEL_NAME = "vessel_name"
 
 class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
     private val fragmentViewModel: VesselDetailsViewModel by viewModels { getViewModelFactory() }
     private val activityViewModel: HomeActivityViewModel by activityViewModels { getViewModelFactory() }
     private val navigation by lazy { findNavController() }
-    private val vesselPermitNumber: String by lazy {
+
+    private val vesselPermitNumber by lazy {
         requireArguments().getString(
             KEY_VESSEL_PERMIT_NUMBER,
             "INVALID_ID"
@@ -95,10 +98,15 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
         })
 
         fragmentViewModel.boardVesselLiveData.observe(viewLifecycleOwner, EventObserver {
-            val navigationArgs = bundleOf(
-                KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER to vesselPermitNumber,
-                KEY_CREATE_REPORT_VESSEL_NAME to vesselName
+            val prefillVessel = it.vessel!!.let { vessel ->
+                PrefillVessel(vessel.name, vessel.permitNumber, vessel.nationality, vessel.homePort)
+            }
+            val prefillCrew = PrefillCrew(
+                Pair(it.captain?.name!!, it.captain?.license!!),
+                it.crew.map { crewMember -> Pair(crewMember.name, crewMember.license) }
             )
+            val navigationArgs =
+                bundleOf(KEY_CREATE_REPORT_ARGS to CreateReportBundle(prefillVessel, prefillCrew))
             navigation.navigate(
                 R.id.action_vessel_details_fragment_to_create_report,
                 navigationArgs

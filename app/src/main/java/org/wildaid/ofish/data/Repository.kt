@@ -5,11 +5,7 @@ import io.realm.Sort
 import io.realm.mongodb.AppException
 import io.realm.mongodb.User
 import org.bson.types.ObjectId
-import org.wildaid.ofish.data.report.Boat
-import org.wildaid.ofish.data.report.MenuData
-import org.wildaid.ofish.data.report.DutyChange
-import org.wildaid.ofish.data.report.Photo
-import org.wildaid.ofish.data.report.Report
+import org.wildaid.ofish.data.report.*
 import java.util.*
 
 interface Repository {

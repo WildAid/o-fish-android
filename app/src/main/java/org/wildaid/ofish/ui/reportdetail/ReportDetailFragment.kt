@@ -28,8 +28,10 @@ import org.wildaid.ofish.data.SafetyColor
 import org.wildaid.ofish.data.report.*
 import org.wildaid.ofish.databinding.*
 import org.wildaid.ofish.ui.base.*
-import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_VESSEL_NAME
-import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER
+import org.wildaid.ofish.ui.createreport.CreateReportBundle
+import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_ARGS
+import org.wildaid.ofish.ui.createreport.PrefillCrew
+import org.wildaid.ofish.ui.createreport.PrefillVessel
 import org.wildaid.ofish.ui.home.ASK_CHANGE_DUTY_DIALOG_ID
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
 import org.wildaid.ofish.ui.home.ZOOM_LEVEL
@@ -64,11 +66,19 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
 
         fragmentViewModel.reportLiveData.observe(viewLifecycleOwner, Observer(::displayReport))
 
-        fragmentViewModel.boardVesselLiveData.observe(viewLifecycleOwner, EventObserver {
-            val navigationArgs = bundleOf(
-                KEY_CREATE_REPORT_VESSEL_PERMIT_NUMBER to it.permitNumber,
-                KEY_CREATE_REPORT_VESSEL_NAME to it.name
+        fragmentViewModel.boardVesselLiveData.observe(viewLifecycleOwner, EventObserver { it ->
+            val prefillCrew = PrefillCrew(
+                Pair(it.captain?.name!!, it.captain?.license!!),
+                it.crew.map { Pair(it.name, it.license) })
+            val prefillVessel = PrefillVessel(
+                it.vessel?.name!!,
+                it.vessel?.permitNumber!!,
+                it.vessel?.nationality!!,
+                it.vessel?.homePort!!
             )
+            val navigationArgs =
+                bundleOf(KEY_CREATE_REPORT_ARGS to CreateReportBundle(prefillVessel, prefillCrew))
+
             navigation.navigate(
                 R.id.action_report_details_fragment_to_create_report,
                 navigationArgs
