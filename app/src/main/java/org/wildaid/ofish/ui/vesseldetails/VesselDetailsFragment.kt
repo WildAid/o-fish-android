@@ -98,8 +98,10 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
             updateVesselImages(it)
         })
 
-        fragmentViewModel.boardVesselLiveData.observe(viewLifecycleOwner, EventObserver {
-            navigateToCreateReport(it)
+        fragmentViewModel.userEventLiveData.observe(viewLifecycleOwner, EventObserver {
+            when (it) {
+                is VesselDetailsUserEvent.AskOnDutyToNavigate -> navigateToCreateReport(it.report)
+            }
         })
 
         fragmentViewModel.loadVessel(vesselPermitNumber, vesselName)

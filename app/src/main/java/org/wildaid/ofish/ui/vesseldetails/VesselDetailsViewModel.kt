@@ -17,7 +17,7 @@ class VesselDetailsViewModel(private val repository: Repository, application: Ap
     AndroidViewModel(application) {
     val vesselItemLiveData = MutableLiveData<VesselItem>()
     val vesselPhotosLiveData = MutableLiveData<List<Photo>>()
-    val boardVesselLiveData = MutableLiveData<Event<Report>>()
+    val userEventLiveData = MutableLiveData<Event<VesselDetailsUserEvent>>()
 
     lateinit var activityViewModel: HomeActivityViewModel
 
@@ -67,13 +67,17 @@ class VesselDetailsViewModel(private val repository: Repository, application: Ap
     fun boardVessel() {
         if (activityViewModel.onDutyStatusLiveData.value == true) {
             vesselItemLiveData.value?.let {
-                boardVesselLiveData.value = Event(vesselReports.first())
+                userEventLiveData.value = Event(VesselDetailsUserEvent.AskOnDutyToNavigate(vesselReports.first()))
             }
         } else {
             activityViewModel.userEventLiveData.value =
                 Event(HomeActivityViewModel.UserEvent.AskDutyConfirmationEvent)
         }
     }
+}
+
+sealed class VesselDetailsUserEvent {
+    class AskOnDutyToNavigate(val report: Report) : VesselDetailsUserEvent()
 }
 
 data class VesselItem(
