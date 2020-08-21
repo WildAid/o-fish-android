@@ -23,6 +23,7 @@ class TabsViewModel(val repository: Repository, application: Application) :
 
     var vesselToPrefill: Boat? = null
     var crewToPrefill: List<CrewMember>? = null
+    var prefillCaptain: CrewMember? = null
     private var vesselFragmentWasVisited: Boolean = false
     private var crewFragmentWasVisited: Boolean = false
     private lateinit var tabs: List<TabItem>
@@ -38,28 +39,27 @@ class TabsViewModel(val repository: Repository, application: Application) :
 
         vesselToPrefill?.let {
             this.vesselToPrefill = Boat().apply {
-                this.name = vesselToPrefill.prefillVesselName
-                this.homePort = vesselToPrefill.prefillPort
-                this.nationality = vesselToPrefill.prefillFlagState
-                this.permitNumber = vesselToPrefill.prefillVesselNumber
+                this.name = vesselToPrefill.vesselName
+                this.homePort = vesselToPrefill.homePort
+                this.nationality = vesselToPrefill.flagState
+                this.permitNumber = vesselToPrefill.vesselNumber
             }
         }
 
-        crewToPrefill?.let { crew ->
-            this.crewToPrefill = mutableListOf<CrewMember>().apply {
-                add(CrewMember().apply {
-                    name = crew.prefillCaptain.first
-                    license = crew.prefillCaptain.second
-                })
-                addAll(
-                    crewToPrefill.listOfCrewMembers.map {
-                        CrewMember().apply {
-                            name = it.first
-                            license = it.second
-                        }
-                    }
-                )
+        crewToPrefill?.let {
+            prefillCaptain = CrewMember().apply {
+                name = it.captain.first
+                license = it.captain.second
             }
+
+            this.crewToPrefill = mutableListOf(
+                *it.crew.map { pair ->
+                    CrewMember().apply {
+                        name = pair.first
+                        license = pair.second
+                    }
+                }.toTypedArray()
+            )
         }
 
         this.report = creationReport

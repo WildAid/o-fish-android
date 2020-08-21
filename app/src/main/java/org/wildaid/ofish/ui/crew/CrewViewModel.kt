@@ -41,8 +41,10 @@ class CrewViewModel(
         addCrewMember()
     }
 
-    fun fillCrew(crews: List<CrewMember>) {
+    fun fillCrew(captain: CrewMember, crews: List<CrewMember>) {
         currentCrewItems.clear()
+
+        addCrewMember(captain, isCaptain = true)
         crews.forEach {
             addCrewMember(it)
         }
@@ -107,7 +109,7 @@ class CrewViewModel(
         crewMembersData.value = currentCrewItems
     }
 
-    fun addCrewMember(crewMember: CrewMember? = null) {
+    fun addCrewMember(crewMember: CrewMember? = null, isCaptain: Boolean = false) {
         fillEmptyFields(currentCrewItems)
 
         currentCrewItems.forEach {
@@ -119,8 +121,10 @@ class CrewViewModel(
         currentCrewItems.add(
             CrewMemberItem(
                 newCrewMember,
-                title = "${getString(R.string.crew_member)} ${currentCrewItems.size}",
-                attachments = AttachmentItem(newCrewMember.attachments!!)
+                isCaptain = isCaptain,
+                title = if (isCaptain) getString(R.string.captain) else "${getString(R.string.crew_member)} ${currentCrewItems.size}",
+                attachments = AttachmentItem(newCrewMember.attachments!!),
+                isRemovable = !isCaptain
             )
         )
 

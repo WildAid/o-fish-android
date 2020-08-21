@@ -9,14 +9,16 @@ data class CreateReportBundle(val prefillVessel: PrefillVessel, val prefillCrew:
 
 @Parcelize
 data class PrefillVessel(
-    val prefillVesselName: String,
-    val prefillVesselNumber: String,
-    val prefillFlagState: String,
-    val prefillPort: String
+    val vesselName: String,
+    val vesselNumber: String,
+    val flagState: String,
+    val homePort: String
 ) : Parcelable
 
 @Parcelize
 data class PrefillCrew(
-    val prefillCaptain: Pair<String, String>,
-    val listOfCrewMembers: List<Pair<String, String>>
+    // first - license
+    // second - name
+    val captain: Pair<String, String>,
+    val crew: List<Pair<String, String>>
 ) : Parcelable

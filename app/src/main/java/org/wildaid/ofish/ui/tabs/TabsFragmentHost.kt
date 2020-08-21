@@ -64,7 +64,8 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val arguments: CreateReportBundle? = requireArguments().getParcelable(KEY_CREATE_REPORT_ARGS)
+        val arguments: CreateReportBundle? =
+            requireArguments().getParcelable(KEY_CREATE_REPORT_ARGS)
 
         fragmentViewModel.initReport(
             activityViewModel.report,
@@ -256,9 +257,11 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
                 ASK_PREFILL_CREW_DIALOG_ID -> {
                     val crewFragment =
                         childFragmentManager.findFragmentByTag("$FRAGMENT_TAG_PREFIX$CREW_FRAGMENT_POSITION") as CrewFragment
-                    fragmentViewModel.crewToPrefill?.let {
-                        crewFragment.fillCrewInfo(it)
-                    }
+                    crewFragment.fillCrewInfo(
+                        fragmentViewModel.prefillCaptain!!,
+                        fragmentViewModel.crewToPrefill!!
+                    )
+
                     clickHandled = true
                 }
                 SUBMIT_DIALOG_ID -> {

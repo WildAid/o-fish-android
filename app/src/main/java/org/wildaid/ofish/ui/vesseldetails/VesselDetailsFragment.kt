@@ -27,6 +27,7 @@ import org.wildaid.ofish.ui.base.DialogClickEvent
 import org.wildaid.ofish.ui.base.ItemDivider
 import org.wildaid.ofish.ui.createreport.CreateReportBundle
 import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_ARGS
+import org.wildaid.ofish.ui.createreport.PrefillCrew
 import org.wildaid.ofish.ui.createreport.PrefillVessel
 import org.wildaid.ofish.ui.home.ASK_CHANGE_DUTY_DIALOG_ID
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
@@ -97,11 +98,15 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
         })
 
         fragmentViewModel.boardVesselLiveData.observe(viewLifecycleOwner, EventObserver {
-            val navigationArgs = bundleOf(
-                KEY_CREATE_REPORT_ARGS to CreateReportBundle(
-                    PrefillVessel(it.name, it.permitNumber, it.nationality, it.homePort), null
-                )
+            val prefillVessel = it.vessel!!.let { vessel ->
+                PrefillVessel(vessel.name, vessel.permitNumber, vessel.nationality, vessel.homePort)
+            }
+            val prefillCrew = PrefillCrew(
+                Pair(it.captain?.name!!, it.captain?.license!!),
+                it.crew.map { crewMember -> Pair(crewMember.name, crewMember.license) }
             )
+            val navigationArgs =
+                bundleOf(KEY_CREATE_REPORT_ARGS to CreateReportBundle(prefillVessel, prefillCrew))
             navigation.navigate(
                 R.id.action_vessel_details_fragment_to_create_report,
                 navigationArgs
