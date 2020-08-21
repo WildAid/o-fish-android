@@ -118,10 +118,6 @@
         <argument
             android:name="bundle_of_info1"
             app:argType="org.wildaid.ofish.ui.createreport.CreateReportBundle" />
-        <!--        <argument-->
-        <!--            android:name="vessel_id"-->
-        <!--            android:defaultValue="@null"-->
-        <!--            app:argType="string" />-->
     </activity>
     <fragment
         android:id="@+id/patrolSummaryFragment"

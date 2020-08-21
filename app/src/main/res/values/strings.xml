@@ -35,7 +35,7 @@
 
     <!--  Report  -->
     <string name="menu_submit_report">Submit</string>
-    <string name="menu_cancel_report">Cancel</string>
+    <string name="menu_cancel_report">Cancel Boarding</string>
 
     <string name="skip_sections_dialog_title">Skip the following sections?</string>
     <string name="skip_sections_dialog_yes">Skip</string>
