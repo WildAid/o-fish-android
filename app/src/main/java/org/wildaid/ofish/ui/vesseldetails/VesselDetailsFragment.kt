@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_vessel_details.*
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.report.Photo
+import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.databinding.FragmentVesselDetailsBinding
 import org.wildaid.ofish.ui.base.DIALOG_CLICK_EVENT
 import org.wildaid.ofish.ui.base.DialogButton
@@ -97,24 +98,30 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
             updateVesselImages(it)
         })
 
-        fragmentViewModel.boardVesselLiveData.observe(viewLifecycleOwner, EventObserver {
-            val prefillVessel = it.vessel!!.let { vessel ->
-                PrefillVessel(vessel.name, vessel.permitNumber, vessel.nationality, vessel.homePort)
+        fragmentViewModel.userEventLiveData.observe(viewLifecycleOwner, EventObserver {
+            when (it) {
+                is VesselDetailsUserEvent.AskOnDutyToNavigate -> navigateToCreateReport(it.report)
             }
-            val prefillCrew = PrefillCrew(
-                Pair(it.captain?.name!!, it.captain?.license!!),
-                it.crew.map { crewMember -> Pair(crewMember.name, crewMember.license) }
-            )
-            val navigationArgs =
-                bundleOf(KEY_CREATE_REPORT_ARGS to CreateReportBundle(prefillVessel, prefillCrew))
-            navigation.navigate(
-                R.id.action_vessel_details_fragment_to_create_report,
-                navigationArgs
-            )
         })
 
         fragmentViewModel.loadVessel(vesselPermitNumber, vesselName)
         subscribeToDialogEvents()
+    }
+
+    private fun navigateToCreateReport(it: Report) {
+        val prefillVessel = it.vessel!!.let { vessel ->
+            PrefillVessel(vessel.name, vessel.permitNumber, vessel.nationality, vessel.homePort)
+        }
+        val prefillCrew = PrefillCrew(
+            Pair(it.captain?.name!!, it.captain?.license!!),
+            it.crew.map { crewMember -> Pair(crewMember.name, crewMember.license) }
+        )
+        val navigationArgs =
+            bundleOf(KEY_CREATE_REPORT_ARGS to CreateReportBundle(prefillVessel, prefillCrew))
+        navigation.navigate(
+            R.id.action_vessel_details_fragment_to_create_report,
+            navigationArgs
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -159,6 +166,7 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
         when {
             event.dialogId == ASK_CHANGE_DUTY_DIALOG_ID && event.dialogBtn == DialogButton.POSITIVE -> {
                 activityViewModel.onDutyChanged(true)
+                fragmentViewModel.boardVessel()
             }
         }
     }
