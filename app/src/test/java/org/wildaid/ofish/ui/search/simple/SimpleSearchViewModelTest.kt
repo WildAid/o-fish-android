@@ -21,6 +21,8 @@ import org.wildaid.ofish.ui.search.base.BaseSearchType
 class SimpleSearchViewModelTest {
 
     private lateinit var searchViewModel: SimpleSearchViewModel
+    private val wholeList = listOf("CA", "UA", "UK", "MX", "US", "DE")
+    private val filteredList = listOf("UA", "UK", "US")
 
     private object searchEntity : BaseSearchType()
 
@@ -40,7 +42,7 @@ class SimpleSearchViewModelTest {
         searchData = SimpleSearchViewModel(
             mockedRepository,
             ApplicationProvider.getApplicationContext()
-        ).SimpleSearchDataSource(listOf("CA", "UA", "UK", "MX", "US", "DE"))
+        ).SimpleSearchDataSource(wholeList)
 
     }
 
@@ -144,11 +146,12 @@ class SimpleSearchViewModelTest {
     }
 
     @Test
-    fun test() {
-        val wholeList = listOf("CA", "UA", "UK", "MX", "US", "DE")
+    fun initiateSimpleSearchDataSource() {
         assert(searchData.initiateData() == wholeList)
+    }
 
-        val filteredList = listOf("UA", "UK", "US")
+    @Test
+    fun filterSimpleSearchDataSource(){
         assert(searchData.applyFilter("U") == filteredList)
     }
 }
