@@ -10,9 +10,7 @@ class SimpleSearchViewModel(repository: Repository, application: Application) :
     BaseSearchViewModel<String>(repository, application) {
     override fun getDataSource(searchEntity: BaseSearchType, report: Report?): SearchDataSource {
         return when (searchEntity) {
-            is SimpleSearchFragment.SearchFlagState -> SimpleSearchDataSource(
-                repository.getFlagStates()
-            )
+            is SimpleSearchFragment.SearchFlagState -> SimpleSearchDataSource(repository.getFlagStates())
             is SimpleSearchFragment.SearchEms -> SimpleSearchDataSource(getEms())
             is SimpleSearchFragment.SearchFishery -> SimpleSearchDataSource(getFisheries())
             is SimpleSearchFragment.SearchGear -> SimpleSearchDataSource(getGears())
