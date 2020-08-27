@@ -1,14 +1,12 @@
 package org.wildaid.ofish.ui.search.complex
 
 import android.app.Application
-import android.util.Log
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.CrewMember
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.search.base.BaseSearchType
 import org.wildaid.ofish.ui.search.base.BaseSearchViewModel
-import java.util.*
 
 private const val RECENT_BOARDINGS_COUNT = 5
 

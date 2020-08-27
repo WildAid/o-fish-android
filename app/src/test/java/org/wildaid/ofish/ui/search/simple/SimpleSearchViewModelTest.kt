@@ -24,8 +24,6 @@ class SimpleSearchViewModelTest {
     private val wholeList = listOf("CA", "UA", "UK", "MX", "US", "DE")
     private val filteredList = listOf("UA", "UK", "US")
 
-    private object searchEntity : BaseSearchType()
-
     @MockK
     private lateinit var mockedRepository: Repository
 
@@ -130,15 +128,16 @@ class SimpleSearchViewModelTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun getSourceIllegalArgument() {
+        val invalidSearchEntity = BaseSearchType()
         every {
             searchViewModel.getDataSource(
-                searchEntity,
+                invalidSearchEntity,
                 null
             )
-        } throws IllegalArgumentException("Unsupported search type $searchEntity")
+        } throws IllegalArgumentException("Unsupported search type $invalidSearchEntity")
 
         val searchDataSource =
-            searchViewModel.getDataSource(searchEntity, null)
+            searchViewModel.getDataSource(invalidSearchEntity, null)
 
         assert(searchDataSource is SimpleSearchViewModel.SimpleSearchDataSource)
 
@@ -151,7 +150,7 @@ class SimpleSearchViewModelTest {
     }
 
     @Test
-    fun filterSimpleSearchDataSource(){
+    fun filterSimpleSearchDataSource() {
         assert(searchData.applyFilter("U") == filteredList)
     }
 }
