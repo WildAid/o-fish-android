@@ -103,11 +103,11 @@ class TestViewModel(mockedRepository: Repository) :
 
     inner class TestSearchDataSource : BaseSearchViewModel<Any>.SearchDataSource() {
         override fun initiateData(): List<Any> {
-            return listOf("UA")
+            return listOf("CA", "UA", "UK", "MX", "US", "DE")
         }
 
         override fun applyFilter(filter: String): List<Any> {
-            return listOf("A")
+            return listOf("UA", "UK", "US")
         }
     }
 }
