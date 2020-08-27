@@ -52,7 +52,11 @@ class BaseSearchViewModelTest {
     fun isComplexSearchFragmentSearchRecordsTest() {
         assert(testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchRecords, query))
 
+        assert(testViewModel.dataList.value.isNullOrEmpty())
+
         testViewModel.initDataList(ComplexSearchFragment.SearchRecords, null)
+
+        assert(!(testViewModel.dataList.value.isNullOrEmpty()))
 
         assert(testViewModel.dataList.value == TestViewModel(mockedRepository).TestSearchDataSource().initiateData())
 
@@ -63,7 +67,11 @@ class BaseSearchViewModelTest {
     fun isComplexSearchFragmentSearchBoardVesselsTest() {
         assert(testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchBoardVessels, query))
 
+        assert(testViewModel.dataList.value.isNullOrEmpty())
+
         testViewModel.initDataList(ComplexSearchFragment.SearchBoardVessels, null)
+
+        assert(!(testViewModel.dataList.value.isNullOrEmpty()))
 
         assert(testViewModel.dataList.value == TestViewModel(mockedRepository).TestSearchDataSource().initiateData())
 
@@ -74,7 +82,11 @@ class BaseSearchViewModelTest {
     fun isComplexSearchFragmentDutyReportsTest() {
         assert(testViewModel.isReportSearchEmpty(ComplexSearchFragment.DutyReports, query))
 
+        assert(testViewModel.dataList.value.isNullOrEmpty())
+
         testViewModel.initDataList(ComplexSearchFragment.DutyReports, null)
+
+        assert(!(testViewModel.dataList.value.isNullOrEmpty()))
 
         assert(testViewModel.dataList.value == TestViewModel(mockedRepository).TestSearchDataSource().initiateData())
 
@@ -85,7 +97,11 @@ class BaseSearchViewModelTest {
     fun isBaseSearchTypeUnknown() {
         assert(!testViewModel.isReportSearchEmpty(BaseSearchType(), query))
 
+        assert(testViewModel.dataList.value.isNullOrEmpty())
+
         testViewModel.initDataList(BaseSearchType(), null)
+
+        assert(!(testViewModel.dataList.value.isNullOrEmpty()))
 
         assert(testViewModel.dataList.value == TestViewModel(mockedRepository).TestSearchDataSource().initiateData())
 
