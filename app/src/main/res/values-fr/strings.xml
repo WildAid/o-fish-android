@@ -2,51 +2,51 @@
     <string name="app_name">O-FISH</string>
     <string name="no">no</string>
     <string name="empty" />
-    <string name="other">Other</string>
+    <string name="other">Autres</string>
 
     <!--    Vessel  -->
-    <string name="prefill_vessel_dialog_title">Prefill Vessel Information From Previous Boarding?</string>
-    <string name="prefill_vessel_dialog_description">You\'ll still be able to edit or clear fields</string>
-    <string name="prefill_vessel_dialog_yes">Prefill</string>
-    <string name="vessel_name">Vessel Name</string>
-    <string name="vessel">Vessel</string>
-    <string name="vessel_information">Vessel Information</string>
-    <string name="permit_number">Permit Number</string>
-    <string name="home_port">Home Port</string>
-    <string name="last_delivery">Last Delivery</string>
+    <string name="prefill_vessel_dialog_title">Pré-remplir la rubrique à partir de la dernière inspection?</string>
+    <string name="prefill_vessel_dialog_description">Vous pourrez toujours modifier les détails</string>
+    <string name="prefill_vessel_dialog_yes">Pré-remplir</string>
+    <string name="vessel_name">Nom du vaisseau</string>
+    <string name="vessel">Vaisseau</string>
+    <string name="vessel_information">Détails du vaisseau</string>
+    <string name="permit_number">Numéro de permis</string>
+    <string name="home_port">Port de rattachement</string>
+    <string name="last_delivery">Dernière livraison</string>
     <string name="date">Date</string>
-    <string name="yes">yes</string>
-    <string name="business">Business</string>
-    <string name="add_ems">Add Electronic Monitoring System</string>
-    <string name="location">Location</string>
-    <string name="remove_ems">Remove EMS</string>
-    <string name="flag_state">Flag State</string>
-    <string name="electronic_monitoring_system">Electronic Monitoring System</string>
-    <string name="ems_type">EMS Type</string>
-    <string name="registry_number">Registry Number</string>
-    <string name="crew_next">Crew\t\t\u279C</string>
-    <string name="select_attachment_dialog_title">Please select an Attachment</string>
-    <string name="select_attachment_dialog_message">You can add Note or Photo as Attachment</string>
+    <string name="yes">Oui</string>
+    <string name="business">Entreprise</string>
+    <string name="add_ems">Ajouter un système de surveillance électronique</string>
+    <string name="location">Localisation</string>
+    <string name="remove_ems">Enlever système de surveillance électronique</string>
+    <string name="flag_state">Etat du Pavillon</string>
+    <string name="electronic_monitoring_system">Système de surveillance électronique</string>
+    <string name="ems_type">Type de surveillance électronique</string>
+    <string name="registry_number">Numéro de registre</string>
+    <string name="crew_next">Equipage</string>
+    <string name="select_attachment_dialog_title">Sélectionner une pièce jointe</string>
+    <string name="select_attachment_dialog_message">Vous pouvez ajouter une note ou une photo à votre pièce jointe</string>
     <string name="select_attachment_dialog_note">Note</string>
     <string name="select_attachment_dialog_photo">Photo</string>
-    <string name="new_business">New Business</string>
+    <string name="new_business">Nouvelle entreprise</string>
     <string name="photos">Photos:</string>
-    <string name="remove_note">Remove Note</string>
+    <string name="remove_note">Enlever la note</string>
 
     <!--  Report  -->
-    <string name="menu_submit_report">Submit</string>
-    <string name="menu_cancel_report">Cancel Boarding</string>
+    <string name="menu_submit_report">Valider</string>
+    <string name="menu_cancel_report">Annuler l'inspection</string>
 
-    <string name="skip_sections_dialog_title">Skip the following sections?</string>
-    <string name="skip_sections_dialog_yes">Skip</string>
+    <string name="skip_sections_dialog_title">Sauter la section suivante?</string>
+    <string name="skip_sections_dialog_yes">Sauter</string>
 
     <!--Flag State-->
-    <string name="flag_state_title">Flag State</string>
+    <string name="flag_state_title">Etat du Pavillon</string>
 
     <!--  Crew member strings  -->
-    <string name="crew">Crew</string>
+    <string name="crew">Equipage</string>
     <string name="crew_member_name">Crew member name</string>
-    <string name="crew_member_license_number">License Number</string>
+    <string name="crew_member_license_number">Numéro de Licence</string>
     <string name="crew_member_add_member">Add crew member</string>
     <string name="crew_member_remove_member">Remove %s</string>
     <string name="activity_next">Activity\t\t\u279C</string>
