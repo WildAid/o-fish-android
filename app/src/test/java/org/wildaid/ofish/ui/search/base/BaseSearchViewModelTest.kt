@@ -50,6 +50,7 @@ class BaseSearchViewModelTest {
 
     @Test
     fun isComplexSearchFragmentSearchRecordsTest() {
+        assert(!(testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchRecords, "")))
         assert(testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchRecords, query))
 
         assert(testViewModel.dataList.value.isNullOrEmpty())
@@ -65,6 +66,7 @@ class BaseSearchViewModelTest {
 
     @Test
     fun isComplexSearchFragmentSearchBoardVesselsTest() {
+        assert(!(testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchRecords, "")))
         assert(testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchBoardVessels, query))
 
         assert(testViewModel.dataList.value.isNullOrEmpty())
@@ -80,6 +82,7 @@ class BaseSearchViewModelTest {
 
     @Test
     fun isComplexSearchFragmentDutyReportsTest() {
+        assert(!(testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchRecords, "")))
         assert(testViewModel.isReportSearchEmpty(ComplexSearchFragment.DutyReports, query))
 
         assert(testViewModel.dataList.value.isNullOrEmpty())
@@ -95,6 +98,7 @@ class BaseSearchViewModelTest {
 
     @Test
     fun isBaseSearchTypeUnknown() {
+        assert(!(testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchRecords, "")))
         assert(!testViewModel.isReportSearchEmpty(BaseSearchType(), query))
 
         assert(testViewModel.dataList.value.isNullOrEmpty())
