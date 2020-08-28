@@ -12,6 +12,7 @@ import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.util.LATITUDE
 import org.wildaid.ofish.util.LONGITUDE
 import org.wildaid.ofish.util.convert
+import java.util.*
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.P])
@@ -23,6 +24,12 @@ class BasicInformationViewModelTest {
     private val report = Report()
     private val latitude = 54.594
     private val longitude = 177.16
+    private val year = 2002
+    private val month = 4
+    private val day = 25
+    private val hourOfDay = 19
+    private val minute = 45
+    private val buttonId = 1045
 
     @Before
     fun setUp() {
@@ -38,8 +45,8 @@ class BasicInformationViewModelTest {
 
     @Test
     fun onButtonClickedTest() {
-        basicViewModelTest.onButtonClicked(1045)
-        assert(basicViewModelTest.buttonId.value?.peekContent() == 1045)
+        basicViewModelTest.onButtonClicked(buttonId)
+        assert(basicViewModelTest.buttonId.value?.peekContent() == buttonId)
     }
 
     @Test
@@ -56,7 +63,19 @@ class BasicInformationViewModelTest {
     fun updateDateTest() {
         basicViewModelTest.initReport(report)
 
-        basicViewModelTest.updateDate(2002, 25, 4)
+        basicViewModelTest.updateDate(year, month, day)
+
+        val c = Calendar.getInstance()
+        c.time = report.date
+
+        c.apply {
+            set(Calendar.YEAR, year)
+            set(Calendar.MONTH, month)
+            set(Calendar.DAY_OF_MONTH, day)
+        }
+
+        assert(report.date == c.time)
+
         basicViewModelTest.reportLiveData.value = report
 
         assert(basicViewModelTest.reportLiveData.value == report)
@@ -66,7 +85,15 @@ class BasicInformationViewModelTest {
     fun updateTime() {
         basicViewModelTest.initReport(report)
 
-        basicViewModelTest.updateTime(19, 45)
+        basicViewModelTest.updateTime(hourOfDay, minute)
+
+        val c = Calendar.getInstance()
+        c.time = report.date!!
+        c.apply {
+            set(Calendar.HOUR_OF_DAY, hourOfDay)
+            set(Calendar.MINUTE, minute)
+        }
+        report.date = c.time
 
         basicViewModelTest.reportLiveData.value = report
         assert(basicViewModelTest.reportLiveData.value == report)
