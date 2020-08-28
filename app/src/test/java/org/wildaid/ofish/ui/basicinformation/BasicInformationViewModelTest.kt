@@ -96,6 +96,7 @@ class BasicInformationViewModelTest {
         report.date = c.time
 
         basicViewModelTest.reportLiveData.value = report
+
         assert(basicViewModelTest.reportLiveData.value == report)
     }
 }
