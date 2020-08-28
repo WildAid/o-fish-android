@@ -195,7 +195,7 @@
     <string name="keep_editing">Continuez de modifier</string>
     <string name="boarding_submitted">Inspection validée!</string>
     <string name="boarding_canceled">Inspection annulée</string>
-    <string name="saving_error">Une erreur s'est produite durant la sauvegarde</string>
+    <string name="saving_error">Une erreur s\'est produite durant la sauvegarde</string>
     <string name="continue_with_empty_fields">Continuer avec un champ vide?</string>
     <string name="continue_action">Continuer</string>
     <string name="chose_image_source">Choisir la source de l\'image</string>
