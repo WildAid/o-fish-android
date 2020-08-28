@@ -186,7 +186,7 @@
     <string name="duty_report">Duty Report</string>
 
     <!--    Submit/Cancel report dialogs-->
-    <string name="submit_boarding">Valider l'inspection?</string>
+    <string name="submit_boarding">Valider l\'inspection?</string>
     <string name="you_left_blank">You left the following sections blank:</string>
     <string name="sure_to_submit">Confirmez la validation</string>
     <string name="sure_to_submit_with_skipped">Confirmez la validation avec champs vides</string>
