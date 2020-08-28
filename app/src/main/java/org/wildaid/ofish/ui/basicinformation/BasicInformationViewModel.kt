@@ -53,6 +53,6 @@ class BasicInformationViewModel : ViewModel() {
             set(Calendar.MINUTE, minute)
         }
         currentReport.date = c.time
-        reportLiveData.value = currentReport
+//        reportLiveData.value = currentReport
     }
 }
