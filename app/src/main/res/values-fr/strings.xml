@@ -83,7 +83,7 @@
 
     <!--  Login  -->
     <string name="password">Mot de Passe</string>
-    <string name="email_username">Email/Identifiant<Email/>
+    <string name="email_username">Email/Identifiant</string>
     <string name="log_in">Connexion</string>
     <string name="log_out">Déconnexion</string>
     <string name="forgot_password">Mot de Passe oublié?</string>
