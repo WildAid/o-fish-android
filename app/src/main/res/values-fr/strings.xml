@@ -121,7 +121,7 @@
         <item quantity="one">%d Membre d\'équipage</item>
         <item quantity="other">%d Membres d\'équipage</item>
     </plurals>
-    <string name="records_permit_number">Permis n\° %s</string>
+    <string name="records_permit_number">Permis numéro %s</string>
     <string name="record_last_contact">Dernier contact %1$tB %1$td, %1$tY</string>
     <string name="recently_boarded">Vaisseaux récemment inspectés</string>
     <string name="no_results_for">Pas de résultats pour \"%s\"</string>
@@ -160,60 +160,60 @@
     </string-array>
 
     <!--  Add Crew Member  -->
-    <string name="crew_member">Crew Member</string>
-    <string name="add_crew_member_title">Add Crew Member</string>
-    <string name="validation_error">Fill in all the fields</string>
-    <string name="report_already_contains_captain">This report already contains a captain</string>
-    <string name="replace_captain">Are you sure you want to replace the captain?</string>
-    <string name="continue_editing">Continue editing</string>
-    <string name="prefill_crew_dialog_title">Prefill Crew Information From Previous Boarding?</string>
+    <string name="crew_member">Membre d\'équipage</string>
+    <string name="add_crew_member_title">Ajouter un membre d\'équipage</string>
+    <string name="validation_error">Remplir tous les champs</string>
+    <string name="report_already_contains_captain">Ce rapport comprend déjà un capitaine</string>
+    <string name="replace_captain">Souhaitez-vous vraiment changer de capitaine?</string>
+    <string name="continue_editing">Continuez de modifier</string>
+    <string name="prefill_crew_dialog_title">Préremplir la rubrique à partir de la dernière inspection?</string>
     <string name="prefill_crew_dialog_description">You\'ll still be able to edit or clear fields</string>
-    <string name="prefill_crew_dialog_yes">Prefill</string>
+    <string name="prefill_crew_dialog_yes">Préremplir </string>
 
     <!--  Vessel details  -->
-    <string name="previous_boardings">Previous Boardings</string>
-    <string name="boardings">Boardings</string>
-    <string name="warnings">Warnings</string>
-    <string name="citations">Citations</string>
-    <string name="zero_violations">0 Violations</string>
-    <string name="warnings_count">%d Warnings</string>
-    <string name="citation_count">%d Citations</string>
-    <string name="warnings_citation_count">%d Warnings * %d Citations</string>
+    <string name="previous_boardings">Inspections précedentes</string>
+    <string name="boardings">Inspections</string>
+    <string name="warnings">Avertissements</string>
+    <string name="citations">Procès-verbaux</string>
+    <string name="zero_violations">0 infractions</string>
+    <string name="warnings_count">%d Avertissements</string>
+    <string name="citation_count">%d Procès-verbaux</string>
+    <string name="warnings_citation_count">%d Avertissements * %d Procès-verbaux</string>
 
     <!--  Vessel Search  -->
-    <string name="new_boarding">New Boarding</string>
-    <string name="add_new_vessel">Add New Vessel</string>
-    <string name="duty_report">Duty Report</string>
+    <string name="new_boarding">Nouvelle inspection</string>
+    <string name="add_new_vessel">Ajouter un vaisseau</string>
+    <string name="duty_report">Rapport de service</string>
 
     <!--    Submit/Cancel report dialogs-->
     <string name="submit_boarding">Valider l\'inspection?</string>
-    <string name="you_left_blank">You left the following sections blank:</string>
+    <string name="you_left_blank">Vous avez laissé ces champs vides:</string>
     <string name="sure_to_submit">Confirmez la validation</string>
     <string name="sure_to_submit_with_skipped">Confirmez la validation avec champs vides</string>
-    <string name="cancel_boarding">Cancel boarding?</string>
-    <string name="board_not_saved">This boarding will not be saved</string>
-    <string name="keep_editing">Keep Editing</string>
-    <string name="boarding_submitted">Boarding Submitted!</string>
-    <string name="boarding_canceled">Boarding Canceled</string>
-    <string name="saving_error">An error occurred while saving</string>
-    <string name="continue_with_empty_fields">Continue with empty fields?</string>
-    <string name="continue_action">Continue</string>
-    <string name="chose_image_source">Choose image source</string>
+    <string name="cancel_boarding">Annuler l\'inspection?</string>
+    <string name="board_not_saved">Cette inspection ne sera pas enregistrée</string>
+    <string name="keep_editing">Continuez de modifier</string>
+    <string name="boarding_submitted">Inspection validée!</string>
+    <string name="boarding_canceled">Inspection annulée</string>
+    <string name="saving_error">Une erreur s'est produite durant la sauvegarde</string>
+    <string name="continue_with_empty_fields">Continuer avec un champ vide?</string>
+    <string name="continue_action">Continuer</string>
+    <string name="chose_image_source">Choisir la source de l\'image</string>
 
     <!--    Notifications-->
-    <string name="channel_name">O-FISH notifications</string>
-    <string name="channel_description">O-FISH will show on duty reminders</string>
+    <string name="channel_name">Alertes O-FISH</string>
+    <string name="channel_description">Des alertes seront envoyées</string>
 
     <!--    Time On Duty -->
-    <string name="time_on_duty">Time On Duty</string>
-    <string name="start_date">Start Date</string>
-    <string name="start_time">Start Time</string>
-    <string name="end_date">End Date</string>
-    <string name="end_time">End Time</string>
-    <string name="patrol_summary">Patrol Summary</string>
-    <string name="go_off_duty">Go Off Duty</string>
-    <string name="boarding_count">%d Boardings</string>
-    <string name="error_start_date">Start date should be before End date</string>
-    <string name="error_end_date">End date should be after Start date</string>
-    <string name="error_date_in_future">Please set correct date</string>
+    <string name="time_on_duty">Heures en service</string>
+    <string name="start_date">Début (date)</string>
+    <string name="start_time">Début (heure)</string>
+    <string name="end_date">Fin (date)</string>
+    <string name="end_time">Fin (heure)</string>
+    <string name="patrol_summary">Résumé de la patrouille</string>
+    <string name="go_off_duty">Se mettre au repos</string>
+    <string name="boarding_count">%d Inspections</string>
+    <string name="error_start_date">La date de début doit précéder la date de fin</string>
+    <string name="error_end_date">La date de début doit précéder la date de fin</string>
+    <string name="error_date_in_future">Enregistrer la date correcte</string>
 </resources>
