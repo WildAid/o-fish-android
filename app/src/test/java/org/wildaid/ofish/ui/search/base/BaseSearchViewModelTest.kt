@@ -16,13 +16,9 @@ import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.P])
 class BaseSearchViewModelTest {
-
-    private val query = "query"
-
-    private lateinit var testViewModel: TestViewModel
-
     @MockK
     private lateinit var mockedRepository: Repository
+    private lateinit var testViewModel: TestViewModel
 
     @Before
     fun setUp() {
@@ -50,68 +46,56 @@ class BaseSearchViewModelTest {
 
     @Test
     fun isComplexSearchFragmentSearchRecordsTest() {
-        assert(!(testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchRecords, "")))
-        assert(testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchRecords, query))
-
+        assert(testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchRecords))
         assert(testViewModel.dataList.value.isNullOrEmpty())
 
         testViewModel.initDataList(ComplexSearchFragment.SearchRecords, null)
 
-        assert(!(testViewModel.dataList.value.isNullOrEmpty()))
+        assert(!testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchRecords))
+        assert(!testViewModel.dataList.value.isNullOrEmpty())
 
-        assert(testViewModel.dataList.value == TestViewModel(mockedRepository).TestSearchDataSource().initiateData())
-
-        assert(query.isNotEmpty())
+        assert(
+            testViewModel.dataList.value == TestViewModel(mockedRepository).TestSearchDataSource()
+                .initiateData()
+        )
     }
 
     @Test
     fun isComplexSearchFragmentSearchBoardVesselsTest() {
-        assert(!(testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchRecords, "")))
-        assert(testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchBoardVessels, query))
-
+        assert(testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchBoardVessels))
         assert(testViewModel.dataList.value.isNullOrEmpty())
 
         testViewModel.initDataList(ComplexSearchFragment.SearchBoardVessels, null)
 
-        assert(!(testViewModel.dataList.value.isNullOrEmpty()))
+        assert(!testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchBoardVessels))
+        assert(!testViewModel.dataList.value.isNullOrEmpty())
 
-        assert(testViewModel.dataList.value == TestViewModel(mockedRepository).TestSearchDataSource().initiateData())
-
-        assert(query.isNotEmpty())
+        assert(
+            testViewModel.dataList.value == TestViewModel(mockedRepository).TestSearchDataSource()
+                .initiateData()
+        )
     }
 
     @Test
     fun isComplexSearchFragmentDutyReportsTest() {
-        assert(!(testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchRecords, "")))
-        assert(testViewModel.isReportSearchEmpty(ComplexSearchFragment.DutyReports, query))
-
+        assert(testViewModel.isReportSearchEmpty(ComplexSearchFragment.DutyReports))
         assert(testViewModel.dataList.value.isNullOrEmpty())
 
         testViewModel.initDataList(ComplexSearchFragment.DutyReports, null)
 
-        assert(!(testViewModel.dataList.value.isNullOrEmpty()))
+        assert(!testViewModel.isReportSearchEmpty(ComplexSearchFragment.DutyReports))
+        assert(!testViewModel.dataList.value.isNullOrEmpty())
 
-        assert(testViewModel.dataList.value == TestViewModel(mockedRepository).TestSearchDataSource().initiateData())
-
-        assert(query.isNotEmpty())
+        assert(
+            testViewModel.dataList.value == TestViewModel(mockedRepository).TestSearchDataSource()
+                .initiateData()
+        )
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException::class)
     fun isBaseSearchTypeUnknown() {
-        assert(!(testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchRecords, "")))
-        assert(!testViewModel.isReportSearchEmpty(BaseSearchType(), query))
-
-        assert(testViewModel.dataList.value.isNullOrEmpty())
-
-        testViewModel.initDataList(BaseSearchType(), null)
-
-        assert(!(testViewModel.dataList.value.isNullOrEmpty()))
-
-        assert(testViewModel.dataList.value == TestViewModel(mockedRepository).TestSearchDataSource().initiateData())
-
-        assert(query.isNotEmpty())
+        assert(!testViewModel.isReportSearchEmpty(BaseSearchType()))
     }
-
 }
 
 class TestViewModel(mockedRepository: Repository) :

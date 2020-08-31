@@ -30,15 +30,15 @@ abstract class BaseSearchViewModel<T>(
         progressLiveData.value = false
     }
 
-    fun isReportSearchEmpty(searchEntity: BaseSearchType, query: String?): Boolean {
-        return isRecordSearch(searchEntity) && isDataEmpty() && !query.isNullOrBlank()
+    fun isReportSearchEmpty(searchEntity: BaseSearchType): Boolean {
+        return isRecordSearch(searchEntity) && isDataEmpty()
     }
 
     private fun isRecordSearch(searchEntity: BaseSearchType) = when (searchEntity) {
         is ComplexSearchFragment.SearchRecords -> true
         is ComplexSearchFragment.SearchBoardVessels -> true
         is ComplexSearchFragment.DutyReports -> true
-        else -> false
+        else -> throw IllegalArgumentException("Unknown searchEntity -> $searchEntity")
     }
 
     private fun isDataEmpty(): Boolean {
