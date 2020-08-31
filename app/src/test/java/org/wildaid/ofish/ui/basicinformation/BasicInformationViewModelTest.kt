@@ -55,8 +55,11 @@ class BasicInformationViewModelTest {
 
         basicViewModelTest.setLocation(latitude, longitude)
 
-        basicViewModelTest.latitude.value = convert(latitude, LATITUDE)
-        basicViewModelTest.longitude.value = convert(longitude, LONGITUDE)
+        val convertedLatitude = convert(latitude, LATITUDE)
+        val convertedLongitude = convert(longitude, LONGITUDE)
+
+        assert(basicViewModelTest.latitude.value == convertedLatitude)
+        assert(basicViewModelTest.longitude.value == convertedLongitude)
     }
 
     @Test
@@ -76,8 +79,6 @@ class BasicInformationViewModelTest {
 
         assert(report.date == c.time)
 
-        basicViewModelTest.reportLiveData.value = report
-
         assert(basicViewModelTest.reportLiveData.value == report)
     }
 
@@ -94,8 +95,6 @@ class BasicInformationViewModelTest {
             set(Calendar.MINUTE, minute)
         }
         report.date = c.time
-
-        basicViewModelTest.reportLiveData.value = report
 
         assert(basicViewModelTest.reportLiveData.value == report)
     }
