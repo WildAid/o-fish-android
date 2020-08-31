@@ -3,6 +3,7 @@ package org.wildaid.ofish.ui.basicinformation
 import android.os.Build
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
+import junit.framework.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -53,6 +54,9 @@ class BasicInformationViewModelTest {
     fun setLocation() {
         basicViewModelTest.initReport(report)
 
+        assertNull(basicViewModelTest.latitude.value)
+        assertNull(basicViewModelTest.longitude.value)
+
         basicViewModelTest.setLocation(latitude, longitude)
 
         val convertedLatitude = convert(latitude, LATITUDE)
@@ -65,7 +69,6 @@ class BasicInformationViewModelTest {
     @Test
     fun updateDateTest() {
         basicViewModelTest.initReport(report)
-
         basicViewModelTest.updateDate(year, month, day)
 
         val c = Calendar.getInstance()
@@ -76,26 +79,25 @@ class BasicInformationViewModelTest {
             set(Calendar.MONTH, month)
             set(Calendar.DAY_OF_MONTH, day)
         }
+        report.date = c.time
 
-        assert(report.date == c.time)
-
-        assert(basicViewModelTest.reportLiveData.value == report)
+        assert(basicViewModelTest.reportLiveData.value?.date == c.time)
     }
 
     @Test
     fun updateTime() {
         basicViewModelTest.initReport(report)
-
         basicViewModelTest.updateTime(hourOfDay, minute)
 
         val c = Calendar.getInstance()
         c.time = report.date!!
+
         c.apply {
             set(Calendar.HOUR_OF_DAY, hourOfDay)
             set(Calendar.MINUTE, minute)
         }
         report.date = c.time
 
-        assert(basicViewModelTest.reportLiveData.value == report)
+        assert(basicViewModelTest.reportLiveData.value?.date == c.time)
     }
 }
