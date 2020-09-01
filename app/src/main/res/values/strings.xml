@@ -196,6 +196,7 @@
     <string name="boarding_submitted">Boarding Submitted!</string>
     <string name="boarding_canceled">Boarding Canceled</string>
     <string name="saving_error">An error occurred while saving</string>
+    <string name="login_error">An error occurred while signing in</string>
     <string name="continue_with_empty_fields">Continue with empty fields?</string>
     <string name="continue_action">Continue</string>
     <string name="chose_image_source">Choose image source</string>
