@@ -72,16 +72,16 @@ class BasicInformationViewModelTest {
         basicViewModelTest.updateDate(year, month, day)
 
         val c = Calendar.getInstance()
-        c.time = report.date
 
         c.apply {
             set(Calendar.YEAR, year)
             set(Calendar.MONTH, month)
             set(Calendar.DAY_OF_MONTH, day)
         }
-        report.date = c.time
 
-        assert(basicViewModelTest.reportLiveData.value?.date == c.time)
+        assert(basicViewModelTest.reportLiveData.value?.date?.year == c.time.year)
+        assert(basicViewModelTest.reportLiveData.value?.date?.month == c.time.month)
+        assert(basicViewModelTest.reportLiveData.value?.date?.day == c.time.day)
     }
 
     @Test
@@ -90,14 +90,13 @@ class BasicInformationViewModelTest {
         basicViewModelTest.updateTime(hourOfDay, minute)
 
         val c = Calendar.getInstance()
-        c.time = report.date!!
 
         c.apply {
             set(Calendar.HOUR_OF_DAY, hourOfDay)
             set(Calendar.MINUTE, minute)
         }
-        report.date = c.time
 
-        assert(basicViewModelTest.reportLiveData.value?.date == c.time)
+        assert(basicViewModelTest.reportLiveData.value?.date?.hours == c.time.hours)
+        assert(basicViewModelTest.reportLiveData.value?.date?.minutes == c.time.minutes)
     }
 }
