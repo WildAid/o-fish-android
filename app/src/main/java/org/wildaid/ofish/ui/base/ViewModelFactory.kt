@@ -47,7 +47,7 @@ class ViewModelFactory constructor(
                 SplashViewModel(repository)
             // Login
             isAssignableFrom(LoginViewModel::class.java) ->
-                LoginViewModel(repository)
+                LoginViewModel(repository, application)
             // Home
             isAssignableFrom(HomeActivityViewModel::class.java) ->
                 HomeActivityViewModel(repository, application)
