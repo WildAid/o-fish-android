@@ -101,7 +101,6 @@ class CatchFragment : BaseReportFragment(R.layout.fragment_catch) {
                     bundleOf(BaseSearchFragment.SEARCH_ENTITY_KEY to SimpleSearchFragment.SearchSpecies)
                 navigation.navigate(R.id.action_tabsFragment_to_simple_search, bundle)
             }
-            R.id.amount_edit_name -> navigation.navigate(R.id.action_tabsFragment_to_addAmountFragment)
         }
     }
 
@@ -123,13 +122,6 @@ class CatchFragment : BaseReportFragment(R.layout.fragment_catch) {
                     val result = savedState.remove<String>(BaseSearchFragment.SEARCH_RESULT)
                     if (result != null && pendingCatchItem != null) {
                         fragmentViewModel.updateSpeciesForCatch(result, pendingCatchItem!!)
-                    }
-                    pendingCatchItem = null
-                }
-                is SimpleSearchFragment.SearchAmount -> {
-                    val result = savedState.remove<String>(BaseSearchFragment.SEARCH_RESULT)
-                    if (result != null && pendingCatchItem != null) {
-                        fragmentViewModel.updateAmountForCatch(result, pendingCatchItem!!)
                     }
                     pendingCatchItem = null
                 }
