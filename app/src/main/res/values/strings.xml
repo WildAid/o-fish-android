@@ -179,6 +179,7 @@
     <string name="warnings_count">%d Warnings</string>
     <string name="citation_count">%d Citations</string>
     <string name="warnings_citation_count">%d Warnings * %d Citations</string>
+    <string name="back">Back</string>
 
     <!--  Vessel Search  -->
     <string name="new_boarding">New Boarding</string>
