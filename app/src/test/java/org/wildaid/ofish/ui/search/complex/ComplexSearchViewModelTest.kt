@@ -140,9 +140,9 @@ class ComplexSearchViewModelTest {
         val searchDataSource =
             complexSearchViewModel.getDataSource(ComplexSearchFragment.SearchRecords, null)
 
-        assert(searchDataSource.initiateData().size == initiateGroupedReports.size + 2)
+        assert(searchDataSource.initiateData().size == initiateGroupedReports.size + 1)
         assert(searchDataSource.initiateData().first() is TextViewSearchModel)
-        assert(searchDataSource.initiateData()[1] is AddSearchModel)
+        assert(searchDataSource.initiateData()[1] is RecordSearchModel)
         assert(
             (searchDataSource.initiateData()
                 .last() as RecordSearchModel).vessel.name == initiateGroupedReports.last().vessel?.name
@@ -159,8 +159,8 @@ class ComplexSearchViewModelTest {
                 permitNumber = "Vessel permit 3"
             }
         })
-        assert(searchDataSource.applyFilter(filter).size == filteredRecords.size + 1)
-        assert(searchDataSource.applyFilter(filter).first() is AddSearchModel)
+        assert(searchDataSource.applyFilter(filter).size == filteredRecords.size)
+        assert(searchDataSource.applyFilter(filter).first() is RecordSearchModel)
         assert(
             (searchDataSource.applyFilter(filter)
                 .last() as RecordSearchModel).vessel.name == filteredRecords.last().vessel?.name
