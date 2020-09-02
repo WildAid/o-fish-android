@@ -17,7 +17,7 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
             is ComplexSearchFragment.SearchBusiness -> searchBusinessDataSource
             is ComplexSearchFragment.SearchViolation -> searchViolationDataSource
             is ComplexSearchFragment.SearchRecords -> searchRecordsDataSource.apply {
-                isAddAvailable = true
+                isAddAvailable = false
             }
             is ComplexSearchFragment.SearchBoardVessels -> searchRecordsDataSource.apply {
                 isAddAvailable = true

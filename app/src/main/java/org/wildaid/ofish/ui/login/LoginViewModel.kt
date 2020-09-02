@@ -1,12 +1,17 @@
 package org.wildaid.ofish.ui.login
 
+import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import org.wildaid.ofish.Event
+import org.wildaid.ofish.R
 import org.wildaid.ofish.data.Repository
+import org.wildaid.ofish.util.getString
 
-class LoginViewModel(val repository: Repository) : ViewModel() {
+
+class LoginViewModel(val repository: Repository, application: Application) :
+    AndroidViewModel(application) {
     val loginLiveData = MutableLiveData<LoginResult>()
     val progressLiveData = MutableLiveData<Event<Boolean>>()
 
@@ -20,10 +25,9 @@ class LoginViewModel(val repository: Repository) : ViewModel() {
             loginError = {
                 Log.d("Login", "Cannot log in. Error ${it?.errorMessage}")
                 progressLiveData.value = Event(false)
-                loginLiveData.value = LoginResult.LoginError(it?.errorMessage)
+                loginLiveData.value = LoginResult.LoginError(getString(R.string.login_error))
             }
         )
-
 
         progressLiveData.value = Event(true)
     }

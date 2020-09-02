@@ -10,7 +10,7 @@ import org.wildaid.ofish.util.LONGITUDE
 import org.wildaid.ofish.util.convert
 import java.util.*
 
-class BasicInformationViewModel : ViewModel() {
+    class BasicInformationViewModel : ViewModel() {
     val reportLiveData = MutableLiveData<Report>()
     val buttonId = MutableLiveData<Event<Int>>()
     val latitude = MutableLiveData<String>()

@@ -190,27 +190,25 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
     private val toolbarSearchListener = object : SearchView.OnQueryTextListener {
         override fun onQueryTextChange(newText: String?): Boolean {
             baseSearchViewModel.applyFilter(newText.orEmpty())
-            showNecessaryLayout(
-                baseSearchViewModel.isReportSearchEmpty(
-                    currentSearchEntity,
-                    newText
-                ), newText
+            updateEmptyViewVisibility(
+                baseSearchViewModel.isReportSearchEmpty(currentSearchEntity),
+                newText
             )
             return true
         }
 
         override fun onQueryTextSubmit(query: String?): Boolean {
             baseSearchViewModel.applyFilter(query.orEmpty())
-            showNecessaryLayout(
-                baseSearchViewModel.isReportSearchEmpty(currentSearchEntity, query),
+            updateEmptyViewVisibility(
+                baseSearchViewModel.isReportSearchEmpty(currentSearchEntity),
                 query
             )
             return false
         }
     }
 
-    private fun showNecessaryLayout(isSearchEmpty: Boolean, query: String?) {
-        if (isSearchEmpty) {
+    private fun updateEmptyViewVisibility(isSearchEmpty: Boolean, query: String?) {
+        if (isSearchEmpty && !query.isNullOrBlank()) {
             empty_result_layout.visibility = View.VISIBLE
             empty_result_text.text = getString(R.string.no_results_for, query)
         } else {

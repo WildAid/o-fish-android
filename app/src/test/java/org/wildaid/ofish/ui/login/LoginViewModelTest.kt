@@ -1,6 +1,7 @@
 package org.wildaid.ofish.ui.login
 
 import android.os.Build
+import androidx.test.core.app.ApplicationProvider
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import io.realm.mongodb.AppException
@@ -25,7 +26,7 @@ class LoginViewModelTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        loginVM = LoginViewModel(mockedRepository)
+        loginVM = LoginViewModel(mockedRepository, ApplicationProvider.getApplicationContext())
     }
 
     @Test
