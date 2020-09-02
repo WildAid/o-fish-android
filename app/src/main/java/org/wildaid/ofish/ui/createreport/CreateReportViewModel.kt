@@ -1,16 +1,23 @@
 package org.wildaid.ofish.ui.createreport
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.data.OnSaveListener
 import org.wildaid.ofish.data.Repository
-import org.wildaid.ofish.data.report.*
+import org.wildaid.ofish.data.report.AnnotatedNote
+import org.wildaid.ofish.data.report.Report
+import org.wildaid.ofish.data.report.Violation
 import org.wildaid.ofish.ui.base.PhotoItem
 import java.util.*
 
 class CreateReportViewModel(val repository: Repository) : ViewModel() {
-    val discardReportLiveData = MutableLiveData<Event<Boolean>>()
+
+    private var _discardReportLiveData = MutableLiveData<Event<Boolean>>()
+    val discardReportLiveData: LiveData<Event<Boolean>>
+        get() = _discardReportLiveData
+
     var isOnSearch: Boolean = false
     var isAddingCrewMember: Boolean = false
 
@@ -44,7 +51,7 @@ class CreateReportViewModel(val repository: Repository) : ViewModel() {
         if (isOnSearch || isAddingCrewMember) {
             return false
         }
-        discardReportLiveData.value = Event(true)
+        _discardReportLiveData.value = Event(true)
         return true
     }
 }
