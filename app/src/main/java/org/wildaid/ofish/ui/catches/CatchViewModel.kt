@@ -16,7 +16,6 @@ class CatchViewModel(
     val repository: Repository,
     application: Application
 ) : AndroidViewModel(application) {
-
     val catchItemsLiveData = MutableLiveData<List<CatchItem>>()
     val buttonId = MutableLiveData<Event<Int>>()
 
