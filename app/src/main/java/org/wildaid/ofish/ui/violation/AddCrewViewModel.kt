@@ -18,9 +18,7 @@ class AddCrewViewModel : ViewModel() {
     val validated: LiveData<Event<AddCrewValidation>>
         get() = _validated
 
-    private var _isCaptain = MutableLiveData(false)
-    val isCaptain: LiveData<Boolean>
-        get() = _isCaptain
+    var isCaptain: Boolean = false
 
     var newCrewMember: CrewMember = CrewMember()
 
@@ -32,7 +30,7 @@ class AddCrewViewModel : ViewModel() {
 
     fun onAddClicked() {
         if (validated()) {
-            if (isCaptain.value!!) {
+            if (isCaptain) {
                 _validated.value = Event(AddCrewValidation.IS_CAPTAIN)
             } else {
                 report.crew.add(newCrewMember)
@@ -50,6 +48,7 @@ class AddCrewViewModel : ViewModel() {
 
     private fun validated() =
         newCrewMember.name.isNotBlank() && newCrewMember.license.isNotBlank()
+
 }
 
 enum class AddCrewValidation {
