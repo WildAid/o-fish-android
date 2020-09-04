@@ -1,24 +1,31 @@
 package org.wildaid.ofish.ui.home
 
 import android.net.Uri
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.data.Repository
 
 class HomeFragmentViewModel(val repository: Repository) : ViewModel() {
-    val locationLiveData = MutableLiveData<Pair<Double, Double>>()
-    val userEventLiveData = MutableLiveData<Event<UserEvent>>()
+
+    private var _locationLiveData = MutableLiveData<Pair<Double, Double>>()
+    val locationLiveData: LiveData<Pair<Double, Double>>
+        get() = _locationLiveData
+
+    private var _userEventLiveData = MutableLiveData<Event<UserEvent>>()
+    val userEventLiveData: LiveData<Event<UserEvent>>
+        get() = _userEventLiveData
 
     lateinit var activityViewModel: HomeActivityViewModel
 
     fun onLocationAvailable(latitude: Double, longitude: Double) {
-        locationLiveData.value = Pair(latitude, longitude)
+        _locationLiveData.value = Pair(latitude, longitude)
     }
 
     fun boardVessel() {
         if (activityViewModel.onDutyStatusLiveData.value == true) {
-            userEventLiveData.value = Event(UserEvent.BoardVessel)
+            _userEventLiveData.value = Event(UserEvent.BoardVessel)
         } else {
             activityViewModel.userEventLiveData.value =
                 Event(HomeActivityViewModel.UserEvent.AskDutyConfirmationEvent)
@@ -26,11 +33,11 @@ class HomeFragmentViewModel(val repository: Repository) : ViewModel() {
     }
 
     fun findRecords() {
-        userEventLiveData.value = Event(UserEvent.FindRecords)
+        _userEventLiveData.value = Event(UserEvent.FindRecords)
     }
 
     fun showUserStatus() {
-        userEventLiveData.value = Event(UserEvent.ShowUserStatus)
+        _userEventLiveData.value = Event(UserEvent.ShowUserStatus)
     }
 
     fun saveProfileImage(uri: Uri) {
