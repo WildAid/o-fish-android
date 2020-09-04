@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:bottom="4dp"
+        android:left="4dp"
+        android:right="4dp"
+        android:top="4dp">
+        <shape android:shape="oval">
+            <size
+                android:width="80dp"
+                android:height="80dp" />
+            <solid android:color="@color/main_blue" />
+            <corners android:radius="50dp" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="oval">
+            <stroke
+                android:width="6dp"
+                android:color="@color/background_card" />
+        </shape>
+    </item>
+
+</layer-list>
