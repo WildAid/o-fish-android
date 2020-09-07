@@ -3,22 +3,33 @@ package org.wildaid.ofish.ui.violation
 import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.OffenceData
 import org.wildaid.ofish.data.Repository
-import org.wildaid.ofish.data.report.*
+import org.wildaid.ofish.data.report.CrewMember
+import org.wildaid.ofish.data.report.Photo
+import org.wildaid.ofish.data.report.Report
+import org.wildaid.ofish.data.report.Violation
 import org.wildaid.ofish.ui.base.AttachmentItem
 import org.wildaid.ofish.ui.base.PhotoItem
 import org.wildaid.ofish.util.getString
 
-class ViolationViewModel(val repository: Repository,
-                         application: Application) :
+class ViolationViewModel(
+    val repository: Repository,
+    application: Application
+) :
     AndroidViewModel(application) {
 
-    val violationLiveData = MutableLiveData<List<ViolationItem>>()
-    val buttonId = MutableLiveData<Event<Int>>()
+    private var _violationLiveData = MutableLiveData<List<ViolationItem>>()
+    val violationLiveData: LiveData<List<ViolationItem>>
+        get() = _violationLiveData
+
+    private var _buttonId = MutableLiveData<Event<Int>>()
+    val buttonId: LiveData<Event<Int>>
+        get() = _buttonId
     lateinit var currentReport: Report
 
     private val violationTitle = getString(R.string.violation)
@@ -33,7 +44,7 @@ class ViolationViewModel(val repository: Repository,
     }
 
     fun refreshIssuedTo() {
-        violationLiveData.value = currentViolationItems
+        _violationLiveData.value = currentViolationItems
     }
 
     fun addViolation() {
@@ -58,12 +69,12 @@ class ViolationViewModel(val repository: Repository,
 
     fun addNoteForViolation(item: ViolationItem) {
         currentViolationItems.find { it.violation == item.violation }?.attachments?.addNote()
-        violationLiveData.value = currentViolationItems
+        _violationLiveData.value = currentViolationItems
     }
 
     fun removeNoteFromViolation(item: ViolationItem) {
         currentViolationItems.find { it.violation == item.violation }?.attachments?.removeNote()
-        violationLiveData.value = currentViolationItems
+        _violationLiveData.value = currentViolationItems
     }
 
     fun addPhotoForViolation(imageUri: Uri, item: ViolationItem) {
@@ -72,7 +83,7 @@ class ViolationViewModel(val repository: Repository,
         currentViolationItems.find { it.violation == item.violation }?.attachments?.addPhoto(
             newPhotoItem
         )
-        violationLiveData.value = currentViolationItems
+        _violationLiveData.value = currentViolationItems
     }
 
     fun removePhotoFromViolation(photoItem: PhotoItem, item: ViolationItem) {
@@ -80,7 +91,7 @@ class ViolationViewModel(val repository: Repository,
         currentViolationItems.find { it.violation == item.violation }?.attachments?.removePhoto(
             photoItem
         )
-        violationLiveData.value = currentViolationItems
+        _violationLiveData.value = currentViolationItems
     }
 
     fun editViolation(editItem: ViolationItem) {
@@ -91,7 +102,7 @@ class ViolationViewModel(val repository: Repository,
         list: MutableList<ViolationItem>,
         editingItem: ViolationItem? = null
     ) {
-        violationLiveData.value = list.also {
+        _violationLiveData.value = list.also {
             it.forEachIndexed() { index, item ->
                 if (editingItem != null) {
                     item.inEditMode = item == editingItem
@@ -124,7 +135,7 @@ class ViolationViewModel(val repository: Repository,
     }
 
     fun onNextClicked() {
-        buttonId.value = Event(R.id.btn_next)
+        _buttonId.value = Event(R.id.btn_next)
     }
 
     private fun createPhoto(): Photo {

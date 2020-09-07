@@ -71,6 +71,7 @@ class AddCrewFragment : Fragment(R.layout.fragment_add_crew) {
         fragmentViewModel.validated.observe(
             viewLifecycleOwner, EventObserver(::onButtonClicked)
         )
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
