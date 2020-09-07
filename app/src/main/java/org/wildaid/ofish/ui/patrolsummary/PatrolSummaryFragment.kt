@@ -19,13 +19,13 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_patrol_summary.*
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
-import org.wildaid.ofish.app.OFishApplication
 import org.wildaid.ofish.app.ServiceLocator
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.databinding.FragmentPatrolSummaryBinding
 import org.wildaid.ofish.ui.base.CARDS_OFFSET_SIZE
 import org.wildaid.ofish.ui.crew.VerticalSpaceItemDecoration
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
+import org.wildaid.ofish.ui.reportdetail.BOARD_VESSEL_ALLOWED
 import org.wildaid.ofish.ui.reportdetail.KEY_REPORT_ID
 import org.wildaid.ofish.util.getViewModelFactory
 import java.util.*
@@ -70,7 +70,10 @@ class PatrolSummaryFragment : Fragment(R.layout.fragment_patrol_summary) {
     }
 
     private fun createAdapter(): PatrolSummaryAdapter {
-        return PatrolSummaryAdapter(ServiceLocator.provideRepository(requireContext()), ::itemListener)
+        return PatrolSummaryAdapter(
+            ServiceLocator.provideRepository(requireContext()),
+            ::itemListener
+        )
     }
 
     private fun onButtonClicked(id: Int) {
@@ -132,7 +135,7 @@ class PatrolSummaryFragment : Fragment(R.layout.fragment_patrol_summary) {
     }
 
     private fun itemListener(report: Report) {
-        val navigationArgs = bundleOf(KEY_REPORT_ID to report._id)
+        val navigationArgs = bundleOf(KEY_REPORT_ID to report._id, BOARD_VESSEL_ALLOWED to false)
         navigation.navigate(
             R.id.action_patrolSummaryFragment_to_report_details_fragment,
             navigationArgs

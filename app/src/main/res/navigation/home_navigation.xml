@@ -97,6 +97,9 @@
         <argument
             android:name="report_id"
             app:argType="org.bson.types.ObjectId" />
+        <argument
+            android:name="should_show_boarding"
+            app:argType="boolean" />
         <action
             android:id="@+id/action_report_details_fragment_to_create_report"
             app:destination="@id/create_report_activity" />
