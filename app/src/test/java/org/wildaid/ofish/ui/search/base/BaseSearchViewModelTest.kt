@@ -28,7 +28,7 @@ class BaseSearchViewModelTest {
     }
 
     @Test
-    fun initDataList() {
+    fun testInitDataList() {
         val requiredValue = TestViewModel(mockedRepository).TestSearchDataSource().initiateData()
 
         testViewModel.initDataList(BaseSearchType(), null)
@@ -36,7 +36,7 @@ class BaseSearchViewModelTest {
     }
 
     @Test
-    fun applyFilter() {
+    fun testApplyFilter() {
         val requiredValue = TestViewModel(mockedRepository).TestSearchDataSource().applyFilter("U")
 
         testViewModel.initDataList(BaseSearchType(), null)
@@ -46,43 +46,11 @@ class BaseSearchViewModelTest {
     }
 
     @Test
-    fun isComplexSearchFragmentSearchRecordsTest() {
+    fun testIsSearchEmpty() {
         assert(testViewModel.isReportSearchEmpty())
         assert(testViewModel.dataList.value.isNullOrEmpty())
 
-        testViewModel.initDataList(ComplexSearchFragment.SearchRecords, null)
-
-        assert(!testViewModel.isReportSearchEmpty())
-        assert(!testViewModel.dataList.value.isNullOrEmpty())
-
-        assert(
-            testViewModel.dataList.value == TestViewModel(mockedRepository).TestSearchDataSource()
-                .initiateData()
-        )
-    }
-
-    @Test
-    fun isComplexSearchFragmentSearchBoardVesselsTest() {
-        assert(testViewModel.isReportSearchEmpty())
-        assert(testViewModel.dataList.value.isNullOrEmpty())
-
-        testViewModel.initDataList(ComplexSearchFragment.SearchBoardVessels, null)
-
-        assert(!testViewModel.isReportSearchEmpty())
-        assert(!testViewModel.dataList.value.isNullOrEmpty())
-
-        assert(
-            testViewModel.dataList.value == TestViewModel(mockedRepository).TestSearchDataSource()
-                .initiateData()
-        )
-    }
-
-    @Test
-    fun isComplexSearchFragmentDutyReportsTest() {
-        assert(testViewModel.isReportSearchEmpty())
-        assert(testViewModel.dataList.value.isNullOrEmpty())
-
-        testViewModel.initDataList(ComplexSearchFragment.DutyReports, null)
+        testViewModel.initDataList(BaseSearchType(), null)
 
         assert(!testViewModel.isReportSearchEmpty())
         assert(!testViewModel.dataList.value.isNullOrEmpty())
@@ -115,7 +83,7 @@ class BaseSearchViewModelTest {
 }
 
 class TestViewModel(mockedRepository: Repository) :
-    BaseSearchViewModel<Any>(mockedRepository, ApplicationProvider.getApplicationContext()) {
+    BaseSearchViewModel<Any>(ApplicationProvider.getApplicationContext()) {
 
     override fun getDataSource(searchEntity: BaseSearchType, report: Report?): SearchDataSource {
         return TestSearchDataSource()

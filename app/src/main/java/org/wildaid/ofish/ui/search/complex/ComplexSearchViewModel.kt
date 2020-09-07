@@ -11,7 +11,7 @@ import org.wildaid.ofish.ui.search.base.BaseSearchViewModel
 private const val RECENT_BOARDINGS_COUNT = 5
 
 class ComplexSearchViewModel(repository: Repository, application: Application) :
-    BaseSearchViewModel<SearchModel>(repository, application) {
+    BaseSearchViewModel<SearchModel>(application) {
     override fun getDataSource(searchEntity: BaseSearchType, report: Report?): SearchDataSource {
         return when (searchEntity) {
             is ComplexSearchFragment.SearchBusiness -> searchBusinessDataSource

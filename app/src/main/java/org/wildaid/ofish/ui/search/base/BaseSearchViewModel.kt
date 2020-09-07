@@ -4,18 +4,11 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.search.complex.AddSearchModel
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
 
-abstract class BaseSearchViewModel<T>(
-    protected val repository: Repository, application: Application
-) : AndroidViewModel(application) {
+abstract class BaseSearchViewModel<T>(application: Application) : AndroidViewModel(application) {
 
     protected var _dataList = MutableLiveData<List<T>>()
     val dataList: LiveData<List<T>>
