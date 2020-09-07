@@ -67,6 +67,7 @@
     <string name="gear">Спорядження</string>
     <string name="note">Примітка</string>
     <string name="catch_next">Улов\t\t\u279C</string>
+    <string name="no_catch">Без улову</string>
 
     <!--    Violation -->
     <string name="violation">Порушення</string>

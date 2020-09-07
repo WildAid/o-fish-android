@@ -67,6 +67,7 @@
     <string name="gear">Gear</string>
     <string name="note">Note</string>
     <string name="catch_next">Catch\t\t\u279C</string>
+    <string name="no_catch">No Catch</string>
 
     <!--    Violation -->
     <string name="violation">Violation</string>

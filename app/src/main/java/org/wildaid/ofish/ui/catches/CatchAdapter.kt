@@ -75,6 +75,8 @@ class CatchAdapter(
 
             catchEditBinding.catchEditGroup.setVisible(editVisible)
             catchEditBinding.catchNoteLayout.setVisible(editVisible && item.attachmentItem.hasNotes())
+            catchEditBinding.catchEditGroupWeight.setVisible( editVisible)
+            catchEditBinding.countEditLayout.setVisible(editVisible)
 
             catchEditBinding.catchEditPhotos.onPhotoClickListener =
                 catchOnPhotoClickListener::invoke
@@ -93,18 +95,6 @@ class CatchAdapter(
             catchEditBinding.catchActionRemove.apply {
                 text = context.getString(R.string.remove_catch, adapterPosition.inc())
             }
-            catchEditBinding.catchEditGroupWeight.setVisible(
-                item.amount.contains(
-                    weightString,
-                    true
-                ) && editVisible
-            )
-            catchEditBinding.countEditLayout.setVisible(
-                item.amount.contains(
-                    countString,
-                    true
-                ) && editVisible
-            )
 
             // View groups
             val viewVisible = !item.inEditMode

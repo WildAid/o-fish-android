@@ -67,6 +67,7 @@
     <string name="gear">Equipement</string>
     <string name="note">Remarque</string>
     <string name="catch_next">Prise\t\t\u279C</string>
+    <string name="no_catch">Pas de prise</string>
 
     <!--    Violation -->
     <string name="violation">Infraction</string>

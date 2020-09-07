@@ -43,24 +43,6 @@ class CatchViewModel(
     fun updateSpeciesForCatch(species: String, catchItem: CatchItem) {
         catchItem.catch.fish = species
         _catchItemsLiveData.value = currentCatchItems
-
-        val newCatch = Catch()
-        currentReport.inspection?.actualCatch?.add(newCatch)
-
-        val newItem = CatchItem(
-            catch = newCatch,
-            title = "$catchTitle ${currentCatchItems.size + 1}",
-            inEditMode = true,
-            amount = "",
-            attachmentItem = AttachmentItem(newCatch.attachments!!)
-        )
-
-        currentCatchItems.add(newItem)
-    }
-
-    fun updateAmountForCatch(amount: String, catchItem: CatchItem) {
-        currentCatchItems.find { it.title == catchItem.title }?.amount = amount
-        _catchItemsLiveData.value = currentCatchItems
     }
 
     fun onNextClicked() {
