@@ -60,7 +60,7 @@ class HomeActivityViewModelTest {
         assert(homeVM.currentOfficerLiveData.value == mockedOfficer)
 
         assert(homeVM.onDutyStatusLiveData.value == true)
-        assert(homeVM.onDutyTextStatusLiveData.value == context.getString(R.string.on_duty))
+        assert(homeVM.onDutyTextStatusLiveData.value == context.getString(R.string.at_sea))
         assert(homeVM.onDutyImageStatusLiveData.value == R.drawable.shape_green_circle)
         assert(homeVM.onDutyImageStatusSmallLiveData.value == R.drawable.shape_green_circle_small)
     }
@@ -80,7 +80,7 @@ class HomeActivityViewModelTest {
         assert(homeVM.currentOfficerLiveData.value == mockedOfficer)
 
         assert(homeVM.onDutyStatusLiveData.value == false)
-        assert(homeVM.onDutyTextStatusLiveData.value == context.getString(R.string.off_duty))
+        assert(homeVM.onDutyTextStatusLiveData.value == context.getString(R.string.not_at_sea))
         assert(homeVM.onDutyImageStatusLiveData.value == R.drawable.shape_red_circle)
         assert(homeVM.onDutyImageStatusSmallLiveData.value == R.drawable.shape_red_circle_small)
     }
@@ -99,7 +99,7 @@ class HomeActivityViewModelTest {
 
         // Initial state = off duty
         assert(homeVM.onDutyStatusLiveData.value == false)
-        assert(homeVM.onDutyTextStatusLiveData.value == context.getString(R.string.off_duty))
+        assert(homeVM.onDutyTextStatusLiveData.value == context.getString(R.string.not_at_sea))
         assert(homeVM.onDutyImageStatusLiveData.value == R.drawable.shape_red_circle)
         assert(homeVM.onDutyImageStatusSmallLiveData.value == R.drawable.shape_red_circle_small)
 
@@ -111,7 +111,7 @@ class HomeActivityViewModelTest {
         verify(exactly = 1) { mockedRepository.saveOnDutyChange(any(), any()) }
 
         assert(homeVM.onDutyStatusLiveData.value == true)
-        assert(homeVM.onDutyTextStatusLiveData.value == context.getString(R.string.on_duty))
+        assert(homeVM.onDutyTextStatusLiveData.value == context.getString(R.string.at_sea))
         assert(homeVM.onDutyImageStatusLiveData.value == R.drawable.shape_green_circle)
         assert(homeVM.onDutyImageStatusSmallLiveData.value == R.drawable.shape_green_circle_small)
 

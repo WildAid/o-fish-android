@@ -105,8 +105,8 @@
     <string name="new_note">New Note</string>
 
     <!--  Home  -->
-    <string name="on_duty">On Duty</string>
-    <string name="off_duty">Off Duty</string>
+    <string name="at_sea">At Sea</string>
+    <string name="not_at_sea">Not At Sea</string>
     <string name="you_are_of_duty">You\'re currently Off Duty</string>
     <string name="change_status_to_on_duty">Change status to "On Duty?"</string>
     <string name="board_vessel">Board Vessel</string>
@@ -208,7 +208,7 @@
     <string name="channel_description">O-FISH will show on duty reminders</string>
 
     <!--    Time On Duty -->
-    <string name="time_on_duty">Time On Duty</string>
+    <string name="time_on_duty">Time At Sea</string>
     <string name="start_date">Start Date</string>
     <string name="start_time">Start Time</string>
     <string name="end_date">End Date</string>

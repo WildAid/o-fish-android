@@ -105,8 +105,8 @@
     <string name="new_note">Нова Примітка</string>
 
     <!--  Home  -->
-    <string name="on_duty">НА ВАРТІ</string>
-    <string name="off_duty">ВІЛЬНО</string>
+    <string name="at_sea">НА ВАРТІ</string>
+    <string name="not_at_sea">ВІЛЬНО</string>
     <string name="you_are_of_duty">Ви в даний час не на службi</string>
     <string name="change_status_to_on_duty">Зміна статусу на "на варті"</string>
     <string name="board_vessel">Прибути на судно</string>
