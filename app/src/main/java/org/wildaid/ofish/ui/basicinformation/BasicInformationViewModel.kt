@@ -12,7 +12,6 @@ import org.wildaid.ofish.util.convert
 import java.util.*
 
 class BasicInformationViewModel : ViewModel() {
-
     private var _reportLiveData = MutableLiveData<Report>()
     val reportLiveData: LiveData<Report>
         get() = _reportLiveData

@@ -171,6 +171,7 @@
     <string name="warnings_count">%d Попередженнь</string>
     <string name="citation_count">%d Викликів у суд</string>
     <string name="warnings_citation_count">%d Попередженнь * %d Викликів у суд</string>
+    <string name="back">Назад</string>
 
     <!--  Vessel Search  -->
     <string name="new_boarding">Нове Прибуття</string>

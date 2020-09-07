@@ -15,6 +15,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_vessel_details.*
 import org.wildaid.ofish.EventObserver
@@ -101,6 +102,15 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
         fragmentViewModel.userEventLiveData.observe(viewLifecycleOwner, EventObserver {
             when (it) {
                 is VesselDetailsUserEvent.AskOnDutyToNavigate -> navigateToCreateReport(it.report)
+            }
+        })
+
+        vessel_details_appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
+            val scrollRange = vessel_details_appbar?.totalScrollRange!!
+            if (scrollRange + verticalOffset == 0) {
+                collapsing_toolbar.title = getString(R.string.back)
+            } else if (verticalOffset == 0) {
+                collapsing_toolbar.title = vesselName
             }
         })
 
