@@ -6,8 +6,8 @@ import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.search.base.BaseSearchType
 import org.wildaid.ofish.ui.search.base.BaseSearchViewModel
 
-class SimpleSearchViewModel(repository: Repository, application: Application) :
-    BaseSearchViewModel<String>(repository, application) {
+class SimpleSearchViewModel(val repository: Repository, application: Application) :
+    BaseSearchViewModel<String>(application) {
     override fun getDataSource(searchEntity: BaseSearchType, report: Report?): SearchDataSource {
         return when (searchEntity) {
             is SimpleSearchFragment.SearchFlagState -> SimpleSearchDataSource(repository.getFlagStates())

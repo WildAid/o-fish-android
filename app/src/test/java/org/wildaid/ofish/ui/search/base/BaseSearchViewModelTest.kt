@@ -12,6 +12,7 @@ import org.robolectric.annotation.Config
 import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
+import org.wildaid.ofish.ui.search.simple.SimpleSearchFragment
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.P])
@@ -27,7 +28,7 @@ class BaseSearchViewModelTest {
     }
 
     @Test
-    fun initDataList() {
+    fun testInitDataList() {
         val requiredValue = TestViewModel(mockedRepository).TestSearchDataSource().initiateData()
 
         testViewModel.initDataList(BaseSearchType(), null)
@@ -35,7 +36,7 @@ class BaseSearchViewModelTest {
     }
 
     @Test
-    fun applyFilter() {
+    fun testApplyFilter() {
         val requiredValue = TestViewModel(mockedRepository).TestSearchDataSource().applyFilter("U")
 
         testViewModel.initDataList(BaseSearchType(), null)
@@ -45,13 +46,13 @@ class BaseSearchViewModelTest {
     }
 
     @Test
-    fun isComplexSearchFragmentSearchRecordsTest() {
-        assert(testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchRecords))
+    fun testIsSearchEmpty() {
+        assert(testViewModel.isReportSearchEmpty())
         assert(testViewModel.dataList.value.isNullOrEmpty())
 
-        testViewModel.initDataList(ComplexSearchFragment.SearchRecords, null)
+        testViewModel.initDataList(BaseSearchType(), null)
 
-        assert(!testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchRecords))
+        assert(!testViewModel.isReportSearchEmpty())
         assert(!testViewModel.dataList.value.isNullOrEmpty())
 
         assert(
@@ -61,45 +62,28 @@ class BaseSearchViewModelTest {
     }
 
     @Test
-    fun isComplexSearchFragmentSearchBoardVesselsTest() {
-        assert(testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchBoardVessels))
-        assert(testViewModel.dataList.value.isNullOrEmpty())
+    fun testIsRecordSearch() {
+        assert(testViewModel.isRecordSearch(ComplexSearchFragment.SearchRecords))
+        assert(testViewModel.isRecordSearch(ComplexSearchFragment.SearchBoardVessels))
+        assert(testViewModel.isRecordSearch(ComplexSearchFragment.DutyReports))
 
-        testViewModel.initDataList(ComplexSearchFragment.SearchBoardVessels, null)
-
-        assert(!testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchBoardVessels))
-        assert(!testViewModel.dataList.value.isNullOrEmpty())
-
-        assert(
-            testViewModel.dataList.value == TestViewModel(mockedRepository).TestSearchDataSource()
-                .initiateData()
-        )
+        assert(!testViewModel.isRecordSearch(ComplexSearchFragment.SearchBusiness))
+        assert(!testViewModel.isRecordSearch(SimpleSearchFragment.SearchSpecies))
+        assert(!testViewModel.isRecordSearch(BaseSearchType()))
     }
 
     @Test
-    fun isComplexSearchFragmentDutyReportsTest() {
-        assert(testViewModel.isReportSearchEmpty(ComplexSearchFragment.DutyReports))
-        assert(testViewModel.dataList.value.isNullOrEmpty())
-
-        testViewModel.initDataList(ComplexSearchFragment.DutyReports, null)
-
-        assert(!testViewModel.isReportSearchEmpty(ComplexSearchFragment.DutyReports))
-        assert(!testViewModel.dataList.value.isNullOrEmpty())
-
-        assert(
-            testViewModel.dataList.value == TestViewModel(mockedRepository).TestSearchDataSource()
-                .initiateData()
-        )
-    }
-
-    @Test(expected = IllegalArgumentException::class)
-    fun isBaseSearchTypeUnknown() {
-        assert(!testViewModel.isReportSearchEmpty(BaseSearchType()))
+    fun testProgress() {
+        assert(testViewModel.progressLiveData.value == false)
+        testViewModel.initDataList(BaseSearchType(), null)
+        testViewModel.applyFilter("sdds")
+        //Unable to test progress since it is blocking request
+        assert(testViewModel.progressLiveData.value == false)
     }
 }
 
 class TestViewModel(mockedRepository: Repository) :
-    BaseSearchViewModel<Any>(mockedRepository, ApplicationProvider.getApplicationContext()) {
+    BaseSearchViewModel<Any>(ApplicationProvider.getApplicationContext()) {
 
     override fun getDataSource(searchEntity: BaseSearchType, report: Report?): SearchDataSource {
         return TestSearchDataSource()
