@@ -4,11 +4,14 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.search.complex.AddSearchModel
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
-import org.wildaid.ofish.ui.search.simple.SimpleSearchFragment
 
 abstract class BaseSearchViewModel<T>(
     protected val repository: Repository, application: Application
@@ -37,16 +40,13 @@ abstract class BaseSearchViewModel<T>(
         _progressLiveData.value = false
     }
 
-    fun isReportSearchEmpty(searchEntity: BaseSearchType): Boolean {
-        return isRecordSearch(searchEntity) && isDataEmpty()
-    }
+    fun isReportSearchEmpty() = isDataEmpty()
 
-    private fun isRecordSearch(searchEntity: BaseSearchType) = when (searchEntity) {
+    fun isRecordSearch(searchEntity: BaseSearchType) = when (searchEntity) {
         is ComplexSearchFragment.SearchRecords -> true
         is ComplexSearchFragment.SearchBoardVessels -> true
         is ComplexSearchFragment.DutyReports -> true
-        is SimpleSearchFragment.SearchFlagState -> true
-        else -> throw IllegalArgumentException("Unknown searchEntity -> $searchEntity")
+        else -> false
     }
 
     private fun isDataEmpty(): Boolean {

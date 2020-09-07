@@ -12,6 +12,7 @@ import org.robolectric.annotation.Config
 import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
+import org.wildaid.ofish.ui.search.simple.SimpleSearchFragment
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.P])
@@ -46,12 +47,12 @@ class BaseSearchViewModelTest {
 
     @Test
     fun isComplexSearchFragmentSearchRecordsTest() {
-        assert(testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchRecords))
+        assert(testViewModel.isReportSearchEmpty())
         assert(testViewModel.dataList.value.isNullOrEmpty())
 
         testViewModel.initDataList(ComplexSearchFragment.SearchRecords, null)
 
-        assert(!testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchRecords))
+        assert(!testViewModel.isReportSearchEmpty())
         assert(!testViewModel.dataList.value.isNullOrEmpty())
 
         assert(
@@ -62,12 +63,12 @@ class BaseSearchViewModelTest {
 
     @Test
     fun isComplexSearchFragmentSearchBoardVesselsTest() {
-        assert(testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchBoardVessels))
+        assert(testViewModel.isReportSearchEmpty())
         assert(testViewModel.dataList.value.isNullOrEmpty())
 
         testViewModel.initDataList(ComplexSearchFragment.SearchBoardVessels, null)
 
-        assert(!testViewModel.isReportSearchEmpty(ComplexSearchFragment.SearchBoardVessels))
+        assert(!testViewModel.isReportSearchEmpty())
         assert(!testViewModel.dataList.value.isNullOrEmpty())
 
         assert(
@@ -78,12 +79,12 @@ class BaseSearchViewModelTest {
 
     @Test
     fun isComplexSearchFragmentDutyReportsTest() {
-        assert(testViewModel.isReportSearchEmpty(ComplexSearchFragment.DutyReports))
+        assert(testViewModel.isReportSearchEmpty())
         assert(testViewModel.dataList.value.isNullOrEmpty())
 
         testViewModel.initDataList(ComplexSearchFragment.DutyReports, null)
 
-        assert(!testViewModel.isReportSearchEmpty(ComplexSearchFragment.DutyReports))
+        assert(!testViewModel.isReportSearchEmpty())
         assert(!testViewModel.dataList.value.isNullOrEmpty())
 
         assert(
@@ -92,9 +93,24 @@ class BaseSearchViewModelTest {
         )
     }
 
-    @Test(expected = IllegalArgumentException::class)
-    fun isBaseSearchTypeUnknown() {
-        assert(!testViewModel.isReportSearchEmpty(BaseSearchType()))
+    @Test
+    fun testIsRecordSearch() {
+        assert(testViewModel.isRecordSearch(ComplexSearchFragment.SearchRecords))
+        assert(testViewModel.isRecordSearch(ComplexSearchFragment.SearchBoardVessels))
+        assert(testViewModel.isRecordSearch(ComplexSearchFragment.DutyReports))
+
+        assert(!testViewModel.isRecordSearch(ComplexSearchFragment.SearchBusiness))
+        assert(!testViewModel.isRecordSearch(SimpleSearchFragment.SearchSpecies))
+        assert(!testViewModel.isRecordSearch(BaseSearchType()))
+    }
+
+    @Test
+    fun testProgress() {
+        assert(testViewModel.progressLiveData.value == false)
+        testViewModel.initDataList(BaseSearchType(), null)
+        testViewModel.applyFilter("sdds")
+        //Unable to test progress since it is blocking request
+        assert(testViewModel.progressLiveData.value == false)
     }
 }
 

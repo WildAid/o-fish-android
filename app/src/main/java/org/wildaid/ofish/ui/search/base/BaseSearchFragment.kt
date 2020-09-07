@@ -190,19 +190,15 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
     private val toolbarSearchListener = object : SearchView.OnQueryTextListener {
         override fun onQueryTextChange(newText: String?): Boolean {
             baseSearchViewModel.applyFilter(newText.orEmpty())
-            updateEmptyViewVisibility(
-                baseSearchViewModel.isReportSearchEmpty(currentSearchEntity),
-                newText
-            )
+            val showEmptyState = baseSearchViewModel.isReportSearchEmpty() && baseSearchViewModel.isRecordSearch(currentSearchEntity)
+            updateEmptyViewVisibility(showEmptyState, newText)
             return true
         }
 
         override fun onQueryTextSubmit(query: String?): Boolean {
             baseSearchViewModel.applyFilter(query.orEmpty())
-            updateEmptyViewVisibility(
-                baseSearchViewModel.isReportSearchEmpty(currentSearchEntity),
-                query
-            )
+            val showEmptyState = baseSearchViewModel.isReportSearchEmpty() && baseSearchViewModel.isRecordSearch(currentSearchEntity)
+            updateEmptyViewVisibility(showEmptyState, query)
             return false
         }
     }
