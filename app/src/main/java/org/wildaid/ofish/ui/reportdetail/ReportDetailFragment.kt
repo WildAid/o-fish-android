@@ -39,13 +39,19 @@ import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.setVisible
 
 const val KEY_REPORT_ID = "report_id"
-const val KEY_SHOULD_SHOW_BUTTON = "should_show_button"
+const val BOARD_VESSEL_ALLOWED = "should_show_button"
 
 @SuppressLint("MissingPermission")
 class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
     private val fragmentViewModel: ReportDetailViewModel by viewModels { getViewModelFactory() }
     private val activityViewModel: HomeActivityViewModel by activityViewModels { getViewModelFactory() }
     private val navigation by lazy { findNavController() }
+    private val shouldShowButton by lazy {
+        requireArguments().getBoolean(
+            BOARD_VESSEL_ALLOWED,
+            true
+        )
+    }
     private lateinit var fragmentBinding: FragmentReportDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,7 +84,6 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
         report_toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white)
         subscribeToDialogEvents()
 
-        val shouldShowButton = requireArguments().getBoolean(KEY_SHOULD_SHOW_BUTTON)
         boardVesselButton.visibility = if (shouldShowButton) View.VISIBLE else View.GONE
     }
 
