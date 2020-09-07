@@ -2,6 +2,7 @@ package org.wildaid.ofish.ui.search.base
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.Report
@@ -12,8 +13,13 @@ abstract class BaseSearchViewModel<T>(
     protected val repository: Repository, application: Application
 ) : AndroidViewModel(application) {
 
-    val dataList = MutableLiveData<List<T>>()
-    val progressLiveData = MutableLiveData(false)
+    protected var _dataList = MutableLiveData<List<T>>()
+    val dataList: LiveData<List<T>>
+        get() = _dataList
+
+    protected var _progressLiveData = MutableLiveData(false)
+    val progressLiveData: LiveData<Boolean>
+        get() = _progressLiveData
 
     private lateinit var searchDataSource: SearchDataSource
 
@@ -21,13 +27,13 @@ abstract class BaseSearchViewModel<T>(
 
     fun initDataList(searchEntity: BaseSearchType, report: Report?) {
         searchDataSource = getDataSource(searchEntity, report)
-        dataList.value = searchDataSource.initiateData()
+        _dataList.value = searchDataSource.initiateData()
     }
 
     fun applyFilter(filter: String) {
-        progressLiveData.value = true
-        dataList.value = searchDataSource.applyFilter(filter)
-        progressLiveData.value = false
+        _progressLiveData.value = true
+        _dataList.value = searchDataSource.applyFilter(filter)
+        _progressLiveData.value = false
     }
 
     fun isReportSearchEmpty(searchEntity: BaseSearchType): Boolean {
