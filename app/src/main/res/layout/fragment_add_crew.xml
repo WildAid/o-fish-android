@@ -99,7 +99,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:checked="@={viewmodel.isCaptain()}"
             android:text="@string/captain"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/add_crew_member_license_layout" />

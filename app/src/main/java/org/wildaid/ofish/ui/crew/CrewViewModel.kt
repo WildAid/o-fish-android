@@ -3,6 +3,7 @@ package org.wildaid.ofish.ui.crew
 import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
@@ -20,9 +21,18 @@ class CrewViewModel(
     val repository: Repository,
     application: Application
 ) : AndroidViewModel(application) {
-    val crewMembersData = MutableLiveData<List<CrewMemberItem>>()
-    val canAddNewMemberData = MutableLiveData(true)
-    val buttonIdData = MutableLiveData<Event<Int>>()
+
+    private var _crewMembersData = MutableLiveData<List<CrewMemberItem>>()
+    val crewMembersData: LiveData<List<CrewMemberItem>>
+        get() = _crewMembersData
+
+    private var _canAddNewMemberData = MutableLiveData(true)
+    val canAddNewMemberData: LiveData<Boolean>
+        get() = _canAddNewMemberData
+
+    private var _buttonIdData = MutableLiveData<Event<Int>>()
+    val buttonIdData: LiveData<Event<Int>>
+        get() = _buttonIdData
 
     private lateinit var currentReport: Report
     private lateinit var currentReportPhotos: MutableList<PhotoItem>
@@ -37,7 +47,7 @@ class CrewViewModel(
     ) {
         this.currentReport = currentReport
         this.currentReportPhotos = currentReportPhotos
-        this.crewMembersData.value = initiateCrewMembers()
+        this._crewMembersData.value = initiateCrewMembers()
         addCrewMember()
     }
 
@@ -78,18 +88,18 @@ class CrewViewModel(
             }
 
             fillEmptyFields(currentCrewItems)
-            crewMembersData.value = currentCrewItems
+            _crewMembersData.value = currentCrewItems
         }
     }
 
     fun addNoteForMember(member: CrewMemberItem) {
         currentCrewItems.find { member.crewMember == it.crewMember }?.attachments?.addNote()
-        crewMembersData.value = currentCrewItems
+        _crewMembersData.value = currentCrewItems
     }
 
     fun removeNoteFromMember(member: CrewMemberItem) {
         currentCrewItems.find { member.crewMember == it.crewMember }?.attachments?.removeNote()
-        crewMembersData.value = currentCrewItems
+        _crewMembersData.value = currentCrewItems
     }
 
     fun addPhotoForMember(imageUri: Uri, member: CrewMemberItem) {
@@ -98,7 +108,7 @@ class CrewViewModel(
         currentCrewItems.find { member.crewMember == it.crewMember }?.attachments?.addPhoto(
             newPhotoItem
         )
-        crewMembersData.value = currentCrewItems
+        _crewMembersData.value = currentCrewItems
     }
 
     fun removePhotoFromMember(photoItem: PhotoItem, member: CrewMemberItem) {
@@ -106,7 +116,7 @@ class CrewViewModel(
         currentCrewItems.find { member.crewMember == it.crewMember }?.attachments?.removePhoto(
             photoItem
         )
-        crewMembersData.value = currentCrewItems
+        _crewMembersData.value = currentCrewItems
     }
 
     fun addCrewMember(crewMember: CrewMember? = null, isCaptain: Boolean = false) {
@@ -128,7 +138,7 @@ class CrewViewModel(
             )
         )
 
-        crewMembersData.value = currentCrewItems
+        _crewMembersData.value = currentCrewItems
         updateAddNewMemberVisibility()
     }
 
@@ -143,7 +153,7 @@ class CrewViewModel(
             }
         }
 
-        crewMembersData.value = currentCrewItems
+        _crewMembersData.value = currentCrewItems
         updateAddNewMemberVisibility()
     }
 
@@ -154,12 +164,12 @@ class CrewViewModel(
     fun editCrewMember(member: CrewMemberItem) {
         currentCrewItems.forEach { it.inEditMode = it.crewMember == member.crewMember }
         fillEmptyFields(currentCrewItems)
-        crewMembersData.value = currentCrewItems
+        _crewMembersData.value = currentCrewItems
         updateAddNewMemberVisibility()
     }
 
     fun onNextClicked() {
-        buttonIdData.value = Event(R.id.btn_next)
+        _buttonIdData.value = Event(R.id.btn_next)
     }
 
     private fun isCrewChanged() =
@@ -204,7 +214,7 @@ class CrewViewModel(
             (it.crewMember.name.isBlank() && it.crewMember.license.isBlank()) && !it.isCaptain
         }
 
-        canAddNewMemberData.value = notFinishedMembers.isNullOrEmpty()
+        _canAddNewMemberData.value = notFinishedMembers.isNullOrEmpty()
     }
 
     private fun fillEmptyFields(crew: MutableList<CrewMemberItem>) {
