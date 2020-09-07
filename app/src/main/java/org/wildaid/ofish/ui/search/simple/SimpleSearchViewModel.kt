@@ -50,7 +50,12 @@ class SimpleSearchViewModel(val repository: Repository, application: Application
 
         override fun initiateData() = dataSource
 
-        override fun applyFilter(filter: String) = dataSource
-            .filter { it.contains(filter, true) }
+        override fun applyFilter(filter: String): List<String> {
+            val result = dataSource.filter { it.contains(filter, true) }
+            if (result.isEmpty()) {
+                return listOf("Other")
+            }
+            return result
+        }
     }
 }
