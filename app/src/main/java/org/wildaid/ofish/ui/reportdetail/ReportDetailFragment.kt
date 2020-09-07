@@ -78,7 +78,7 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
         report_toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white)
         subscribeToDialogEvents()
 
-        val shouldShowButton = requireArguments().getSerializable(KEY_SHOULD_SHOW_BUTTON) as Boolean
+        val shouldShowButton = requireArguments().getBoolean(KEY_SHOULD_SHOW_BUTTON)
         boardVesselButton.visibility = if (shouldShowButton) View.VISIBLE else View.GONE
     }
 
