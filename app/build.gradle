@@ -6,10 +6,6 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
-def realmPropsFile = rootProject.file("realm.properties");
-def realmProperties = new Properties()
-realmProperties.load(new InputStreamReader(new FileInputStream(realmPropsFile), StandardCharsets.UTF_8))
-
 def localPropsFile = rootProject.file("local.properties");
 def localProperties = new Properties()
 if (localPropsFile.exists()) {
@@ -36,16 +32,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
-            buildConfigField "String", "REALM_APP_ID", "\"${realmProperties.getProperty("realm_app_id", "")}\""
-
+            buildConfigField "String", "REALM_APP_ID", "\"${localProperties.getProperty("realm_app_id", "CHANGE_THIS_APP_ID")}\""
             buildConfigField "String", "REALM_PASSWORD", "\"${localProperties.getProperty("realm_password", "")}\""
             buildConfigField "String", "REALM_USER", "\"${localProperties.getProperty("realm_user", "")}\""
             buildConfigField "String", "REALM_URL", "\"${localProperties.getProperty("realm_url", "")}\""
         }
 
         debug {
-            buildConfigField "String", "REALM_APP_ID", "\"${realmProperties.getProperty("realm_app_id", "")}\""
-
+            buildConfigField "String", "REALM_APP_ID", "\"${localProperties.getProperty("realm_app_id", "CHANGE_THIS_APP_ID")}\""
             buildConfigField "String", "REALM_PASSWORD", "\"${localProperties.getProperty("realm_password", "")}\""
             buildConfigField "String", "REALM_USER", "\"${localProperties.getProperty("realm_user", "")}\""
             buildConfigField "String", "REALM_URL", "\"${localProperties.getProperty("realm_url", "")}\""
