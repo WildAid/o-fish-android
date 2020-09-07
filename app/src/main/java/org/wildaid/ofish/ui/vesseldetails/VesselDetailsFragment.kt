@@ -105,11 +105,12 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
             }
         })
 
-        vessel_details_appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener{
-            _, verticalOffset ->
+        vessel_details_appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
             val scrollRange = vessel_details_appbar?.totalScrollRange!!
-            if (scrollRange + verticalOffset == 0){
+            if (scrollRange + verticalOffset == 0) {
                 collapsing_toolbar.title = getString(R.string.back)
+            } else if (verticalOffset == 0) {
+                collapsing_toolbar.title = vesselName
             }
         })
 
