@@ -107,8 +107,8 @@
     <!--  Home  -->
     <string name="at_sea">At Sea</string>
     <string name="not_at_sea">Not At Sea</string>
-    <string name="you_are_of_duty">You\'re currently Off Duty</string>
-    <string name="change_status_to_on_duty">Change status to "On Duty?"</string>
+    <string name="you_are_not_at_sea">You\'re currently Not At Sea</string>
+    <string name="change_status_to_at_sea">Change status to "At Sea"?</string>
     <string name="board_vessel">Board Vessel</string>
     <string name="find_records">Find Records</string>
     <string name="first_last_name">%s %s</string>
@@ -214,7 +214,7 @@
     <string name="end_date">End Date</string>
     <string name="end_time">End Time</string>
     <string name="patrol_summary">Patrol Summary</string>
-    <string name="go_off_duty">Go Off Duty</string>
+    <string name="become_not_at_sea">Become not at sea</string>
     <string name="boarding_count">%d Boardings</string>
     <string name="error_start_date">Start date should be before End date</string>
     <string name="error_end_date">End date should be after Start date</string>

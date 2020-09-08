@@ -107,8 +107,8 @@
     <!--  Home  -->
     <string name="at_sea">У МОРІ</string>
     <string name="not_at_sea">НЕ В МОРІ</string>
-    <string name="you_are_of_duty">Ви в даний час не на службi</string>
-    <string name="change_status_to_on_duty">Зміна статусу на "на варті"</string>
+    <string name="you_are_not_at_sea">Ви в даний час не у морі</string>
+    <string name="change_status_to_at_sea">Зміна статусу на "У морі"</string>
     <string name="board_vessel">Прибути на судно</string>
     <string name="find_records">Знайти Звіти</string>
     <string name="first_last_name">Офіцер %s %s</string>
