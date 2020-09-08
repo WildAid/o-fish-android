@@ -86,11 +86,11 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
         if (onDuty) {
             _onDutyImageStatusLiveData.value = R.drawable.shape_green_circle
             _onDutyImageStatusSmallLiveData.value = R.drawable.shape_green_circle_small
-            _onDutyTextStatusLiveData.value = getString(R.string.on_duty)
+            _onDutyTextStatusLiveData.value = getString(R.string.at_sea)
         } else {
             _onDutyImageStatusLiveData.value = R.drawable.shape_red_circle
             _onDutyImageStatusSmallLiveData.value = R.drawable.shape_red_circle_small
-            _onDutyTextStatusLiveData.value = getString(R.string.off_duty)
+            _onDutyTextStatusLiveData.value = getString(R.string.not_at_sea)
         }
     }
 

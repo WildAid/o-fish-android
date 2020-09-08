@@ -69,8 +69,8 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
     private fun askToChangeDuty() {
         val dialogBundle = ConfirmationDialogFragment.Bundler(
             ASK_CHANGE_DUTY_DIALOG_ID,
-            getString(R.string.you_are_of_duty),
-            getString(R.string.change_status_to_on_duty),
+            getString(R.string.you_are_not_at_sea),
+            getString(R.string.change_status_to_at_sea),
             getString(R.string.yes),
             getString(android.R.string.cancel)
         ).bundle()

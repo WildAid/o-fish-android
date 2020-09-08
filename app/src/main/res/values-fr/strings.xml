@@ -105,10 +105,10 @@
     <string name="new_note">Nouvelle remarque</string>
 
     <!--  Home  -->
-    <string name="on_duty">En mer</string>
-    <string name="off_duty">A terre</string>
-    <string name="you_are_of_duty">Vous êtes en mer actuellement</string>
-    <string name="change_status_to_on_duty">Changer de statut?</string>
+    <string name="at_sea">Dans la mer</string>
+    <string name="not_at_sea">Pas en mer</string>
+    <string name="you_are_not_at_sea">Vous êtes actuellement pas en mer</string>
+    <string name="change_status_to_at_sea">Changer le statut en "En mer"?</string>
     <string name="board_vessel">Inspecter le Vaisseau</string>
     <string name="find_records">Chercher les rapports</string>
     <string name="first_last_name">%s %s</string>
@@ -206,13 +206,13 @@
     <string name="channel_description">Des alertes seront envoyées</string>
 
     <!--    Time On Duty -->
-    <string name="time_on_duty">Heures en service</string>
+    <string name="time_at_sea">Temps en mer</string>
     <string name="start_date">Début (date)</string>
     <string name="start_time">Début (heure)</string>
     <string name="end_date">Fin (date)</string>
     <string name="end_time">Fin (heure)</string>
     <string name="patrol_summary">Résumé de la patrouille</string>
-    <string name="go_off_duty">Se mettre au repos</string>
+    <string name="become_not_at_sea">Ne devenez pas en mer</string>
     <string name="boarding_count">%d Inspections</string>
     <string name="error_start_date">La date de début doit précéder la date de fin</string>
     <string name="error_end_date">La date de début doit précéder la date de fin</string>
