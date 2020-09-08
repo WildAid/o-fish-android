@@ -218,4 +218,5 @@
     <string name="error_start_date">Start date should be before End date</string>
     <string name="error_end_date">End date should be after Start date</string>
     <string name="error_date_in_future">Please set correct date</string>
+    <string name="risk_no_notes_or_photos">No Notes ot Photos for Risk</string>
 </resources>
