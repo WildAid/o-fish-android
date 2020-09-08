@@ -48,7 +48,7 @@ class NotesFragment : BaseReportFragment(R.layout.fragment_notes) {
                 fragmentViewModel.editNote(it)
             },
             addPhotoAttachmentListener = { note ->
-                pickImage { imageUri ->
+                peekImage { imageUri ->
                     fragmentViewModel.addPhotoAttachmentForNote(imageUri, note)
                 }
             },
