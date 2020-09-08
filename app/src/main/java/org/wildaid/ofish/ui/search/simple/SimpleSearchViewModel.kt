@@ -1,10 +1,12 @@
 package org.wildaid.ofish.ui.search.simple
 
 import android.app.Application
+import org.wildaid.ofish.R
 import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.search.base.BaseSearchType
 import org.wildaid.ofish.ui.search.base.BaseSearchViewModel
+import org.wildaid.ofish.util.getString
 
 class SimpleSearchViewModel(val repository: Repository, application: Application) :
     BaseSearchViewModel<String>(application) {
@@ -47,14 +49,14 @@ class SimpleSearchViewModel(val repository: Repository, application: Application
 
     inner class SimpleSearchDataSource(private val dataSource: List<String>) :
         BaseSearchViewModel<String>.SearchDataSource() {
+        private val stringOther = getString(R.string.other)
 
         override fun initiateData() = dataSource
 
         override fun applyFilter(filter: String): List<String> {
             val result = dataSource.filter { it.contains(filter, true) }
-            if (result.isEmpty()) {
-                return listOf("Other")
-            }
+            if (!(result.contains(stringOther)))
+                return result.plus(stringOther)
             return result
         }
     }

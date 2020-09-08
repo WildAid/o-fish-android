@@ -56,7 +56,6 @@ class ViolationAdapter(
 
     inner class ViolationViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         lateinit var currentItem: ViolationItem
-        private val stringOther = view.resources.getString(R.string.other)
 
         private val binding: ItemEditViolationBinding =
             ItemEditViolationBinding.bind(view).apply {
@@ -98,9 +97,7 @@ class ViolationAdapter(
             binding.violationRemoveGroup.setVisible(item.inEditMode && dataList.size > 1)
 
             binding.violationDescriptionLayout.setVisible(
-                item.inEditMode && item.violation.offence?.code.equals(
-                    stringOther, true
-                )
+                item.inEditMode
             )
             binding.itemCaptain.setVisible(captain != null && currentItem.violation.crewMember == captain)
         }
