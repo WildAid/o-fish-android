@@ -217,4 +217,5 @@
     <string name="error_start_date">La date de début doit précéder la date de fin</string>
     <string name="error_end_date">La date de début doit précéder la date de fin</string>
     <string name="error_date_in_future">Enregistrer la date correcte</string>
+    <string name="risk_no_notes_or_photos">Aucune note ou photo pour risque</string>
 </resources>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="java.util.List" />
+
+        <variable
+            name="risk"
+            type="org.wildaid.ofish.data.report.SafetyLevel" />
+
+        <variable
+            name="photos"
+            type="List&lt;org.wildaid.ofish.ui.base.PhotoItem>" />
+
+        <variable
+            name="note"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/risk_reason_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="report_risk_reason_title,
+            report_risk_reason" />
+
+        <TextView
+            android:id="@+id/report_risk_reason_title"
+            style="@style/SmallTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.5"
+            android:text="Reason for color" />
+
+        <TextView
+            android:id="@+id/report_risk_reason"
+            style="@style/TextValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{risk.amberReason}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/report_risk_reason_title"
+            app:layout_constraintWidth_percent="0.5"
+            tools:text="Officer decided to choose red color" />
+
+        <TextView
+            android:id="@+id/risk_no_reason"
+            style="@style/SmallTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/risk_no_notes_or_photos"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/risk_view_attachments"/>
+
+        <org.wildaid.ofish.ui.base.PhotoAttachmentsLayout
+            android:id="@+id/risk_view_attachments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/card_value_to_title_space"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/report_risk_reason"
+            app:photos="@{photos}" />
+
+        <View
+            android:id="@+id/report_risk_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/divider"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/risk_view_attachments" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

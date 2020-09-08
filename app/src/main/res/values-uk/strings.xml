@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">O-FISH</string>
     <string name="no">Ні</string>
-    <string name="empty" />
+    <string name="empty"/>
     <string name="other">Інше</string>
 
     <!--    Vessel  -->
@@ -189,6 +189,7 @@
     <string name="continue_with_empty_fields">Продовжити з порожніми полями?</string>
     <string name="continue_action">Продовжити</string>
     <string name="chose_image_source">Виберіть джерело світлини</string>
+    <string name="risk_no_notes_or_photos">Немає Нотатків або Фотокарток</string>
 
     <!--    Time On Duty    -->
     <string name="become_not_at_sea">Зійти з моря</string>

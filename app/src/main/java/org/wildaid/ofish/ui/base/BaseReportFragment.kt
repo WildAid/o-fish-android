@@ -103,11 +103,11 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
 
     private fun onPhotoAttachmentSelected() {
         if (pendingPhotoSelection != null) {
-            pickImage(pendingPhotoSelection!!)
+            peekImage(pendingPhotoSelection!!)
         }
     }
 
-    fun pickImage(pendingPhotoSelection: (Uri) -> Unit) {
+    fun peekImage(pendingPhotoSelection: (Uri) -> Unit) {
         this.pendingPhotoSelection = pendingPhotoSelection
 
         val pickImageIntent = createGalleryIntent()
