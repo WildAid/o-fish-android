@@ -63,7 +63,7 @@
                             style="@style/CardHeader"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/time_on_duty"
+                            android:text="@string/time_at_sea"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView

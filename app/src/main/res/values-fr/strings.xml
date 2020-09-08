@@ -206,7 +206,7 @@
     <string name="channel_description">Des alertes seront envoyées</string>
 
     <!--    Time On Duty -->
-    <string name="time_on_duty">Heures en service</string>
+    <string name="time_at_sea">Heures en service</string>
     <string name="start_date">Début (date)</string>
     <string name="start_time">Début (heure)</string>
     <string name="end_date">Fin (date)</string>
