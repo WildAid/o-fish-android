@@ -22,7 +22,7 @@ class SimpleSearchViewModelTest {
 
     private lateinit var searchViewModel: SimpleSearchViewModel
     private val wholeList = listOf("CA", "UA", "UK", "MX", "US", "DE")
-    private val filteredList = listOf("UA", "UK", "US")
+    private val filteredList = listOf("UA", "UK", "US","Other")
 
     @MockK
     private lateinit var mockedRepository: Repository
