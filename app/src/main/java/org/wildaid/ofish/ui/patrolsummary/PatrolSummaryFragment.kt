@@ -25,6 +25,7 @@ import org.wildaid.ofish.databinding.FragmentPatrolSummaryBinding
 import org.wildaid.ofish.ui.base.CARDS_OFFSET_SIZE
 import org.wildaid.ofish.ui.crew.VerticalSpaceItemDecoration
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
+import org.wildaid.ofish.ui.reportdetail.ADDITIONAL_TITLE
 import org.wildaid.ofish.ui.reportdetail.BOARD_VESSEL_ALLOWED
 import org.wildaid.ofish.ui.reportdetail.KEY_REPORT_ID
 import org.wildaid.ofish.util.getViewModelFactory
@@ -135,7 +136,11 @@ class PatrolSummaryFragment : Fragment(R.layout.fragment_patrol_summary) {
     }
 
     private fun itemListener(report: Report) {
-        val navigationArgs = bundleOf(KEY_REPORT_ID to report._id, BOARD_VESSEL_ALLOWED to false)
+        val navigationArgs = bundleOf(
+            KEY_REPORT_ID to report._id,
+            BOARD_VESSEL_ALLOWED to false,
+            ADDITIONAL_TITLE to getString(R.string.back)
+        )
         navigation.navigate(
             R.id.action_patrolSummaryFragment_to_report_details_fragment,
             navigationArgs

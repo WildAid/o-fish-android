@@ -40,6 +40,7 @@ import org.wildaid.ofish.util.setVisible
 
 const val KEY_REPORT_ID = "report_id"
 const val BOARD_VESSEL_ALLOWED = "should_show_button"
+const val ADDITIONAL_TITLE = "additional_title"
 
 @SuppressLint("MissingPermission")
 class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
@@ -50,6 +51,12 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
         requireArguments().getBoolean(
             BOARD_VESSEL_ALLOWED,
             true
+        )
+    }
+    private val additionalTitle by lazy {
+        requireArguments().getString(
+            ADDITIONAL_TITLE,
+            getString(R.string.boarding_record)
         )
     }
     private lateinit var fragmentBinding: FragmentReportDetailsBinding
@@ -84,6 +91,15 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
         report_toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white)
         subscribeToDialogEvents()
 
+        shouldShowBoardButton()
+        setToolbarTitle()
+    }
+
+    private fun setToolbarTitle() {
+        report_toolbar.title = additionalTitle
+    }
+
+    private fun shouldShowBoardButton() {
         boardVesselButton.visibility = if (shouldShowButton) View.VISIBLE else View.GONE
     }
 
@@ -225,7 +241,8 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
                     item.attachments?.notes?.isNotEmpty() ?: false
                 )
                 reportEmsDivider.setVisible(index != emsList.size - 1)
-                this.emsItemAttachments.attachmentsPhotos.onPhotoClickListener = ::showPhotoAttachmentFullSize
+                this.emsItemAttachments.attachmentsPhotos.onPhotoClickListener =
+                    ::showPhotoAttachmentFullSize
             }
             fragmentBinding.reportEmsContainer.addView(emsBinding.root)
         }
@@ -287,9 +304,12 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             this.fisheryAttachments.attachmentNoteGroup.setVisible(
                 inspection.fishery?.attachments?.notes?.isNotEmpty() ?: false
             )
-            this.activityAttachments.attachmentsPhotos.onPhotoClickListener = ::showPhotoAttachmentFullSize
-            this.gearAttachments.attachmentsPhotos.onPhotoClickListener = ::showPhotoAttachmentFullSize
-            this.fisheryAttachments.attachmentsPhotos.onPhotoClickListener = ::showPhotoAttachmentFullSize
+            this.activityAttachments.attachmentsPhotos.onPhotoClickListener =
+                ::showPhotoAttachmentFullSize
+            this.gearAttachments.attachmentsPhotos.onPhotoClickListener =
+                ::showPhotoAttachmentFullSize
+            this.fisheryAttachments.attachmentsPhotos.onPhotoClickListener =
+                ::showPhotoAttachmentFullSize
         }
 
         report_activity_container.addView(activityBinding.root)
@@ -368,8 +388,14 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             else -> null
         } ?: return
 
-        fragmentBinding.reportColorStatus.setSafetyColor(safetyColor, R.dimen.safety_background_radius_big)
-        fragmentBinding.reportRisksColor.setSafetyColor(safetyColor, R.dimen.safety_background_radius_big)
+        fragmentBinding.reportColorStatus.setSafetyColor(
+            safetyColor,
+            R.dimen.safety_background_radius_big
+        )
+        fragmentBinding.reportRisksColor.setSafetyColor(
+            safetyColor,
+            R.dimen.safety_background_radius_big
+        )
 
         fragmentBinding.reportRiskBody.let {
             it.reportRiskReasonTitle.text = getString(R.string.reason_for_risk, safetyLevel.level)
@@ -379,10 +405,10 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             if (safetyLevel.amberReason.isBlank() && safetyLevel.attachments?.photoIDs.isNullOrEmpty()) {
                 it.riskNoReason.setVisible(true)
                 it.riskReasonGroup.setVisible(false)
-            } else if(safetyLevel.amberReason.isBlank()){
+            } else if (safetyLevel.amberReason.isBlank()) {
                 it.riskNoReason.setVisible(false)
                 it.riskReasonGroup.setVisible(false)
-            }else {
+            } else {
                 it.riskNoReason.setVisible(false)
                 it.riskReasonGroup.setVisible(true)
                 it.reportRiskReason.text = safetyLevel.amberReason
