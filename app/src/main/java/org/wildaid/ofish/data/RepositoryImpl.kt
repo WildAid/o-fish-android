@@ -44,7 +44,7 @@ class RepositoryImpl(
             it.emsType.isBlank() && it.registryNumber.isBlank()
         }
         report.crew.removeAll {
-            it.license.isBlank() && it.name.isBlank()
+            it.name.isBlank()
         }
 
         report.inspection?.actualCatch?.removeAll {
