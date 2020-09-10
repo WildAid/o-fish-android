@@ -47,7 +47,7 @@ class AddCrewViewModel : ViewModel() {
     }
 
     private fun validated() =
-        newCrewMember.name.isNotBlank() && newCrewMember.license.isNotBlank()
+        newCrewMember.name.isNotBlank()
 
 }
 
