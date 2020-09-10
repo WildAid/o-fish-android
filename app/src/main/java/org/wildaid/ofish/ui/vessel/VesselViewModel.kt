@@ -94,7 +94,7 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
             }
         }
 
-        lastFocusInInfo = true
+        lastFocusInInfo = false
 
         _vesselItemLiveData.value = currentVesselItem
     }
