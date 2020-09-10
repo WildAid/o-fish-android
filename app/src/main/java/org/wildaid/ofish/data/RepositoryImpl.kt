@@ -57,6 +57,12 @@ class RepositoryImpl(
             it.note.isBlank()
         }
 
+        val delivery = report.vessel?.lastDelivery
+        val deliveryIsEmpty = delivery?.business.isNullOrBlank() && report.vessel?.lastDelivery?.location.isNullOrBlank()
+        if (deliveryIsEmpty) {
+            report.vessel?.lastDelivery = null
+        }
+
         realmDataSource.saveReportWithTransaction(
             report, listener,
             object : Iterator<Photo> {
