@@ -5,6 +5,7 @@ import org.wildaid.ofish.R
 import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.CrewMember
 import org.wildaid.ofish.data.report.Report
+import org.wildaid.ofish.ui.crew.N_A
 import org.wildaid.ofish.ui.search.base.BaseSearchType
 import org.wildaid.ofish.ui.search.base.BaseSearchViewModel
 
@@ -123,7 +124,6 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
     private val searchCrewDataSource = object : SearchDataSource() {
         var report: Report? = null
         private val addSearchModel = AddSearchModel(R.string.add_crew_member)
-
         override fun initiateData(): List<SearchModel> {
             val list = mutableListOf<SearchModel>()
             report?.let {
@@ -134,7 +134,12 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
                         true
                     )
                 )
-                list.addAll(it.crew.map { member -> CrewSearchModel(member, false) })
+                list.addAll(it.crew.filter { member ->
+                    member.name != N_A || (member.name.isBlank())
+
+                }.map { member ->
+                    CrewSearchModel(member, false)
+                })
             }
             list.add(addSearchModel)
             return list

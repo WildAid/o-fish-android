@@ -120,7 +120,13 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
 
     private fun navigateToCreateReport(it: Report) {
         val prefillVessel = it.vessel!!.let { vessel ->
-            PrefillVessel(vessel.name, vessel.permitNumber, vessel.nationality, vessel.homePort)
+            PrefillVessel(
+                vessel.name,
+                vessel.permitNumber,
+                vessel.nationality,
+                vessel.homePort,
+                vessel.attachments?.photoIDs?.toList()!!
+            )
         }
         val prefillCrew = PrefillCrew(
             Pair(it.captain?.name!!, it.captain?.license!!),

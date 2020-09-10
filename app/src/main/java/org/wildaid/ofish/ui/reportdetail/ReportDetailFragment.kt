@@ -111,7 +111,8 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             it.vessel?.name!!,
             it.vessel?.permitNumber!!,
             it.vessel?.nationality!!,
-            it.vessel?.homePort!!
+            it.vessel?.homePort!!,
+            it.vessel?.attachments?.photoIDs?.toList()!!
         )
         val navigationArgs =
             bundleOf(KEY_CREATE_REPORT_ARGS to CreateReportBundle(prefillVessel, prefillCrew))

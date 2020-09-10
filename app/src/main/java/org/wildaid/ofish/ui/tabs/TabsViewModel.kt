@@ -53,6 +53,7 @@ class TabsViewModel(val repository: Repository, application: Application) :
                 this.homePort = vesselToPrefill.homePort
                 this.nationality = vesselToPrefill.flagState
                 this.permitNumber = vesselToPrefill.vesselNumber
+                this.attachments?.photoIDs?.addAll(vesselToPrefill.attachmentsPhotosId)
             }
         }
 
