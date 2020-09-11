@@ -81,7 +81,6 @@ class CrewViewModel(
                     inEditMode = false
                 )
             })
-
             currentCrewItems.also {
                 it.clear()
                 it.addAll(newCrewMembers)
@@ -133,7 +132,9 @@ class CrewViewModel(
                 newCrewMember,
                 isCaptain = isCaptain,
                 title = if (isCaptain) getString(R.string.captain) else "${getString(R.string.crew_member)} ${currentCrewItems.size}",
-                attachments = AttachmentItem(newCrewMember.attachments!!),
+                attachments = AttachmentItem(newCrewMember.attachments!!).apply {
+                    photos.addAll(repository.getPhotosWithIds(newCrewMember.attachments!!.photoIDs).map { PhotoItem(it, null) })
+                },
                 isRemovable = !isCaptain
             )
         )

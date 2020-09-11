@@ -28,10 +28,7 @@ import org.wildaid.ofish.data.SafetyColor
 import org.wildaid.ofish.data.report.*
 import org.wildaid.ofish.databinding.*
 import org.wildaid.ofish.ui.base.*
-import org.wildaid.ofish.ui.createreport.CreateReportBundle
-import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_ARGS
-import org.wildaid.ofish.ui.createreport.PrefillCrew
-import org.wildaid.ofish.ui.createreport.PrefillVessel
+import org.wildaid.ofish.ui.createreport.*
 import org.wildaid.ofish.ui.home.ASK_CHANGE_DUTY_DIALOG_ID
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
 import org.wildaid.ofish.ui.home.ZOOM_LEVEL
@@ -105,8 +102,8 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
 
     private fun navigateToCreateReport(it: Report) {
         val prefillCrew = PrefillCrew(
-            Pair(it.captain?.name!!, it.captain?.license!!),
-            it.crew.map { Pair(it.name, it.license) })
+            PrefillCrewMember(it.captain?.name!!, it.captain?.license!!, it.captain!!.attachments?.photoIDs?.toList()!!),
+            it.crew.map { PrefillCrewMember(it.name, it.license,it.attachments?.photoIDs?.toList()!!) })
         val prefillVessel = PrefillVessel(
             it.vessel?.name!!,
             it.vessel?.permitNumber!!,
@@ -170,10 +167,10 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
     }
 
     private fun displayReport(report: Report) {
-        report.vessel?.let { vessel ->
-            inflateVessel(vessel)
-            inflateEMS(vessel.ems)
-            inflateLastDelivery(vessel.lastDelivery)
+        report.vessel?.let {
+            inflateVessel(it)
+            inflateLastDelivery(it.lastDelivery!!)
+            inflateEMS(it.ems)
         }
 
         report.captain?.let {
@@ -218,12 +215,7 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
         }
     }
 
-    private fun inflateLastDelivery(lastDelivery: Delivery?) {
-        if (lastDelivery == null) {
-            fragmentBinding.vesselLastDeliverySection.setVisible(false)
-            return
-        }
-
+    private fun inflateLastDelivery(lastDelivery: Delivery) {
         fragmentBinding.reportViewLastDelivery.apply {
             this.lifecycleOwner = viewLifecycleOwner
             this.photos = fragmentViewModel.getPhotosForIds(lastDelivery.attachments?.photoIDs)
