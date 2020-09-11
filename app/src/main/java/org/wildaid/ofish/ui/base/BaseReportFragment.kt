@@ -18,7 +18,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.report.Report
-import org.wildaid.ofish.ui.crew.N_A
 import org.wildaid.ofish.util.combineIntents
 import org.wildaid.ofish.util.createCameraIntent
 import org.wildaid.ofish.util.createGalleryIntent
@@ -61,7 +60,7 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
     fun isAllRequiredFieldsNotEmpty(): Boolean {
         requiredFields.forEach {
             val text = it.editText?.text
-            if (it.visibility == View.VISIBLE && (text.isNullOrBlank() || text.toString() == N_A)) {
+            if (it.visibility == View.VISIBLE && text.isNullOrBlank()) {
                 return false
             }
         }
@@ -72,7 +71,7 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
         var result = true
         requiredFields.forEach {
             val text = it.editText?.text
-            if (it.visibility == View.VISIBLE && (text.isNullOrBlank() || text.toString() == N_A)) {
+            if (it.visibility == View.VISIBLE && text.isNullOrBlank()) {
                 result = false
                 it.errorIconDrawable = resources.getDrawable(R.drawable.ic_error_outline, null)
             }

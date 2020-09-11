@@ -24,6 +24,7 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
             }
             is ComplexSearchFragment.SearchCrew -> searchCrewDataSource.apply {
                 this.report = report
+                    ?: throw IllegalArgumentException("$searchEntity is not supported with null report")
             }
             else -> throw IllegalArgumentException("Unsupported search entity $searchEntity")
         }
@@ -121,42 +122,40 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
     }
 
     private val searchCrewDataSource = object : SearchDataSource() {
-        var report: Report? = null
+        lateinit var report: Report
+
         private val addSearchModel = AddSearchModel(R.string.add_crew_member)
 
         override fun initiateData(): List<SearchModel> {
-            val list = mutableListOf<SearchModel>()
-            report?.let {
-                val captain = it.captain
-                if (isCaptainNotNullOrBlank(captain)) list.add(
-                    CrewSearchModel(
-                        captain!!,
-                        true
-                    )
-                )
-                list.addAll(it.crew.map { member -> CrewSearchModel(member, false) })
+            val initialList = mutableListOf<SearchModel>()
+            val captain = report.captain
+            if (isCaptainNotNullOrBlank(captain)) {
+                initialList.add(CrewSearchModel(captain!!, true))
             }
-            list.add(addSearchModel)
-            return list
+
+            initialList.addAll(report.crew
+                .filter { it.name.isNotBlank() && it.license.isNotBlank() }
+                .map { member -> CrewSearchModel(member, false) })
+            initialList.add(addSearchModel)
+            return initialList
         }
 
         override fun applyFilter(filter: String): List<SearchModel> {
-            val list = mutableListOf<SearchModel>()
-            report?.let {
-                val captain = it.captain
-                if (isCaptainNotNullOrBlank(captain) && containFilter(captain!!, filter)) {
-                    list.add(CrewSearchModel(captain, true))
-                }
-                list.addAll(it.crew
-                    .filter { member -> containFilter(member, filter) }
-                    .map { member -> CrewSearchModel(member, false) })
+            val filteredList = mutableListOf<SearchModel>()
+            val captain = report.captain
+            if (isCaptainNotNullOrBlank(captain) && containFilter(captain!!, filter)) {
+                filteredList.add(CrewSearchModel(captain, true))
             }
-            list.add(addSearchModel)
-            return list
+            filteredList.addAll(report.crew
+                .filter { it.name.isNotBlank() && it.license.isNotBlank() }
+                .filter { member -> containFilter(member, filter) }
+                .map { member -> CrewSearchModel(member, false) })
+            filteredList.add(addSearchModel)
+            return filteredList
         }
 
         private fun isCaptainNotNullOrBlank(captain: CrewMember?) =
-            captain != null && (captain.name.isNotBlank() || captain.license.isNotBlank())
+            !captain?.name.isNullOrBlank() && !captain?.license.isNullOrBlank()
 
         private fun containFilter(member: CrewMember, filter: String) =
             member.name.contains(filter, true) || member.license.contains(filter, true)

@@ -15,8 +15,6 @@ import org.wildaid.ofish.ui.base.AttachmentItem
 import org.wildaid.ofish.ui.base.PhotoItem
 import org.wildaid.ofish.util.getString
 
-const val N_A = "N/A"
-
 class CrewViewModel(
     val repository: Repository,
     application: Application
@@ -48,7 +46,6 @@ class CrewViewModel(
         this.currentReport = currentReport
         this.currentReportPhotos = currentReportPhotos
         this._crewMembersData.value = initiateCrewMembers()
-        addCrewMember()
     }
 
     fun fillCrew(captain: CrewMember, crews: List<CrewMember>) {
@@ -87,7 +84,6 @@ class CrewViewModel(
                 it.addAll(newCrewMembers)
             }
 
-            fillEmptyFields(currentCrewItems)
             _crewMembersData.value = currentCrewItems
         }
     }
@@ -120,8 +116,6 @@ class CrewViewModel(
     }
 
     fun addCrewMember(crewMember: CrewMember? = null, isCaptain: Boolean = false) {
-        fillEmptyFields(currentCrewItems)
-
         currentCrewItems.forEach {
             it.inEditMode = false
         }
@@ -139,7 +133,6 @@ class CrewViewModel(
         )
 
         _crewMembersData.value = currentCrewItems
-        updateAddNewMemberVisibility()
     }
 
     fun removeCrewMember(position: Int) {
@@ -154,18 +147,14 @@ class CrewViewModel(
         }
 
         _crewMembersData.value = currentCrewItems
-        updateAddNewMemberVisibility()
     }
 
     fun onCrewMemberChanged() {
-        updateAddNewMemberVisibility()
     }
 
     fun editCrewMember(member: CrewMemberItem) {
         currentCrewItems.forEach { it.inEditMode = it.crewMember == member.crewMember }
-        fillEmptyFields(currentCrewItems)
         _crewMembersData.value = currentCrewItems
-        updateAddNewMemberVisibility()
     }
 
     fun onNextClicked() {
@@ -205,35 +194,6 @@ class CrewViewModel(
         }
 
         return currentCrewItems
-    }
-
-    private fun updateAddNewMemberVisibility() {
-        val crew = crewMembersData.value
-        val notFinishedMembers = crew?.filter {
-            // Captain can have empty fields
-            (it.crewMember.name.isBlank() && it.crewMember.license.isBlank()) && !it.isCaptain
-        }
-
-        _canAddNewMemberData.value = notFinishedMembers.isNullOrEmpty()
-    }
-
-    private fun fillEmptyFields(crew: MutableList<CrewMemberItem>) {
-        val iterator = crew.listIterator()
-        while (iterator.hasNext()) {
-            val it = iterator.next()
-            val emptyName = it.crewMember.name.isBlank()
-            val emptyLicense = it.crewMember.license.isBlank()
-            val noNotes = it.attachments.getNote().isNullOrBlank()
-            val noPhotos = !it.attachments.hasPhotos()
-
-            if (!it.isCaptain && (emptyLicense && emptyName && noPhotos && noNotes)) {
-                currentReport.crew.remove(it.crewMember)
-                iterator.remove()
-            } else {
-                it.crewMember.name = it.crewMember.name.ifBlank { N_A }
-                it.crewMember.license = it.crewMember.license.ifBlank { N_A }
-            }
-        }
     }
 
     private fun createPhoto(): Photo {
