@@ -12,7 +12,8 @@ data class PrefillVessel(
     val vesselName: String,
     val vesselNumber: String,
     val flagState: String,
-    val homePort: String
+    val homePort: String,
+    val attachmentsPhotosId: List<String>
 ) : Parcelable
 
 @Parcelize

@@ -123,7 +123,6 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
     private val searchCrewDataSource = object : SearchDataSource() {
         var report: Report? = null
         private val addSearchModel = AddSearchModel(R.string.add_crew_member)
-
         override fun initiateData(): List<SearchModel> {
             val list = mutableListOf<SearchModel>()
             report?.let {
@@ -134,7 +133,9 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
                         true
                     )
                 )
-                list.addAll(it.crew.map { member -> CrewSearchModel(member, false) })
+                list.addAll(it.crew.map { member ->
+                    CrewSearchModel(member, false)
+                })
             }
             list.add(addSearchModel)
             return list
