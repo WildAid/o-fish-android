@@ -17,8 +17,13 @@ data class PrefillVessel(
 
 @Parcelize
 data class PrefillCrew(
-    // first - license
-    // second - name
-    val captain: Pair<String, String>,
-    val crew: List<Pair<String, String>>
+    val captain: PrefillCrewMember,
+    val crew: List<PrefillCrewMember>
 ) : Parcelable
+
+@Parcelize
+data class PrefillCrewMember(
+    val name: String,
+    val license: String,
+    val photosIds: List<String>
+):Parcelable
