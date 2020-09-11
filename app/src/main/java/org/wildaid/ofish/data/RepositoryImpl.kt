@@ -44,7 +44,7 @@ class RepositoryImpl(
             it.emsType.isBlank() && it.registryNumber.isBlank()
         }
         report.crew.removeAll {
-            it.license.isBlank() && it.name.isBlank()
+            it.name.isBlank()
         }
 
         report.inspection?.actualCatch?.removeAll {
@@ -55,6 +55,12 @@ class RepositoryImpl(
         }
         report.notes.removeAll {
             it.note.isBlank()
+        }
+
+        val delivery = report.vessel?.lastDelivery
+        val deliveryIsEmpty = delivery?.business.isNullOrBlank() && report.vessel?.lastDelivery?.location.isNullOrBlank()
+        if (deliveryIsEmpty) {
+            report.vessel?.lastDelivery = null
         }
 
         realmDataSource.saveReportWithTransaction(

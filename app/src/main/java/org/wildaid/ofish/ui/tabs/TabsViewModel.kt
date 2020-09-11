@@ -53,20 +53,23 @@ class TabsViewModel(val repository: Repository, application: Application) :
                 this.homePort = vesselToPrefill.homePort
                 this.nationality = vesselToPrefill.flagState
                 this.permitNumber = vesselToPrefill.vesselNumber
+                this.attachments?.photoIDs?.addAll(vesselToPrefill.attachmentsPhotosId)
             }
         }
 
         crewToPrefill?.let {
             prefillCaptain = CrewMember().apply {
-                name = it.captain.first
-                license = it.captain.second
+                name = it.captain.name
+                license = it.captain.license
+                attachments?.photoIDs?.addAll(it.captain.photosIds)
             }
 
             this.crewToPrefill = mutableListOf(
-                *it.crew.map { pair ->
+                *it.crew.map { crew ->
                     CrewMember().apply {
-                        name = pair.first
-                        license = pair.second
+                        name = crew.name
+                        license = crew.license
+                        attachments?.photoIDs?.addAll(crew.photosIds)
                     }
                 }.toTypedArray()
             )

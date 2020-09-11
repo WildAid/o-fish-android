@@ -134,7 +134,7 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
             }
 
             initialList.addAll(report.crew
-                .filter { it.name.isNotBlank() && it.license.isNotBlank() }
+                .filter { it.name.isNotBlank() || it.license.isNotBlank() }
                 .map { member -> CrewSearchModel(member, false) })
             initialList.add(addSearchModel)
             return initialList
@@ -147,7 +147,7 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
                 filteredList.add(CrewSearchModel(captain, true))
             }
             filteredList.addAll(report.crew
-                .filter { it.name.isNotBlank() && it.license.isNotBlank() }
+                .filter { it.name.isNotBlank() || it.license.isNotBlank() }
                 .filter { member -> containFilter(member, filter) }
                 .map { member -> CrewSearchModel(member, false) })
             filteredList.add(addSearchModel)

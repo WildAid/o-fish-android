@@ -88,6 +88,11 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
             nationality = vesselToPrefill.nationality
             permitNumber = vesselToPrefill.permitNumber
         }
+        vesselToPrefill.attachments?.photoIDs?.forEach {id->
+            repository.getPhotoById(id)?.let { photo ->
+                currentVesselItem.attachments.addPhoto(PhotoItem(photo,null))
+            }
+        }
 
         lastFocusInInfo = true
 

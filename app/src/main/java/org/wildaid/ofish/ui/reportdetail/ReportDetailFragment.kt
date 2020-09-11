@@ -28,10 +28,7 @@ import org.wildaid.ofish.data.SafetyColor
 import org.wildaid.ofish.data.report.*
 import org.wildaid.ofish.databinding.*
 import org.wildaid.ofish.ui.base.*
-import org.wildaid.ofish.ui.createreport.CreateReportBundle
-import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_ARGS
-import org.wildaid.ofish.ui.createreport.PrefillCrew
-import org.wildaid.ofish.ui.createreport.PrefillVessel
+import org.wildaid.ofish.ui.createreport.*
 import org.wildaid.ofish.ui.home.ASK_CHANGE_DUTY_DIALOG_ID
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
 import org.wildaid.ofish.ui.home.ZOOM_LEVEL
@@ -105,13 +102,14 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
 
     private fun navigateToCreateReport(it: Report) {
         val prefillCrew = PrefillCrew(
-            Pair(it.captain?.name!!, it.captain?.license!!),
-            it.crew.map { Pair(it.name, it.license) })
+            PrefillCrewMember(it.captain?.name!!, it.captain?.license!!, it.captain!!.attachments?.photoIDs?.toList()!!),
+            it.crew.map { PrefillCrewMember(it.name, it.license,it.attachments?.photoIDs?.toList()!!) })
         val prefillVessel = PrefillVessel(
             it.vessel?.name!!,
             it.vessel?.permitNumber!!,
             it.vessel?.nationality!!,
-            it.vessel?.homePort!!
+            it.vessel?.homePort!!,
+            it.vessel?.attachments?.photoIDs?.toList()!!
         )
         val navigationArgs =
             bundleOf(KEY_CREATE_REPORT_ARGS to CreateReportBundle(prefillVessel, prefillCrew))

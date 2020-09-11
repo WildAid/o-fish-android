@@ -27,10 +27,7 @@ import org.wildaid.ofish.ui.base.DIALOG_CLICK_EVENT
 import org.wildaid.ofish.ui.base.DialogButton
 import org.wildaid.ofish.ui.base.DialogClickEvent
 import org.wildaid.ofish.ui.base.ItemDivider
-import org.wildaid.ofish.ui.createreport.CreateReportBundle
-import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_ARGS
-import org.wildaid.ofish.ui.createreport.PrefillCrew
-import org.wildaid.ofish.ui.createreport.PrefillVessel
+import org.wildaid.ofish.ui.createreport.*
 import org.wildaid.ofish.ui.home.ASK_CHANGE_DUTY_DIALOG_ID
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
 import org.wildaid.ofish.ui.reportdetail.KEY_REPORT_ID
@@ -105,6 +102,13 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
             }
         })
 
+        fragmentViewModel.loadVessel(vesselPermitNumber, vesselName)
+        subscribeToDialogEvents()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
         vessel_details_appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
             val scrollRange = vessel_details_appbar?.totalScrollRange!!
             if (scrollRange + verticalOffset == 0) {
@@ -113,18 +117,31 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
                 collapsing_toolbar.title = vesselName
             }
         })
-
-        fragmentViewModel.loadVessel(vesselPermitNumber, vesselName)
-        subscribeToDialogEvents()
     }
 
     private fun navigateToCreateReport(it: Report) {
         val prefillVessel = it.vessel!!.let { vessel ->
-            PrefillVessel(vessel.name, vessel.permitNumber, vessel.nationality, vessel.homePort)
+            PrefillVessel(
+                vessel.name,
+                vessel.permitNumber,
+                vessel.nationality,
+                vessel.homePort,
+                vessel.attachments?.photoIDs?.toList()!!
+            )
         }
         val prefillCrew = PrefillCrew(
-            Pair(it.captain?.name!!, it.captain?.license!!),
-            it.crew.map { crewMember -> Pair(crewMember.name, crewMember.license) }
+            PrefillCrewMember(
+                it.captain?.name!!,
+                it.captain?.license!!,
+                it.captain?.attachments?.photoIDs?.toList()!!
+            ),
+            it.crew.map { crewMember ->
+                PrefillCrewMember(
+                    crewMember.name,
+                    crewMember.license,
+                    crewMember.attachments?.photoIDs?.toList()!!
+                )
+            }
         )
         val navigationArgs =
             bundleOf(KEY_CREATE_REPORT_ARGS to CreateReportBundle(prefillVessel, prefillCrew))
