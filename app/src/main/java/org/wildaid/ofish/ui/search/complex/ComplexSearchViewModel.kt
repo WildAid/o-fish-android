@@ -5,7 +5,6 @@ import org.wildaid.ofish.R
 import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.CrewMember
 import org.wildaid.ofish.data.report.Report
-import org.wildaid.ofish.ui.crew.N_A
 import org.wildaid.ofish.ui.search.base.BaseSearchType
 import org.wildaid.ofish.ui.search.base.BaseSearchViewModel
 
@@ -134,10 +133,7 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
                         true
                     )
                 )
-                list.addAll(it.crew.filter { member ->
-                    member.name != N_A || (member.name.isBlank())
-
-                }.map { member ->
+                list.addAll(it.crew.map { member ->
                     CrewSearchModel(member, false)
                 })
             }

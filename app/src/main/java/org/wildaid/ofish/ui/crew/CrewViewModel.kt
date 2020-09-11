@@ -56,8 +56,7 @@ class CrewViewModel(
 
         addCrewMember(captain, isCaptain = true)
         crews.forEach {
-            if (it.name != N_A && it.license != N_A || it.name.isBlank())
-                addCrewMember(it)
+            addCrewMember(it)
         }
     }
 
@@ -231,8 +230,8 @@ class CrewViewModel(
                 currentReport.crew.remove(it.crewMember)
                 iterator.remove()
             } else {
-//                it.crewMember.name = it.crewMember.name.ifBlank { N_A }
-//                it.crewMember.license = it.crewMember.license.ifBlank { N_A }
+                it.crewMember.name = it.crewMember.name.ifBlank { N_A }
+                it.crewMember.license = it.crewMember.license.ifBlank { N_A }
             }
         }
     }
