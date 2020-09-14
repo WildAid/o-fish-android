@@ -103,6 +103,15 @@
                         app:layout_constraintStart_toEndOf="@id/image_search"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <ImageView
+                        android:layout_marginEnd="5dp"
+                        android:layout_width="27dp"
+                        android:layout_height="27dp"
+                        android:src="@drawable/search_microphone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
