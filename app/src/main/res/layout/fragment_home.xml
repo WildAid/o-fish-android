@@ -26,15 +26,6 @@
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp" />
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager22"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:background="@color/colorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/search_layout"
             android:layout_width="match_parent"
@@ -43,33 +34,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/image_user"
-                android:layout_width="52dp"
-                android:layout_height="52dp"
-                android:onClick="@{()-> fragmentViewModel.showUserStatus()}"
-                android:padding="8dp"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/cardView"
-                app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/circleImageView"
-                app:srcCompat="@drawable/ic_account_circle" />
-
-            <ImageView
-                android:id="@+id/image_user_status"
-                android:layout_width="13dp"
-                android:layout_height="13dp"
-                android:layout_margin="12dp"
-                app:layout_constraintBottom_toBottomOf="@id/image_user"
-                app:layout_constraintEnd_toEndOf="@id/image_user"
-                app:srcId="@{homeActivityViewModel.onDutyImageStatusSmallLiveData}"
-                tools:src="@drawable/shape_red_circle" />
-
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_margin="12dp"
                 android:elevation="4dp"
@@ -103,14 +70,28 @@
                         app:layout_constraintStart_toEndOf="@id/image_search"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
-                        android:layout_marginEnd="5dp"
-                        android:layout_width="27dp"
-                        android:layout_height="27dp"
-                        android:src="@drawable/search_microphone"
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/image_user"
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        android:onClick="@{()-> fragmentViewModel.showUserStatus()}"
+                        android:padding="8dp"
+                        android:scaleType="centerCrop"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:shapeAppearanceOverlay="@style/circleImageView"
+                        app:srcCompat="@drawable/ic_account_circle" />
+
+                    <ImageView
+                        android:id="@+id/image_user_status"
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:layout_margin="12dp"
+                        app:layout_constraintBottom_toBottomOf="@id/image_user"
+                        app:layout_constraintEnd_toEndOf="@id/image_user"
+                        app:srcId="@{homeActivityViewModel.onDutyImageStatusSmallLiveData}"
+                        tools:src="@drawable/shape_red_circle" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -202,6 +183,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/vessel_image_pager" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/board_vessel"
+            android:textStyle="bold"
+            android:layout_marginTop="14dp"
+            app:layout_constraintBottom_toBottomOf="@+id/home_map"
+            app:layout_constraintEnd_toEndOf="@+id/imageButton2"
+            app:layout_constraintStart_toStartOf="@+id/imageButton2"
             app:layout_constraintTop_toTopOf="@+id/vessel_image_pager" />
 
         <LinearLayout
