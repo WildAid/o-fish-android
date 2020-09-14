@@ -110,6 +110,7 @@
     <string name="change_status_to_on_duty">Change status to "On Duty?"</string>
     <string name="board_vessel">Board Vessel</string>
     <string name="find_records">Find Records</string>
+    <string name="draft_boardings">Draft Boardings</string>
     <string name="first_last_name">%s %s</string>
 
     <string name="logout_dialog_title">You sure you want to log out</string>
