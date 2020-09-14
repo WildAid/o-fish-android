@@ -177,7 +177,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_marginBottom="60dp"
-            android:background="@drawable/board_vessel_button_background"
+            android:background="@drawable/bg_for_vessel_button"
             android:onClick="@{() -> fragmentViewModel.boardVessel()}"
             android:src="@drawable/ic_board_vessel"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -241,7 +241,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:padding="6dp"
-                android:src="@drawable/draft_boarding_icon" />
+                android:src="@drawable/ic_draft_boarding" />
 
             <TextView
                 android:layout_width="wrap_content"
