@@ -162,7 +162,8 @@
                     android:imeOptions="actionNext"
                     android:nextFocusDown="@id/delivery_location"
                     android:singleLine="true"
-                    android:text="@={emsItem.attachments.note}" />
+                    android:text="@={emsItem.attachments.note}"
+                    app:focused="@{emsItem.attachments.isNoteFocused().contentIfNotHandled}"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <org.wildaid.ofish.ui.base.PhotoAttachmentsLayout

@@ -20,10 +20,9 @@ import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.complex.BusinessSearchModel
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
 import org.wildaid.ofish.ui.search.simple.SimpleSearchFragment
-import org.wildaid.ofish.util.getViewModelFactory
-import org.wildaid.ofish.util.hideKeyboard
-import org.wildaid.ofish.util.setVisible
+import org.wildaid.ofish.util.*
 import java.util.*
+
 
 const val CREATE_NEW_BUSINESS = "create_new_business"
 

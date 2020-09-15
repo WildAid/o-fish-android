@@ -179,7 +179,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/note"
-                android:text="@={holder.currentItem.attachmentItem.note}" />
+                android:text="@={holder.currentItem.attachmentItem.note}"
+                app:focused="@{holder.currentItem.attachmentItem.isNoteFocused().contentIfNotHandled}"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <org.wildaid.ofish.ui.base.PhotoAttachmentsLayout

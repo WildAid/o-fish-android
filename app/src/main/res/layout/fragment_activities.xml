@@ -100,6 +100,7 @@
                             android:hint="@string/note"
                             android:imeOptions="actionNext"
                             android:singleLine="true"
+                            app:focused="@{viewModel.activityItemLiveData.attachments.isNoteFocused().contentIfNotHandled}"
                             android:text="@={viewModel.activityItemLiveData.attachments.note}" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -184,7 +185,8 @@
                             android:hint="@string/note"
                             android:imeOptions="actionNext"
                             android:singleLine="true"
-                            android:text="@={viewModel.fisheryItemLiveData.attachments.note}" />
+                            android:text="@={viewModel.fisheryItemLiveData.attachments.note}"
+                            app:focused="@{viewModel.fisheryItemLiveData.attachments.isNoteFocused().contentIfNotHandled}"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <org.wildaid.ofish.ui.base.PhotoAttachmentsLayout
@@ -266,7 +268,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/note"
-                            android:text="@={viewModel.gearItemLiveData.attachments.note}" />
+                            android:text="@={viewModel.gearItemLiveData.attachments.note}"
+                            app:focused="@{viewModel.gearItemLiveData.attachments.isNoteFocused().contentIfNotHandled}"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <org.wildaid.ofish.ui.base.PhotoAttachmentsLayout

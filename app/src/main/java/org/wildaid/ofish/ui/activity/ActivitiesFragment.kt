@@ -7,19 +7,19 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.Observer
-import kotlinx.android.synthetic.main.fragment_activity.*
+import kotlinx.android.synthetic.main.fragment_activities.*
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
-import org.wildaid.ofish.databinding.FragmentActivityBinding
+import org.wildaid.ofish.databinding.FragmentActivitiesBinding
 import org.wildaid.ofish.ui.base.BaseReportFragment
 import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.simple.SimpleSearchFragment
 import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.setVisible
 
-class ActivitiesFragment : BaseReportFragment(R.layout.fragment_activity) {
+class ActivitiesFragment : BaseReportFragment(R.layout.fragment_activities) {
     private val fragmentViewModel: ActivitiesViewModel by viewModels { getViewModelFactory() }
-    private lateinit var fragmentDataBinding: FragmentActivityBinding
+    private lateinit var fragmentDataBinding: FragmentActivitiesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +28,7 @@ class ActivitiesFragment : BaseReportFragment(R.layout.fragment_activity) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        fragmentDataBinding = FragmentActivityBinding.bind(view)
+        fragmentDataBinding = FragmentActivitiesBinding.bind(view)
             .apply {
                 this.viewModel = fragmentViewModel
                 this.lifecycleOwner = this@ActivitiesFragment.viewLifecycleOwner

@@ -139,7 +139,8 @@
                 android:imeOptions="actionDone"
                 android:onTextChanged="@{(text, start, before, count) -> holder.onNoteChanged(text)}"
                 android:singleLine="true"
-                android:text="@={holder.currentItem.attachments.note}" />
+                android:text="@={holder.currentItem.attachments.note}"
+                app:focused="@{holder.currentItem.attachments.isNoteFocused().contentIfNotHandled}"/>
         </com.google.android.material.textfield.TextInputLayout>
 
 

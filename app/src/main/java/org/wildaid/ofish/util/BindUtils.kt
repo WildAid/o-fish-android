@@ -1,6 +1,8 @@
 package org.wildaid.ofish.util
 
+import android.content.Context
 import android.net.Uri
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -78,4 +80,15 @@ fun setImageUri(view: ImageView, imageUri: String?) {
 @BindingAdapter("app:srcId")
 fun setImageResource(imageView: ImageView, resource: Int) {
     imageView.setImageResource(resource)
+}
+
+@BindingAdapter("app:focused")
+fun EditText.requestKeyBoard(focused: Boolean) {
+    if (!focused) {
+        return
+    }
+
+    val imm = this.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+    this.requestFocus()
+    imm?.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
 }

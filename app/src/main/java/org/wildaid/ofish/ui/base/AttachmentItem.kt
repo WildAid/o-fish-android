@@ -1,12 +1,14 @@
 package org.wildaid.ofish.ui.base
 
 import android.net.Uri
+import org.wildaid.ofish.Event
 import org.wildaid.ofish.data.report.Attachments
 import org.wildaid.ofish.data.report.Photo
 
 data class AttachmentItem(
     var attachment: Attachments,
-    var photos: MutableList<PhotoItem> = mutableListOf()
+    var photos: MutableList<PhotoItem> = mutableListOf(),
+    var isNoteFocused: Event<Boolean> = Event(false)
 ) {
     fun hasNotes(): Boolean = attachment.notes.isNotEmpty()
     fun hasPhotos(): Boolean = photos.isNotEmpty()
@@ -39,6 +41,7 @@ data class AttachmentItem(
         } else {
             attachment.notes[0] = ""
         }
+        isNoteFocused = Event(true)
     }
 
     fun removeNote() {

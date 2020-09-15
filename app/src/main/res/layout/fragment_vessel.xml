@@ -15,6 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:background="@color/background_screen_with_cards">
 
         <androidx.core.widget.NestedScrollView
@@ -173,6 +174,7 @@
                                 android:imeOptions="actionDone"
                                 android:singleLine="true"
                                 android:text="@={viewModel.vesselItemLiveData.attachments.note}"
+                                app:focused="@{viewModel.vesselItemLiveData.attachments.isNoteFocused().contentIfNotHandled}"
                                 app:onFocusChangeListener="@{viewModel.fieldFocusListener}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -321,6 +323,7 @@
                                 android:imeOptions="actionDone"
                                 android:singleLine="true"
                                 android:text="@={viewModel.deliveryItemItemLiveData.attachments.note}"
+                                app:focused="@{viewModel.deliveryItemItemLiveData.attachments.isNoteFocused().contentIfNotHandled}"
                                 app:onFocusChangeListener="@{viewModel.fieldFocusListener}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
