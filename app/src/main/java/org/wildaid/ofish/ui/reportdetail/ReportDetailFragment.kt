@@ -170,7 +170,7 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
     private fun displayReport(report: Report) {
         report.vessel?.let {
             inflateVessel(it)
-            inflateLastDelivery(it.lastDelivery!!)
+            inflateLastDelivery(it.lastDelivery)
             inflateEMS(it.ems)
         }
 
@@ -216,7 +216,12 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
         }
     }
 
-    private fun inflateLastDelivery(lastDelivery: Delivery) {
+    private fun inflateLastDelivery(lastDelivery: Delivery?) {
+        if (lastDelivery == null) {
+            fragmentBinding.vesselLastDeliverySection.setVisible(false)
+            return
+        }
+
         fragmentBinding.reportViewLastDelivery.apply {
             this.lifecycleOwner = viewLifecycleOwner
             this.photos = fragmentViewModel.getPhotosForIds(lastDelivery.attachments?.photoIDs)
