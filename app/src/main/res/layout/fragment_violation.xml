@@ -106,6 +106,9 @@
                         android:layout_marginTop="16dp"
                         android:visibility="gone"
                         app:endIconContentDescription="@string/note"
+                        app:endIconDrawable="@drawable/ic_remove"
+                        app:endIconMode="custom"
+                        app:endIconTint="@null"
                         app:layout_constraintTop_toBottomOf="@id/violation_seizure_input_layout">
 
                         <com.google.android.material.textfield.TextInputEditText

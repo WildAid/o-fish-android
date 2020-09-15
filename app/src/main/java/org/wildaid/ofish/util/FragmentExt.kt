@@ -1,19 +1,23 @@
 package org.wildaid.ofish.util
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.fragment_vessel.view.*
 import org.wildaid.ofish.app.OFISH_PROVIDER_SUFFIX
-import org.wildaid.ofish.app.OFishApplication
 import org.wildaid.ofish.app.ServiceLocator
 import org.wildaid.ofish.ui.base.ViewModelFactory
 import java.io.File
+
 
 const val TEMP_TAKE_IMAGE_PREFIX = "taken_image"
 const val TEMP_TAKE_IMAGE_SUFFIX = ".jpeg"

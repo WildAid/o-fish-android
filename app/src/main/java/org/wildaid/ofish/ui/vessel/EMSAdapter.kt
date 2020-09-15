@@ -9,6 +9,7 @@ import org.wildaid.ofish.R
 import org.wildaid.ofish.databinding.ItemEditVesselEmsBinding
 import org.wildaid.ofish.ui.base.AdapterDiffCallback
 import org.wildaid.ofish.ui.base.PhotoItem
+import org.wildaid.ofish.util.requestKeyBoard
 import org.wildaid.ofish.util.setVisible
 
 class EMSAdapter(
