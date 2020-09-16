@@ -8,6 +8,7 @@ import org.wildaid.ofish.data.OnSaveListener
 import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.AnnotatedNote
 import org.wildaid.ofish.data.report.Report
+import org.wildaid.ofish.data.report.Seizures
 import org.wildaid.ofish.data.report.Violation
 import org.wildaid.ofish.ui.base.PhotoItem
 import java.util.*
@@ -37,6 +38,7 @@ class CreateReportViewModel(val repository: Repository) : ViewModel() {
             vessel?.lastDelivery?.date = Date(0)
 
             // Prefilled empty items for create report flow
+            inspection?.summary?.seizures = Seizures()
             inspection?.summary?.violations?.add(Violation())
             notes.add(AnnotatedNote())
         }
