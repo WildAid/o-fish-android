@@ -279,7 +279,10 @@ class HomeFragment : Fragment(R.layout.fragment_home),
     private fun handleDialogClick(event: DialogClickEvent): Boolean {
         return when (event.dialogId) {
             ASK_CHANGE_DUTY_DIALOG_ID -> {
-                if (event.dialogBtn == DialogButton.POSITIVE) activityViewModel.onDutyChanged(true)
+                if (event.dialogBtn == DialogButton.POSITIVE) {
+                    activityViewModel.onDutyChanged(true)
+                    fragmentViewModel.boardVessel()
+                }
                 true
             }
             ASK_TO_LOGOUT_DIALOG_ID -> {
