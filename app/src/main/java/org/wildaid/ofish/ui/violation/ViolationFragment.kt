@@ -46,20 +46,15 @@ class ViolationFragment : BaseReportFragment(R.layout.fragment_violation) {
             this.lifecycleOwner = viewLifecycleOwner
         }
 
-        viewDataBinding.violationSeizuresAttach.setOnClickListener {
-            askForAttachmentType(
-                onNoteSelected = {
-                    viewDataBinding.violationSeizureNoteLayout.setVisible(true)
-                },
-                onPhotoSelected = {}
-            )
-        }
-
         initUI()
 
         fragmentViewModel.violationLiveData.observe(
             viewLifecycleOwner,
             Observer { displayViolations(it) })
+
+        fragmentViewModel.seizureLiveData.observe(
+            viewLifecycleOwner,
+            Observer { displaySeizure(it) })
 
         fragmentViewModel.buttonId.observe(
             viewLifecycleOwner, EventObserver(::onButtonClicked)
@@ -102,6 +97,23 @@ class ViolationFragment : BaseReportFragment(R.layout.fragment_violation) {
             requireActivity().currentFocus?.clearFocus()
             fragmentViewModel.addViolation()
         }
+
+        viewDataBinding.violationSeizuresAttach.setOnClickListener {
+            askForAttachmentType(
+                onNoteSelected = {
+                    fragmentViewModel.addNoteForSeizure()
+                },
+                onPhotoSelected = {
+                    fragmentViewModel.addPhotoForSeizure(it)
+                }
+            )
+        }
+
+        viewDataBinding.seizureEditPhotosLayout.onPhotoRemoveListener = {
+            fragmentViewModel.removePhotoFromSeizure(it)
+        }
+
+        viewDataBinding.seizureEditPhotosLayout.onPhotoClickListener = ::showFullImage
     }
 
     private fun navigateToSearch(id: Int) {
@@ -117,6 +129,10 @@ class ViolationFragment : BaseReportFragment(R.layout.fragment_violation) {
     private fun displayViolations(list: List<ViolationItem>) {
         val newList = list.map { item -> item.copy() }
         violationAdapter.setItems(newList)
+    }
+
+    private fun displaySeizure(seizureItem: SeizureItem) {
+        viewDataBinding.violationSeizureNoteLayout.setVisible(seizureItem.attachments.hasNotes())
     }
 
     private fun subscribeToSearchResult() {

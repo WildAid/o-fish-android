@@ -27,6 +27,10 @@ class ViolationViewModel(
     val violationLiveData: LiveData<List<ViolationItem>>
         get() = _violationLiveData
 
+    private var _seizureLiveData = MutableLiveData<SeizureItem>()
+    val seizureLiveData: LiveData<SeizureItem>
+        get() = _seizureLiveData
+
     private var _buttonId = MutableLiveData<Event<Int>>()
     val buttonId: LiveData<Event<Int>>
         get() = _buttonId
@@ -34,6 +38,7 @@ class ViolationViewModel(
 
     private val violationTitle = getString(R.string.violation)
     private val currentViolationItems = mutableListOf<ViolationItem>()
+    private lateinit var currentSeizureItem : SeizureItem
     private lateinit var currentReportPhotos: MutableList<PhotoItem>
 
     fun initViolations(report: Report, currentReportPhotos: MutableList<PhotoItem>) {
@@ -41,6 +46,9 @@ class ViolationViewModel(
         this.currentReportPhotos = currentReportPhotos
 
         addViolation()
+
+        val seizure = report.inspection?.summary?.seizures!!
+        currentSeizureItem = SeizureItem(seizure, AttachmentItem(seizure.attachments!!))
     }
 
     fun refreshIssuedTo() {
@@ -84,6 +92,28 @@ class ViolationViewModel(
             newPhotoItem
         )
         _violationLiveData.value = currentViolationItems
+    }
+
+    fun addNoteForSeizure() {
+        currentSeizureItem.attachments.addNote()
+        _seizureLiveData.value = currentSeizureItem
+    }
+
+    fun addPhotoForSeizure(imageUri: Uri) {
+        val newPhotoItem = PhotoItem(createPhoto(), imageUri)
+        currentReportPhotos.add(newPhotoItem)
+        currentSeizureItem.attachments.addPhoto(newPhotoItem)
+        _seizureLiveData.value = currentSeizureItem
+    }
+
+    fun removePhotoFromSeizure(photoItem: PhotoItem) {
+        currentSeizureItem.attachments.removePhoto(photoItem)
+        _seizureLiveData.value = currentSeizureItem
+    }
+
+    fun removeNoteFromSeizure() {
+        currentSeizureItem.attachments.removeNote()
+        _seizureLiveData.value = currentSeizureItem
     }
 
     fun removePhotoFromViolation(photoItem: PhotoItem, item: ViolationItem) {

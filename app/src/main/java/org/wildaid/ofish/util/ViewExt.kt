@@ -3,7 +3,6 @@ package org.wildaid.ofish.util
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 
 fun View.setVisible(visible: Boolean) {
     if (visible) {
