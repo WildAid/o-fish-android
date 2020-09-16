@@ -50,6 +50,7 @@ class CrewViewModel(
 
     fun fillCrew(captain: CrewMember, crews: List<CrewMember>) {
         currentCrewItems.clear()
+        currentReport.crew.clear()
 
         addCrewMember(captain, isCaptain = true)
         crews.forEach {
@@ -120,7 +121,12 @@ class CrewViewModel(
         }
 
         val newCrewMember = crewMember ?: CrewMember()
-        currentReport.crew.add(newCrewMember)
+        if (isCaptain) {
+            currentReport.captain = crewMember
+        } else {
+            currentReport.crew.add(newCrewMember)
+        }
+
         currentCrewItems.add(
             CrewMemberItem(
                 newCrewMember,

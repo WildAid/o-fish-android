@@ -126,20 +126,20 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
                 vessel.permitNumber,
                 vessel.nationality,
                 vessel.homePort,
-                vessel.attachments?.photoIDs?.toList()!!
+                vessel.attachments?.photoIDs?.toList() ?: emptyList()
             )
         }
         val prefillCrew = PrefillCrew(
             PrefillCrewMember(
                 it.captain?.name!!,
                 it.captain?.license!!,
-                it.captain?.attachments?.photoIDs?.toList()!!
+                it.captain?.attachments?.photoIDs?.toList() ?: emptyList()
             ),
             it.crew.map { crewMember ->
                 PrefillCrewMember(
                     crewMember.name,
                     crewMember.license,
-                    crewMember.attachments?.photoIDs?.toList()!!
+                    crewMember.attachments?.photoIDs?.toList() ?: emptyList()
                 )
             }
         )

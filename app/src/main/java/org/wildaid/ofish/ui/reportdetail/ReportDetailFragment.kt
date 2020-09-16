@@ -102,14 +102,24 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
 
     private fun navigateToCreateReport(it: Report) {
         val prefillCrew = PrefillCrew(
-            PrefillCrewMember(it.captain?.name!!, it.captain?.license!!, it.captain!!.attachments?.photoIDs?.toList()!!),
-            it.crew.map { PrefillCrewMember(it.name, it.license,it.attachments?.photoIDs?.toList()!!) })
+            PrefillCrewMember(
+                it.captain?.name!!,
+                it.captain?.license!!,
+                it.captain!!.attachments?.photoIDs?.toList() ?: emptyList()
+            ),
+            it.crew.map {
+                PrefillCrewMember(
+                    it.name,
+                    it.license,
+                    it.attachments?.photoIDs?.toList() ?: emptyList()
+                )
+            })
         val prefillVessel = PrefillVessel(
             it.vessel?.name!!,
             it.vessel?.permitNumber!!,
             it.vessel?.nationality!!,
             it.vessel?.homePort!!,
-            it.vessel?.attachments?.photoIDs?.toList()!!
+            it.vessel?.attachments?.photoIDs?.toList() ?: emptyList()
         )
         val navigationArgs =
             bundleOf(KEY_CREATE_REPORT_ARGS to CreateReportBundle(prefillVessel, prefillCrew))
