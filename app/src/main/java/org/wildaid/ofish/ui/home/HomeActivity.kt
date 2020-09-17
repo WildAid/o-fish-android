@@ -35,8 +35,6 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
         activityViewModel.userEventLiveData.observe(this, EventObserver() {
             when (it) {
                 HomeActivityViewModel.UserEvent.AskDutyConfirmationEvent -> askToChangeDuty()
-                HomeActivityViewModel.UserEvent.AskUserLogoutEvent -> askToLogout()
-                HomeActivityViewModel.UserEvent.UserLogoutEvent -> onUserLoggedOut()
             }
         })
         activityViewModel.timerLiveData.observe(this, EventObserver(::setOrCancelTimer))
@@ -61,11 +59,6 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
         }
     }
 
-    private fun onUserLoggedOut() {
-        navigation.navigate(R.id.action_home_fragment_to_login_activity)
-        finish()
-    }
-
     private fun askToChangeDuty() {
         val dialogBundle = ConfirmationDialogFragment.Bundler(
             ASK_CHANGE_DUTY_DIALOG_ID,
@@ -76,18 +69,6 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
         ).bundle()
 
         navigation.navigate(R.id.ask_change_duty_dialog, dialogBundle)
-    }
-
-    private fun askToLogout() {
-        val dialogBundle = ConfirmationDialogFragment.Bundler(
-            ASK_TO_LOGOUT_DIALOG_ID,
-            getString(R.string.logout_dialog_title),
-            getString(R.string.logout_dialog_message),
-            getString(R.string.logout_dialog_yes),
-            getString(android.R.string.cancel)
-        ).bundle()
-
-        navigation.navigate(R.id.action_homeFragment_to_ask_logout_dialog, dialogBundle)
     }
 
     private fun setOrCancelTimer(onDuty: Boolean) {

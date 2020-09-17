@@ -54,6 +54,14 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
         applyDutyStatusDrawables(lastOnDutyStatus)
     }
 
+    fun changeStatus() {
+        if (_onDutyStatusLiveData.value == true) {
+            userEventLiveData.value = Event(UserEvent.BecomeNotAtSea)
+        } else {
+            userEventLiveData.value = Event(UserEvent.AskDutyConfirmationEvent)
+        }
+    }
+
     fun onDutyChanged(onDuty: Boolean, date: Date = Date()) {
         if (onDutyStatusLiveData.value == onDuty) {
             return
@@ -98,5 +106,6 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
         object AskDutyConfirmationEvent : UserEvent()
         object AskUserLogoutEvent : UserEvent()
         object UserLogoutEvent : UserEvent()
+        object BecomeNotAtSea : UserEvent()
     }
 }
