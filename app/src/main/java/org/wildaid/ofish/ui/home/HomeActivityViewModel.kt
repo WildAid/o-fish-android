@@ -19,10 +19,6 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
     val onDutyStatusLiveData: LiveData<Boolean>
         get() = _onDutyStatusLiveData
 
-    private var _onDutyImageStatusSmallLiveData = MutableLiveData<Int>()
-    val onDutyImageStatusSmallLiveData: LiveData<Int>
-        get() = _onDutyImageStatusSmallLiveData
-
     private var _onDutyTextStatusLiveData = MutableLiveData<String>()
     val onDutyTextStatusLiveData: LiveData<String>
         get() = _onDutyTextStatusLiveData
