@@ -65,6 +65,18 @@ class HomeFragment : Fragment(R.layout.fragment_home),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initUI(view)
 
+        setObservers()
+
+        arguments?.let {
+            if (it.containsKey(KEY_CREATE_REPORT_RESULT)) {
+                val message = it.getString(KEY_CREATE_REPORT_RESULT, null)
+                it.remove(KEY_CREATE_REPORT_RESULT)
+                showCreateReportDialog(message)
+            }
+        }
+    }
+
+    private fun setObservers() {
         fragmentViewModel.locationLiveData.observe(viewLifecycleOwner, Observer {
             home_latitude.text = convert(it.first, LATITUDE)
             home_longitude.text = convert(it.second, LONGITUDE)
@@ -82,13 +94,9 @@ class HomeFragment : Fragment(R.layout.fragment_home),
             showOfficerPhoto(image_user)
         })
 
-        arguments?.let {
-            if (it.containsKey(KEY_CREATE_REPORT_RESULT)) {
-                val message = it.getString(KEY_CREATE_REPORT_RESULT, null)
-                it.remove(KEY_CREATE_REPORT_RESULT)
-                showCreateReportDialog(message)
-            }
-        }
+        activityViewModel.onDutyStatusLiveData.observe(viewLifecycleOwner, Observer { dutyStatus ->
+            image_user_status.isEnabled = dutyStatus
+        })
     }
 
     private fun navigateToProfile() {

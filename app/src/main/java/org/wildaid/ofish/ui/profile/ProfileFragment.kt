@@ -41,8 +41,8 @@ class ProfileFragment : Fragment(R.layout.fragment_user_profile) {
     }
 
     private fun setObservers() {
-        activityViewModel.onDutyStatusLiveData.observe(viewLifecycleOwner, Observer { dutyStatus ->
-            image_user.isEnabled = dutyStatus
+        activityViewModel.onDutyStatusLiveData.observe(viewLifecycleOwner, Observer { onDuty ->
+            image_user_status.isEnabled = onDuty
         })
     }
 
@@ -110,13 +110,22 @@ class ProfileFragment : Fragment(R.layout.fragment_user_profile) {
     private fun handleDialogClick(event: DialogClickEvent): Boolean {
         return when (event.dialogId) {
             ASK_TO_LOGOUT_DIALOG_ID -> {
-                if (event.dialogBtn == DialogButton.POSITIVE) activityViewModel.logoutConfirmed()
+                if (event.dialogBtn == DialogButton.POSITIVE) {
+                    activityViewModel.logoutConfirmed()
+                }
                 true
             }
             ASK_CHANGE_DUTY_DIALOG_ID -> {
-                if (event.dialogBtn == DialogButton.POSITIVE) activityViewModel.onDutyChanged(true)
-                if (event.dialogBtn == DialogButton.NEGATIVE) switch_duty_status.isChecked =
-                    activityViewModel.onDutyStatusLiveData.value!!
+                if (event.dialogBtn == DialogButton.POSITIVE) {
+                    activityViewModel.onDutyChanged(true)
+                }
+
+                if (event.dialogBtn == DialogButton.NEGATIVE) {
+                    activityViewModel.onDutyChanged(false)
+                }
+                val onDuty = activityViewModel.onDutyStatusLiveData.value ?: false
+                switch_duty_status.isChecked = onDuty
+                image_user_status.isEnabled = onDuty
                 true
             }
             else -> false

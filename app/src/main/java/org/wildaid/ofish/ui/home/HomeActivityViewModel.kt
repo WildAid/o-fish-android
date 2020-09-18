@@ -51,7 +51,8 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
 
         val lastOnDutyStatus = repository.getRecentOnDutyChange()?.status == ON_DUTY
         _onDutyStatusLiveData.value = lastOnDutyStatus
-        applyDutyStatusDrawables(lastOnDutyStatus)
+//        applyDutyStatusDrawables(lastOnDutyStatus)
+        updateStringStatus(lastOnDutyStatus)
     }
 
     fun changeStatus() {
@@ -71,7 +72,8 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
         _timerLiveData.value = Event(onDuty)
         repository.saveOnDutyChange(onDuty, date)
 
-        applyDutyStatusDrawables(onDuty)
+        updateStringStatus(onDuty)
+//        applyDutyStatusDrawables(onDuty)
     }
 
     fun logOutUser() {
@@ -88,6 +90,13 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
                 Log.d("Logout", "Cannot logout, error -> $it")
             }
         )
+    }
+
+    private fun updateStringStatus(onDuty: Boolean) {
+        if (onDuty)
+            _onDutyTextStatusLiveData.value = getString(R.string.at_sea)
+        else
+            _onDutyTextStatusLiveData.value = getString(R.string.not_at_sea)
     }
 
     private fun applyDutyStatusDrawables(onDuty: Boolean) {
