@@ -415,11 +415,13 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             it.photos = fragmentViewModel.getPhotosForIds(safetyLevel.attachments?.photoIDs)
             it.riskViewAttachments.onPhotoClickListener = ::showPhotoAttachmentFullSize
 
+            val e = safetyLevel.amberReason
+
             if (safetyLevel.amberReason.isBlank() && safetyLevel.attachments?.photoIDs.isNullOrEmpty() && safetyColor == SafetyColor.Green) {
                 it.riskNoReason.setVisible(true)
                 it.riskReasonGroup.setVisible(false)
-            } else if (safetyLevel.amberReason.isBlank()) {
-                it.riskNoReason.setVisible(false)
+            } else if (safetyLevel.amberReason.isBlank() && (safetyColor == SafetyColor.Red || safetyColor == SafetyColor.Amber)) {
+                it.riskNoReason.setVisible(true)
                 it.riskReasonGroup.setVisible(false)
             } else {
                 it.riskNoReason.setVisible(false)
