@@ -19,10 +19,6 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
     val onDutyStatusLiveData: LiveData<Boolean>
         get() = _onDutyStatusLiveData
 
-    private var _onDutyImageStatusLiveData = MutableLiveData<Int>()
-    val onDutyImageStatusLiveData: LiveData<Int>
-        get() = _onDutyImageStatusLiveData
-
     private var _onDutyImageStatusSmallLiveData = MutableLiveData<Int>()
     val onDutyImageStatusSmallLiveData: LiveData<Int>
         get() = _onDutyImageStatusSmallLiveData
@@ -51,7 +47,6 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
 
         val lastOnDutyStatus = repository.getRecentOnDutyChange()?.status == ON_DUTY
         _onDutyStatusLiveData.value = lastOnDutyStatus
-//        applyDutyStatusDrawables(lastOnDutyStatus)
         updateStringStatus(lastOnDutyStatus)
     }
 
@@ -73,7 +68,6 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
         repository.saveOnDutyChange(onDuty, date)
 
         updateStringStatus(onDuty)
-//        applyDutyStatusDrawables(onDuty)
     }
 
     fun logOutUser() {
@@ -97,18 +91,6 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
             _onDutyTextStatusLiveData.value = getString(R.string.at_sea)
         else
             _onDutyTextStatusLiveData.value = getString(R.string.not_at_sea)
-    }
-
-    private fun applyDutyStatusDrawables(onDuty: Boolean) {
-        if (onDuty) {
-            _onDutyImageStatusLiveData.value = R.drawable.shape_green_circle
-            _onDutyImageStatusSmallLiveData.value = R.drawable.shape_green_circle_small
-            _onDutyTextStatusLiveData.value = getString(R.string.at_sea)
-        } else {
-            _onDutyImageStatusLiveData.value = R.drawable.shape_red_circle
-            _onDutyImageStatusSmallLiveData.value = R.drawable.shape_red_circle_small
-            _onDutyTextStatusLiveData.value = getString(R.string.not_at_sea)
-        }
     }
 
     sealed class UserEvent {
