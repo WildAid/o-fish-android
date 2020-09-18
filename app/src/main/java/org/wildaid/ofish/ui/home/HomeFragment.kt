@@ -13,8 +13,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -32,8 +30,6 @@ import org.wildaid.ofish.R
 import org.wildaid.ofish.data.mpa.addTestMpa
 import org.wildaid.ofish.databinding.FragmentHomeBinding
 import org.wildaid.ofish.ui.base.ConfirmationDialogFragment
-import org.wildaid.ofish.ui.base.DIALOG_CLICK_EVENT
-import org.wildaid.ofish.ui.base.DialogClickEvent
 import org.wildaid.ofish.ui.base.REQUEST_PICK_IMAGE
 import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
@@ -67,7 +63,6 @@ class HomeFragment : Fragment(R.layout.fragment_home),
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        subscribeToDialogEvents()
         initUI(view)
 
         fragmentViewModel.locationLiveData.observe(viewLifecycleOwner, Observer {
@@ -113,10 +108,6 @@ class HomeFragment : Fragment(R.layout.fragment_home),
     private fun updateProfilePhoto() {
         Glide.with(this)
             .clear(image_user)
-//        statusViewBinding?.imageUser?.let {
-//            Glide.with(this)
-//                .clear(it)
-//        }
 
         Glide.get(requireContext()).clearMemory()
         Thread {
@@ -124,7 +115,6 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         }.start()
 
         showOfficerPhoto(image_user)
-//        showOfficerPhoto(statusViewBinding?.imageUser)
     }
 
     private fun initUI(view: View) {
@@ -185,106 +175,11 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         navigation.navigate(R.id.action_home_fragment_to_complex_search, bundle)
     }
 
-    private fun showUserStatusPopUp() {
-//        statusViewBinding =
-//            ItemUserStatusBinding.inflate(LayoutInflater.from(requireContext())).apply {
-//                this.lifecycleOwner = viewLifecycleOwner
-//                this.homeActivityViewModel = activityViewModel
-//            }
-//
-//        // Show status
-//        val width = search_layout.width - 30 // Make it smaller than search panel
-//        val height = LinearLayout.LayoutParams.WRAP_CONTENT
-//        val popupWindow = PopupWindow(statusViewBinding!!.root, width, height, true)
-//        popupWindow.showAsDropDown(search_layout, 15, 20, Gravity.BOTTOM)
-//
-//        showOfficerPhoto(statusViewBinding?.imageUser)
-//
-//        // Dim background
-//        val container = popupWindow.contentView.rootView
-//        val context: Context = popupWindow.contentView.context
-//        val wm: WindowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-//        val p: WindowManager.LayoutParams = container.layoutParams as WindowManager.LayoutParams
-//        p.flags = p.flags or WindowManager.LayoutParams.FLAG_DIM_BEHIND
-//        p.dimAmount = 0.5f
-//        wm.updateViewLayout(container, p)
-//
-//        statusViewBinding!!.switchDutyStatus.setOnCheckedChangeListener { _, isChecked ->
-//            if (isChecked) {
-//                activityViewModel.onDutyChanged(isChecked)
-//            } else {
-//                popupWindow.dismiss()
-//                showDutyReport()
-//            }
-//        }
-//
-//        statusViewBinding!!.imageUser.setOnClickListener {
-//            pickUserImage()
-//        }
-    }
-
-    private fun pickUserImage() {
-        val pickImageIntent = createGalleryIntent()
-        pendingImageUri = createImageUri()
-        val takePhotoIntent = createCameraIntent(pendingImageUri)
-
-        val intentList: MutableList<Intent> = mutableListOf()
-        combineIntents(intentList, pickImageIntent)
-        combineIntents(intentList, takePhotoIntent)
-
-        val chooserIntent: Intent?
-        if (intentList.size > 0) {
-            chooserIntent = Intent.createChooser(
-                intentList.removeAt(intentList.size - 1),
-                getString(R.string.chose_image_source)
-            )
-            chooserIntent.putExtra(
-                Intent.EXTRA_INITIAL_INTENTS,
-                intentList.toTypedArray()
-            )
-
-            startActivityForResult(chooserIntent, REQUEST_PICK_IMAGE)
-        }
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
             val uri = data?.data ?: pendingImageUri
             fragmentViewModel.saveProfileImage(uri)
             updateProfilePhoto()
-        }
-    }
-
-    private fun subscribeToDialogEvents() {
-        val navStack = navigation.currentBackStackEntry!!
-        navStack.lifecycle.addObserver(LifecycleEventObserver { _, event ->
-            if (event != Lifecycle.Event.ON_RESUME) {
-                return@LifecycleEventObserver
-            }
-
-            if (navStack.savedStateHandle.contains(DIALOG_CLICK_EVENT)) {
-                val click = navStack.savedStateHandle.get<DialogClickEvent>(DIALOG_CLICK_EVENT)!!
-                if (handleDialogClick(click)) {
-                    navStack.savedStateHandle.remove<DialogClickEvent>(DIALOG_CLICK_EVENT)!!
-                }
-            }
-        })
-    }
-
-    private fun handleDialogClick(event: DialogClickEvent): Boolean {
-        return when (event.dialogId) {
-//            ASK_CHANGE_DUTY_DIALOG_ID -> {
-//                if (event.dialogBtn == DialogButton.POSITIVE) {
-//                    activityViewModel.onDutyChanged(true)
-//                    fragmentViewModel.boardVessel()
-//                }
-//                true
-//            }
-//            ASK_TO_LOGOUT_DIALOG_ID -> {
-//                if (event.dialogBtn == DialogButton.POSITIVE) activityViewModel.logoutConfirmed()
-//                true
-//            }
-            else -> false
         }
     }
 
