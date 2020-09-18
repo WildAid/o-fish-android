@@ -13,6 +13,8 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -29,8 +31,7 @@ import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.mpa.addTestMpa
 import org.wildaid.ofish.databinding.FragmentHomeBinding
-import org.wildaid.ofish.ui.base.ConfirmationDialogFragment
-import org.wildaid.ofish.ui.base.REQUEST_PICK_IMAGE
+import org.wildaid.ofish.ui.base.*
 import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
 import org.wildaid.ofish.util.*
@@ -66,7 +67,7 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         initUI(view)
 
         setObservers()
-
+        subscribeToDialogEvents()
         arguments?.let {
             if (it.containsKey(KEY_CREATE_REPORT_RESULT)) {
                 val message = it.getString(KEY_CREATE_REPORT_RESULT, null)
@@ -226,6 +227,38 @@ class HomeFragment : Fragment(R.layout.fragment_home),
                 googleMap.isMyLocationEnabled = true
                 fragmentViewModel.onLocationAvailable(it.latitude, it.longitude)
             }
+        }
+    }
+
+    private fun subscribeToDialogEvents() {
+        val navStack = navigation.currentBackStackEntry!!
+        navStack.lifecycle.addObserver(LifecycleEventObserver { _, event ->
+            if (event != Lifecycle.Event.ON_RESUME) {
+                return@LifecycleEventObserver
+            }
+
+            if (navStack.savedStateHandle.contains(DIALOG_CLICK_EVENT)) {
+                val click = navStack.savedStateHandle.get<DialogClickEvent>(DIALOG_CLICK_EVENT)!!
+                if (handleDialogClick(click)) {
+                    navStack.savedStateHandle.remove<DialogClickEvent>(DIALOG_CLICK_EVENT)!!
+                }
+            }
+        })
+    }
+
+    private fun handleDialogClick(event: DialogClickEvent): Boolean {
+        return when (event.dialogId) {
+            ASK_CHANGE_DUTY_DIALOG_ID -> {
+                if (event.dialogBtn == DialogButton.POSITIVE) {
+                    activityViewModel.onDutyChanged(true)
+                    boardVessel()
+                }
+                if (event.dialogBtn == DialogButton.NEGATIVE) {
+                    activityViewModel.onDutyChanged(false)
+                }
+                true
+            }
+            else -> false
         }
     }
 }
