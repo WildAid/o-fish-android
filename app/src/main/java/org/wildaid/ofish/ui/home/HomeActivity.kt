@@ -32,14 +32,19 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        activityViewModel.userEventLiveData.observe(this, EventObserver() {
+        activityViewModel.userEventLiveData.observe(this, EventObserver {
             when (it) {
                 HomeActivityViewModel.UserEvent.AskDutyConfirmationEvent -> askToChangeDuty()
                 HomeActivityViewModel.UserEvent.AskUserLogoutEvent -> askToLogout()
                 HomeActivityViewModel.UserEvent.UserLogoutEvent -> onUserLoggedOut()
+                HomeActivityViewModel.UserEvent.BecomeNotAtSea -> navigateToPatrolSummary()
             }
         })
         activityViewModel.timerLiveData.observe(this, EventObserver(::setOrCancelTimer))
+    }
+
+    private fun navigateToPatrolSummary() {
+        navigation.navigate(R.id.action_profileFragment_to_patrolSummaryFragment2)
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -61,11 +66,6 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
         }
     }
 
-    private fun onUserLoggedOut() {
-        navigation.navigate(R.id.action_home_fragment_to_login_activity)
-        finish()
-    }
-
     private fun askToChangeDuty() {
         val dialogBundle = ConfirmationDialogFragment.Bundler(
             ASK_CHANGE_DUTY_DIALOG_ID,
@@ -78,6 +78,11 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
         navigation.navigate(R.id.ask_change_duty_dialog, dialogBundle)
     }
 
+    private fun onUserLoggedOut() {
+        navigation.navigate(R.id.action_profileFragment_to_login_activity)
+        finish()
+    }
+
     private fun askToLogout() {
         val dialogBundle = ConfirmationDialogFragment.Bundler(
             ASK_TO_LOGOUT_DIALOG_ID,
@@ -87,7 +92,7 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
             getString(android.R.string.cancel)
         ).bundle()
 
-        navigation.navigate(R.id.action_homeFragment_to_ask_logout_dialog, dialogBundle)
+        navigation.navigate(R.id.action_profileFragment_to_ask_logout_dialog, dialogBundle)
     }
 
     private fun setOrCancelTimer(onDuty: Boolean) {

@@ -88,10 +88,9 @@
                         android:layout_width="13dp"
                         android:layout_height="13dp"
                         android:layout_margin="12dp"
+                        android:src="@drawable/selector_status_indicator"
                         app:layout_constraintBottom_toBottomOf="@id/image_user"
-                        app:layout_constraintEnd_toEndOf="@id/image_user"
-                        app:srcId="@{homeActivityViewModel.onDutyImageStatusSmallLiveData}"
-                        tools:src="@drawable/shape_red_circle" />
+                        app:layout_constraintEnd_toEndOf="@id/image_user" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -188,9 +187,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
             android:text="@string/board_vessel"
             android:textStyle="bold"
-            android:layout_marginTop="14dp"
             app:layout_constraintBottom_toBottomOf="@+id/home_map"
             app:layout_constraintEnd_toEndOf="@+id/imageButton2"
             app:layout_constraintStart_toStartOf="@+id/imageButton2"

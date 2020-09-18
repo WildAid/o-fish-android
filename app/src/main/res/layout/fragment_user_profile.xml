@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="activityViewModel"
+            type="org.wildaid.ofish.ui.home.HomeActivityViewModel" />
+    </data>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/main_blue"
+            app:subtitleTextColor="@color/white"
+            app:title="@string/profile_toolbar_title"
+            app:titleTextColor="@color/white" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_card"
+            app:cardCornerRadius="4dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/image_user"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:padding="8dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/circleImageView"
+                    app:srcCompat="@drawable/ic_account_circle" />
+
+                <ImageView
+                    android:id="@+id/image_user_status"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:layout_margin="12dp"
+                    android:src="@drawable/selector_status_indicator"
+                    app:layout_constraintBottom_toBottomOf="@id/image_user"
+                    app:layout_constraintEnd_toEndOf="@id/image_user" />
+
+                <TextView
+                    android:id="@+id/text_user_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="8dp"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="@{@string/first_last_name(activityViewModel.currentOfficerLiveData.firstName, activityViewModel.currentOfficerLiveData.lastName)}"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@id/image_user"
+                    app:layout_constraintTop_toTopOf="@id/image_user"
+                    tools:text="Officer Nemo Marlin" />
+
+                <TextView
+                    android:id="@+id/text_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="@{activityViewModel.currentOfficerLiveData.email}"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toEndOf="@id/image_user"
+                    app:layout_constraintTop_toBottomOf="@id/text_user_email"
+                    tools:text="officer.nemo@mail.com" />
+
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/divider"
+                    app:layout_constraintTop_toBottomOf="@id/image_user" />
+
+                <TextView
+                    android:id="@+id/text_duty_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:text="@{activityViewModel.onDutyTextStatusLiveData}"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider"
+                    tools:text="Off Duty" />
+
+                <Switch
+                    android:id="@+id/switch_duty_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:checked="@{activityViewModel.onDutyStatusLiveData}"
+                    android:onClick="@{()->activityViewModel.changeStatus()}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/text_duty_status" />
+
+                <TextView
+                    android:id="@+id/text_logout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="24dp"
+                    android:onClick="@{() -> activityViewModel.logOutUser()}"
+                    android:paddingBottom="12dp"
+                    android:text="@string/log_out"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_duty_status" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+</layout>
