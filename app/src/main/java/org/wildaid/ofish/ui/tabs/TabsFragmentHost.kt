@@ -36,6 +36,7 @@ import org.wildaid.ofish.ui.home.KEY_CREATE_REPORT_RESULT
 import org.wildaid.ofish.ui.vessel.VesselFragment
 import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.setVisible
+import org.wildaid.ofish.util.showSnackMessage
 
 const val BASIC_INFO_FRAGMENT_POSITION = 0
 const val VESSEL_FRAGMENT_POSITION = 1
@@ -265,21 +266,16 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
                     clickHandled = true
                 }
                 SUBMIT_DIALOG_ID -> {
-                    activityViewModel.saveReport(listener = object : OnSaveListener {
+                    activityViewModel.saveReport(isDraft = false, listener = object : OnSaveListener {
                         override fun onSuccess() {
-                            val args =
-                                bundleOf(KEY_CREATE_REPORT_RESULT to getString(R.string.boarding_submitted))
+                            val args = bundleOf(KEY_CREATE_REPORT_RESULT to getString(R.string.boarding_submitted))
                             navigation.navigate(R.id.action_tabsFragment_to_home_navigation, args)
                             requireActivity().finish()
                         }
 
                         override fun onError(it: Throwable) {
                             Log.e("Save error", it.message ?: "")
-                            Snackbar.make(
-                                requireView(),
-                                getString(R.string.saving_error),
-                                Snackbar.LENGTH_LONG
-                            ).show()
+                           showSnackMessage(requireView(), getString(R.string.saving_error))
                         }
                     })
 

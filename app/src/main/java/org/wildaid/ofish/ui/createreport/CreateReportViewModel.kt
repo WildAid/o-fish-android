@@ -28,6 +28,7 @@ class CreateReportViewModel(val repository: Repository) : ViewModel() {
     fun initReport() {
         val officer = repository.getCurrentOfficer()
         report = Report().apply {
+            draft = true
             reportingOfficer?.apply {
                 email = officer.email
                 name?.apply {
@@ -44,7 +45,8 @@ class CreateReportViewModel(val repository: Repository) : ViewModel() {
         }
     }
 
-    fun saveReport(listener: OnSaveListener) {
+    fun saveReport(isDraft: Boolean? = null, listener: OnSaveListener) {
+        report.draft = isDraft
         val photosToSave = reportPhotos.map { Pair(it.photo, it.localUri) }
         repository.saveReport(report, photosToSave, listener)
     }

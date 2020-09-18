@@ -22,5 +22,6 @@ open class Report : RealmObject() {
     var captain: CrewMember? = CrewMember()
     var crew: RealmList<CrewMember> = RealmList()
     var notes: RealmList<AnnotatedNote> = RealmList()
+    var draft: Boolean? = false
     var inspection: Inspection? = Inspection()
 }
