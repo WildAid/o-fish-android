@@ -415,7 +415,7 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             it.photos = fragmentViewModel.getPhotosForIds(safetyLevel.attachments?.photoIDs)
             it.riskViewAttachments.onPhotoClickListener = ::showPhotoAttachmentFullSize
 
-            if (safetyLevel.amberReason.isBlank() && safetyLevel.attachments?.photoIDs.isNullOrEmpty()) {
+            if (safetyLevel.amberReason.isBlank() && safetyLevel.attachments?.photoIDs.isNullOrEmpty() && safetyColor == SafetyColor.Green) {
                 it.riskNoReason.setVisible(true)
                 it.riskReasonGroup.setVisible(false)
             } else if (safetyLevel.amberReason.isBlank()) {
