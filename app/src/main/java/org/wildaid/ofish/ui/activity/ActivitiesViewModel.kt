@@ -24,9 +24,10 @@ class ActivitiesViewModel(val repository: Repository) : ViewModel() {
     val gearItemLiveData: LiveData<GearItem>
         get() = _gearItemLiveData
 
-    private var _buttonId: MutableLiveData<Event<Int>> = MutableLiveData()
-    val buttonId: LiveData<Event<Int>>
-        get() = _buttonId
+    private var _activitiesUserEvents: MutableLiveData<Event<ActivitiesUserEvent>> =
+        MutableLiveData()
+    val activitiesUserEvents: LiveData<Event<ActivitiesUserEvent>>
+        get() = _activitiesUserEvents
 
     private lateinit var currentActivityItem: ActivityItem
     private lateinit var currentFisheryItem: FisheryItem
@@ -141,8 +142,32 @@ class ActivitiesViewModel(val repository: Repository) : ViewModel() {
         _gearItemLiveData.value = currentGearItem
     }
 
-    fun onButtonClicked(id: Int) {
-        _buttonId.value = Event(id)
+    fun chooseActivity() {
+        _activitiesUserEvents.value = Event(ActivitiesUserEvent.ChooseActivityEvent)
+    }
+
+    fun chooseFishery() {
+        _activitiesUserEvents.value = Event(ActivitiesUserEvent.ChooseFisheryEvent)
+    }
+
+    fun chooseGear() {
+        _activitiesUserEvents.value = Event(ActivitiesUserEvent.ChooseGearEvent)
+    }
+
+    fun next() {
+        _activitiesUserEvents.value = Event(ActivitiesUserEvent.NextEvent)
+    }
+
+    fun addActivityAttachment() {
+        _activitiesUserEvents.value = Event(ActivitiesUserEvent.AddActivityAttachmentEvent)
+    }
+
+    fun addFisheryAttachment() {
+        _activitiesUserEvents.value = Event(ActivitiesUserEvent.AddFisheryAttachmentEvent)
+    }
+
+    fun addGearAttachment() {
+        _activitiesUserEvents.value = Event(ActivitiesUserEvent.AddGearAttachmentEvent)
     }
 
     private fun createPhoto(imageUri: Uri): PhotoItem {
@@ -152,5 +177,16 @@ class ActivitiesViewModel(val repository: Repository) : ViewModel() {
             },
             imageUri
         )
+    }
+
+
+    sealed class ActivitiesUserEvent {
+        object ChooseActivityEvent : ActivitiesUserEvent()
+        object ChooseFisheryEvent : ActivitiesUserEvent()
+        object ChooseGearEvent : ActivitiesUserEvent()
+        object NextEvent : ActivitiesUserEvent()
+        object AddActivityAttachmentEvent : ActivitiesUserEvent()
+        object AddFisheryAttachmentEvent : ActivitiesUserEvent()
+        object AddGearAttachmentEvent : ActivitiesUserEvent()
     }
 }
