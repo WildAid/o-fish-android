@@ -43,8 +43,8 @@ class CrewFragment : BaseReportFragment(R.layout.fragment_crew) {
             crew_add_member_footer.setVisible(it)
         })
 
-        fragmentViewModel.buttonIdData.observe(
-            viewLifecycleOwner, EventObserver(::onButtonClicked)
+        fragmentViewModel.crewUserEvent.observe(
+            viewLifecycleOwner, EventObserver(::handleUserEvent)
         )
     }
 
@@ -98,10 +98,10 @@ class CrewFragment : BaseReportFragment(R.layout.fragment_crew) {
         crewAdapter.setItems(crew.map { it.copy() })
     }
 
-    private fun onButtonClicked(buttonId: Int) {
+    private fun handleUserEvent(event: CrewViewModel.CrewUserEvent) {
         hideKeyboard()
-        when (buttonId) {
-            R.id.btn_next -> {
+        when (event) {
+           CrewViewModel.CrewUserEvent.NextUserEvent -> {
                 if (isFieldCheckPassed || validateForms()) {
                     onNextListener.onNextClicked()
                 } else {
