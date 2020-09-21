@@ -31,7 +31,7 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
     val timerLiveData: LiveData<Event<Boolean>>
         get() = _timerLiveData
 
-    var userEventLiveData = MutableLiveData<Event<UserEvent>>()
+    var userEventLiveData = MutableLiveData<Event<HomeActivityUserEvent>>()
 
     init {
         val officer = repository.getCurrentOfficer()
@@ -48,9 +48,9 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
 
     fun changeStatus() {
         if (_onDutyStatusLiveData.value == true) {
-            userEventLiveData.value = Event(UserEvent.BecomeNotAtSea)
+            userEventLiveData.value = Event(HomeActivityUserEvent.BecomeNotAtSea)
         } else {
-            userEventLiveData.value = Event(UserEvent.AskDutyConfirmationEvent)
+            userEventLiveData.value = Event(HomeActivityUserEvent.AskDutyConfirmationEvent)
         }
     }
 
@@ -67,13 +67,13 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
     }
 
     fun logOutUser() {
-        userEventLiveData.value = Event(UserEvent.AskUserLogoutEvent)
+        userEventLiveData.value = Event(HomeActivityUserEvent.AskUserLogoutEvent)
     }
 
     fun logoutConfirmed() {
         repository.logOut(
             logoutSuccess = {
-                userEventLiveData.value = Event(UserEvent.UserLogoutEvent)
+                userEventLiveData.value = Event(HomeActivityUserEvent.HomeUserLogoutEvent)
             },
             logoutError = {
                 // TODO add message here
@@ -89,10 +89,10 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
             _onDutyTextStatusLiveData.value = getString(R.string.not_at_sea)
     }
 
-    sealed class UserEvent {
-        object AskDutyConfirmationEvent : UserEvent()
-        object AskUserLogoutEvent : UserEvent()
-        object UserLogoutEvent : UserEvent()
-        object BecomeNotAtSea : UserEvent()
+    sealed class HomeActivityUserEvent {
+        object AskDutyConfirmationEvent : HomeActivityUserEvent()
+        object AskUserLogoutEvent : HomeActivityUserEvent()
+        object HomeUserLogoutEvent : HomeActivityUserEvent()
+        object BecomeNotAtSea : HomeActivityUserEvent()
     }
 }

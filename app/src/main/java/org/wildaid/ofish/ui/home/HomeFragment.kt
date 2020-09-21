@@ -85,9 +85,9 @@ class HomeFragment : Fragment(R.layout.fragment_home),
 
         fragmentViewModel.userEventLiveData.observe(viewLifecycleOwner, EventObserver {
             when (it) {
-                HomeFragmentViewModel.UserEvent.BoardVessel -> boardVessel()
-                HomeFragmentViewModel.UserEvent.FindRecords -> findRecords()
-                HomeFragmentViewModel.UserEvent.ShowUserStatus -> navigateToProfile()
+                HomeFragmentViewModel.HomeFragmentUserEvent.BoardVessel -> boardVessel()
+                HomeFragmentViewModel.HomeFragmentUserEvent.FindRecords -> findRecords()
+                HomeFragmentViewModel.HomeFragmentUserEvent.ShowUserStatus -> navigateToProfile()
             }
         })
 

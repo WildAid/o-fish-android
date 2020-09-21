@@ -54,7 +54,7 @@
                         android:id="@+id/activity_activity_add_attachment"
                         android:layout_width="@dimen/add_attachment_icon_size"
                         android:layout_height="@dimen/add_attachment_icon_size"
-                        android:onClick="@{()-> viewModel.onButtonClicked(@id/activity_activity_add_attachment)}"
+                        android:onClick="@{()-> viewModel.addActivityAttachment()}"
                         android:src="@drawable/ic_add_attachment"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -76,7 +76,7 @@
                             android:focusable="false"
                             android:hint="@string/activity"
                             android:imeOptions="actionNext"
-                            android:onClick="@{() -> viewModel.onButtonClicked(@id/activities_edit_text)}"
+                            android:onClick="@{() -> viewModel.chooseActivity()}"
                             android:singleLine="true"
                             android:text="@{viewModel.activityItemLiveData.activity.name}" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -139,7 +139,7 @@
                         android:id="@+id/activity_fishery_add_attachment"
                         android:layout_width="@dimen/add_attachment_icon_size"
                         android:layout_height="@dimen/add_attachment_icon_size"
-                        android:onClick="@{()-> viewModel.onButtonClicked(@id/activity_fishery_add_attachment)}"
+                        android:onClick="@{()-> viewModel.addFisheryAttachment()}"
                         android:src="@drawable/ic_add_attachment"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -161,7 +161,7 @@
                             android:focusable="false"
                             android:hint="@string/fishery_species"
                             android:imeOptions="actionNext"
-                            android:onClick="@{() -> viewModel.onButtonClicked(@id/activity_fishery_edit_text)}"
+                            android:onClick="@{() -> viewModel.chooseFishery()}"
                             android:singleLine="true"
                             android:text="@{viewModel.fisheryItemLiveData.fishery.name}" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -223,7 +223,7 @@
                         android:id="@+id/activity_gear_add_attachment"
                         android:layout_width="@dimen/add_attachment_icon_size"
                         android:layout_height="@dimen/add_attachment_icon_size"
-                        android:onClick="@{()-> viewModel.onButtonClicked(@id/activity_gear_add_attachment)}"
+                        android:onClick="@{()-> viewModel.addGearAttachment()}"
                         android:src="@drawable/ic_add_attachment"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -245,7 +245,7 @@
                             android:focusable="false"
                             android:hint="@string/gear"
                             android:imeOptions="actionNext"
-                            android:onClick="@{() -> viewModel.onButtonClicked(@id/activity_gear_edit_text)}"
+                            android:onClick="@{() -> viewModel.chooseGear()}"
                             android:singleLine="true"
                             android:text="@{viewModel.gearItemLiveData.gear.name}" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -299,7 +299,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_height"
             android:layout_margin="16dp"
-            android:onClick="@{() -> viewModel.onButtonClicked(@id/btn_next)}"
+            android:onClick="@{() -> viewModel.next()}"
             android:text="@string/catch_next"
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

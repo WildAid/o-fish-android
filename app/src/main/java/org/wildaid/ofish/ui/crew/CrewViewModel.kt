@@ -28,9 +28,9 @@ class CrewViewModel(
     val canAddNewMemberData: LiveData<Boolean>
         get() = _canAddNewMemberData
 
-    private var _buttonIdData = MutableLiveData<Event<Int>>()
-    val buttonIdData: LiveData<Event<Int>>
-        get() = _buttonIdData
+    private var _crewUserEvent = MutableLiveData<Event<CrewUserEvent>>()
+    val crewUserEvent: LiveData<Event<CrewUserEvent>>
+        get() = _crewUserEvent
 
     private lateinit var currentReport: Report
     private lateinit var currentReportPhotos: MutableList<PhotoItem>
@@ -165,7 +165,7 @@ class CrewViewModel(
     }
 
     fun onNextClicked() {
-        _buttonIdData.value = Event(R.id.btn_next)
+        _crewUserEvent.value = Event(CrewUserEvent.NextUserEvent)
     }
 
     private fun isCrewChanged() =
@@ -207,5 +207,9 @@ class CrewViewModel(
         return Photo().apply {
             referencingReportID = currentReport._id.toString()
         }
+    }
+
+    sealed class CrewUserEvent {
+        object NextUserEvent : CrewUserEvent()
     }
 }

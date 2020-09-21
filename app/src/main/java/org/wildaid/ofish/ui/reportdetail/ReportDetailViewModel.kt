@@ -46,7 +46,7 @@ class ReportDetailViewModel(val repository: Repository) : ViewModel() {
             }
         } else {
             activityViewModel.userEventLiveData.value =
-                Event(HomeActivityViewModel.UserEvent.AskDutyConfirmationEvent)
+                Event(HomeActivityViewModel.HomeActivityUserEvent.AskDutyConfirmationEvent)
         }
     }
 
