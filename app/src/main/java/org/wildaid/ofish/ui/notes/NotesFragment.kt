@@ -35,7 +35,7 @@ class NotesFragment : BaseReportFragment(R.layout.fragment_notes) {
         initUI()
 
         fragmentViewModel.notesLiveData.observe(viewLifecycleOwner, Observer(::displayNotes))
-        fragmentViewModel.buttonId.observe(viewLifecycleOwner, EventObserver(::onButtonClicked))
+        fragmentViewModel.notesUserEventLiveData.observe(viewLifecycleOwner, EventObserver(::handleUserEvent))
     }
 
     private fun initUI() {
@@ -74,10 +74,10 @@ class NotesFragment : BaseReportFragment(R.layout.fragment_notes) {
         notesAdapter.setItems(newList)
     }
 
-    private fun onButtonClicked(buttonId: Int) {
+    private fun handleUserEvent(buttonId: NotesViewModel.NotesUserEvent) {
         hideKeyboard()
         when (buttonId) {
-            R.id.btn_save -> {
+            NotesViewModel.NotesUserEvent.SaveEvent -> {
                 onNextListener.onNextClicked(true)
             }
         }

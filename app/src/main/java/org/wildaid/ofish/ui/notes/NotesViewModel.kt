@@ -23,9 +23,9 @@ class NotesViewModel(
     val notesLiveData: LiveData<List<NoteItem>>
         get() = _notesLiveData
 
-    private var _buttonId = MutableLiveData<Event<Int>>()
-    val buttonId: LiveData<Event<Int>>
-        get() = _buttonId
+    private var _notesUserEventLiveData = MutableLiveData<Event<NotesUserEvent>>()
+    val notesUserEventLiveData: LiveData<Event<NotesUserEvent>>
+        get() = _notesUserEventLiveData
 
     private val noteTitle = getString(R.string.note)
 
@@ -73,7 +73,7 @@ class NotesViewModel(
     }
 
     fun onNextClicked() {
-        _buttonId.value = Event(R.id.btn_save)
+        _notesUserEventLiveData.value = Event(NotesUserEvent.SaveEvent)
     }
 
     private fun notifyNotesWithEditItem(items: List<NoteItem>, editingNote: NoteItem? = null) {
@@ -94,5 +94,9 @@ class NotesViewModel(
             },
             imageUri
         )
+    }
+
+    sealed class NotesUserEvent{
+        object SaveEvent: NotesUserEvent()
     }
 }
