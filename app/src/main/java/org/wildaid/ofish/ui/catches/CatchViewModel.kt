@@ -57,7 +57,6 @@ class CatchViewModel(
             catch = newCatch,
             title = "$catchTitle ${currentCatchItems.size + 1}",
             inEditMode = true,
-            amount = "",
             attachmentItem = AttachmentItem(newCatch.attachments!!)
         )
 
