@@ -11,9 +11,9 @@ import java.util.*
 
 class PatrolSummaryViewModel(val repository: Repository) : ViewModel() {
 
-    private var _buttonId = MutableLiveData<Event<Int>>()
-    val buttonId: LiveData<Event<Int>>
-        get() = _buttonId
+    private var _patrolSummaryUserEventLiveData = MutableLiveData<Event<PatrolSummaryUserEvent>>()
+    val patrolSummaryUserEventLiveData: LiveData<Event<PatrolSummaryUserEvent>>
+        get() = _patrolSummaryUserEventLiveData
 
     private var _dutyStartTime = MutableLiveData<Date>()
     val dutyStartTime: LiveData<Date>
@@ -39,9 +39,6 @@ class PatrolSummaryViewModel(val repository: Repository) : ViewModel() {
     private fun getRecentStartDateOrNewDate() =
         repository.getRecentStartCurrentDuty()?.date ?: Date()
 
-    fun onButtonClicked(id: Int) {
-        _buttonId.value = Event(id)
-    }
 
     fun updateDate(year: Int, month: Int, dayOfMonth: Int, startTime: Boolean) {
         val newDate =
@@ -86,6 +83,27 @@ class PatrolSummaryViewModel(val repository: Repository) : ViewModel() {
         }
     }
 
+    fun changeStartDate() {
+        _patrolSummaryUserEventLiveData.value = Event(PatrolSummaryUserEvent.ChangeStartDateEvent)
+    }
+
+    fun changeStartTime() {
+        _patrolSummaryUserEventLiveData.value = Event(PatrolSummaryUserEvent.ChangeStartTimeEvent)
+    }
+
+    fun changeEndDate() {
+        _patrolSummaryUserEventLiveData.value = Event(PatrolSummaryUserEvent.ChangeEndDateEvent)
+    }
+
+    fun changeEndTime() {
+        _patrolSummaryUserEventLiveData.value = Event(PatrolSummaryUserEvent.ChangeEndTimeEvent)
+    }
+
+    fun goOffDuty() {
+        _patrolSummaryUserEventLiveData.value = Event(PatrolSummaryUserEvent.GoOffDutyEvent)
+    }
+
+
     private fun createDate(
         dutyTime: MutableLiveData<Date>,
         year: Int,
@@ -110,5 +128,13 @@ class PatrolSummaryViewModel(val repository: Repository) : ViewModel() {
             set(Calendar.MINUTE, minute)
         }
         return c.time
+    }
+
+    sealed class PatrolSummaryUserEvent {
+        object ChangeStartDateEvent : PatrolSummaryUserEvent()
+        object ChangeStartTimeEvent : PatrolSummaryUserEvent()
+        object ChangeEndDateEvent : PatrolSummaryUserEvent()
+        object ChangeEndTimeEvent : PatrolSummaryUserEvent()
+        object GoOffDutyEvent : PatrolSummaryUserEvent()
     }
 }
