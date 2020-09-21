@@ -45,8 +45,8 @@ class CatchFragment : BaseReportFragment(R.layout.fragment_catch) {
             viewLifecycleOwner,
             Observer { displayCatch(it) })
 
-        fragmentViewModel.buttonId.observe(
-            viewLifecycleOwner, EventObserver(::onButtonClicked)
+        fragmentViewModel.catchUserEventLiveData.observe(
+            viewLifecycleOwner, EventObserver(::handleUserEvent)
         )
     }
 
@@ -131,10 +131,10 @@ class CatchFragment : BaseReportFragment(R.layout.fragment_catch) {
         })
     }
 
-    private fun onButtonClicked(buttonId: Int) {
+    private fun handleUserEvent(userEvent: CatchViewModel.CatchUserEvent) {
         hideKeyboard()
-        when (buttonId) {
-            R.id.btn_next -> {
+        when (userEvent) {
+            CatchViewModel.CatchUserEvent.Next -> {
                 onNextListener.onNextClicked()
             }
         }

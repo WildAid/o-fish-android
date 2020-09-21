@@ -30,7 +30,6 @@ class BasicInformationViewModelTest {
     private val day = 25
     private val hourOfDay = 19
     private val minute = 45
-    private val buttonId = 1045
 
     @Before
     fun setUp() {
@@ -45,9 +44,17 @@ class BasicInformationViewModelTest {
     }
 
     @Test
-    fun onButtonClickedTest() {
-        basicViewModelTest.onButtonClicked(buttonId)
-        assert(basicViewModelTest.buttonId.value?.peekContent() == buttonId)
+    fun testUserEvents() {
+        assert(basicViewModelTest.basicInfoUserEventLiveData.value == null)
+
+        basicViewModelTest.next()
+        assert(basicViewModelTest.basicInfoUserEventLiveData.value?.getContentIfNotHandled() == BasicInformationViewModel.BasicInfoUserEvent.NextEvent)
+
+        basicViewModelTest.chooseDate()
+        assert(basicViewModelTest.basicInfoUserEventLiveData.value?.getContentIfNotHandled() == BasicInformationViewModel.BasicInfoUserEvent.ChooseDate)
+
+        basicViewModelTest.chooseTime()
+        assert(basicViewModelTest.basicInfoUserEventLiveData.value?.getContentIfNotHandled() == BasicInformationViewModel.BasicInfoUserEvent.ChooseTime)
     }
 
     @Test

@@ -82,7 +82,7 @@ class VesselDetailsViewModel(private val repository: Repository, application: Ap
             }
         } else {
             activityViewModel.userEventLiveData.value =
-                Event(HomeActivityViewModel.UserEvent.AskDutyConfirmationEvent)
+                Event(HomeActivityViewModel.HomeActivityUserEvent.AskDutyConfirmationEvent)
         }
     }
 }

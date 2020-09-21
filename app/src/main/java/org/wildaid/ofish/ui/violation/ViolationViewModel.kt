@@ -31,9 +31,9 @@ class ViolationViewModel(
     val seizureLiveData: LiveData<SeizureItem>
         get() = _seizureLiveData
 
-    private var _buttonId = MutableLiveData<Event<Int>>()
-    val buttonId: LiveData<Event<Int>>
-        get() = _buttonId
+    private var _violationUserEventLiveData = MutableLiveData<Event<ViolationUserEvent>>()
+    val violationUserEventLiveData: LiveData<Event<ViolationUserEvent>>
+        get() = _violationUserEventLiveData
     lateinit var currentReport: Report
 
     private val violationTitle = getString(R.string.violation)
@@ -165,12 +165,16 @@ class ViolationViewModel(
     }
 
     fun onNextClicked() {
-        _buttonId.value = Event(R.id.btn_next)
+        _violationUserEventLiveData.value = Event(ViolationUserEvent.NextEvent)
     }
 
     private fun createPhoto(): Photo {
         return Photo().apply {
             referencingReportID = currentReport._id.toString()
         }
+    }
+
+    sealed class ViolationUserEvent {
+        object NextEvent : ViolationUserEvent()
     }
 }

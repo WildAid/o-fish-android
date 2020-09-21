@@ -55,8 +55,8 @@ class PatrolSummaryFragment : Fragment(R.layout.fragment_patrol_summary) {
             addItemDecoration(VerticalSpaceItemDecoration(CARDS_OFFSET_SIZE))
         }
 
-        fragmentViewModel.buttonId.observe(
-            viewLifecycleOwner, EventObserver(::onButtonClicked)
+        fragmentViewModel.patrolSummaryUserEventLiveData.observe(
+            viewLifecycleOwner, EventObserver(::handleUserEvent)
         )
 
         fragmentViewModel.reports.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
@@ -77,25 +77,25 @@ class PatrolSummaryFragment : Fragment(R.layout.fragment_patrol_summary) {
         )
     }
 
-    private fun onButtonClicked(id: Int) {
-        when (id) {
-            R.id.start_date -> {
+    private fun handleUserEvent(event: PatrolSummaryViewModel.PatrolSummaryUserEvent) {
+        when (event) {
+            PatrolSummaryViewModel.PatrolSummaryUserEvent.ChangeStartDateEvent -> {
                 isStartTime = true
                 peekDate()
             }
-            R.id.start_time -> {
+            PatrolSummaryViewModel.PatrolSummaryUserEvent.ChangeStartTimeEvent -> {
                 isStartTime = true
                 peekTime()
             }
-            R.id.end_date -> {
+            PatrolSummaryViewModel.PatrolSummaryUserEvent.ChangeEndDateEvent -> {
                 isStartTime = false
                 peekDate()
             }
-            R.id.end_time -> {
+            PatrolSummaryViewModel.PatrolSummaryUserEvent.ChangeEndTimeEvent -> {
                 isStartTime = false
                 peekTime()
             }
-            R.id.btn_off_duty -> goOffDuty()
+            PatrolSummaryViewModel.PatrolSummaryUserEvent.GoOffDutyEvent -> goOffDuty()
         }
     }
 

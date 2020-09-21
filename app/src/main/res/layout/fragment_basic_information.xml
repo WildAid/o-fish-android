@@ -69,7 +69,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:onClick="@{() -> viewmodel.onButtonClicked(@id/basic_info_date)}"
+                    android:onClick="@{() -> viewmodel.chooseDate()}"
                     app:dateToString="@{viewmodel.reportLiveData.date}"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
-                    android:onClick="@{() -> viewmodel.onButtonClicked(@id/basic_info_time)}"
+                    android:onClick="@{() -> viewmodel.chooseTime()}"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintLeft_toRightOf="@id/basic_info_date"
                     app:layout_constraintRight_toRightOf="parent"
@@ -253,7 +253,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_height"
             android:layout_margin="16dp"
-            android:onClick="@{() -> viewmodel.onButtonClicked(@id/btn_next)}"
+            android:onClick="@{() -> viewmodel.next()}"
             android:text="@string/vessel_next"
             app:layout_constraintBottom_toBottomOf="parent" />
 
