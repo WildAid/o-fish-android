@@ -39,7 +39,7 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
     val timerLiveData: LiveData<Event<Boolean>>
         get() = _timerLiveData
 
-    var userEventLiveData = MutableLiveData<Event<UserEvent>>()
+    var userEventLiveData = MutableLiveData<Event<HomeActivityUserEvent>>()
 
     init {
         val officer = repository.getCurrentOfficer()
@@ -67,13 +67,13 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
     }
 
     fun logOutUser() {
-        userEventLiveData.value = Event(UserEvent.AskUserLogoutEvent)
+        userEventLiveData.value = Event(HomeActivityUserEvent.AskUserLogoutEvent)
     }
 
     fun logoutConfirmed() {
         repository.logOut(
             logoutSuccess = {
-                userEventLiveData.value = Event(UserEvent.UserLogoutEvent)
+                userEventLiveData.value = Event(HomeActivityUserEvent.HomeLogoutEvent)
             },
             logoutError = {
                 // TODO add message here
@@ -94,9 +94,9 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
         }
     }
 
-    sealed class UserEvent {
-        object AskDutyConfirmationEvent : UserEvent()
-        object AskUserLogoutEvent : UserEvent()
-        object UserLogoutEvent : UserEvent()
+    sealed class HomeActivityUserEvent {
+        object AskDutyConfirmationEvent : HomeActivityUserEvent()
+        object AskUserLogoutEvent : HomeActivityUserEvent()
+        object HomeLogoutEvent : HomeActivityUserEvent()
     }
 }

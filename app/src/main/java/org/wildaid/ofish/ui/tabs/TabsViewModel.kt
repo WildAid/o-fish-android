@@ -23,8 +23,8 @@ class TabsViewModel(val repository: Repository, application: Application) :
     val reportLiveData: LiveData<Pair<Report, MutableList<PhotoItem>>>
         get() = _reportLiveData
 
-    private var _userEventLiveData = MutableLiveData<Event<UserEvent>>()
-    val userEventLiveData: LiveData<Event<UserEvent>>
+    private var _userEventLiveData = MutableLiveData<Event<TabsUserEvent>>()
+    val userEventLiveData: LiveData<Event<TabsUserEvent>>
         get() = _userEventLiveData
 
     private var _tabsStateLiveData = MutableLiveData<List<TabItem>>()
@@ -86,7 +86,7 @@ class TabsViewModel(val repository: Repository, application: Application) :
 
         _tabsStateLiveData.value = tabs
         val nextTab = tabs[tabs.indexOf(skippedTabs.last()) + 1]
-        _userEventLiveData.value = Event(UserEvent.ChangeTabEvent(nextTab))
+        _userEventLiveData.value = Event(TabsUserEvent.ChangeTabEvent(nextTab))
     }
 
     fun onTabClicked(
@@ -106,12 +106,12 @@ class TabsViewModel(val repository: Repository, application: Application) :
             if (!currentFormValid) {
                 notVisitedTabs.add(0, currentTab)
             }
-            _userEventLiveData.value = Event(UserEvent.AskSkipSectionsEvent(notVisitedTabs))
+            _userEventLiveData.value = Event(TabsUserEvent.AskSkipSectionsEvent(notVisitedTabs))
             return true
         }
 
         if (!currentFormValid && newPosition > currentTabPosition) {
-            _userEventLiveData.value = Event(UserEvent.AskLeftEmptyFields(listOf(currentTab)))
+            _userEventLiveData.value = Event(TabsUserEvent.AskLeftEmptyFields(listOf(currentTab)))
             return true
         }
 
@@ -121,12 +121,12 @@ class TabsViewModel(val repository: Repository, application: Application) :
     fun onTabChanged(previousTabIndex: Int, currentTabIndex: Int) {
         if (!vesselFragmentWasVisited && currentTabIndex == VESSEL_FRAGMENT_POSITION && vesselToPrefill != null) {
             vesselFragmentWasVisited = true
-            _userEventLiveData.value = Event(UserEvent.AskPrefillVesselEvent)
+            _userEventLiveData.value = Event(TabsUserEvent.AskPrefillVesselEvent)
         }
 
         if (!crewFragmentWasVisited && currentTabIndex == CREW_FRAGMENT_POSITION && crewToPrefill != null) {
             crewFragmentWasVisited = true
-            _userEventLiveData.value = Event(UserEvent.AskPrefillCrewEvent)
+            _userEventLiveData.value = Event(TabsUserEvent.AskPrefillCrewEvent)
         }
 
         val previousTab = tabs[previousTabIndex]
@@ -164,11 +164,11 @@ class TabsViewModel(val repository: Repository, application: Application) :
         return tabs.filterNot { it.status == TabStatus.VISITED }
     }
 
-    sealed class UserEvent {
-        class AskSkipSectionsEvent(var skippedTabs: List<TabItem>) : UserEvent()
-        class AskLeftEmptyFields(var skippedTabs: List<TabItem>) : UserEvent()
-        class ChangeTabEvent(var tabItem: TabItem) : UserEvent()
-        object AskPrefillVesselEvent : UserEvent()
-        object AskPrefillCrewEvent : UserEvent()
+    sealed class TabsUserEvent {
+        class AskSkipSectionsEvent(var skippedTabs: List<TabItem>) : TabsUserEvent()
+        class AskLeftEmptyFields(var skippedTabs: List<TabItem>) : TabsUserEvent()
+        class ChangeTabEvent(var tabItem: TabItem) : TabsUserEvent()
+        object AskPrefillVesselEvent : TabsUserEvent()
+        object AskPrefillCrewEvent : TabsUserEvent()
     }
 }

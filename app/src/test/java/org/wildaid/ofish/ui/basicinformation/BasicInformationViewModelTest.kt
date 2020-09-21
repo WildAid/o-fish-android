@@ -47,7 +47,7 @@ class BasicInformationViewModelTest {
     @Test
     fun onButtonClickedTest() {
         basicViewModelTest.onButtonClicked(buttonId)
-        assert(basicViewModelTest.buttonId.value?.peekContent() == buttonId)
+        assert(basicViewModelTest.basicInfoUserEventLiveData.value?.peekContent() == buttonId)
     }
 
     @Test

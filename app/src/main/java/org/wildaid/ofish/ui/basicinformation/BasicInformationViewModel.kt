@@ -16,9 +16,9 @@ class BasicInformationViewModel : ViewModel() {
     val reportLiveData: LiveData<Report>
         get() = _reportLiveData
 
-    private var _buttonId = MutableLiveData<Event<Int>>()
-    val buttonId: LiveData<Event<Int>>
-        get() = _buttonId
+    private var _basicInfoUserEventLiveData = MutableLiveData<Event<BasicInfoUserEvent>>()
+    val basicInfoUserEventLiveData: LiveData<Event<BasicInfoUserEvent>>
+        get() = _basicInfoUserEventLiveData
 
     private var _latitude = MutableLiveData<String>()
     val latitude: LiveData<String>
@@ -35,8 +35,16 @@ class BasicInformationViewModel : ViewModel() {
         _reportLiveData.value = report
     }
 
-    fun onButtonClicked(id: Int) {
-        _buttonId.value = Event(id)
+    fun next() {
+        _basicInfoUserEventLiveData.value = Event(BasicInfoUserEvent.NextEvent)
+    }
+
+    fun chooseDate() {
+        _basicInfoUserEventLiveData.value = Event(BasicInfoUserEvent.ChooseDate)
+    }
+
+    fun chooseTime() {
+        _basicInfoUserEventLiveData.value = Event(BasicInfoUserEvent.ChooseTime)
     }
 
     fun setLocation(lat: Double, long: Double) {
@@ -66,5 +74,11 @@ class BasicInformationViewModel : ViewModel() {
         }
         currentReport.date = c.time
         _reportLiveData.value = currentReport
+    }
+
+    sealed class BasicInfoUserEvent {
+        object NextEvent :BasicInfoUserEvent()
+        object ChooseDate :BasicInfoUserEvent()
+        object ChooseTime :BasicInfoUserEvent()
     }
 }

@@ -42,7 +42,7 @@ class HomeActivityViewModelTest {
 
         homeVM =
             HomeActivityViewModel(mockedRepository, ApplicationProvider.getApplicationContext())
-        assert(homeVM.userEventLiveData.value?.getContentIfNotHandled() == HomeActivityViewModel.UserEvent.AskUserLogoutEvent)
+        assert(homeVM.userEventLiveData.value?.getContentIfNotHandled() == HomeActivityViewModel.HomeActivityUserEvent.AskUserLogoutEvent)
     }
 
     @Test
@@ -127,7 +127,7 @@ class HomeActivityViewModelTest {
 
         homeVM.logOutUser()
 
-        assert(homeVM.userEventLiveData.value?.peekContent() == HomeActivityViewModel.UserEvent.AskUserLogoutEvent)
+        assert(homeVM.userEventLiveData.value?.peekContent() == HomeActivityViewModel.HomeActivityUserEvent.AskUserLogoutEvent)
     }
 
     @Test
@@ -141,7 +141,7 @@ class HomeActivityViewModelTest {
 
         homeVM.logoutConfirmed()
 
-        assert(homeVM.userEventLiveData.value?.peekContent() == HomeActivityViewModel.UserEvent.UserLogoutEvent)
+        assert(homeVM.userEventLiveData.value?.peekContent() == HomeActivityViewModel.HomeActivityUserEvent.HomeLogoutEvent)
     }
 
     @Test

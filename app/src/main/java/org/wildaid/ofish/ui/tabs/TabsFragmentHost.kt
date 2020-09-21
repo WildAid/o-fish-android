@@ -19,7 +19,6 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_tabs.*
@@ -98,11 +97,11 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
 
         fragmentViewModel.userEventLiveData.observe(viewLifecycleOwner, EventObserver {
             when (it) {
-                is TabsViewModel.UserEvent.AskSkipSectionsEvent -> showSkipSectionsDialog(it.skippedTabs)
-                is TabsViewModel.UserEvent.AskLeftEmptyFields -> showSkipSectionsDialog(it.skippedTabs)
-                is TabsViewModel.UserEvent.ChangeTabEvent -> selectTab(it.tabItem)
-                TabsViewModel.UserEvent.AskPrefillVesselEvent -> showAskPrefillBoatDialog()
-                TabsViewModel.UserEvent.AskPrefillCrewEvent -> showAskPrefillCrewDialog()
+                is TabsViewModel.TabsUserEvent.AskSkipSectionsEvent -> showSkipSectionsDialog(it.skippedTabs)
+                is TabsViewModel.TabsUserEvent.AskLeftEmptyFields -> showSkipSectionsDialog(it.skippedTabs)
+                is TabsViewModel.TabsUserEvent.ChangeTabEvent -> selectTab(it.tabItem)
+                TabsViewModel.TabsUserEvent.AskPrefillVesselEvent -> showAskPrefillBoatDialog()
+                TabsViewModel.TabsUserEvent.AskPrefillCrewEvent -> showAskPrefillCrewDialog()
             }
         })
 

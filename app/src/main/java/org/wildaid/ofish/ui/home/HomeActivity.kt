@@ -34,9 +34,9 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
 
         activityViewModel.userEventLiveData.observe(this, EventObserver() {
             when (it) {
-                HomeActivityViewModel.UserEvent.AskDutyConfirmationEvent -> askToChangeDuty()
-                HomeActivityViewModel.UserEvent.AskUserLogoutEvent -> askToLogout()
-                HomeActivityViewModel.UserEvent.UserLogoutEvent -> onUserLoggedOut()
+                HomeActivityViewModel.HomeActivityUserEvent.AskDutyConfirmationEvent -> askToChangeDuty()
+                HomeActivityViewModel.HomeActivityUserEvent.AskUserLogoutEvent -> askToLogout()
+                HomeActivityViewModel.HomeActivityUserEvent.HomeLogoutEvent -> onUserLoggedOut()
             }
         })
         activityViewModel.timerLiveData.observe(this, EventObserver(::setOrCancelTimer))
