@@ -19,7 +19,6 @@ import org.wildaid.ofish.data.ON_DUTY
 import org.wildaid.ofish.data.OfficerData
 import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.DutyChange
-import java.lang.RuntimeException
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.P])
@@ -61,8 +60,6 @@ class HomeActivityViewModelTest {
 
         assert(homeVM.onDutyStatusLiveData.value == true)
         assert(homeVM.onDutyTextStatusLiveData.value == context.getString(R.string.at_sea))
-        assert(homeVM.onDutyImageStatusLiveData.value == R.drawable.shape_green_circle)
-        assert(homeVM.onDutyImageStatusSmallLiveData.value == R.drawable.shape_green_circle_small)
     }
 
     @Test
@@ -81,8 +78,6 @@ class HomeActivityViewModelTest {
 
         assert(homeVM.onDutyStatusLiveData.value == false)
         assert(homeVM.onDutyTextStatusLiveData.value == context.getString(R.string.not_at_sea))
-        assert(homeVM.onDutyImageStatusLiveData.value == R.drawable.shape_red_circle)
-        assert(homeVM.onDutyImageStatusSmallLiveData.value == R.drawable.shape_red_circle_small)
     }
 
     @Test
@@ -100,8 +95,6 @@ class HomeActivityViewModelTest {
         // Initial state = off duty
         assert(homeVM.onDutyStatusLiveData.value == false)
         assert(homeVM.onDutyTextStatusLiveData.value == context.getString(R.string.not_at_sea))
-        assert(homeVM.onDutyImageStatusLiveData.value == R.drawable.shape_red_circle)
-        assert(homeVM.onDutyImageStatusSmallLiveData.value == R.drawable.shape_red_circle_small)
 
         // Dont save on duty if the same value
         homeVM.onDutyChanged(false)
@@ -112,8 +105,6 @@ class HomeActivityViewModelTest {
 
         assert(homeVM.onDutyStatusLiveData.value == true)
         assert(homeVM.onDutyTextStatusLiveData.value == context.getString(R.string.at_sea))
-        assert(homeVM.onDutyImageStatusLiveData.value == R.drawable.shape_green_circle)
-        assert(homeVM.onDutyImageStatusSmallLiveData.value == R.drawable.shape_green_circle_small)
 
         // Don't save on duty if the same value
         homeVM.onDutyChanged(true)
@@ -141,7 +132,7 @@ class HomeActivityViewModelTest {
 
         homeVM.logoutConfirmed()
 
-        assert(homeVM.userEventLiveData.value?.peekContent() == HomeActivityViewModel.HomeActivityUserEvent.HomeLogoutEvent)
+        assert(homeVM.userEventLiveData.value?.peekContent() == HomeActivityViewModel.HomeActivityUserEvent.HomeUserLogoutEvent)
     }
 
     @Test

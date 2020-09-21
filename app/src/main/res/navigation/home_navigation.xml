@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_home_fragment_to_patrolSummaryFragment"
             app:destination="@id/patrolSummaryFragment" />
+        <action
+            android:id="@+id/action_home_fragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
 
     <dialog
@@ -39,7 +42,11 @@
     <dialog
         android:id="@+id/ask_logout_dialog"
         android:name="org.wildaid.ofish.ui.base.ConfirmationDialogFragment"
-        android:label="SimpleConfirmationDialog" />
+        android:label="SimpleConfirmationDialog" >
+        <action
+            android:id="@+id/action_ask_logout_dialog_to_home_fragment"
+            app:destination="@id/home_fragment" />
+    </dialog>
 
 
     <fragment
@@ -134,9 +141,31 @@
         <action
             android:id="@+id/action_patrolSummaryFragment_to_report_details_fragment"
             app:destination="@id/report_details_fragment" />
+        <action
+            android:id="@+id/action_patrolSummaryFragment_to_home_fragment"
+            app:destination="@id/home_fragment" />
     </fragment>
+
     <fragment
         android:id="@+id/fullImageFragment"
         android:name="org.wildaid.ofish.ui.fullimage.FullImageFragment"
         android:label="FullImageFragment" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="org.wildaid.ofish.ui.profile.ProfileFragment"
+        android:label="ProfileFragment">
+        <action
+            android:id="@+id/action_profileFragment_to_patrolSummaryFragment"
+            app:destination="@id/patrolSummaryFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_ask_logout_dialog"
+            app:destination="@id/ask_logout_dialog" />
+        <action
+            android:id="@+id/action_profileFragment_to_login_activity"
+            app:destination="@id/login_activity" />
+        <action
+            android:id="@+id/action_profileFragment_to_patrolSummaryFragment2"
+            app:destination="@id/patrolSummaryFragment" />
+    </fragment>
 </navigation>

@@ -19,14 +19,6 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
     val onDutyStatusLiveData: LiveData<Boolean>
         get() = _onDutyStatusLiveData
 
-    private var _onDutyImageStatusLiveData = MutableLiveData<Int>()
-    val onDutyImageStatusLiveData: LiveData<Int>
-        get() = _onDutyImageStatusLiveData
-
-    private var _onDutyImageStatusSmallLiveData = MutableLiveData<Int>()
-    val onDutyImageStatusSmallLiveData: LiveData<Int>
-        get() = _onDutyImageStatusSmallLiveData
-
     private var _onDutyTextStatusLiveData = MutableLiveData<String>()
     val onDutyTextStatusLiveData: LiveData<String>
         get() = _onDutyTextStatusLiveData
@@ -51,7 +43,15 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
 
         val lastOnDutyStatus = repository.getRecentOnDutyChange()?.status == ON_DUTY
         _onDutyStatusLiveData.value = lastOnDutyStatus
-        applyDutyStatusDrawables(lastOnDutyStatus)
+        updateStringStatus(lastOnDutyStatus)
+    }
+
+    fun changeStatus() {
+        if (_onDutyStatusLiveData.value == true) {
+            userEventLiveData.value = Event(HomeActivityUserEvent.BecomeNotAtSea)
+        } else {
+            userEventLiveData.value = Event(HomeActivityUserEvent.AskDutyConfirmationEvent)
+        }
     }
 
     fun onDutyChanged(onDuty: Boolean, date: Date = Date()) {
@@ -63,7 +63,7 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
         _timerLiveData.value = Event(onDuty)
         repository.saveOnDutyChange(onDuty, date)
 
-        applyDutyStatusDrawables(onDuty)
+        updateStringStatus(onDuty)
     }
 
     fun logOutUser() {
@@ -73,7 +73,7 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
     fun logoutConfirmed() {
         repository.logOut(
             logoutSuccess = {
-                userEventLiveData.value = Event(HomeActivityUserEvent.HomeLogoutEvent)
+                userEventLiveData.value = Event(HomeActivityUserEvent.HomeUserLogoutEvent)
             },
             logoutError = {
                 // TODO add message here
@@ -82,21 +82,17 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
         )
     }
 
-    private fun applyDutyStatusDrawables(onDuty: Boolean) {
-        if (onDuty) {
-            _onDutyImageStatusLiveData.value = R.drawable.shape_green_circle
-            _onDutyImageStatusSmallLiveData.value = R.drawable.shape_green_circle_small
+    private fun updateStringStatus(onDuty: Boolean) {
+        if (onDuty)
             _onDutyTextStatusLiveData.value = getString(R.string.at_sea)
-        } else {
-            _onDutyImageStatusLiveData.value = R.drawable.shape_red_circle
-            _onDutyImageStatusSmallLiveData.value = R.drawable.shape_red_circle_small
+        else
             _onDutyTextStatusLiveData.value = getString(R.string.not_at_sea)
-        }
     }
 
     sealed class HomeActivityUserEvent {
         object AskDutyConfirmationEvent : HomeActivityUserEvent()
         object AskUserLogoutEvent : HomeActivityUserEvent()
-        object HomeLogoutEvent : HomeActivityUserEvent()
+        object HomeUserLogoutEvent : HomeActivityUserEvent()
+        object BecomeNotAtSea : HomeActivityUserEvent()
     }
 }

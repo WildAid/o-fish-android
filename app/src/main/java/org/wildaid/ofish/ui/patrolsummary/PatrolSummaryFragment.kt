@@ -101,7 +101,7 @@ class PatrolSummaryFragment : Fragment(R.layout.fragment_patrol_summary) {
 
     private fun goOffDuty() {
         activityViewModel.onDutyChanged(false, fragmentViewModel.dutyEndTime.value!!)
-        navigation.popBackStack()
+        navigation.navigate(R.id.action_patrolSummaryFragment_to_home_fragment)
     }
 
     private fun peekDate() {
