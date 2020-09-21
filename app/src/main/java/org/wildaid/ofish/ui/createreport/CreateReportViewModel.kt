@@ -15,9 +15,9 @@ import java.util.*
 
 class CreateReportViewModel(val repository: Repository) : ViewModel() {
 
-    private var _discardReportLiveData = MutableLiveData<Event<Boolean>>()
-    val discardReportLiveData: LiveData<Event<Boolean>>
-        get() = _discardReportLiveData
+    private var _createReportUserEvent = MutableLiveData<Event<CreateReportUserEvent>>()
+    val createReportUserEvent: LiveData<Event<CreateReportUserEvent>>
+        get() = _createReportUserEvent
 
     var isOnSearch: Boolean = false
     var isAddingCrewMember: Boolean = false
@@ -28,7 +28,6 @@ class CreateReportViewModel(val repository: Repository) : ViewModel() {
     fun initReport() {
         val officer = repository.getCurrentOfficer()
         report = Report().apply {
-            draft = true
             reportingOfficer?.apply {
                 email = officer.email
                 name?.apply {
@@ -38,7 +37,7 @@ class CreateReportViewModel(val repository: Repository) : ViewModel() {
             }
             vessel?.lastDelivery?.date = Date(0)
 
-            // Prefilled empty items for create report flow
+            // Pre-filled empty items for create report flow
             inspection?.summary?.seizures = Seizures()
             inspection?.summary?.violations?.add(Violation())
             notes.add(AnnotatedNote())
@@ -55,7 +54,12 @@ class CreateReportViewModel(val repository: Repository) : ViewModel() {
         if (isOnSearch || isAddingCrewMember) {
             return false
         }
-        _discardReportLiveData.value = Event(true)
+        _createReportUserEvent.value = Event(CreateReportUserEvent.AskDiscardBoarding)
         return true
+    }
+
+
+    sealed class CreateReportUserEvent {
+        object AskDiscardBoarding: CreateReportUserEvent()
     }
 }
