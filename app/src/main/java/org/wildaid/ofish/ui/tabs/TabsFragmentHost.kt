@@ -274,7 +274,7 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
 
                         override fun onError(it: Throwable) {
                             Log.e("Save error", it.message ?: "")
-                           showSnackMessage(requireView(), getString(R.string.saving_error))
+                            showSnackMessage(requireView(), getString(R.string.saving_error))
                         }
                     })
 

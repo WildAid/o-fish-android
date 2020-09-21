@@ -192,7 +192,9 @@
     <string name="sure_to_submit">Confirmez la validation</string>
     <string name="sure_to_submit_with_skipped">Confirmez la validation avec champs vides</string>
     <string name="cancel_boarding">Annuler l\'inspection?</string>
-    <string name="board_not_saved">Cette inspection ne sera pas enregistrée</string>
+    <string name="board_not_saved">En cas d\'annulation, cet embarquement ne sera pas enregistré. Vous pouvez cependant le sauvegarder pour le terminer plus tard.</string>
+    <string name="save_and_finish_later">Enregistrer et terminer plus tard</string>
+    <string name="draft_saved">Embarquement enregistré comme brouillon!</string>
     <string name="keep_editing">Continuez de modifier</string>
     <string name="boarding_submitted">Inspection validée!</string>
     <string name="boarding_canceled">Inspection annulée</string>
