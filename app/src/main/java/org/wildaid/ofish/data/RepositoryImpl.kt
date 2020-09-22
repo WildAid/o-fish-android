@@ -100,8 +100,8 @@ class RepositoryImpl(
     override fun findReportsForBoat(boatPermitNumber: String, vesselName: String) =
         realmDataSource.findReportsForBoat(boatPermitNumber, vesselName)
 
-    override fun findAmountOfDrafts(): Int =
-        realmDataSource.findAmountOfDrafts()
+    override fun getAmountOfDrafts(): Int =
+        realmDataSource.getAmountOfDrafts()
 
     override fun findReportsForCurrentDuty(): List<Report> {
         return realmDataSource.findReportsForCurrentDuty()

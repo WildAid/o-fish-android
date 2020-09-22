@@ -142,8 +142,6 @@ class HomeFragment : Fragment(R.layout.fragment_home),
             this.homeActivityViewModel = this@HomeFragment.activityViewModel
         }
 
-        fragmentViewModel.findAmountOfDrafts()
-
         val mapFragment = childFragmentManager.findFragmentById(R.id.home_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }

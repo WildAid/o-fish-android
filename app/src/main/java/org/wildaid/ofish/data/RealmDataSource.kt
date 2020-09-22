@@ -27,6 +27,7 @@ const val FIELD_STATUS = "status"
 const val DATE = "date"
 const val BUSINESS = "business"
 const val LOCATION = "location"
+const val DRAFT = "draft"
 const val LAST_DELIVERY_DATE = "lastDelivery.date"
 const val VESSEL_PERMIT_NUMBER = "vessel.permitNumber"
 const val VESSEL_NAME = "vessel.name"
@@ -188,9 +189,9 @@ class RealmDataSource(context: Context) {
             .toList()
     }
 
-    fun findAmountOfDrafts(): Int {
+    fun getAmountOfDrafts(): Int {
         return realm.where<Report>()
-            .equalTo("draft", true)
+            .equalTo(DRAFT, true)
             .findAll()
             .count()
     }

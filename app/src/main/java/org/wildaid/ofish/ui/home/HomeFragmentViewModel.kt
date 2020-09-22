@@ -23,12 +23,12 @@ class HomeFragmentViewModel(val repository: Repository) : ViewModel() {
 
     lateinit var activityViewModel: HomeActivityViewModel
 
-    fun onLocationAvailable(latitude: Double, longitude: Double) {
-        _locationLiveData.value = Pair(latitude, longitude)
+    init {
+        _amountOfDrafts.value = repository.getAmountOfDrafts()
     }
 
-    fun findAmountOfDrafts() {
-        _amountOfDrafts.value = repository.findAmountOfDrafts()
+    fun onLocationAvailable(latitude: Double, longitude: Double) {
+        _locationLiveData.value = Pair(latitude, longitude)
     }
 
     fun boardVessel() {
