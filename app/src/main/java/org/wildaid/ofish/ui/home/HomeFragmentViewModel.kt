@@ -23,7 +23,7 @@ class HomeFragmentViewModel(val repository: Repository) : ViewModel() {
 
     lateinit var activityViewModel: HomeActivityViewModel
 
-    init {
+    fun updateDraftCount(){
         _amountOfDrafts.value = repository.getAmountOfDrafts()
     }
 
