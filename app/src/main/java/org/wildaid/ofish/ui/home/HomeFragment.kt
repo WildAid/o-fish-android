@@ -91,6 +91,15 @@ class HomeFragment : Fragment(R.layout.fragment_home),
             }
         })
 
+        fragmentViewModel.amountOfDrafts.observe(viewLifecycleOwner, Observer { amount ->
+            if (amount > 0) {
+                text_amount_of_drafts.text = amount.toString()
+            } else {
+                text_amount_of_drafts.visibility = View.GONE
+                image_amount_drafts.visibility = View.GONE
+            }
+        })
+
         activityViewModel.currentOfficerLiveData.observe(viewLifecycleOwner, Observer {
             showOfficerPhoto(image_user)
         })
@@ -132,6 +141,8 @@ class HomeFragment : Fragment(R.layout.fragment_home),
             this.fragmentViewModel = this@HomeFragment.fragmentViewModel
             this.homeActivityViewModel = this@HomeFragment.activityViewModel
         }
+
+        fragmentViewModel.findAmountOfDrafts()
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.home_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
