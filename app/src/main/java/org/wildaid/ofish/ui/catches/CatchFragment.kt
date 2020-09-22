@@ -161,7 +161,6 @@ class CatchFragment : BaseReportFragment(R.layout.fragment_catch) {
         hideKeyboard()
         when (userEvent) {
             CatchViewModel.CatchUserEvent.Next -> {
-                validateForms()
                 if (isFieldCheckPassed || validateForms()) {
                     onNextListener.onNextClicked()
                 } else {

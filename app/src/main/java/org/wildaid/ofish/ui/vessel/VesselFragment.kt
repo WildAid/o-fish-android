@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.Observer
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_vessel.*
 import kotlinx.android.synthetic.main.fragment_vessel.view.*
 import org.wildaid.ofish.EventObserver
@@ -32,6 +33,7 @@ class VesselFragment : BaseReportFragment(R.layout.fragment_vessel) {
     private var pendingEmsForType: EMSItem? = null
     private lateinit var fragmentBinding: FragmentVesselBinding
     private lateinit var emsAdapter: EMSAdapter
+    private lateinit var requiredFields: Array<TextInputLayout>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,10 +42,6 @@ class VesselFragment : BaseReportFragment(R.layout.fragment_vessel) {
     }
 
     override fun isAllRequiredFieldsNotEmpty(): Boolean {
-        val requiredFields = arrayOf(
-            vessel_name_layout, vessel_permit_number_layout, vessel_home_port_layout,
-            vessel_flag_state_layout, delivery_business_layout, delivery_location_layout
-        )
         requiredFields.forEach {
             val text = it.editText?.text
             if (it.visibility == View.VISIBLE && text.isNullOrBlank()) {
@@ -55,10 +53,6 @@ class VesselFragment : BaseReportFragment(R.layout.fragment_vessel) {
 
     override fun validateForms(): Boolean {
         var result = true
-        val requiredFields = arrayOf(
-            vessel_name_layout, vessel_permit_number_layout, vessel_home_port_layout,
-            vessel_flag_state_layout, delivery_business_layout, delivery_location_layout
-        )
         requiredFields.forEach {
             val text = it.editText?.text
             if (it.visibility == View.VISIBLE && text.isNullOrBlank()) {
@@ -75,6 +69,11 @@ class VesselFragment : BaseReportFragment(R.layout.fragment_vessel) {
             lifecycleOwner = viewLifecycleOwner
             viewModel = fragmentViewModel
         }
+
+        requiredFields = arrayOf(
+            vessel_name_layout, vessel_permit_number_layout, vessel_home_port_layout,
+            vessel_flag_state_layout, delivery_business_layout, delivery_location_layout
+        )
 
         emsAdapter = EMSAdapter(
             fieldFocusListener = fragmentViewModel.fieldFocusListener,

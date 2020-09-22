@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.Observer
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_activities.*
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
@@ -20,6 +21,7 @@ import org.wildaid.ofish.util.setVisible
 class ActivitiesFragment : BaseReportFragment(R.layout.fragment_activities) {
     private val fragmentViewModel: ActivitiesViewModel by viewModels { getViewModelFactory() }
     private lateinit var fragmentDataBinding: FragmentActivitiesBinding
+    private lateinit var requiredFields: Array<TextInputLayout>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,11 +30,6 @@ class ActivitiesFragment : BaseReportFragment(R.layout.fragment_activities) {
     }
 
     override fun isAllRequiredFieldsNotEmpty(): Boolean {
-        val requiredFields = arrayOf(
-            activities_edit_text_layout,
-            activity_fishery_edit_text_layout,
-            activity_gear_edit_layout
-        )
         requiredFields.forEach {
             val text = it.editText?.text
             if (it.visibility == View.VISIBLE && text.isNullOrBlank()) {
@@ -44,11 +41,6 @@ class ActivitiesFragment : BaseReportFragment(R.layout.fragment_activities) {
 
     override fun validateForms(): Boolean {
         var result = true
-        val requiredFields = arrayOf(
-            activities_edit_text_layout,
-            activity_fishery_edit_text_layout,
-            activity_gear_edit_layout
-        )
         requiredFields.forEach {
             val text = it.editText?.text
             if (it.visibility == View.VISIBLE && text.isNullOrBlank()) {
@@ -67,6 +59,12 @@ class ActivitiesFragment : BaseReportFragment(R.layout.fragment_activities) {
                 this.viewModel = fragmentViewModel
                 this.lifecycleOwner = this@ActivitiesFragment.viewLifecycleOwner
             }
+
+        requiredFields = arrayOf(
+            activities_edit_text_layout,
+            activity_fishery_edit_text_layout,
+            activity_gear_edit_layout
+        )
 
         fragmentViewModel.activitiesUserEvents.observe(
             viewLifecycleOwner,
