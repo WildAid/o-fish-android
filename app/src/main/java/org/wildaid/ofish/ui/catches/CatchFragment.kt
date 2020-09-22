@@ -44,15 +44,19 @@ class CatchFragment : BaseReportFragment(R.layout.fragment_catch) {
     }
 
     override fun validateForms(): Boolean {
+        var result = false
         catch_recycler.forEach { item ->
             if (item.weight_edit_layout.editText?.text?.isNotBlank()!! || item.count_edit_layout.editText?.text?.isNotBlank()!!) {
+                result = true
                 validationPassed()
             } else {
                 validateField(item.weight_edit_layout)
                 validateField(item.count_edit_layout)
+                result = false
             }
         }
-        return false
+        isFieldCheckPassed = true
+        return result
     }
 
     private fun validationPassed() {
