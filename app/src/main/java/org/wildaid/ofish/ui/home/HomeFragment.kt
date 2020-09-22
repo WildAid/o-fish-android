@@ -98,7 +98,7 @@ class HomeFragment : Fragment(R.layout.fragment_home),
 
         fragmentViewModel.amountOfDrafts.observe(viewLifecycleOwner, Observer { amount ->
             if (amount > 0) {
-                refreshAmountLabel()
+                showAmountLabel()
                 text_amount_of_drafts.text = amount.toString()
             } else {
                 hideAmountLabel()
@@ -119,7 +119,7 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         image_amount_drafts.visibility = View.GONE
     }
 
-    private fun refreshAmountLabel() {
+    private fun showAmountLabel() {
         text_amount_of_drafts.visibility = View.VISIBLE
         image_amount_drafts.visibility = View.VISIBLE
     }
