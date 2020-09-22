@@ -22,6 +22,14 @@ class RiskFragment : BaseReportFragment(R.layout.fragment_risk) {
         fragmentViewModel.initReport(currentReport, currentReportPhotos)
     }
 
+    override fun isAllRequiredFieldsNotEmpty(): Boolean {
+        return true
+    }
+
+    override fun validateForms(): Boolean {
+        return true
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         fragmentDataBinding = FragmentRiskBinding.bind(view).apply {
             this.viewmodel = fragmentViewModel

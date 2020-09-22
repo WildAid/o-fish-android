@@ -3,11 +3,13 @@ package org.wildaid.ofish.ui.catches
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.core.view.forEach
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fragment_catch.*
+import kotlinx.android.synthetic.main.item_edit_catch.view.*
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
 import org.wildaid.ofish.databinding.FragmentCatchBinding
@@ -24,13 +26,37 @@ class CatchFragment : BaseReportFragment(R.layout.fragment_catch) {
 
     private lateinit var viewDataBinding: FragmentCatchBinding
     private lateinit var catchAdapter: CatchAdapter
-
     private var pendingCatchItem: CatchItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fragmentViewModel.initCatch(currentReport, currentReportPhotos)
         subscribeToSearchResult()
+    }
+
+    override fun isAllRequiredFieldsNotEmpty(): Boolean {
+        catch_recycler.forEach { item ->
+            if (item.weight_edit_layout.editText?.text?.isNotBlank()!! || item.count_edit_layout.editText?.text?.isNotBlank()!!) {
+                return true
+            }
+        }
+        return false
+    }
+
+    override fun validateForms(): Boolean {
+        catch_recycler.forEach { item ->
+            if (item.weight_edit_layout.editText?.text?.isNotBlank()!! || item.count_edit_layout.editText?.text?.isNotBlank()!!) {
+                validationPassed()
+            } else {
+                validateField(item.weight_edit_layout)
+                validateField(item.count_edit_layout)
+            }
+        }
+        return false
+    }
+
+    private fun validationPassed() {
+        isFieldCheckPassed = true
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -135,8 +161,15 @@ class CatchFragment : BaseReportFragment(R.layout.fragment_catch) {
         hideKeyboard()
         when (userEvent) {
             CatchViewModel.CatchUserEvent.Next -> {
-                onNextListener.onNextClicked()
+                validateForms()
+                if (isFieldCheckPassed || validateForms()) {
+                    onNextListener.onNextClicked()
+                } else {
+                    showSnackbarWarning()
+                    validationPassed()
+                }
             }
         }
     }
+
 }

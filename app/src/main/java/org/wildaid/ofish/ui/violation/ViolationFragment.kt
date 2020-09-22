@@ -35,6 +35,14 @@ class ViolationFragment : BaseReportFragment(R.layout.fragment_violation) {
         subscribeToSearchResult()
     }
 
+    override fun isAllRequiredFieldsNotEmpty(): Boolean {
+        return true
+    }
+
+    override fun validateForms(): Boolean {
+        return true
+    }
+
     override fun onResume() {
         super.onResume()
         fragmentViewModel.refreshIssuedTo()

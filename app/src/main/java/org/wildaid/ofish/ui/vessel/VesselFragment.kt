@@ -20,9 +20,10 @@ import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.complex.BusinessSearchModel
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
 import org.wildaid.ofish.ui.search.simple.SimpleSearchFragment
-import org.wildaid.ofish.util.*
+import org.wildaid.ofish.util.getViewModelFactory
+import org.wildaid.ofish.util.hideKeyboard
+import org.wildaid.ofish.util.setVisible
 import java.util.*
-
 
 const val CREATE_NEW_BUSINESS = "create_new_business"
 
@@ -38,16 +39,42 @@ class VesselFragment : BaseReportFragment(R.layout.fragment_vessel) {
         subscribeToSearchResult()
     }
 
+    override fun isAllRequiredFieldsNotEmpty(): Boolean {
+        val requiredFields = arrayOf(
+            vessel_name_layout, vessel_permit_number_layout, vessel_home_port_layout,
+            vessel_flag_state_layout, delivery_business_layout, delivery_location_layout
+        )
+        requiredFields.forEach {
+            val text = it.editText?.text
+            if (it.visibility == View.VISIBLE && text.isNullOrBlank()) {
+                return false
+            }
+        }
+        return true
+    }
+
+    override fun validateForms(): Boolean {
+        var result = true
+        val requiredFields = arrayOf(
+            vessel_name_layout, vessel_permit_number_layout, vessel_home_port_layout,
+            vessel_flag_state_layout, delivery_business_layout, delivery_location_layout
+        )
+        requiredFields.forEach {
+            val text = it.editText?.text
+            if (it.visibility == View.VISIBLE && text.isNullOrBlank()) {
+                result = false
+                it.errorIconDrawable = resources.getDrawable(R.drawable.ic_error_outline, null)
+            }
+        }
+        isFieldCheckPassed = true
+        return result
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         fragmentBinding = FragmentVesselBinding.bind(view).apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = fragmentViewModel
         }
-
-        requiredFields = arrayOf(
-            vessel_name_layout, vessel_permit_number_layout, vessel_home_port_layout,
-            vessel_flag_state_layout, delivery_business_layout, delivery_location_layout
-        )
 
         emsAdapter = EMSAdapter(
             fieldFocusListener = fragmentViewModel.fieldFocusListener,

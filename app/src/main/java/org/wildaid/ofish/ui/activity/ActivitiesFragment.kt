@@ -27,6 +27,40 @@ class ActivitiesFragment : BaseReportFragment(R.layout.fragment_activities) {
         fragmentViewModel.initActivities(currentReport, currentReportPhotos)
     }
 
+    override fun isAllRequiredFieldsNotEmpty(): Boolean {
+        val requiredFields = arrayOf(
+            activities_edit_text_layout,
+            activity_fishery_edit_text_layout,
+            activity_gear_edit_layout
+        )
+        requiredFields.forEach {
+            val text = it.editText?.text
+            if (it.visibility == View.VISIBLE && text.isNullOrBlank()) {
+                return false
+            }
+        }
+        return true
+    }
+
+    override fun validateForms(): Boolean {
+        var result = true
+        val requiredFields = arrayOf(
+            activities_edit_text_layout,
+            activity_fishery_edit_text_layout,
+            activity_gear_edit_layout
+        )
+        requiredFields.forEach {
+            val text = it.editText?.text
+            if (it.visibility == View.VISIBLE && text.isNullOrBlank()) {
+                result = false
+                it.errorIconDrawable = resources.getDrawable(R.drawable.ic_error_outline, null)
+            }
+        }
+        isFieldCheckPassed = true
+        return result
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         fragmentDataBinding = FragmentActivitiesBinding.bind(view)
             .apply {
@@ -34,13 +68,10 @@ class ActivitiesFragment : BaseReportFragment(R.layout.fragment_activities) {
                 this.lifecycleOwner = this@ActivitiesFragment.viewLifecycleOwner
             }
 
-        requiredFields = arrayOf(
-            activities_edit_text_layout,
-            activity_fishery_edit_text_layout,
-            activity_gear_edit_layout
+        fragmentViewModel.activitiesUserEvents.observe(
+            viewLifecycleOwner,
+            EventObserver(::handleUserEvent)
         )
-
-        fragmentViewModel.activitiesUserEvents.observe(viewLifecycleOwner, EventObserver(::handleUserEvent))
 
         fragmentViewModel.activityItemLiveData.observe(viewLifecycleOwner, Observer {
             fragmentDataBinding.activitiesNoteLayout.setVisible(it.attachments.hasNotes())

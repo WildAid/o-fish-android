@@ -46,6 +46,14 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
         subscribeToNavigationResult()
     }
 
+    override fun isAllRequiredFieldsNotEmpty(): Boolean {
+        return true
+    }
+
+    override fun validateForms(): Boolean {
+        return true
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewDataBinding = FragmentBasicInformationBinding.bind(view).apply {
             this.viewmodel = fragmentViewModel

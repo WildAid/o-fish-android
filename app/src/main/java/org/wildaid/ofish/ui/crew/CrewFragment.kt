@@ -27,6 +27,29 @@ class CrewFragment : BaseReportFragment(R.layout.fragment_crew) {
         fragmentViewModel.initCrewMembers(currentReport, currentReportPhotos)
     }
 
+    override fun isAllRequiredFieldsNotEmpty(): Boolean {
+        if (crew_recycler[0].crew_member_edit_name_layout.editText?.text?.isNotEmpty()!! && crew_recycler[0].crew_member_edit_license_layout.editText?.text?.isNotEmpty()!!) {
+            return true
+        }
+        return false
+    }
+
+    override fun validateForms(): Boolean {
+        var result = true
+        if (crew_recycler.childCount > 0) {
+            if (crew_recycler[0].crew_member_edit_name_layout.editText?.text?.isNotEmpty()!! || crew_recycler[0].crew_member_edit_license_layout.editText?.text?.isNotEmpty()!!) {
+                return true
+            } else {
+                validateField(crew_recycler[0].crew_member_edit_name_layout)
+                validateField(crew_recycler[0].crew_member_edit_license_layout)
+                result = false
+            }
+        }
+        isFieldCheckPassed = true
+
+        return result
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewDataBinding = FragmentCrewBinding.bind(view).apply {
             this.viewModel = fragmentViewModel
@@ -91,7 +114,6 @@ class CrewFragment : BaseReportFragment(R.layout.fragment_crew) {
     override fun onResume() {
         super.onResume()
         fragmentViewModel.updateCrewMembersIfNeeded()
-        updateFieldsToCheckIfNeeded()
     }
 
     private fun displayCrewMembers(crew: List<CrewMemberItem>) {
@@ -101,23 +123,13 @@ class CrewFragment : BaseReportFragment(R.layout.fragment_crew) {
     private fun handleUserEvent(event: CrewViewModel.CrewUserEvent) {
         hideKeyboard()
         when (event) {
-           CrewViewModel.CrewUserEvent.NextUserEvent -> {
+            CrewViewModel.CrewUserEvent.NextUserEvent -> {
                 if (isFieldCheckPassed || validateForms()) {
                     onNextListener.onNextClicked()
                 } else {
                     showSnackbarWarning()
                 }
             }
-        }
-    }
-
-    private fun updateFieldsToCheckIfNeeded() {
-        if (requiredFields.isEmpty() && crew_recycler.childCount > 0) {
-            val captainView = crew_recycler[0]
-            requiredFields = arrayOf(
-                captainView.crew_member_edit_name_layout,
-                captainView.crew_member_edit_license_layout
-            )
         }
     }
 }
