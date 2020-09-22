@@ -16,6 +16,7 @@ private const val EXTRA_DIALOG_MESSAGE = "extra_dialog_message"
 private const val EXTRA_DIALOG_POSITIVE = "extra_dialog_positive"
 private const val EXTRA_DIALOG_NEGATIVE = "extra_dialog_negative"
 private const val EXTRA_DIALOG_NEUTRAL = "extra_dialog_neutral"
+private const val EXTRA_HIGHLIGHT_NEUTRAL = "extra_highlight_neutral"
 private const val EXTRA_DIALOG_ARGS = "extra_dialog_args"
 
 const val DIALOG_CLICK_EVENT = "dialog_click_event"
@@ -26,6 +27,7 @@ class ConfirmationDialogFragment : DialogFragment() {
     private lateinit var positive: String
     private var dialogId: Int = 0
     private var negative: String? = null
+    private var highLightNeutral: Boolean = false
     private var neutral: String? = null
     private var args: Bundle? = null
 
@@ -37,6 +39,7 @@ class ConfirmationDialogFragment : DialogFragment() {
         positive = arguments?.getString(EXTRA_DIALOG_POSITIVE) ?: getString(android.R.string.ok)
         negative = arguments?.getString(EXTRA_DIALOG_NEGATIVE)
         neutral = arguments?.getString(EXTRA_DIALOG_NEUTRAL)
+        highLightNeutral = arguments?.getBoolean(EXTRA_HIGHLIGHT_NEUTRAL, false) ?: false
         args = arguments?.getBundle(EXTRA_DIALOG_ARGS)
     }
 
@@ -69,7 +72,14 @@ class ConfirmationDialogFragment : DialogFragment() {
                 )
             }
         }
-        return builder.create()
+        val dialog: AlertDialog = builder.create()
+
+        dialog.setOnShowListener {
+            if (neutral != null && highLightNeutral) {
+                dialog.getButton(AlertDialog.BUTTON_NEUTRAL)?.setTextColor(resources.getColor(R.color.red))
+            }
+        }
+        return dialog
     }
 
     class Bundler(
@@ -81,6 +91,7 @@ class ConfirmationDialogFragment : DialogFragment() {
     ) {
         var neutral: String? = null
         var extras: Bundle? = null
+        var highLightNegative = false
 
         fun bundle(): Bundle {
             val bundle = Bundle()
@@ -91,6 +102,7 @@ class ConfirmationDialogFragment : DialogFragment() {
             bundle.putString(EXTRA_DIALOG_NEGATIVE, negative)
             bundle.putString(EXTRA_DIALOG_NEUTRAL, neutral)
             bundle.putBundle(EXTRA_DIALOG_ARGS, extras)
+            bundle.putBoolean(EXTRA_HIGHLIGHT_NEUTRAL, highLightNegative)
             return bundle
         }
     }
