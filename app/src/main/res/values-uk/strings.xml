@@ -34,7 +34,7 @@
     <string name="remove_note">Видалити Примітку</string>
 
     <!--  Report  -->
-    <string name="menu_submit_report">Подати</string>
+    <string name="menu_save_report">Зберегти</string>
     <string name="menu_cancel_report">Скасувати</string>
 
     <string name="skip_sections_dialog_title">Пропустити наступні розділи?</string>
@@ -183,9 +183,12 @@
     <string name="cancel_boarding">Скасувати прибуття?</string>
     <string name="board_not_saved">Це прибуття не буде збережене</string>
     <string name="keep_editing">Продовжуйте редагування</string>
+    <string name="save_and_finish">Зберегти та продовжити пізніше</string>
     <string name="boarding_submitted">Прибуття подане</string>
     <string name="boarding_canceled">Прибуття скасоване</string>
     <string name="saving_error">Помилка при збереженні</string>
+    <string name="draft_saved">Прибуття збережено</string>
+    <string name="submit">Подати</string>
     <string name="continue_with_empty_fields">Продовжити з порожніми полями?</string>
     <string name="continue_action">Продовжити</string>
     <string name="chose_image_source">Виберіть джерело світлини</string>

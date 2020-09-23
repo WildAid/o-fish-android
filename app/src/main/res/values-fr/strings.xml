@@ -34,7 +34,7 @@
     <string name="remove_note">Enlever la remarque</string>
 
     <!--  Report  -->
-    <string name="menu_submit_report">Valider</string>
+    <string name="menu_save_report">Enregistrer</string>
     <string name="menu_cancel_report">Annuler l\'inspection</string>
 
     <string name="skip_sections_dialog_title">Sauter la section suivante?</string>
@@ -190,12 +190,14 @@
     <string name="submit_boarding">Valider l\'inspection?</string>
     <string name="you_left_blank">Vous avez laissé ces champs vides:</string>
     <string name="sure_to_submit">Confirmez la validation</string>
-    <string name="sure_to_submit_with_skipped">Confirmez la validation avec champs vides</string>
+    <string name="sure_to_submit_with_skipped">%s\n\nConfirmez la validation avec champs vides</string>
     <string name="cancel_boarding">Annuler l\'inspection?</string>
     <string name="board_not_saved">En cas d\'annulation, cet embarquement ne sera pas enregistré. Vous pouvez cependant le sauvegarder pour le terminer plus tard.</string>
     <string name="save_and_finish_later">Enregistrer et terminer plus tard</string>
-    <string name="draft_saved">Embarquement enregistré comme brouillon!</string>
+    <string name="submit">Soumettre</string>
+    <string name="draft_saved">Embarquement enregistré</string>
     <string name="keep_editing">Continuez de modifier</string>
+    <string name="save_and_finish">Enregistrer et terminer plus tard</string>
     <string name="boarding_submitted">Inspection validée!</string>
     <string name="boarding_canceled">Inspection annulée</string>
     <string name="saving_error">Une erreur s\'est produite durant la sauvegarde</string>
