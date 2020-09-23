@@ -58,7 +58,8 @@ class RepositoryImpl(
         }
 
         val delivery = report.vessel?.lastDelivery
-        val deliveryIsEmpty = delivery?.business.isNullOrBlank() && report.vessel?.lastDelivery?.location.isNullOrBlank()
+        val deliveryIsEmpty =
+            delivery?.business.isNullOrBlank() && report.vessel?.lastDelivery?.location.isNullOrBlank()
         if (deliveryIsEmpty) {
             report.vessel?.lastDelivery = null
         }
@@ -98,6 +99,9 @@ class RepositoryImpl(
 
     override fun findReportsForBoat(boatPermitNumber: String, vesselName: String) =
         realmDataSource.findReportsForBoat(boatPermitNumber, vesselName)
+
+    override fun getAmountOfDrafts(): Int =
+        realmDataSource.getAmountOfDrafts()
 
     override fun findReportsForCurrentDuty(): List<Report> {
         return realmDataSource.findReportsForCurrentDuty()

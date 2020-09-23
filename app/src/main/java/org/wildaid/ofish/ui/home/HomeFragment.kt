@@ -77,6 +77,11 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        fragmentViewModel.updateDraftCount()
+    }
+
     private fun setObservers() {
         fragmentViewModel.locationLiveData.observe(viewLifecycleOwner, Observer {
             home_latitude.text = convert(it.first, LATITUDE)
@@ -91,6 +96,15 @@ class HomeFragment : Fragment(R.layout.fragment_home),
             }
         })
 
+        fragmentViewModel.amountOfDrafts.observe(viewLifecycleOwner, Observer { amount ->
+            if (amount > 0) {
+                showAmountLabel()
+                text_amount_of_drafts.text = amount.toString()
+            } else {
+                hideAmountLabel()
+            }
+        })
+
         activityViewModel.currentOfficerLiveData.observe(viewLifecycleOwner, Observer {
             showOfficerPhoto(image_user)
         })
@@ -98,6 +112,16 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         activityViewModel.onDutyStatusLiveData.observe(viewLifecycleOwner, Observer { dutyStatus ->
             image_user_status.isEnabled = dutyStatus
         })
+    }
+
+    private fun hideAmountLabel() {
+        text_amount_of_drafts.visibility = View.GONE
+        image_amount_drafts.visibility = View.GONE
+    }
+
+    private fun showAmountLabel() {
+        text_amount_of_drafts.visibility = View.VISIBLE
+        image_amount_drafts.visibility = View.VISIBLE
     }
 
     private fun navigateToProfile() {
