@@ -14,6 +14,7 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
     BaseSearchViewModel<SearchModel>(application) {
     override fun getDataSource(searchEntity: BaseSearchType, report: Report?): SearchDataSource {
         return when (searchEntity) {
+            is ComplexSearchFragment.SearchDrafts -> searchDrafts
             is ComplexSearchFragment.SearchBusiness -> searchBusinessDataSource
             is ComplexSearchFragment.SearchViolation -> searchViolationDataSource
             is ComplexSearchFragment.SearchRecords -> searchRecordsDataSource.apply {
@@ -117,6 +118,48 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
         private fun fetchReports() {
             if (cachedAllReports.isNullOrEmpty()) {
                 cachedAllReports = repository.findReportsGroupedByVessel()
+            }
+        }
+    }
+
+    private val searchDrafts = object : SearchDataSource() {
+        private var cachedDraftBoardings = emptyList<Report>()
+
+        override fun initiateData(): List<SearchModel> {
+            fetchDrafts()
+
+            val result = mutableListOf<SearchModel>()
+
+            result.addAll(cachedDraftBoardings.asSequence().map {
+                RecordSearchModel(
+                    it.vessel!!,
+                    listOf(it).sortedByDescending { report -> report.date }, repository
+                )
+            })
+
+            return result
+        }
+
+        override fun applyFilter(filter: String): List<SearchModel> {
+            if (filter.isBlank()) {
+                return initiateData()
+            }
+
+            val result = mutableListOf<SearchModel>()
+            result.addAll(cachedDraftBoardings
+                .filter { it.vessel?.name.orEmpty().contains(filter, true) }
+                .map {
+                    RecordSearchModel(
+                        it.vessel!!,
+                        listOf(it).sortedByDescending { report -> report.date }, repository
+                    )
+                })
+            return result
+        }
+
+        private fun fetchDrafts() {
+            if (cachedDraftBoardings.isNullOrEmpty()) {
+                cachedDraftBoardings = repository.findDraftsGroupedByVessel()
             }
         }
     }

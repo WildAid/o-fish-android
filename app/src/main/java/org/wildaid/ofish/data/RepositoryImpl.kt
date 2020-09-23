@@ -93,6 +93,9 @@ class RepositoryImpl(
     override fun findReportsGroupedByVessel(sort: Sort) =
         realmDataSource.findReportsGroupedByVesselNameAndPermitNumber(sort)
 
+    override fun findDraftsGroupedByVessel(sort: Sort): List<Report> =
+        realmDataSource.findDraftsGroupedByVesselNameAndPermitNumber(sort)
+
     override fun findAllReports(sort: Sort) = realmDataSource.findAllReports(sort)
 
     override fun findReport(reportId: ObjectId) = realmDataSource.findReport(reportId)
@@ -100,8 +103,8 @@ class RepositoryImpl(
     override fun findReportsForBoat(boatPermitNumber: String, vesselName: String) =
         realmDataSource.findReportsForBoat(boatPermitNumber, vesselName)
 
-    override fun getAmountOfDrafts(): Int =
-        realmDataSource.getAmountOfDrafts()
+    override fun getAmountOfDraftsForCurrentOfficer(): Int =
+        realmDataSource.getAmountOfDraftsForCurrentOfficer()
 
     override fun findReportsForCurrentDuty(): List<Report> {
         return realmDataSource.findReportsForCurrentDuty()

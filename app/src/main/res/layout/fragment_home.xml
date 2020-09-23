@@ -236,6 +236,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
+            android:onClick="@{()->fragmentViewModel.showDrafts()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/vessel_image_pager"
             app:layout_constraintStart_toEndOf="@+id/imageButton2"
@@ -264,13 +265,13 @@
                 android:id="@+id/text_amount_of_drafts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/white"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/image_amount_drafts"
-                tools:text = "1"
-                android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="@+id/image_amount_drafts"
                 app:layout_constraintStart_toStartOf="@+id/image_amount_drafts"
-                app:layout_constraintTop_toTopOf="@+id/image_amount_drafts" />
+                app:layout_constraintTop_toTopOf="@+id/image_amount_drafts"
+                tools:text="1" />
 
             <TextView
                 android:id="@+id/textView2"

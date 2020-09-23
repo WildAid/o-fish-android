@@ -39,6 +39,7 @@ abstract class BaseSearchViewModel<T>(application: Application) : AndroidViewMod
         is ComplexSearchFragment.SearchRecords -> true
         is ComplexSearchFragment.SearchBoardVessels -> true
         is ComplexSearchFragment.DutyReports -> true
+        is ComplexSearchFragment.SearchDrafts -> true
         else -> false
     }
 

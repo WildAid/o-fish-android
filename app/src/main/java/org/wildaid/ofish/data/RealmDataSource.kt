@@ -28,6 +28,7 @@ const val DATE = "date"
 const val BUSINESS = "business"
 const val LOCATION = "location"
 const val DRAFT = "draft"
+const val REPORTING_OFFICER = "reportingOfficer"
 const val LAST_DELIVERY_DATE = "lastDelivery.date"
 const val VESSEL_PERMIT_NUMBER = "vessel.permitNumber"
 const val VESSEL_NAME = "vessel.name"
@@ -169,6 +170,13 @@ class RealmDataSource(context: Context) {
             .findAll()
     }
 
+    fun findDraftsGroupedByVesselNameAndPermitNumber(sort: Sort): List<Report> {
+        return realm.where<Report>()
+            .equalTo(DRAFT, true)
+            .sort(DATE, sort)
+            .findAll()
+    }
+
     fun findAllReports(sort: Sort): List<Report> {
         return realm.where<Report>()
             .sort(DATE, sort)
@@ -189,11 +197,15 @@ class RealmDataSource(context: Context) {
             .toList()
     }
 
-    fun getAmountOfDrafts(): Int {
-        return realm.where<Report>()
-            .equalTo(DRAFT, true)
-            .findAll()
-            .count()
+    fun getAmountOfDraftsForCurrentOfficer(): Int {
+        val currentOfficer = getCurrentOfficer()
+        currentOfficer.let {
+            return realm.where<Report>()
+                .equalTo(DRAFT, true)
+                .and()
+                .findAll()
+                .count()
+        }
     }
 
     fun findReportsForCurrentDuty(): List<Report> {

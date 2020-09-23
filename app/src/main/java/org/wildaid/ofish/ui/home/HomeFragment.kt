@@ -93,6 +93,7 @@ class HomeFragment : Fragment(R.layout.fragment_home),
                 HomeFragmentViewModel.HomeFragmentUserEvent.BoardVessel -> boardVessel()
                 HomeFragmentViewModel.HomeFragmentUserEvent.FindRecords -> findRecords()
                 HomeFragmentViewModel.HomeFragmentUserEvent.ShowUserStatus -> navigateToProfile()
+                HomeFragmentViewModel.HomeFragmentUserEvent.ShowDrafts -> findDrafts()
             }
         })
 
@@ -199,6 +200,12 @@ class HomeFragment : Fragment(R.layout.fragment_home),
     private fun findRecords() {
         val bundle =
             bundleOf(BaseSearchFragment.SEARCH_ENTITY_KEY to ComplexSearchFragment.SearchRecords)
+        navigation.navigate(R.id.action_home_fragment_to_complex_search, bundle)
+    }
+
+    private fun findDrafts() {
+        val bundle =
+            bundleOf(BaseSearchFragment.SEARCH_ENTITY_KEY to ComplexSearchFragment.SearchDrafts)
         navigation.navigate(R.id.action_home_fragment_to_complex_search, bundle)
     }
 

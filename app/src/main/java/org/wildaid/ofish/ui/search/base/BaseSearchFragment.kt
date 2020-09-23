@@ -35,6 +35,8 @@ import org.wildaid.ofish.util.hideKeyboard
 import org.wildaid.ofish.util.showKeyboard
 import java.io.Serializable
 
+const val EMPTY_STATE = "EMPTY_STATE"
+
 abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
     protected lateinit var currentSearchEntity: BaseSearchType
     protected val baseSearchViewModel: BaseSearchViewModel<T> by lazy { createViewModel() }
@@ -85,7 +87,16 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
             if (requireActivity() is CreateReportActivity) activityViewModel.report else null
         baseSearchViewModel.initDataList(currentSearchEntity, report)
         baseSearchViewModel.dataList.observe(viewLifecycleOwner, Observer {
-            baseSearchAdapter.setItems(it)
+            if (it.isNotEmpty()) {
+                baseSearchAdapter.setItems(it)
+            } else {
+                baseSearchAdapter.setItems(emptyList())
+                if (currentSearchEntity is ComplexSearchFragment.SearchDrafts) {
+                    updateEmptyViewVisibility(true, EMPTY_STATE)
+                } else {
+                    empty_result_image.setBackgroundResource(R.drawable.ic_search)
+                }
+            }
         })
 
         baseSearchViewModel.progressLiveData.observe(viewLifecycleOwner, Observer {
@@ -190,23 +201,38 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
     private val toolbarSearchListener = object : SearchView.OnQueryTextListener {
         override fun onQueryTextChange(newText: String?): Boolean {
             baseSearchViewModel.applyFilter(newText.orEmpty())
-            val showEmptyState = baseSearchViewModel.isReportSearchEmpty() && baseSearchViewModel.isRecordSearch(currentSearchEntity)
+            val showEmptyState =
+                baseSearchViewModel.isReportSearchEmpty() && baseSearchViewModel.isRecordSearch(
+                    currentSearchEntity
+                )
             updateEmptyViewVisibility(showEmptyState, newText)
             return true
         }
 
         override fun onQueryTextSubmit(query: String?): Boolean {
             baseSearchViewModel.applyFilter(query.orEmpty())
-            val showEmptyState = baseSearchViewModel.isReportSearchEmpty() && baseSearchViewModel.isRecordSearch(currentSearchEntity)
+            val showEmptyState =
+                baseSearchViewModel.isReportSearchEmpty() && baseSearchViewModel.isRecordSearch(
+                    currentSearchEntity
+                )
             updateEmptyViewVisibility(showEmptyState, query)
             return false
         }
     }
 
     private fun updateEmptyViewVisibility(isSearchEmpty: Boolean, query: String?) {
+        val emptyResultText: String
+        if (currentSearchEntity is ComplexSearchFragment.SearchDrafts) {
+            emptyResultText = "0 ${getString(R.string.draft_boardings)}"
+            empty_result_image.setBackgroundResource(R.drawable.ic_empty_draft_boardings)
+        } else {
+            emptyResultText = getString(R.string.no_results_for, query)
+            empty_result_image.setBackgroundResource(R.drawable.ic_search)
+        }
+
         if (isSearchEmpty && !query.isNullOrBlank()) {
             empty_result_layout.visibility = View.VISIBLE
-            empty_result_text.text = getString(R.string.no_results_for, query)
+            empty_result_text.text = emptyResultText
         } else {
             empty_result_layout.visibility = View.GONE
         }
