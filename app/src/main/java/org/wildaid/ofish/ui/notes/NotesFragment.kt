@@ -25,6 +25,14 @@ class NotesFragment : BaseReportFragment(R.layout.fragment_notes) {
         fragmentViewModel.initNotes(currentReport, currentReportPhotos)
     }
 
+    override fun isAllRequiredFieldsNotEmpty(): Boolean {
+        return true
+    }
+
+    override fun validateForms(): Boolean {
+        return true
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewDataBinding = FragmentNotesBinding.bind(view)
             .apply {

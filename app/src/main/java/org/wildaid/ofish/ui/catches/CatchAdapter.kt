@@ -121,13 +121,6 @@ class CatchAdapter(
                     catchEditBinding.catchViewLayout.reportCatchAmount2.setVisible(false)
                 }
             }
-
-            clearAmountIfNeeded(item)
-        }
-
-        private fun clearAmountIfNeeded(item: CatchItem) {
-            if (!item.amount.contains(weightString, true)) item.catch.weight = 0.0
-            if (!item.amount.contains(countString, true)) item.catch.number = 0L
         }
 
         private fun initUnitSpinner() {

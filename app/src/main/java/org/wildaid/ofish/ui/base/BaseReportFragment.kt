@@ -40,7 +40,6 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
     private var pendingPhotoSelection: ((Uri) -> Unit)? = null
 
     protected var isFieldCheckPassed = false
-    protected var requiredFields: Array<TextInputLayout> = emptyArray()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,26 +56,17 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
         }
     }
 
-    fun isAllRequiredFieldsNotEmpty(): Boolean {
-        requiredFields.forEach {
-            val text = it.editText?.text
-            if (it.visibility == View.VISIBLE && text.isNullOrBlank()) {
-                return false
-            }
-        }
-        return true
-    }
+    abstract fun isAllRequiredFieldsNotEmpty(): Boolean
 
-    fun validateForms(): Boolean {
+    abstract fun validateForms(): Boolean
+
+    protected fun validateField(field: TextInputLayout): Boolean {
         var result = true
-        requiredFields.forEach {
-            val text = it.editText?.text
-            if (it.visibility == View.VISIBLE && text.isNullOrBlank()) {
-                result = false
-                it.errorIconDrawable = resources.getDrawable(R.drawable.ic_error_outline, null)
-            }
+        val text = field.editText?.text
+        if (field.visibility == View.VISIBLE && text.isNullOrBlank()) {
+            result = false
+            field.errorIconDrawable = resources.getDrawable(R.drawable.ic_error_outline, null)
         }
-        isFieldCheckPassed = true
         return result
     }
 

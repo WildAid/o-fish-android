@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.Observer
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_vessel.*
 import kotlinx.android.synthetic.main.fragment_vessel.view.*
 import org.wildaid.ofish.EventObserver
@@ -20,9 +21,10 @@ import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.complex.BusinessSearchModel
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
 import org.wildaid.ofish.ui.search.simple.SimpleSearchFragment
-import org.wildaid.ofish.util.*
+import org.wildaid.ofish.util.getViewModelFactory
+import org.wildaid.ofish.util.hideKeyboard
+import org.wildaid.ofish.util.setVisible
 import java.util.*
-
 
 const val CREATE_NEW_BUSINESS = "create_new_business"
 
@@ -31,11 +33,35 @@ class VesselFragment : BaseReportFragment(R.layout.fragment_vessel) {
     private var pendingEmsForType: EMSItem? = null
     private lateinit var fragmentBinding: FragmentVesselBinding
     private lateinit var emsAdapter: EMSAdapter
+    private lateinit var requiredFields: Array<TextInputLayout>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fragmentViewModel.initVessel(currentReport, currentReportPhotos)
         subscribeToSearchResult()
+    }
+
+    override fun isAllRequiredFieldsNotEmpty(): Boolean {
+        requiredFields.forEach {
+            val text = it.editText?.text
+            if (it.visibility == View.VISIBLE && text.isNullOrBlank()) {
+                return false
+            }
+        }
+        return true
+    }
+
+    override fun validateForms(): Boolean {
+        var result = true
+        requiredFields.forEach {
+            val text = it.editText?.text
+            if (it.visibility == View.VISIBLE && text.isNullOrBlank()) {
+                result = false
+                it.errorIconDrawable = resources.getDrawable(R.drawable.ic_error_outline, null)
+            }
+        }
+        isFieldCheckPassed = true
+        return result
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
