@@ -111,6 +111,7 @@
                                 android:imeOptions="actionNext"
                                 android:nextFocusDown="@id/vessel_home_port"
                                 android:singleLine="true"
+                                android:inputType="textCapCharacters"
                                 android:text="@={viewModel.vesselItemLiveData.vessel.permitNumber}"
                                 app:onFocusChangeListener="@{viewModel.fieldFocusListener}" />
                         </com.google.android.material.textfield.TextInputLayout>
