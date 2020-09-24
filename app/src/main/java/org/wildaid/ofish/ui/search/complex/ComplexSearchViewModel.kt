@@ -159,7 +159,7 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
 
         private fun fetchDrafts() {
             if (cachedDraftBoardings.isNullOrEmpty()) {
-                cachedDraftBoardings = repository.findDraftsGroupedByVessel()
+                cachedDraftBoardings = repository.findDraftsGroupedByOfficerNameAndEmail()
             }
         }
     }

@@ -31,7 +31,7 @@ interface Repository {
 
     fun findReportsGroupedByVessel(sort: Sort = Sort.DESCENDING): List<Report>
 
-    fun findDraftsGroupedByVessel(sort: Sort = Sort.DESCENDING): List<Report>
+    fun findDraftsGroupedByOfficerNameAndEmail(sort: Sort = Sort.DESCENDING): List<Report>
 
     fun findAllReports(sort: Sort = Sort.DESCENDING): List<Report>
 

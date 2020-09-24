@@ -93,8 +93,10 @@ class RepositoryImpl(
     override fun findReportsGroupedByVessel(sort: Sort) =
         realmDataSource.findReportsGroupedByVesselNameAndPermitNumber(sort)
 
-    override fun findDraftsGroupedByVessel(sort: Sort): List<Report> =
-        realmDataSource.findDraftsGroupedByVesselNameAndPermitNumber(sort)
+    override fun findDraftsGroupedByOfficerNameAndEmail(sort: Sort): List<Report> {
+        val officerData = getCurrentOfficer()
+        return realmDataSource.findDraftsGroupedByOfficerNameAndEmail(sort, officerData)
+    }
 
     override fun findAllReports(sort: Sort) = realmDataSource.findAllReports(sort)
 
@@ -103,11 +105,14 @@ class RepositoryImpl(
     override fun findReportsForBoat(boatPermitNumber: String, vesselName: String) =
         realmDataSource.findReportsForBoat(boatPermitNumber, vesselName)
 
-    override fun getAmountOfDraftsForCurrentOfficer(): Int =
-        realmDataSource.getAmountOfDraftsForCurrentOfficer()
+    override fun getAmountOfDraftsForCurrentOfficer(): Int {
+        val officerData = getCurrentOfficer()
+        return realmDataSource.getAmountOfDraftsForCurrentOfficer(officerData)
+    }
 
     override fun findReportsForCurrentDuty(): List<Report> {
-        return realmDataSource.findReportsForCurrentDuty()
+        val dutyChange = getRecentStartCurrentDuty()
+        return realmDataSource.findReportsForCurrentDuty(dutyChange)
     }
 
     override fun findAllBoats() = realmDataSource.findAllBoats()
@@ -158,8 +163,10 @@ class RepositoryImpl(
     override fun getRecentStartCurrentDuty(): DutyChange? =
         realmDataSource.getRecentStartCurrentDuty()
 
-    override fun updateStartDateForCurrentDuty(date: Date) =
-        realmDataSource.updateStartDateForCurrentDuty(date)
+    override fun updateStartDateForCurrentDuty(date: Date) {
+        val onDuty = getRecentStartCurrentDuty()!!
+        realmDataSource.updateStartDateForCurrentDuty(date, onDuty)
+    }
 
     override fun updateCurrentOfficerPhoto(uri: Uri) {
         val pictureId = getCurrentOfficer().pictureId
