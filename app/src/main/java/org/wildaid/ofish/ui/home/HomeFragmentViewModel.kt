@@ -24,11 +24,15 @@ class HomeFragmentViewModel(val repository: Repository) : ViewModel() {
     lateinit var activityViewModel: HomeActivityViewModel
 
     fun updateDraftCount(){
-        _amountOfDrafts.value = repository.getAmountOfDrafts()
+        _amountOfDrafts.value = repository.getAmountOfDraftsByEmail()
     }
 
     fun onLocationAvailable(latitude: Double, longitude: Double) {
         _locationLiveData.value = Pair(latitude, longitude)
+    }
+
+    fun showDrafts(){
+        _userEventLiveData.value = Event(HomeFragmentUserEvent.ShowDrafts)
     }
 
     fun boardVessel() {
@@ -56,5 +60,6 @@ class HomeFragmentViewModel(val repository: Repository) : ViewModel() {
         object FindRecords : HomeFragmentUserEvent()
         object ShowUserStatus : HomeFragmentUserEvent()
         object BoardVessel : HomeFragmentUserEvent()
+        object ShowDrafts : HomeFragmentUserEvent()
     }
 }

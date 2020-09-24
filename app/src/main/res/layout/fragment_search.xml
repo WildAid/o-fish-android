@@ -42,11 +42,11 @@
             android:visibility="gone">
 
             <ImageView
+                android:id="@+id/empty_result_image"
                 android:layout_width="128dp"
                 android:layout_height="128dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="42dp"
-                android:src="@drawable/ic_search" />
+                android:layout_marginTop="42dp" />
 
             <TextView
                 android:id="@+id/empty_result_text"

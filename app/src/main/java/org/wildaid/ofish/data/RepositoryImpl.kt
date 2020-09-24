@@ -93,6 +93,11 @@ class RepositoryImpl(
     override fun findReportsGroupedByVessel(sort: Sort) =
         realmDataSource.findReportsGroupedByVesselNameAndPermitNumber(sort)
 
+    override fun findDraftsGroupedByOfficerNameAndEmail(sort: Sort): List<Report> {
+        val officerData = getCurrentOfficer()
+        return realmDataSource.findDraftsGroupedByOfficerEmail(sort, officerData.email)
+    }
+
     override fun findAllReports(sort: Sort) = realmDataSource.findAllReports(sort)
 
     override fun findReport(reportId: ObjectId) = realmDataSource.findReport(reportId)
@@ -100,8 +105,10 @@ class RepositoryImpl(
     override fun findReportsForBoat(boatPermitNumber: String, vesselName: String) =
         realmDataSource.findReportsForBoat(boatPermitNumber, vesselName)
 
-    override fun getAmountOfDrafts(): Int =
-        realmDataSource.getAmountOfDrafts()
+    override fun getAmountOfDraftsByEmail(): Int {
+        val officerData = getCurrentOfficer()
+        return realmDataSource.getAmountOfDraftsByOfficerEmail(officerData.email)
+    }
 
     override fun findReportsForCurrentDuty(): List<Report> {
         return realmDataSource.findReportsForCurrentDuty()
@@ -155,8 +162,9 @@ class RepositoryImpl(
     override fun getRecentStartCurrentDuty(): DutyChange? =
         realmDataSource.getRecentStartCurrentDuty()
 
-    override fun updateStartDateForCurrentDuty(date: Date) =
+    override fun updateStartDateForCurrentDuty(date: Date) {
         realmDataSource.updateStartDateForCurrentDuty(date)
+    }
 
     override fun updateCurrentOfficerPhoto(uri: Uri) {
         val pictureId = getCurrentOfficer().pictureId
