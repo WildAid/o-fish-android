@@ -201,7 +201,6 @@
     <string name="draft_saved">Boarding Saved</string>
     <string name="submit">Submit</string>
     <string name="keep_editing">Keep Editing</string>
-    <string name="save_and_finish">Save and Finish Later</string>
     <string name="boarding_submitted">Boarding Submitted!</string>
     <string name="boarding_canceled">Boarding Canceled</string>
     <string name="saving_error">An error occurred while saving</string>
@@ -223,6 +222,7 @@
     <string name="patrol_summary">Patrol Summary</string>
     <string name="become_not_at_sea">Become not at sea</string>
     <string name="boarding_count">%d Boardings</string>
+    <string name="formatted_draft">%d Drafts</string>
     <string name="error_start_date">Start date should be before End date</string>
     <string name="error_end_date">End date should be after Start date</string>
     <string name="error_date_in_future">Please set correct date</string>

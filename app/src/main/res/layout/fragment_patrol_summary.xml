@@ -9,6 +9,10 @@
         <variable
             name="viewmodel"
             type="org.wildaid.ofish.ui.patrolsummary.PatrolSummaryViewModel" />
+
+        <variable
+            name="homeActivityViewModel"
+            type="org.wildaid.ofish.ui.home.HomeActivityViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -209,18 +213,39 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/boarding_count"
-                            style="@style/CardHeader"
-                            android:paddingStart="16dp"
-                            android:paddingEnd="16dp"
-                            android:paddingTop="20dp"
-                            android:paddingBottom="12dp"
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@{@string/boarding_count(viewmodel.reports.size())}"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:text="14 Boardings"/>
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/boarding_count"
+                                style="@style/CardHeader"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingStart="16dp"
+                                android:paddingTop="20dp"
+                                android:paddingEnd="16dp"
+                                android:paddingBottom="12dp"
+                                android:text="@{@string/boarding_count(viewmodel.reports.size())}"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:text="14 Boardings" />
+
+                            <TextView
+                                android:id="@+id/amountOfDrafts"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="15dp"
+                                android:text="@{@string/formatted_draft(viewmodel.getDraftCountForCurrentDuty())}"
+                                android:textColor="@color/tabs_amber"
+                                android:textSize="17sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:text="10 Drafts" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/summary_recycler"
