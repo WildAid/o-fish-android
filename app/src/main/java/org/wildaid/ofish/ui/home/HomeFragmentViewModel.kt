@@ -24,7 +24,7 @@ class HomeFragmentViewModel(val repository: Repository) : ViewModel() {
     lateinit var activityViewModel: HomeActivityViewModel
 
     fun updateDraftCount(){
-        _amountOfDrafts.value = repository.getAmountOfDraftsForCurrentOfficer()
+        _amountOfDrafts.value = repository.getAmountOfDraftsByEmail()
     }
 
     fun onLocationAvailable(latitude: Double, longitude: Double) {

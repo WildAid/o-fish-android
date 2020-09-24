@@ -41,7 +41,7 @@ interface Repository {
 
     fun findReportsForBoat(boatPermitNumber: String, vesselName: String): List<Report>
 
-    fun getAmountOfDraftsForCurrentOfficer(): Int
+    fun getAmountOfDraftsByEmail(): Int
 
     fun findAllBoats(): List<Boat>
 

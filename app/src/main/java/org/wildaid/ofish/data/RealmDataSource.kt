@@ -28,8 +28,6 @@ const val DATE = "date"
 const val BUSINESS = "business"
 const val LOCATION = "location"
 const val DRAFT = "draft"
-const val REPORTING_NAME_OFFICER = "reportingOfficer.name.first"
-const val REPORTING_SURNAME_OFFICER = "reportingOfficer.name.last"
 const val REPORTING_EMAIL_OFFICER = "reportingOfficer.email"
 const val LAST_DELIVERY_DATE = "lastDelivery.date"
 const val VESSEL_PERMIT_NUMBER = "vessel.permitNumber"
@@ -137,7 +135,8 @@ class RealmDataSource(context: Context) {
             .findFirst()
     }
 
-    fun updateStartDateForCurrentDuty(date: Date, onDuty: DutyChange) {
+    fun updateStartDateForCurrentDuty(date: Date) {
+        val onDuty = getRecentStartCurrentDuty()!!
         realm.executeTransaction {
             onDuty.date = date
         }
@@ -171,15 +170,11 @@ class RealmDataSource(context: Context) {
             .findAll()
     }
 
-    fun findDraftsGroupedByOfficerNameAndEmail(sort: Sort, officer: OfficerData): List<Report> {
+    fun findDraftsGroupedByOfficerEmail(sort: Sort, email: String): List<Report> {
         return realm.where<Report>()
             .equalTo(DRAFT, true)
             .and()
-            .equalTo(REPORTING_NAME_OFFICER, officer.firstName)
-            .and()
-            .equalTo(REPORTING_SURNAME_OFFICER, officer.lastName)
-            .and()
-            .equalTo(REPORTING_EMAIL_OFFICER, officer.email)
+            .equalTo(REPORTING_EMAIL_OFFICER, email)
             .sort(DATE, sort)
             .findAll()
     }
@@ -204,22 +199,17 @@ class RealmDataSource(context: Context) {
             .toList()
     }
 
-    fun getAmountOfDraftsForCurrentOfficer(officer: OfficerData): Int {
-        officer.let {
-            return realm.where<Report>()
-                .equalTo(DRAFT, true)
-                .and()
-                .equalTo(REPORTING_NAME_OFFICER, officer.firstName)
-                .and()
-                .equalTo(REPORTING_SURNAME_OFFICER, officer.lastName)
-                .and()
-                .equalTo(REPORTING_EMAIL_OFFICER, officer.email)
-                .findAll()
-                .count()
-        }
+    fun getAmountOfDraftsByOfficerEmail(email: String): Int {
+        return realm.where<Report>()
+            .equalTo(DRAFT, true)
+            .and()
+            .equalTo(REPORTING_EMAIL_OFFICER, email)
+            .findAll()
+            .count()
     }
 
-    fun findReportsForCurrentDuty(dutyChange: DutyChange?): List<Report> {
+    fun findReportsForCurrentDuty(): List<Report> {
+        val dutyChange = getRecentStartCurrentDuty()
         dutyChange?.let {
             return realm.where<Report>()
                 .sort(DATE, Sort.DESCENDING)
