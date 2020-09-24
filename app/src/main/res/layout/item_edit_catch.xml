@@ -60,6 +60,7 @@
             android:layout_height="@dimen/edit_icon_size"
             android:onClick="@{() -> holder.onCatchEditClicked()}"
             android:src="@drawable/ic_edit"
+            android:tint="@color/dark_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

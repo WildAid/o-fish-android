@@ -53,6 +53,7 @@
             android:layout_height="@dimen/add_attachment_icon_size"
             android:onClick="@{() -> holder.onAddPhotoAttachment()}"
             android:src="@drawable/ic_add_photo_attachment"
+            android:tint="@color/dark_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
