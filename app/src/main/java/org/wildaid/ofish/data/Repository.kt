@@ -43,6 +43,8 @@ interface Repository {
 
     fun getAmountOfDraftsByEmail(): Int
 
+    fun getAmountOfDraftsForCurrentDuty(): Int
+
     fun findAllBoats(): List<Boat>
 
     fun getMenuData(): MenuData?

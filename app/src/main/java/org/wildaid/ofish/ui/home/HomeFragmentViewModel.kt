@@ -17,15 +17,12 @@ class HomeFragmentViewModel(val repository: Repository) : ViewModel() {
     val userEventLiveData: LiveData<Event<HomeFragmentUserEvent>>
         get() = _userEventLiveData
 
+
     private var _amountOfDrafts = MutableLiveData<Int>()
     val amountOfDrafts: LiveData<Int>
         get() = _amountOfDrafts
 
     lateinit var activityViewModel: HomeActivityViewModel
-
-    fun updateDraftCount(){
-        _amountOfDrafts.value = repository.getAmountOfDraftsByEmail()
-    }
 
     fun onLocationAvailable(latitude: Double, longitude: Double) {
         _locationLiveData.value = Pair(latitude, longitude)
@@ -33,6 +30,10 @@ class HomeFragmentViewModel(val repository: Repository) : ViewModel() {
 
     fun showDrafts(){
         _userEventLiveData.value = Event(HomeFragmentUserEvent.ShowDrafts)
+    }
+
+    fun updateDraftCount() {
+        _amountOfDrafts.value = repository.getAmountOfDraftsByEmail()
     }
 
     fun boardVessel() {

@@ -39,6 +39,9 @@ class PatrolSummaryViewModel(val repository: Repository) : ViewModel() {
     private fun getRecentStartDateOrNewDate() =
         repository.getRecentStartCurrentDuty()?.date ?: Date()
 
+    fun getDraftCountForCurrentDuty(): Int {
+        return repository.getAmountOfDraftsForCurrentDuty()
+    }
 
     fun updateDate(year: Int, month: Int, dayOfMonth: Int, startTime: Boolean) {
         val newDate =

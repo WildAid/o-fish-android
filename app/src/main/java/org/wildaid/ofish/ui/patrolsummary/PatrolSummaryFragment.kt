@@ -47,6 +47,7 @@ class PatrolSummaryFragment : Fragment(R.layout.fragment_patrol_summary) {
 
         viewDataBinding = FragmentPatrolSummaryBinding.bind(view).apply {
             this.viewmodel = fragmentViewModel
+            this.homeActivityViewModel = activityViewModel
             this.lifecycleOwner = this@PatrolSummaryFragment.viewLifecycleOwner
         }
 
