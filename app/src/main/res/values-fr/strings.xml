@@ -109,7 +109,7 @@
     <string name="not_at_sea">Pas en mer</string>
     <string name="you_are_not_at_sea">Vous êtes actuellement pas en mer</string>
     <string name="change_status_to_at_sea">Changer le statut en "En mer"?</string>
-    <string name="board_vessel">Inspecter le Vaisseau</string>
+    <string name="board_vessel">Inspecter le\n Vaisseau</string>
     <string name="find_records">Chercher les rapports</string>
     <string name="first_last_name">%s %s</string>
 
