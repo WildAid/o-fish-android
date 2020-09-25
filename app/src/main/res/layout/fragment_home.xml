@@ -190,7 +190,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
             android:text="@string/board_vessel"
-            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/home_map"
             app:layout_constraintEnd_toEndOf="@+id/imageButton2"
             app:layout_constraintStart_toStartOf="@+id/imageButton2"
