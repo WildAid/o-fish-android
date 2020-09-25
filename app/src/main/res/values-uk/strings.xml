@@ -190,10 +190,12 @@
     <string name="draft_saved">Прибуття збережено</string>
     <string name="submit">Подати</string>
     <string name="continue_with_empty_fields">Продовжити з порожніми полями?</string>
+    <string name="login_error">Відбулась помилка під час логіну</string>
     <string name="continue_action">Продовжити</string>
     <string name="chose_image_source">Виберіть джерело світлини</string>
     <string name="risk_no_notes_or_photos">Немає Нотатків або Фотокарток</string>
 
     <!--    Time On Duty    -->
     <string name="become_not_at_sea">Зійти з моря</string>
+    <string name="invalid_email_or_password">Невірний емеіл або пароль</string>
 </resources>
