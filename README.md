@@ -1,6 +1,4 @@
-# WildAid O-FISH (Android App)
-
-**This app is work-in-progress**
+# WildAid O-FISH Android App
 
 The [WildAid Marine Program](https://marine.wildaid.org/) work to protect vulnerable marine environments.
 
@@ -12,13 +10,15 @@ Details on installing all applications making up the solution can be found [here
 
 ## Prerequisites
 
-This is the Android Mobile app for O-FISH. To build and use the app, you must first create and configure your serverless backend application using the [WildAid O-FISH MongoDB Realm repo](https://github.com/WildAid/o-fish-realm)
+This is the Android Mobile app for O-FISH. To build and use the app, you must first create and configure your serverless backend application using the [WildAid O-FISH MongoDB Realm repo](https://github.com/WildAid/o-fish-realm).
 
 ## Building and running the app
 
-Build and run the app using Android Studio - but before building, set these values in the project's `realm.properties` file:
+1. Open the code in Android studio.
 
-```
-# Find this from the [MongoDB Realm UI](https://realm.mongodb.com)
-realm_app_id=your_app_id
-```
+1. Wait for the Gradle sync to finish.<BR>
+1. Add the Realm App ID from your template to `local.properties`:<BR>
+`realm_app_id=your_app_id`<BR>
+
+1. <A HREF="https://developer.android.com/studio/run">Build and run as normal with Android Studio</A>, either directly to your physical or virtual device.<BR><BR>
+
