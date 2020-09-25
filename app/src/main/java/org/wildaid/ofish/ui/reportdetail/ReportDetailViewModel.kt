@@ -1,5 +1,6 @@
 package org.wildaid.ofish.ui.reportdetail
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.bson.types.ObjectId
@@ -13,8 +14,15 @@ import org.wildaid.ofish.util.LONGITUDE
 import org.wildaid.ofish.util.convert
 
 class ReportDetailViewModel(val repository: Repository) : ViewModel() {
-    val reportLiveData = MutableLiveData<Report>()
-    val boardVesselLiveData = MutableLiveData<Event<Report>>()
+
+    private var _reportLiveData = MutableLiveData<Report>()
+    val reportLiveData: LiveData<Report>
+        get() = _reportLiveData
+
+    private var _boardVesselLiveData = MutableLiveData<Event<Report>>()
+    val boardVesselLiveData: LiveData<Event<Report>>
+        get() = _boardVesselLiveData
+
     lateinit var activityViewModel: HomeActivityViewModel
 
     private var loadedReport: Report? = null
@@ -23,7 +31,7 @@ class ReportDetailViewModel(val repository: Repository) : ViewModel() {
         loadedReport = repository.findReport(reportId)
 
         loadedReport?.let {
-            reportLiveData.value = it
+            _reportLiveData.value = it
         }
     }
 
@@ -34,11 +42,11 @@ class ReportDetailViewModel(val repository: Repository) : ViewModel() {
     fun boardVessel() {
         if (activityViewModel.onDutyStatusLiveData.value == true) {
             loadedReport?.let {
-                boardVesselLiveData.value = Event(it)
+                _boardVesselLiveData.value = Event(it)
             }
         } else {
             activityViewModel.userEventLiveData.value =
-                Event(HomeActivityViewModel.UserEvent.AskDutyConfirmationEvent)
+                Event(HomeActivityViewModel.HomeActivityUserEvent.AskDutyConfirmationEvent)
         }
     }
 

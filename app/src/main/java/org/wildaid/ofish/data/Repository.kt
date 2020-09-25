@@ -31,13 +31,21 @@ interface Repository {
 
     fun findReportsGroupedByVessel(sort: Sort = Sort.DESCENDING): List<Report>
 
+    fun findDraftsGroupedByOfficerNameAndEmail(sort: Sort = Sort.DESCENDING): List<Report>
+
     fun findAllReports(sort: Sort = Sort.DESCENDING): List<Report>
 
     fun findReportsForCurrentDuty(): List<Report>
 
     fun findReport(reportId: ObjectId): Report?
 
+    fun findDraft(draftId: ObjectId): Report?
+
     fun findReportsForBoat(boatPermitNumber: String, vesselName: String): List<Report>
+
+    fun getAmountOfDraftsByEmail(): Int
+
+    fun getAmountOfDraftsForCurrentDuty(): Int
 
     fun findAllBoats(): List<Boat>
 

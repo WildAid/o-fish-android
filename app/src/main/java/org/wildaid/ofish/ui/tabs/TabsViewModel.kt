@@ -2,6 +2,7 @@ package org.wildaid.ofish.ui.tabs
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.tabs.TabLayout
 import org.wildaid.ofish.Event
@@ -17,9 +18,18 @@ import org.wildaid.ofish.util.getString
 
 class TabsViewModel(val repository: Repository, application: Application) :
     AndroidViewModel(application) {
-    val reportLiveData = MutableLiveData<Pair<Report, MutableList<PhotoItem>>>()
-    val userEventLiveData = MutableLiveData<Event<UserEvent>>()
-    val tabsStateLiveData = MutableLiveData<List<TabItem>>()
+
+    private var _reportLiveData = MutableLiveData<Pair<Report, MutableList<PhotoItem>>>()
+    val reportLiveData: LiveData<Pair<Report, MutableList<PhotoItem>>>
+        get() = _reportLiveData
+
+    private var _userEventLiveData = MutableLiveData<Event<TabsUserEvent>>()
+    val userEventLiveData: LiveData<Event<TabsUserEvent>>
+        get() = _userEventLiveData
+
+    private var _tabsStateLiveData = MutableLiveData<List<TabItem>>()
+    val tabsStateLiveData: LiveData<List<TabItem>>
+        get() = _tabsStateLiveData
 
     var vesselToPrefill: Boat? = null
     var crewToPrefill: List<CrewMember>? = null
@@ -43,27 +53,30 @@ class TabsViewModel(val repository: Repository, application: Application) :
                 this.homePort = vesselToPrefill.homePort
                 this.nationality = vesselToPrefill.flagState
                 this.permitNumber = vesselToPrefill.vesselNumber
+                this.attachments?.photoIDs?.addAll(vesselToPrefill.attachmentsPhotosId)
             }
         }
 
         crewToPrefill?.let {
             prefillCaptain = CrewMember().apply {
-                name = it.captain.first
-                license = it.captain.second
+                name = it.captain.name
+                license = it.captain.license
+                attachments?.photoIDs?.addAll(it.captain.photosIds)
             }
 
             this.crewToPrefill = mutableListOf(
-                *it.crew.map { pair ->
+                *it.crew.map { crew ->
                     CrewMember().apply {
-                        name = pair.first
-                        license = pair.second
+                        name = crew.name
+                        license = crew.license
+                        attachments?.photoIDs?.addAll(crew.photosIds)
                     }
                 }.toTypedArray()
             )
         }
 
         this.report = creationReport
-        this.reportLiveData.value = creationReport to reportPhotos
+        this._reportLiveData.value = creationReport to reportPhotos
     }
 
     fun onTabsSkipped(skippedTabs: List<TabItem>) {
@@ -71,9 +84,9 @@ class TabsViewModel(val repository: Repository, application: Application) :
             it.status = TabStatus.SKIPPED
         }
 
-        tabsStateLiveData.value = tabs
+        _tabsStateLiveData.value = tabs
         val nextTab = tabs[tabs.indexOf(skippedTabs.last()) + 1]
-        userEventLiveData.value = Event(UserEvent.ChangeTabEvent(nextTab))
+        _userEventLiveData.value = Event(TabsUserEvent.ChangeTabEvent(nextTab))
     }
 
     fun onTabClicked(
@@ -93,12 +106,12 @@ class TabsViewModel(val repository: Repository, application: Application) :
             if (!currentFormValid) {
                 notVisitedTabs.add(0, currentTab)
             }
-            userEventLiveData.value = Event(UserEvent.AskSkipSectionsEvent(notVisitedTabs))
+            _userEventLiveData.value = Event(TabsUserEvent.AskSkipSectionsEvent(notVisitedTabs))
             return true
         }
 
         if (!currentFormValid && newPosition > currentTabPosition) {
-            userEventLiveData.value = Event(UserEvent.AskLeftEmptyFields(listOf(currentTab)))
+            _userEventLiveData.value = Event(TabsUserEvent.AskLeftEmptyFields(listOf(currentTab)))
             return true
         }
 
@@ -108,12 +121,12 @@ class TabsViewModel(val repository: Repository, application: Application) :
     fun onTabChanged(previousTabIndex: Int, currentTabIndex: Int) {
         if (!vesselFragmentWasVisited && currentTabIndex == VESSEL_FRAGMENT_POSITION && vesselToPrefill != null) {
             vesselFragmentWasVisited = true
-            userEventLiveData.value = Event(UserEvent.AskPrefillVesselEvent)
+            _userEventLiveData.value = Event(TabsUserEvent.AskPrefillVesselEvent)
         }
 
         if (!crewFragmentWasVisited && currentTabIndex == CREW_FRAGMENT_POSITION && crewToPrefill != null) {
             crewFragmentWasVisited = true
-            userEventLiveData.value = Event(UserEvent.AskPrefillCrewEvent)
+            _userEventLiveData.value = Event(TabsUserEvent.AskPrefillCrewEvent)
         }
 
         val previousTab = tabs[previousTabIndex]
@@ -121,13 +134,13 @@ class TabsViewModel(val repository: Repository, application: Application) :
             previousTab.apply {
                 status = TabStatus.VISITED
             }
-            tabsStateLiveData.value = tabs
+            _tabsStateLiveData.value = tabs
         }
         tabs[currentTabIndex].apply {
             status = TabStatus.VISITED
         }
 
-        tabsStateLiveData.value = tabs
+        _tabsStateLiveData.value = tabs
     }
 
     private fun initTabStates() {
@@ -151,11 +164,11 @@ class TabsViewModel(val repository: Repository, application: Application) :
         return tabs.filterNot { it.status == TabStatus.VISITED }
     }
 
-    sealed class UserEvent {
-        class AskSkipSectionsEvent(var skippedTabs: List<TabItem>) : UserEvent()
-        class AskLeftEmptyFields(var skippedTabs: List<TabItem>) : UserEvent()
-        class ChangeTabEvent(var tabItem: TabItem) : UserEvent()
-        object AskPrefillVesselEvent : UserEvent()
-        object AskPrefillCrewEvent : UserEvent()
+    sealed class TabsUserEvent {
+        class AskSkipSectionsEvent(var skippedTabs: List<TabItem>) : TabsUserEvent()
+        class AskLeftEmptyFields(var skippedTabs: List<TabItem>) : TabsUserEvent()
+        class ChangeTabEvent(var tabItem: TabItem) : TabsUserEvent()
+        object AskPrefillVesselEvent : TabsUserEvent()
+        object AskPrefillCrewEvent : TabsUserEvent()
     }
 }

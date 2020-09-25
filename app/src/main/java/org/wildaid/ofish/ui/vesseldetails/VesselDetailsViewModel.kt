@@ -2,6 +2,7 @@ package org.wildaid.ofish.ui.vesseldetails
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
@@ -15,9 +16,18 @@ import org.wildaid.ofish.util.getString
 
 class VesselDetailsViewModel(private val repository: Repository, application: Application) :
     AndroidViewModel(application) {
-    val vesselItemLiveData = MutableLiveData<VesselItem>()
-    val vesselPhotosLiveData = MutableLiveData<List<Photo>>()
-    val userEventLiveData = MutableLiveData<Event<VesselDetailsUserEvent>>()
+
+    private var _vesselItemLiveData = MutableLiveData<VesselItem>()
+    val vesselItemLiveData: LiveData<VesselItem>
+        get() = _vesselItemLiveData
+
+    private var _vesselPhotosLiveData = MutableLiveData<List<Photo>>()
+    val vesselPhotosLiveData: LiveData<List<Photo>>
+        get() = _vesselPhotosLiveData
+
+    private var _userEventLiveData = MutableLiveData<Event<VesselDetailsUserEvent>>()
+    val userEventLiveData: LiveData<Event<VesselDetailsUserEvent>>
+        get() = _userEventLiveData
 
     lateinit var activityViewModel: HomeActivityViewModel
 
@@ -45,7 +55,7 @@ class VesselDetailsViewModel(private val repository: Repository, application: Ap
             )
         }
 
-        vesselItemLiveData.value =
+        _vesselItemLiveData.value =
             VesselItem(currentVessel, vesselReportItems, vesselReports.size, warnings, citations)
 
         vesselReports.map {
@@ -53,7 +63,7 @@ class VesselDetailsViewModel(private val repository: Repository, application: Ap
         }.flatten().ifEmpty {
             listOf(Photo()) // invalid photo, just to display holder
         }.also {
-            vesselPhotosLiveData.value = it
+            _vesselPhotosLiveData.value = it
         }
     }
 
@@ -67,11 +77,12 @@ class VesselDetailsViewModel(private val repository: Repository, application: Ap
     fun boardVessel() {
         if (activityViewModel.onDutyStatusLiveData.value == true) {
             vesselItemLiveData.value?.let {
-                userEventLiveData.value = Event(VesselDetailsUserEvent.AskOnDutyToNavigate(vesselReports.first()))
+                _userEventLiveData.value =
+                    Event(VesselDetailsUserEvent.AskOnDutyToNavigate(vesselReports.first()))
             }
         } else {
             activityViewModel.userEventLiveData.value =
-                Event(HomeActivityViewModel.UserEvent.AskDutyConfirmationEvent)
+                Event(HomeActivityViewModel.HomeActivityUserEvent.AskDutyConfirmationEvent)
         }
     }
 }

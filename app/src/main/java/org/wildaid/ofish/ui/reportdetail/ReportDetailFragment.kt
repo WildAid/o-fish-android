@@ -28,10 +28,7 @@ import org.wildaid.ofish.data.SafetyColor
 import org.wildaid.ofish.data.report.*
 import org.wildaid.ofish.databinding.*
 import org.wildaid.ofish.ui.base.*
-import org.wildaid.ofish.ui.createreport.CreateReportBundle
-import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_ARGS
-import org.wildaid.ofish.ui.createreport.PrefillCrew
-import org.wildaid.ofish.ui.createreport.PrefillVessel
+import org.wildaid.ofish.ui.createreport.*
 import org.wildaid.ofish.ui.home.ASK_CHANGE_DUTY_DIALOG_ID
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
 import org.wildaid.ofish.ui.home.ZOOM_LEVEL
@@ -39,12 +36,26 @@ import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.setVisible
 
 const val KEY_REPORT_ID = "report_id"
+const val BOARD_VESSEL_ALLOWED = "should_show_button"
+const val ADDITIONAL_TITLE = "additional_title"
 
 @SuppressLint("MissingPermission")
 class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
     private val fragmentViewModel: ReportDetailViewModel by viewModels { getViewModelFactory() }
     private val activityViewModel: HomeActivityViewModel by activityViewModels { getViewModelFactory() }
     private val navigation by lazy { findNavController() }
+    private val shouldShowButton by lazy {
+        requireArguments().getBoolean(
+            BOARD_VESSEL_ALLOWED,
+            true
+        )
+    }
+    private val additionalTitle by lazy {
+        requireArguments().getString(
+            ADDITIONAL_TITLE,
+            getString(R.string.boarding_record)
+        )
+    }
     private lateinit var fragmentBinding: FragmentReportDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,20 +87,45 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
 
         report_toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white)
         subscribeToDialogEvents()
+
+        shouldShowBoardButton()
+        setToolbarTitle()
+    }
+
+    private fun setToolbarTitle() {
+        report_toolbar.title = additionalTitle
+    }
+
+    private fun shouldShowBoardButton() {
+        boardVesselButton.visibility = if (shouldShowButton) View.VISIBLE else View.GONE
     }
 
     private fun navigateToCreateReport(it: Report) {
         val prefillCrew = PrefillCrew(
-            Pair(it.captain?.name!!, it.captain?.license!!),
-            it.crew.map { Pair(it.name, it.license) })
+            PrefillCrewMember(
+                it.captain?.name!!,
+                it.captain?.license!!,
+                it.captain!!.attachments?.photoIDs?.toList() ?: emptyList()
+            ),
+            it.crew.map {
+                PrefillCrewMember(
+                    it.name,
+                    it.license,
+                    it.attachments?.photoIDs?.toList() ?: emptyList()
+                )
+            })
         val prefillVessel = PrefillVessel(
             it.vessel?.name!!,
             it.vessel?.permitNumber!!,
             it.vessel?.nationality!!,
-            it.vessel?.homePort!!
+            it.vessel?.homePort!!,
+            it.vessel?.attachments?.photoIDs?.toList() ?: emptyList()
         )
         val navigationArgs =
-            bundleOf(KEY_CREATE_REPORT_ARGS to CreateReportBundle(prefillVessel, prefillCrew))
+            bundleOf(KEY_CREATE_REPORT_ARGS to CreateReportBundle(
+                prefillVessel = prefillVessel,
+                prefillCrew = prefillCrew)
+            )
 
         navigation.navigate(
             R.id.action_report_details_fragment_to_create_report,
@@ -103,7 +139,7 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             fragmentBinding.reportViewLastDelivery.deliveryViewAttachments.attachmentsPhotos,
             fragmentBinding.reportCaptainView.crewViewAttachments.attachmentsPhotos
         ).forEach {
-            it.onPhotoClickListener = ::showFullImage
+            it.onPhotoClickListener = ::showPhotoAttachmentFullSize
         }
     }
 
@@ -147,7 +183,7 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
     private fun displayReport(report: Report) {
         report.vessel?.let {
             inflateVessel(it)
-            inflateLastDelivery(it.lastDelivery!!)
+            inflateLastDelivery(it.lastDelivery)
             inflateEMS(it.ems)
         }
 
@@ -193,7 +229,12 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
         }
     }
 
-    private fun inflateLastDelivery(lastDelivery: Delivery) {
+    private fun inflateLastDelivery(lastDelivery: Delivery?) {
+        if (lastDelivery == null) {
+            fragmentBinding.vesselLastDeliverySection.setVisible(false)
+            return
+        }
+
         fragmentBinding.reportViewLastDelivery.apply {
             this.lifecycleOwner = viewLifecycleOwner
             this.photos = fragmentViewModel.getPhotosForIds(lastDelivery.attachments?.photoIDs)
@@ -216,7 +257,8 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
                     item.attachments?.notes?.isNotEmpty() ?: false
                 )
                 reportEmsDivider.setVisible(index != emsList.size - 1)
-                this.emsItemAttachments.attachmentsPhotos.onPhotoClickListener = ::showFullImage
+                this.emsItemAttachments.attachmentsPhotos.onPhotoClickListener =
+                    ::showPhotoAttachmentFullSize
             }
             fragmentBinding.reportEmsContainer.addView(emsBinding.root)
         }
@@ -247,7 +289,7 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
                     )
                     reportCrewDivider.setVisible(index != it.size - 1)
                     this.crewViewAttachments.attachmentsPhotos.onPhotoClickListener =
-                        ::showFullImage
+                        ::showPhotoAttachmentFullSize
                 }
                 report_crew_container.addView(crewBinding.root)
             }
@@ -278,9 +320,12 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             this.fisheryAttachments.attachmentNoteGroup.setVisible(
                 inspection.fishery?.attachments?.notes?.isNotEmpty() ?: false
             )
-            this.activityAttachments.attachmentsPhotos.onPhotoClickListener = ::showFullImage
-            this.gearAttachments.attachmentsPhotos.onPhotoClickListener = ::showFullImage
-            this.fisheryAttachments.attachmentsPhotos.onPhotoClickListener = ::showFullImage
+            this.activityAttachments.attachmentsPhotos.onPhotoClickListener =
+                ::showPhotoAttachmentFullSize
+            this.gearAttachments.attachmentsPhotos.onPhotoClickListener =
+                ::showPhotoAttachmentFullSize
+            this.fisheryAttachments.attachmentsPhotos.onPhotoClickListener =
+                ::showPhotoAttachmentFullSize
         }
 
         report_activity_container.addView(activityBinding.root)
@@ -315,7 +360,7 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             }
 
             catchBinding.catchViewAttachments.attachmentsPhotos.onPhotoClickListener =
-                ::showFullImage
+                ::showPhotoAttachmentFullSize
 
             report_catch_container.addView(catchBinding.root)
         }
@@ -334,7 +379,7 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
                 item.attachments?.notes?.isNotEmpty() ?: false
             )
             violationBinding.violationAttachments.attachmentsPhotos.onPhotoClickListener =
-                ::showFullImage
+                ::showPhotoAttachmentFullSize
             report_violation_container.addView(violationBinding.root)
         }
     }
@@ -346,21 +391,48 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             noteBinding.photos = fragmentViewModel.getPhotosForIds(note.photoIDs)
             noteBinding.noteTitle = getString(R.string.report_note_indexed, index + 1)
             noteBinding.reportNotesDivider.setVisible(index != notes.lastIndex)
-            noteBinding.attachmentsPhotos.onPhotoClickListener = ::showFullImage
+            noteBinding.attachmentsPhotos.onPhotoClickListener = ::showPhotoAttachmentFullSize
             report_notes_container.addView(noteBinding.root)
         }
     }
 
     private fun inflateRiskLevel(safetyLevel: SafetyLevel) {
-        for (value in SafetyColor.values()) {
-            if (value.name == safetyLevel.level) {
-                report_color_status.setSafetyColor(value, R.dimen.safety_background_radius_big)
-                break
+        val safetyColor = when (safetyLevel.level) {
+            SafetyColor.Red.name -> SafetyColor.Red
+            SafetyColor.Amber.name -> SafetyColor.Amber
+            SafetyColor.Green.name -> SafetyColor.Green
+            else -> null
+        } ?: return
+
+        fragmentBinding.reportColorStatus.setSafetyColor(
+            safetyColor,
+            R.dimen.safety_background_radius_big
+        )
+        fragmentBinding.reportRisksColor.setSafetyColor(
+            safetyColor,
+            R.dimen.safety_background_radius_big
+        )
+
+        fragmentBinding.reportRiskBody.let {
+            it.reportRiskReasonTitle.text = getString(R.string.reason_for_risk, safetyLevel.level)
+            it.photos = fragmentViewModel.getPhotosForIds(safetyLevel.attachments?.photoIDs)
+            it.riskViewAttachments.onPhotoClickListener = ::showPhotoAttachmentFullSize
+
+            if (safetyLevel.amberReason.isBlank() && safetyLevel.attachments?.photoIDs.isNullOrEmpty()) {
+                it.riskNoReason.setVisible(true)
+                it.riskReasonGroup.setVisible(false)
+            } else if (safetyLevel.amberReason.isBlank()) {
+                it.riskNoReason.setVisible(false)
+                it.riskReasonGroup.setVisible(false)
+            } else {
+                it.riskNoReason.setVisible(false)
+                it.riskReasonGroup.setVisible(true)
+                it.reportRiskReason.text = safetyLevel.amberReason
             }
         }
     }
 
-    private fun showFullImage(view: View, photoItem: PhotoItem) {
+    private fun showPhotoAttachmentFullSize(view: View, photoItem: PhotoItem) {
         val bundle = bundleOf(PHOTO_ID to photoItem.photo._id.toHexString())
         val extra = FragmentNavigatorExtras(view to view.transitionName)
         navigation.navigate(

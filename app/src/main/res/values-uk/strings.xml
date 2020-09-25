@@ -34,7 +34,7 @@
     <string name="remove_note">Видалити Примітку</string>
 
     <!--  Report  -->
-    <string name="menu_submit_report">Подати</string>
+    <string name="menu_save_report">Зберегти</string>
     <string name="menu_cancel_report">Скасувати</string>
 
     <string name="skip_sections_dialog_title">Пропустити наступні розділи?</string>
@@ -67,6 +67,7 @@
     <string name="gear">Спорядження</string>
     <string name="note">Примітка</string>
     <string name="catch_next">Улов\t\t\u279C</string>
+    <string name="no_catch">Без улову</string>
 
     <!--    Violation -->
     <string name="violation">Порушення</string>
@@ -104,10 +105,10 @@
     <string name="new_note">Нова Примітка</string>
 
     <!--  Home  -->
-    <string name="on_duty">НА ВАРТІ</string>
-    <string name="off_duty">ВІЛЬНО</string>
-    <string name="you_are_of_duty">Ви в даний час не на службi</string>
-    <string name="change_status_to_on_duty">Зміна статусу на "на варті"</string>
+    <string name="at_sea">У МОРІ</string>
+    <string name="not_at_sea">НЕ В МОРІ</string>
+    <string name="you_are_not_at_sea">Ви в даний час не у морі</string>
+    <string name="change_status_to_at_sea">Зміна статусу на "У морі"</string>
     <string name="board_vessel">Прибути на судно</string>
     <string name="find_records">Знайти Звіти</string>
     <string name="first_last_name">Офіцер %s %s</string>
@@ -170,6 +171,7 @@
     <string name="warnings_count">%d Попередженнь</string>
     <string name="citation_count">%d Викликів у суд</string>
     <string name="warnings_citation_count">%d Попередженнь * %d Викликів у суд</string>
+    <string name="back">Назад</string>
 
     <!--  Vessel Search  -->
     <string name="new_boarding">Нове Прибуття</string>
@@ -181,10 +183,19 @@
     <string name="cancel_boarding">Скасувати прибуття?</string>
     <string name="board_not_saved">Це прибуття не буде збережене</string>
     <string name="keep_editing">Продовжуйте редагування</string>
+    <string name="save_and_finish_later">Зберегти та продовжити пізніше</string>
     <string name="boarding_submitted">Прибуття подане</string>
     <string name="boarding_canceled">Прибуття скасоване</string>
     <string name="saving_error">Помилка при збереженні</string>
+    <string name="draft_saved">Прибуття збережено</string>
+    <string name="submit">Подати</string>
     <string name="continue_with_empty_fields">Продовжити з порожніми полями?</string>
+    <string name="login_error">Відбулась помилка під час логіну</string>
     <string name="continue_action">Продовжити</string>
     <string name="chose_image_source">Виберіть джерело світлини</string>
+    <string name="risk_no_notes_or_photos">Немає Нотатків або Фотокарток</string>
+
+    <!--    Time On Duty    -->
+    <string name="become_not_at_sea">Зійти з моря</string>
+    <string name="invalid_email_or_password">Невірний емеіл або пароль</string>
 </resources>

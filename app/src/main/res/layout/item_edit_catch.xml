@@ -29,8 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="species_edit_layout,
-            divider_species, amount_edit_layout, divider_amount,
-            catch_action_add_Attachment,
+            divider_species,
+            catch_action_add_Attachment, divider_weight,
             catch_action_remove,
             catch_edit_photos,
             spinner_unit" />
@@ -106,40 +106,18 @@
             app:layout_constraintTop_toBottomOf="@id/species_edit_layout" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/amount_edit_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            app:layout_constraintTop_toBottomOf="@id/divider_species">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/amount_edit_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:hint="@string/amount"
-                android:onClick="@{() -> holder.onEditTextClicked(@id/amount_edit_name)}"
-                android:singleLine="true"
-                android:text="@{holder.currentItem.amount}" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <View
-            android:id="@+id/divider_amount"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            app:layout_constraintTop_toBottomOf="@id/amount_edit_layout" />
-
-        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/weight_edit_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            app:endIconMode="custom"
+            app:errorEnabled="true"
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/spinner_unit"
-            app:layout_constraintTop_toBottomOf="@id/divider_amount">
+            app:layout_constraintTop_toBottomOf="@id/species_edit_layout">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <org.wildaid.ofish.ui.base.EmptyWarningEditText
                 android:id="@+id/weight_edit_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -149,30 +127,38 @@
                 app:toWeight="@={holder.currentItem.catch.weight}" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/divider_weight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            app:endIconMode="custom"
+            app:layout_constraintBottom_toBottomOf="@id/spinner_unit"
+            app:layout_constraintEnd_toEndOf="@id/spinner_unit"
+            app:layout_constraintStart_toStartOf="@id/spinner_unit"
+            app:layout_constraintTop_toTopOf="@id/spinner_unit" />
+
         <Spinner
             android:id="@+id/spinner_unit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/weight_edit_layout"
+            app:layout_constraintBaseline_toBaselineOf="@id/weight_edit_layout"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintLeft_toRightOf="@id/weight_edit_layout"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider_amount" />
-
-        <View
-            android:id="@+id/divider_weight"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            app:layout_constraintTop_toBottomOf="@id/weight_edit_layout" />
+            app:layout_constraintTop_toTopOf="@id/weight_edit_layout"
+            tools:listitem="@android:layout/test_list_item" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/count_edit_layout"
             android:layout_width="match_parent"
+            app:errorEnabled="true"
+            android:focusable="false"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             app:layout_constraintTop_toBottomOf="@id/divider_weight">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <org.wildaid.ofish.ui.base.EmptyWarningEditText
                 android:id="@+id/count_edit_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -196,7 +182,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/note"
-                android:text="@={holder.currentItem.attachmentItem.note}" />
+                android:text="@={holder.currentItem.attachmentItem.note}"
+                app:focused="@{holder.currentItem.attachmentItem.isNoteFocused().contentIfNotHandled}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <org.wildaid.ofish.ui.base.PhotoAttachmentsLayout

@@ -44,7 +44,7 @@ class RepositoryImpl(
             it.emsType.isBlank() && it.registryNumber.isBlank()
         }
         report.crew.removeAll {
-            it.license.isBlank() && it.name.isBlank()
+            it.name.isBlank()
         }
 
         report.inspection?.actualCatch?.removeAll {
@@ -55,6 +55,13 @@ class RepositoryImpl(
         }
         report.notes.removeAll {
             it.note.isBlank()
+        }
+
+        val delivery = report.vessel?.lastDelivery
+        val deliveryIsEmpty =
+            delivery?.business.isNullOrBlank() && report.vessel?.lastDelivery?.location.isNullOrBlank()
+        if (deliveryIsEmpty) {
+            report.vessel?.lastDelivery = null
         }
 
         realmDataSource.saveReportWithTransaction(
@@ -86,12 +93,28 @@ class RepositoryImpl(
     override fun findReportsGroupedByVessel(sort: Sort) =
         realmDataSource.findReportsGroupedByVesselNameAndPermitNumber(sort)
 
+    override fun findDraftsGroupedByOfficerNameAndEmail(sort: Sort): List<Report> {
+        val officerData = getCurrentOfficer()
+        return realmDataSource.findDraftsGroupedByOfficerEmail(sort, officerData.email)
+    }
+
     override fun findAllReports(sort: Sort) = realmDataSource.findAllReports(sort)
 
     override fun findReport(reportId: ObjectId) = realmDataSource.findReport(reportId)
 
+    override fun findDraft(draftId: ObjectId) = realmDataSource.findDraft(draftId)
+
     override fun findReportsForBoat(boatPermitNumber: String, vesselName: String) =
         realmDataSource.findReportsForBoat(boatPermitNumber, vesselName)
+
+    override fun getAmountOfDraftsByEmail(): Int {
+        val officerData = getCurrentOfficer()
+        return realmDataSource.getAmountOfDraftsByOfficerEmail(officerData.email)
+    }
+
+    override fun getAmountOfDraftsForCurrentDuty(): Int {
+        return realmDataSource.getAmountOfDraftsForCurrentDuty()
+    }
 
     override fun findReportsForCurrentDuty(): List<Report> {
         return realmDataSource.findReportsForCurrentDuty()
@@ -145,8 +168,9 @@ class RepositoryImpl(
     override fun getRecentStartCurrentDuty(): DutyChange? =
         realmDataSource.getRecentStartCurrentDuty()
 
-    override fun updateStartDateForCurrentDuty(date: Date) =
+    override fun updateStartDateForCurrentDuty(date: Date) {
         realmDataSource.updateStartDateForCurrentDuty(date)
+    }
 
     override fun updateCurrentOfficerPhoto(uri: Uri) {
         val pictureId = getCurrentOfficer().pictureId

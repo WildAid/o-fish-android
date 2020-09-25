@@ -2,20 +2,37 @@ package org.wildaid.ofish.ui.vessel
 
 import android.net.Uri
 import android.view.View
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.Repository
-import org.wildaid.ofish.data.report.*
+import org.wildaid.ofish.data.report.Boat
+import org.wildaid.ofish.data.report.EMS
+import org.wildaid.ofish.data.report.Photo
+import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.base.AttachmentItem
 import org.wildaid.ofish.ui.base.PhotoItem
 
 class VesselViewModel(val repository: Repository) : ViewModel() {
-    val vesselItemLiveData = MutableLiveData<VesselItem>()
-    val deliveryItemItemLiveData = MutableLiveData<DeliveryItem>()
-    val emsLiveData = MutableLiveData<List<EMSItem>>()
-    val itemClicksLiveData = MutableLiveData<Event<Int>>()
+
+    private var _vesselItemLiveData = MutableLiveData<VesselItem>()
+    val vesselItemLiveData: LiveData<VesselItem>
+        get() = _vesselItemLiveData
+
+    private var _deliveryItemItemLiveData = MutableLiveData<DeliveryItem>()
+    val deliveryItemItemLiveData: LiveData<DeliveryItem>
+        get() = _deliveryItemItemLiveData
+
+    private var _emsLiveData = MutableLiveData<List<EMSItem>>()
+    val emsLiveData: LiveData<List<EMSItem>>
+        get() = _emsLiveData
+
+    private var _itemClicksLiveData = MutableLiveData<Event<Int>>()
+    val itemClicksLiveData: LiveData<Event<Int>>
+        get() = _itemClicksLiveData
+
     var isNewBusiness = false
 
     private lateinit var currentVesselItem: VesselItem
@@ -51,17 +68,17 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
 
         report.vessel?.also {
             currentVesselItem = VesselItem(it, true, AttachmentItem(it.attachments!!))
-            vesselItemLiveData.value = currentVesselItem
+            _vesselItemLiveData.value = currentVesselItem
         }
 
         report.vessel?.lastDelivery?.also {
             currentDeliveryItem = DeliveryItem(it, true, AttachmentItem(it.attachments!!))
-            deliveryItemItemLiveData.value = currentDeliveryItem
+            _deliveryItemItemLiveData.value = currentDeliveryItem
         }
 
         currentEMSItems = mutableListOf()
         addEms()
-        emsLiveData.value = currentEMSItems
+        _emsLiveData.value = currentEMSItems
     }
 
     fun fillVesselInfo(vesselToPrefill: Boat) {
@@ -71,15 +88,20 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
             nationality = vesselToPrefill.nationality
             permitNumber = vesselToPrefill.permitNumber
         }
+        vesselToPrefill.attachments?.photoIDs?.forEach {id->
+            repository.getPhotoById(id)?.let { photo ->
+                currentVesselItem.attachments.addPhoto(PhotoItem(photo,null))
+            }
+        }
 
         lastFocusInInfo = true
 
-        vesselItemLiveData.value = currentVesselItem
+        _vesselItemLiveData.value = currentVesselItem
     }
 
     fun updateVesselFlagState(flagState: String) {
         currentVesselItem.vessel.nationality = flagState
-        vesselItemLiveData.value = currentVesselItem
+        _vesselItemLiveData.value = currentVesselItem
     }
 
     fun updateDeliveryBusiness(business: Pair<String, String>) {
@@ -89,54 +111,54 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
 
     fun addNoteForVessel() {
         currentVesselItem.attachments.addNote()
-        vesselItemLiveData.value = currentVesselItem
+        _vesselItemLiveData.value = currentVesselItem
     }
 
     fun removeNoteFromVessel() {
         currentVesselItem.attachments.removeNote()
-        vesselItemLiveData.value = currentVesselItem
+        _vesselItemLiveData.value = currentVesselItem
     }
 
     fun addNoteForDelivery() {
         currentDeliveryItem.attachments.addNote()
-        deliveryItemItemLiveData.value = currentDeliveryItem
+        _deliveryItemItemLiveData.value = currentDeliveryItem
     }
 
     fun removeNoteFromDelivery() {
         currentDeliveryItem.attachments.removeNote()
-        deliveryItemItemLiveData.value = currentDeliveryItem
+        _deliveryItemItemLiveData.value = currentDeliveryItem
     }
 
     fun addPhotoForVessel(imageUri: Uri) {
         val newPhoto = createPhoto(imageUri)
         currentReportPhotos.add(newPhoto)
         currentVesselItem.attachments.addPhoto(newPhoto)
-        vesselItemLiveData.value = currentVesselItem
+        _vesselItemLiveData.value = currentVesselItem
     }
 
     fun removePhotoFromVessel(photo: PhotoItem) {
         currentReportPhotos.remove(photo)
         currentVesselItem.attachments.removePhoto(photo)
-        vesselItemLiveData.value = currentVesselItem
+        _vesselItemLiveData.value = currentVesselItem
     }
 
     fun addPhotoForDelivery(imageUri: Uri) {
         val newPhoto = createPhoto(imageUri)
         currentReportPhotos.add(newPhoto)
         currentDeliveryItem.attachments.addPhoto(newPhoto)
-        deliveryItemItemLiveData.value = currentDeliveryItem
+        _deliveryItemItemLiveData.value = currentDeliveryItem
     }
 
     fun removePhotoFromDelivery(photo: PhotoItem) {
         currentReportPhotos.remove(photo)
         currentDeliveryItem.attachments.removePhoto(photo)
-        deliveryItemItemLiveData.value = currentDeliveryItem
+        _deliveryItemItemLiveData.value = currentDeliveryItem
     }
 
     fun removeEms(position: Int = -1) {
         currentEMSItems.removeAt(position)
         currentVesselItem.vessel.ems.removeAt(position)
-        emsLiveData.value = currentEMSItems
+        _emsLiveData.value = currentEMSItems
     }
 
     fun addEms() {
@@ -147,30 +169,30 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
         currentVesselItem.vessel.ems.add(newEMS)
         currentEMSItems.add(EMSItem(newEMS, true, AttachmentItem(newEMS.attachments!!)))
 
-        emsLiveData.value = currentEMSItems.also {
+        _emsLiveData.value = currentEMSItems.also {
             it.forEachIndexed { index, item -> item.inEditMode = index == it.lastIndex }
         }
     }
 
     fun updateEmsType(emsItem: EMSItem, emsType: String) {
         emsItem.ems.emsType = emsType
-        emsLiveData.value = currentEMSItems
+        _emsLiveData.value = currentEMSItems
     }
 
     fun editEms(emsItem: EMSItem) {
-        emsLiveData.value = currentEMSItems.also {
+        _emsLiveData.value = currentEMSItems.also {
             it.forEach { item -> item.inEditMode = item == emsItem }
         }
     }
 
     fun addNoteForEms(emsItem: EMSItem) {
         emsItem.attachments.addNote()
-        emsLiveData.value = currentEMSItems
+        _emsLiveData.value = currentEMSItems
     }
 
     fun removeNoteFromEms(emsItem: EMSItem) {
         emsItem.attachments.removeNote()
-        emsLiveData.value = currentEMSItems
+        _emsLiveData.value = currentEMSItems
     }
 
     fun addPhotoForEms(imageUri: Uri, emsItem: EMSItem) {
@@ -178,17 +200,17 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
         emsItem.attachments.addPhoto(newPhoto)
         currentReportPhotos.add(newPhoto)
 
-        emsLiveData.value = currentEMSItems
+        _emsLiveData.value = currentEMSItems
     }
 
     fun removePhotoFromEms(photo: PhotoItem, emsItem: EMSItem) {
         emsItem.attachments.removePhoto(photo)
         currentReportPhotos.remove(photo)
-        emsLiveData.value = currentEMSItems
+        _emsLiveData.value = currentEMSItems
     }
 
     fun onNextClicked() {
-        itemClicksLiveData.value = Event(R.id.btn_next)
+        _itemClicksLiveData.value = Event(R.id.btn_next)
     }
 
     val fieldFocusListener = View.OnFocusChangeListener { view, hasFocus ->
@@ -198,7 +220,7 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
             when (fieldId) {
                 R.id.btn_vessel_info_edit -> expandInfo()
                 R.id.btn_vessel_delivery_edit -> expandDelivery()
-                else -> itemClicksLiveData.value = Event(fieldId)
+                else -> _itemClicksLiveData.value = Event(fieldId)
             }
 
             if (fieldId in infoFocusIds && lastFocusDelivery) {
@@ -219,15 +241,15 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
     private fun expandInfo() {
         currentVesselItem.inEditMode = true
         currentDeliveryItem.inEditMode = false
-        vesselItemLiveData.value = currentVesselItem
-        deliveryItemItemLiveData.value = currentDeliveryItem
+        _vesselItemLiveData.value = currentVesselItem
+        _deliveryItemItemLiveData.value = currentDeliveryItem
     }
 
     private fun expandDelivery() {
         currentVesselItem.inEditMode = false
         currentDeliveryItem.inEditMode = true
-        vesselItemLiveData.value = currentVesselItem
-        deliveryItemItemLiveData.value = currentDeliveryItem
+        _vesselItemLiveData.value = currentVesselItem
+        _deliveryItemItemLiveData.value = currentDeliveryItem
     }
 
     private fun collapseInfoIfPossible() {
@@ -241,7 +263,7 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
         }
 
         currentVesselItem.inEditMode = vesselInEdit
-        vesselItemLiveData.value = currentVesselItem
+        _vesselItemLiveData.value = currentVesselItem
     }
 
     private fun collapseDeliveryIfPossible() {
@@ -252,7 +274,7 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
             else -> true
         }
         currentDeliveryItem.inEditMode = deliveryInEditMode
-        deliveryItemItemLiveData.value = currentDeliveryItem
+        _deliveryItemItemLiveData.value = currentDeliveryItem
     }
 
     private fun createPhoto(imageUri: Uri): PhotoItem {
@@ -268,6 +290,6 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
         isNewBusiness = true
         currentDeliveryItem.lastDelivery.business = ""
         currentDeliveryItem.lastDelivery.location = ""
-        deliveryItemItemLiveData.value = currentDeliveryItem
+        _deliveryItemItemLiveData.value = currentDeliveryItem
     }
 }

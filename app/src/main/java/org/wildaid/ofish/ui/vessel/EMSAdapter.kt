@@ -9,6 +9,7 @@ import org.wildaid.ofish.R
 import org.wildaid.ofish.databinding.ItemEditVesselEmsBinding
 import org.wildaid.ofish.ui.base.AdapterDiffCallback
 import org.wildaid.ofish.ui.base.PhotoItem
+import org.wildaid.ofish.util.requestKeyBoard
 import org.wildaid.ofish.util.setVisible
 
 class EMSAdapter(
@@ -52,7 +53,6 @@ class EMSAdapter(
     }
 
     inner class EMSHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val stringOther = view.resources.getString(R.string.other)
         val binding = ItemEditVesselEmsBinding.bind(view)
         lateinit var currentItem: EMSItem
 
@@ -66,7 +66,7 @@ class EMSAdapter(
             binding.emsViewGroup.setVisible(!emsItem.inEditMode)
             binding.emsViewLayout.emsItemAttachments.attachmentNoteGroup.setVisible(emsItem.attachments.hasNotes())
             binding.vesselEditEmsDescriptionLayout.setVisible(
-                emsItem.inEditMode && emsItem.ems.emsType.equals(stringOther, true)
+                emsItem.inEditMode
             )
 
             binding.emsItemEditPhotos.onPhotoClickListener = { view, item ->

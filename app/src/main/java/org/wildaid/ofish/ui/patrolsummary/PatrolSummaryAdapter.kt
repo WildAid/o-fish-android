@@ -75,6 +75,11 @@ class PatrolSummaryAdapter(
                     R.plurals.crew_member_size,
                     crewSize, crewSize
                 )
+            if (item.draft != null) {
+                if (item.draft == true) {
+                    binding.recordVesselDraftMark.setBackgroundResource(R.drawable.shape_amber_circle_draft)
+                }
+            }
 
             val safetyLevel = item.inspection?.summary?.safetyLevel?.level
             for (value in SafetyColor.values()) {

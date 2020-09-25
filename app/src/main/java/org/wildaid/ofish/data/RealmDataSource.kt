@@ -27,6 +27,8 @@ const val FIELD_STATUS = "status"
 const val DATE = "date"
 const val BUSINESS = "business"
 const val LOCATION = "location"
+const val DRAFT = "draft"
+const val REPORTING_EMAIL_OFFICER = "reportingOfficer.email"
 const val LAST_DELIVERY_DATE = "lastDelivery.date"
 const val VESSEL_PERMIT_NUMBER = "vessel.permitNumber"
 const val VESSEL_NAME = "vessel.name"
@@ -168,6 +170,15 @@ class RealmDataSource(context: Context) {
             .findAll()
     }
 
+    fun findDraftsGroupedByOfficerEmail(sort: Sort, email: String): List<Report> {
+        return realm.where<Report>()
+            .equalTo(DRAFT, true)
+            .and()
+            .equalTo(REPORTING_EMAIL_OFFICER, email)
+            .sort(DATE, sort)
+            .findAll()
+    }
+
     fun findAllReports(sort: Sort): List<Report> {
         return realm.where<Report>()
             .sort(DATE, sort)
@@ -178,6 +189,11 @@ class RealmDataSource(context: Context) {
         return realm.where<Report>().equalTo(FIELD_ID, reportId).findFirst()
     }
 
+    fun findDraft(draftId: ObjectId): Report? {
+        val draft = realm.where<Report>().equalTo(FIELD_ID, draftId).findFirst()
+        return realm.copyFromRealm(draft)
+    }
+
     fun findReportsForBoat(boatPermitNumber: String, vesselName: String): List<Report> {
         return realm.where<Report>()
             .equalTo(VESSEL_PERMIT_NUMBER, boatPermitNumber)
@@ -186,6 +202,27 @@ class RealmDataSource(context: Context) {
             .sort(DATE, Sort.DESCENDING)
             .findAll()
             .toList()
+    }
+
+    fun getAmountOfDraftsByOfficerEmail(email: String): Int {
+        return realm.where<Report>()
+            .equalTo(DRAFT, true)
+            .and()
+            .equalTo(REPORTING_EMAIL_OFFICER, email)
+            .findAll()
+            .count()
+    }
+
+    fun getAmountOfDraftsForCurrentDuty(): Int {
+        val dutyChange = getRecentStartCurrentDuty()
+        dutyChange?.let {
+            return realm.where<Report>()
+                .sort(DATE, Sort.DESCENDING)
+                .greaterThan(DATE, it.date)
+                .equalTo(DRAFT, true)
+                .count().toInt()
+        }
+        return 0
     }
 
     fun findReportsForCurrentDuty(): List<Report> {

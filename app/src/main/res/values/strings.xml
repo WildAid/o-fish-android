@@ -34,7 +34,7 @@
     <string name="remove_note">Remove Note</string>
 
     <!--  Report  -->
-    <string name="menu_submit_report">Submit</string>
+    <string name="menu_save_report">Save</string>
     <string name="menu_cancel_report">Cancel Boarding</string>
 
     <string name="skip_sections_dialog_title">Skip the following sections?</string>
@@ -67,6 +67,7 @@
     <string name="gear">Gear</string>
     <string name="note">Note</string>
     <string name="catch_next">Catch\t\t\u279C</string>
+    <string name="no_catch">No Catch</string>
 
     <!--    Violation -->
     <string name="violation">Violation</string>
@@ -104,17 +105,20 @@
     <string name="new_note">New Note</string>
 
     <!--  Home  -->
-    <string name="on_duty">On Duty</string>
-    <string name="off_duty">Off Duty</string>
-    <string name="you_are_of_duty">You\'re currently Off Duty</string>
-    <string name="change_status_to_on_duty">Change status to "On Duty?"</string>
+    <string name="at_sea">At Sea</string>
+    <string name="not_at_sea">Not At Sea</string>
+    <string name="you_are_not_at_sea">You\'re currently Not At Sea</string>
+    <string name="change_status_to_at_sea">Change status to "At Sea"?</string>
     <string name="board_vessel">Board Vessel</string>
     <string name="find_records">Find Records</string>
+    <string name="draft_boardings">Draft Boardings</string>
     <string name="first_last_name">%s %s</string>
 
+    <!--  Profile  -->
     <string name="logout_dialog_title">You sure you want to log out</string>
     <string name="logout_dialog_message">You can only log back in once you have cellular service or are connected to WIFI with internet</string>
     <string name="logout_dialog_yes">Yes</string>
+    <string name="profile_toolbar_title">Officer Profile</string>
 
     <!--  Find records  -->
     <plurals name="crew_member_size">
@@ -179,6 +183,7 @@
     <string name="warnings_count">%d Warnings</string>
     <string name="citation_count">%d Citations</string>
     <string name="warnings_citation_count">%d Warnings * %d Citations</string>
+    <string name="back">Back</string>
 
     <!--  Vessel Search  -->
     <string name="new_boarding">New Boarding</string>
@@ -191,11 +196,15 @@
     <string name="sure_to_submit">Are you sure you want to submit?</string>
     <string name="sure_to_submit_with_skipped">%s\n\nAre you sure you want to submit?</string>
     <string name="cancel_boarding">Cancel boarding?</string>
-    <string name="board_not_saved">This boarding will not be saved</string>
+    <string name="board_not_saved">If canceled, this boarding will not be saved. You may however save it to finish later.</string>
+    <string name="save_and_finish_later">Save and Finish Later</string>
+    <string name="draft_saved">Boarding Saved</string>
+    <string name="submit">Submit</string>
     <string name="keep_editing">Keep Editing</string>
     <string name="boarding_submitted">Boarding Submitted!</string>
     <string name="boarding_canceled">Boarding Canceled</string>
     <string name="saving_error">An error occurred while saving</string>
+    <string name="login_error">An error occurred while signing in</string>
     <string name="continue_with_empty_fields">Continue with empty fields?</string>
     <string name="continue_action">Continue</string>
     <string name="chose_image_source">Choose image source</string>
@@ -205,15 +214,18 @@
     <string name="channel_description">O-FISH will show on duty reminders</string>
 
     <!--    Time On Duty -->
-    <string name="time_on_duty">Time On Duty</string>
+    <string name="time_at_sea">Time At Sea</string>
     <string name="start_date">Start Date</string>
     <string name="start_time">Start Time</string>
     <string name="end_date">End Date</string>
     <string name="end_time">End Time</string>
     <string name="patrol_summary">Patrol Summary</string>
-    <string name="go_off_duty">Go Off Duty</string>
+    <string name="become_not_at_sea">Become not at sea</string>
     <string name="boarding_count">%d Boardings</string>
+    <string name="formatted_draft">%d Drafts</string>
     <string name="error_start_date">Start date should be before End date</string>
     <string name="error_end_date">End date should be after Start date</string>
     <string name="error_date_in_future">Please set correct date</string>
+    <string name="risk_no_notes_or_photos">No Notes or Photos for Risk</string>
+    <string name="invalid_email_or_password">Invalid email or password</string>
 </resources>

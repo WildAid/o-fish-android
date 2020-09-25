@@ -22,65 +22,81 @@
             android:id="@+id/home_map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp" />
 
-        <androidx.cardview.widget.CardView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/search_layout"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_margin="12dp"
-            android:elevation="4dp"
-            app:cardCornerRadius="6dp"
+            android:layout_height="70dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/selector_find_records"
-                android:onClick="@{()-> fragmentViewModel.findRecords()}">
+                android:layout_height="45dp"
+                android:layout_margin="12dp"
+                android:elevation="4dp"
+                app:cardCornerRadius="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/image_search"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:padding="12dp"
-                    android:src="@drawable/ic_search_home"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/selector_find_records"
+                    android:onClick="@{()-> fragmentViewModel.findRecords()}">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/find_records"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/image_user"
-                    app:layout_constraintStart_toEndOf="@id/image_search"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <ImageView
+                        android:id="@+id/image_search"
+                        android:layout_width="50dp"
+                        android:layout_height="48dp"
+                        android:padding="12dp"
+                        android:src="@drawable/ic_search_home"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/image_user"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:onClick="@{()-> fragmentViewModel.showUserStatus()}"
-                    android:padding="12dp"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:shapeAppearanceOverlay="@style/circleImageView"
-                    app:srcCompat="@drawable/ic_account_circle" />
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/find_records"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/image_search"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/image_user_status"
-                    android:layout_width="13dp"
-                    android:layout_height="13dp"
-                    android:layout_margin="12dp"
-                    app:layout_constraintBottom_toBottomOf="@id/image_user"
-                    app:layout_constraintEnd_toEndOf="@id/image_user"
-                    app:srcId="@{homeActivityViewModel.onDutyImageStatusSmallLiveData}"
-                    tools:src="@drawable/shape_red_circle" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/image_user"
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        android:onClick="@{()-> fragmentViewModel.showUserStatus()}"
+                        android:padding="8dp"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:shapeAppearanceOverlay="@style/circleImageView"
+                        app:srcCompat="@drawable/ic_account_circle" />
+
+                    <ImageView
+                        android:id="@+id/image_user_status"
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:layout_margin="12dp"
+                        android:src="@drawable/selector_status_indicator"
+                        app:layout_constraintBottom_toBottomOf="@id/image_user"
+                        app:layout_constraintEnd_toEndOf="@id/image_user" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:id="@+id/coordinates_layout"
@@ -89,10 +105,10 @@
             android:layout_marginTop="24dp"
             android:background="@drawable/shape_map_coordinates"
             android:orientation="horizontal"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:paddingEnd="16dp"
             android:paddingStart="16dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/search_layout">
@@ -146,23 +162,127 @@
             </LinearLayout>
         </LinearLayout>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="64dp"
-            android:layout_marginBottom="52dp"
-            android:background="@drawable/selector_board_vessel"
-            android:drawableStart="@drawable/ic_board_vessel"
-            android:drawablePadding="18dp"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vessel_image_pager"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@color/background_card"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            app:layout_collapseMode="parallax"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginBottom="80dp"
+            android:background="@drawable/bg_for_vessel_button"
             android:onClick="@{() -> fragmentViewModel.boardVessel()}"
-            android:padding="12dp"
-            android:paddingStart="36dp"
-            android:paddingEnd="48dp"
-            android:text="@string/board_vessel"
-            android:textAllCaps="false"
-            android:textColor="@color/main_blue"
-            android:textSize="16sp"
+            android:src="@drawable/ic_board_vessel"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/vessel_image_pager" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/board_vessel"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@+id/home_map"
+            app:layout_constraintEnd_toEndOf="@+id/imageButton2"
+            app:layout_constraintStart_toStartOf="@+id/imageButton2"
+            app:layout_constraintTop_toTopOf="@+id/vessel_image_pager" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
+            android:gravity="center"
+            android:onClick="@{()-> fragmentViewModel.findRecords()}"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageButton2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/vessel_image_pager">
+
+            <ImageView
+                android:id="@+id/image_seaerch"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="4dp"
+                android:src="@drawable/ic_search_home"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/find_records"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_seaerch" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:onClick="@{()->fragmentViewModel.showDrafts()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/vessel_image_pager"
+            app:layout_constraintStart_toEndOf="@+id/imageButton2"
+            app:layout_constraintTop_toTopOf="@+id/vessel_image_pager">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="6dp"
+                android:src="@drawable/ic_draft_boarding"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/image_amount_drafts"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/shape_draft_amount"
+                app:layout_constraintEnd_toEndOf="@+id/imageView"
+                app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+            <TextView
+                android:id="@+id/text_amount_of_drafts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/image_amount_drafts"
+                app:layout_constraintEnd_toEndOf="@+id/image_amount_drafts"
+                app:layout_constraintStart_toStartOf="@+id/image_amount_drafts"
+                app:layout_constraintTop_toTopOf="@+id/image_amount_drafts"
+                tools:text="1" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/draft_boardings"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

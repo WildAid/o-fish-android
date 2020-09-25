@@ -19,6 +19,3 @@ This is the Android Mobile app for O-FISH. To build and use the app, you must fi
 1. Wait for the Gradle sync to finish.<BR>
 1. Add the Realm App ID from your template to `local.properties`:<BR>
 `realm_app_id=your_app_id`<BR>
-
-1. <A HREF="https://developer.android.com/studio/run">Build and run as normal with Android Studio</A>, either directly to your physical or virtual device.<BR><BR>
-

@@ -45,7 +45,7 @@
                     android:id="@+id/risk_action_icon"
                     android:layout_width="@dimen/add_attachment_icon_size"
                     android:layout_height="@dimen/add_attachment_icon_size"
-                    android:visibility="gone"
+                    android:onClick="@{() -> viewmodel.onChooseAttachment()}"
                     android:src="@drawable/ic_add_attachment"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -105,8 +105,19 @@
                         android:id="@+id/note_edit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@={viewmodel.safetyLevel.amberReason}" />
+                        android:text="@={viewmodel.riskLiveData.safetyLevel.amberReason}" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <org.wildaid.ofish.ui.base.PhotoAttachmentsLayout
+                    android:id="@+id/risk_edit_photos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="12dp"
+                    app:editMode="@{true}"
+                    app:layout_constraintTop_toBottomOf="@id/note_edit_layout"
+                    app:photos="@{viewmodel.riskLiveData.attachments.photos}" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 

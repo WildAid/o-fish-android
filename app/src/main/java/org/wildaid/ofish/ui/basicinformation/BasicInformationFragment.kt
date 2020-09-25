@@ -46,6 +46,14 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
         subscribeToNavigationResult()
     }
 
+    override fun isAllRequiredFieldsNotEmpty(): Boolean {
+        return true
+    }
+
+    override fun validateForms(): Boolean {
+        return true
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewDataBinding = FragmentBasicInformationBinding.bind(view).apply {
             this.viewmodel = fragmentViewModel
@@ -56,8 +64,8 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
             childFragmentManager.findFragmentById(R.id.basic_info_map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
 
-        fragmentViewModel.buttonId.observe(
-            viewLifecycleOwner, EventObserver(::onButtonClicked)
+        fragmentViewModel.basicInfoUserEventLiveData.observe(
+            viewLifecycleOwner, EventObserver(::handleUserEvent)
         )
     }
 
@@ -99,16 +107,16 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
         marker.position = target
     }
 
-    private fun onButtonClicked(buttonId: Int) {
+    private fun handleUserEvent(event: BasicInformationViewModel.BasicInfoUserEvent) {
         hideKeyboard()
-        when (buttonId) {
-            R.id.btn_next -> {
+        when (event) {
+            BasicInformationViewModel.BasicInfoUserEvent.NextEvent -> {
                 onNextListener.onNextClicked()
             }
-            R.id.basic_info_date -> {
+            BasicInformationViewModel.BasicInfoUserEvent.ChooseDate -> {
                 peekDate()
             }
-            R.id.basic_info_time -> {
+            BasicInformationViewModel.BasicInfoUserEvent.ChooseTime -> {
                 peekTime()
             }
         }

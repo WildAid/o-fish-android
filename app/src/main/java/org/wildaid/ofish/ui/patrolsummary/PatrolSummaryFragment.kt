@@ -19,13 +19,14 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_patrol_summary.*
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
-import org.wildaid.ofish.app.OFishApplication
 import org.wildaid.ofish.app.ServiceLocator
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.databinding.FragmentPatrolSummaryBinding
 import org.wildaid.ofish.ui.base.CARDS_OFFSET_SIZE
 import org.wildaid.ofish.ui.crew.VerticalSpaceItemDecoration
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
+import org.wildaid.ofish.ui.reportdetail.ADDITIONAL_TITLE
+import org.wildaid.ofish.ui.reportdetail.BOARD_VESSEL_ALLOWED
 import org.wildaid.ofish.ui.reportdetail.KEY_REPORT_ID
 import org.wildaid.ofish.util.getViewModelFactory
 import java.util.*
@@ -46,6 +47,7 @@ class PatrolSummaryFragment : Fragment(R.layout.fragment_patrol_summary) {
 
         viewDataBinding = FragmentPatrolSummaryBinding.bind(view).apply {
             this.viewmodel = fragmentViewModel
+            this.homeActivityViewModel = activityViewModel
             this.lifecycleOwner = this@PatrolSummaryFragment.viewLifecycleOwner
         }
 
@@ -54,8 +56,8 @@ class PatrolSummaryFragment : Fragment(R.layout.fragment_patrol_summary) {
             addItemDecoration(VerticalSpaceItemDecoration(CARDS_OFFSET_SIZE))
         }
 
-        fragmentViewModel.buttonId.observe(
-            viewLifecycleOwner, EventObserver(::onButtonClicked)
+        fragmentViewModel.patrolSummaryUserEventLiveData.observe(
+            viewLifecycleOwner, EventObserver(::handleUserEvent)
         )
 
         fragmentViewModel.reports.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
@@ -70,34 +72,37 @@ class PatrolSummaryFragment : Fragment(R.layout.fragment_patrol_summary) {
     }
 
     private fun createAdapter(): PatrolSummaryAdapter {
-        return PatrolSummaryAdapter(ServiceLocator.provideRepository(requireContext()), ::itemListener)
+        return PatrolSummaryAdapter(
+            ServiceLocator.provideRepository(requireContext()),
+            ::itemListener
+        )
     }
 
-    private fun onButtonClicked(id: Int) {
-        when (id) {
-            R.id.start_date -> {
+    private fun handleUserEvent(event: PatrolSummaryViewModel.PatrolSummaryUserEvent) {
+        when (event) {
+            PatrolSummaryViewModel.PatrolSummaryUserEvent.ChangeStartDateEvent -> {
                 isStartTime = true
                 peekDate()
             }
-            R.id.start_time -> {
+            PatrolSummaryViewModel.PatrolSummaryUserEvent.ChangeStartTimeEvent -> {
                 isStartTime = true
                 peekTime()
             }
-            R.id.end_date -> {
+            PatrolSummaryViewModel.PatrolSummaryUserEvent.ChangeEndDateEvent -> {
                 isStartTime = false
                 peekDate()
             }
-            R.id.end_time -> {
+            PatrolSummaryViewModel.PatrolSummaryUserEvent.ChangeEndTimeEvent -> {
                 isStartTime = false
                 peekTime()
             }
-            R.id.btn_off_duty -> goOffDuty()
+            PatrolSummaryViewModel.PatrolSummaryUserEvent.GoOffDutyEvent -> goOffDuty()
         }
     }
 
     private fun goOffDuty() {
         activityViewModel.onDutyChanged(false, fragmentViewModel.dutyEndTime.value!!)
-        navigation.popBackStack()
+        navigation.navigate(R.id.action_patrolSummaryFragment_to_home_fragment)
     }
 
     private fun peekDate() {
@@ -132,7 +137,11 @@ class PatrolSummaryFragment : Fragment(R.layout.fragment_patrol_summary) {
     }
 
     private fun itemListener(report: Report) {
-        val navigationArgs = bundleOf(KEY_REPORT_ID to report._id)
+        val navigationArgs = bundleOf(
+            KEY_REPORT_ID to report._id,
+            BOARD_VESSEL_ALLOWED to false,
+            ADDITIONAL_TITLE to getString(R.string.back)
+        )
         navigation.navigate(
             R.id.action_patrolSummaryFragment_to_report_details_fragment,
             navigationArgs

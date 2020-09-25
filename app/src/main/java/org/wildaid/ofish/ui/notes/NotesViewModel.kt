@@ -3,6 +3,7 @@ package org.wildaid.ofish.ui.notes
 import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
@@ -17,8 +18,14 @@ class NotesViewModel(
     val repository: Repository,
     application: Application
 ) : AndroidViewModel(application) {
-    val notesLiveData = MutableLiveData<List<NoteItem>>()
-    val buttonId = MutableLiveData<Event<Int>>()
+
+    private var _notesLiveData = MutableLiveData<List<NoteItem>>()
+    val notesLiveData: LiveData<List<NoteItem>>
+        get() = _notesLiveData
+
+    private var _notesUserEventLiveData = MutableLiveData<Event<NotesUserEvent>>()
+    val notesUserEventLiveData: LiveData<Event<NotesUserEvent>>
+        get() = _notesUserEventLiveData
 
     private val noteTitle = getString(R.string.note)
 
@@ -56,21 +63,21 @@ class NotesViewModel(
         val newPhotoItem = createPhoto(uri)
         currentReportPhotos.add(newPhotoItem)
         noteItem.addPhoto(newPhotoItem)
-        notesLiveData.value = notesLiveData.value
+        _notesLiveData.value = notesLiveData.value
     }
 
     fun removePhotoAttachment(photo: PhotoItem, note: NoteItem) {
         currentReportPhotos.remove(photo)
         note.removePhoto(photo)
-        notesLiveData.value = notesLiveData.value
+        _notesLiveData.value = notesLiveData.value
     }
 
     fun onNextClicked() {
-        buttonId.value = Event(R.id.btn_save)
+        _notesUserEventLiveData.value = Event(NotesUserEvent.SaveEvent)
     }
 
     private fun notifyNotesWithEditItem(items: List<NoteItem>, editingNote: NoteItem? = null) {
-        notesLiveData.value = items.also {
+        _notesLiveData.value = items.also {
             it.forEachIndexed { index, item ->
                 if (editingNote != null) {
                     item.inEditMode = item == editingNote
@@ -87,5 +94,9 @@ class NotesViewModel(
             },
             imageUri
         )
+    }
+
+    sealed class NotesUserEvent{
+        object SaveEvent: NotesUserEvent()
     }
 }

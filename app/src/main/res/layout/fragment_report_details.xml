@@ -148,6 +148,46 @@
                         tools:text="-90.3035418" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <!-- Risks  -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/background_card"
+                    android:elevation="4dp"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:id="@+id/report_risks_title"
+                        style="@style/CardHeader"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/risk"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <org.wildaid.ofish.ui.base.SafetyColorTextView
+                        android:id="@+id/report_risks_color"
+                        android:layout_width="60dp"
+                        android:layout_height="22dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:textSize="13sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/report_risks_title"
+                        app:textAllCaps="true"
+                        tools:text="@string/amber" />
+
+                    <include
+                        android:id="@+id/report_risk_body"
+                        layout="@layout/item_report_risk"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/card_value_to_title_space"
+                        app:layout_constraintTop_toBottomOf="@id/report_risks_title" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
                 <!--Vessel information-->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -178,6 +218,7 @@
                 <!--Last date of delivery-->
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/vessel_last_delivery_section"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
@@ -394,6 +435,7 @@
         </androidx.core.widget.NestedScrollView>
 
         <Button
+            android:id="@+id/boardVesselButton"
             style="@style/BlueButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_height"

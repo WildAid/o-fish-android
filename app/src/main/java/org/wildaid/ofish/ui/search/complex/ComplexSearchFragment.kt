@@ -19,6 +19,7 @@ class ComplexSearchFragment : BaseSearchFragment<SearchModel>() {
                 is SearchBusiness -> R.string.business
                 is SearchViolation -> R.string.violation
                 is SearchRecords -> R.string.find_records
+                is SearchDrafts -> R.string.draft_boardings
                 is SearchBoardVessels -> R.string.new_boarding
                 is SearchCrew -> R.string.crew
                 is DutyReports -> R.string.duty_report
@@ -33,6 +34,7 @@ class ComplexSearchFragment : BaseSearchFragment<SearchModel>() {
                 is SearchBusiness -> R.string.business
                 is SearchViolation -> R.string.violation
                 is SearchRecords -> R.string.find_records
+                is SearchDrafts -> R.string.draft_boardings
                 is SearchBoardVessels -> R.string.find_records
                 is DutyReports -> R.string.duty_report
                 is SearchCrew -> R.string.crew
@@ -46,5 +48,6 @@ class ComplexSearchFragment : BaseSearchFragment<SearchModel>() {
     object SearchBoardVessels : BaseSearchType()
     object SearchViolation : BaseSearchType()
     object SearchCrew : BaseSearchType()
+    object SearchDrafts : BaseSearchType()
     object DutyReports : BaseSearchType()
 }

@@ -22,7 +22,9 @@ import kotlinx.android.synthetic.main.fragment_search.*
 import org.wildaid.ofish.R
 import org.wildaid.ofish.ui.base.ProgressDialogFragment
 import org.wildaid.ofish.ui.createreport.CreateReportActivity
+import org.wildaid.ofish.ui.createreport.CreateReportBundle
 import org.wildaid.ofish.ui.createreport.CreateReportViewModel
+import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_ARGS
 import org.wildaid.ofish.ui.search.complex.AddSearchModel
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
 import org.wildaid.ofish.ui.search.complex.RecordSearchModel
@@ -34,6 +36,8 @@ import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.hideKeyboard
 import org.wildaid.ofish.util.showKeyboard
 import java.io.Serializable
+
+const val EMPTY_STATE = "EMPTY_STATE"
 
 abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
     protected lateinit var currentSearchEntity: BaseSearchType
@@ -85,7 +89,16 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
             if (requireActivity() is CreateReportActivity) activityViewModel.report else null
         baseSearchViewModel.initDataList(currentSearchEntity, report)
         baseSearchViewModel.dataList.observe(viewLifecycleOwner, Observer {
-            baseSearchAdapter.setItems(it)
+            if (it.isNotEmpty()) {
+                baseSearchAdapter.setItems(it)
+            } else {
+                baseSearchAdapter.setItems(emptyList())
+                if (currentSearchEntity is ComplexSearchFragment.SearchDrafts) {
+                    updateEmptyViewVisibility(true, EMPTY_STATE)
+                } else {
+                    empty_result_image.setBackgroundResource(R.drawable.ic_search)
+                }
+            }
         })
 
         baseSearchViewModel.progressLiveData.observe(viewLifecycleOwner, Observer {
@@ -140,12 +153,22 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
             is AddSearchModel -> navigateFromAdd()
             is RecordSearchModel -> {
                 val clickedRecord = (selectedItem as RecordSearchModel)
-                val detailArgs =
-                    bundleOf(
-                        KEY_VESSEL_PERMIT_NUMBER to clickedRecord.vessel.permitNumber,
-                        KEY_VESSEL_NAME to clickedRecord.vessel.name
-                    )
-                navigation.navigate(R.id.vessel_details_fragment, detailArgs)
+                if (currentSearchEntity == ComplexSearchFragment.SearchDrafts) {
+                    val createReportArg =
+                        bundleOf(
+                            KEY_CREATE_REPORT_ARGS to CreateReportBundle(
+                                reportDraftId = clickedRecord.reports[0]._id
+                            )
+                        )
+                    navigation.navigate(R.id.action_complex_search_to_create_report, createReportArg)
+                } else {
+                    val detailArgs =
+                        bundleOf(
+                            KEY_VESSEL_PERMIT_NUMBER to clickedRecord.vessel.permitNumber,
+                            KEY_VESSEL_NAME to clickedRecord.vessel.name
+                        )
+                    navigation.navigate(R.id.vessel_details_fragment, detailArgs)
+                }
             }
             is TextViewSearchModel -> { // Nothing
             }
@@ -190,29 +213,38 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
     private val toolbarSearchListener = object : SearchView.OnQueryTextListener {
         override fun onQueryTextChange(newText: String?): Boolean {
             baseSearchViewModel.applyFilter(newText.orEmpty())
-            showNecessaryLayout(
-                baseSearchViewModel.isReportSearchEmpty(
-                    currentSearchEntity,
-                    newText
-                ), newText
-            )
+            val showEmptyState =
+                baseSearchViewModel.isReportSearchEmpty() && baseSearchViewModel.isRecordSearch(
+                    currentSearchEntity
+                )
+            updateEmptyViewVisibility(showEmptyState, newText)
             return true
         }
 
         override fun onQueryTextSubmit(query: String?): Boolean {
             baseSearchViewModel.applyFilter(query.orEmpty())
-            showNecessaryLayout(
-                baseSearchViewModel.isReportSearchEmpty(currentSearchEntity, query),
-                query
-            )
+            val showEmptyState =
+                baseSearchViewModel.isReportSearchEmpty() && baseSearchViewModel.isRecordSearch(
+                    currentSearchEntity
+                )
+            updateEmptyViewVisibility(showEmptyState, query)
             return false
         }
     }
 
-    private fun showNecessaryLayout(isSearchEmpty: Boolean, query: String?) {
-        if (isSearchEmpty) {
+    private fun updateEmptyViewVisibility(isSearchEmpty: Boolean, query: String?) {
+        val emptyResultText: String
+        if (currentSearchEntity is ComplexSearchFragment.SearchDrafts) {
+            emptyResultText = "0 ${getString(R.string.draft_boardings)}"
+            empty_result_image.setBackgroundResource(R.drawable.ic_empty_draft_boardings)
+        } else {
+            emptyResultText = getString(R.string.no_results_for, query)
+            empty_result_image.setBackgroundResource(R.drawable.ic_search)
+        }
+
+        if (isSearchEmpty && !query.isNullOrBlank()) {
             empty_result_layout.visibility = View.VISIBLE
-            empty_result_text.text = getString(R.string.no_results_for, query)
+            empty_result_text.text = emptyResultText
         } else {
             empty_result_layout.visibility = View.GONE
         }

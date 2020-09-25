@@ -18,7 +18,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.report.Report
-import org.wildaid.ofish.ui.crew.N_A
 import org.wildaid.ofish.util.combineIntents
 import org.wildaid.ofish.util.createCameraIntent
 import org.wildaid.ofish.util.createGalleryIntent
@@ -41,7 +40,6 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
     private var pendingPhotoSelection: ((Uri) -> Unit)? = null
 
     protected var isFieldCheckPassed = false
-    protected var requiredFields: Array<TextInputLayout> = emptyArray()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,26 +56,17 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
         }
     }
 
-    fun isAllRequiredFieldsNotEmpty(): Boolean {
-        requiredFields.forEach {
-            val text = it.editText?.text
-            if (it.visibility == View.VISIBLE && (text.isNullOrBlank() || text.toString() == N_A)) {
-                return false
-            }
-        }
-        return true
-    }
+    abstract fun isAllRequiredFieldsNotEmpty(): Boolean
 
-    fun validateForms(): Boolean {
+    abstract fun validateForms(): Boolean
+
+    protected fun validateField(field: TextInputLayout): Boolean {
         var result = true
-        requiredFields.forEach {
-            val text = it.editText?.text
-            if (it.visibility == View.VISIBLE && (text.isNullOrBlank() || text.toString() == N_A)) {
-                result = false
-                it.errorIconDrawable = resources.getDrawable(R.drawable.ic_error_outline, null)
-            }
+        val text = field.editText?.text
+        if (field.visibility == View.VISIBLE && text.isNullOrBlank()) {
+            result = false
+            field.errorIconDrawable = resources.getDrawable(R.drawable.ic_error_outline, null)
         }
-        isFieldCheckPassed = true
         return result
     }
 
@@ -103,11 +92,11 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
 
     private fun onPhotoAttachmentSelected() {
         if (pendingPhotoSelection != null) {
-            pickImage(pendingPhotoSelection!!)
+            peekImage(pendingPhotoSelection!!)
         }
     }
 
-    fun pickImage(pendingPhotoSelection: (Uri) -> Unit) {
+    fun peekImage(pendingPhotoSelection: (Uri) -> Unit) {
         this.pendingPhotoSelection = pendingPhotoSelection
 
         val pickImageIntent = createGalleryIntent()

@@ -11,19 +11,21 @@ import org.wildaid.ofish.ui.search.base.BaseSearchViewModel
 private const val RECENT_BOARDINGS_COUNT = 5
 
 class ComplexSearchViewModel(repository: Repository, application: Application) :
-    BaseSearchViewModel<SearchModel>(repository, application) {
+    BaseSearchViewModel<SearchModel>(application) {
     override fun getDataSource(searchEntity: BaseSearchType, report: Report?): SearchDataSource {
         return when (searchEntity) {
+            is ComplexSearchFragment.SearchDrafts -> searchDrafts
             is ComplexSearchFragment.SearchBusiness -> searchBusinessDataSource
             is ComplexSearchFragment.SearchViolation -> searchViolationDataSource
             is ComplexSearchFragment.SearchRecords -> searchRecordsDataSource.apply {
-                isAddAvailable = true
+                isAddAvailable = false
             }
             is ComplexSearchFragment.SearchBoardVessels -> searchRecordsDataSource.apply {
                 isAddAvailable = true
             }
             is ComplexSearchFragment.SearchCrew -> searchCrewDataSource.apply {
                 this.report = report
+                    ?: throw IllegalArgumentException("$searchEntity is not supported with null report")
             }
             else -> throw IllegalArgumentException("Unsupported search entity $searchEntity")
         }
@@ -120,43 +122,83 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
         }
     }
 
-    private val searchCrewDataSource = object : SearchDataSource() {
-        var report: Report? = null
-        private val addSearchModel = AddSearchModel(R.string.add_crew_member)
+    private val searchDrafts = object : SearchDataSource() {
+        private var cachedDraftBoardings = emptyList<Report>()
 
         override fun initiateData(): List<SearchModel> {
-            val list = mutableListOf<SearchModel>()
-            report?.let {
-                val captain = it.captain
-                if (isCaptainNotNullOrBlank(captain)) list.add(
-                    CrewSearchModel(
-                        captain!!,
-                        true
-                    )
+            fetchDrafts()
+
+            val result = mutableListOf<SearchModel>()
+
+            result.addAll(cachedDraftBoardings.asSequence().map {
+                RecordSearchModel(
+                    it.vessel!!,
+                    listOf(it).sortedByDescending { report -> report.date }, repository
                 )
-                list.addAll(it.crew.map { member -> CrewSearchModel(member, false) })
-            }
-            list.add(addSearchModel)
-            return list
+            })
+
+            return result
         }
 
         override fun applyFilter(filter: String): List<SearchModel> {
-            val list = mutableListOf<SearchModel>()
-            report?.let {
-                val captain = it.captain
-                if (isCaptainNotNullOrBlank(captain) && containFilter(captain!!, filter)) {
-                    list.add(CrewSearchModel(captain, true))
-                }
-                list.addAll(it.crew
-                    .filter { member -> containFilter(member, filter) }
-                    .map { member -> CrewSearchModel(member, false) })
+            if (filter.isBlank()) {
+                return initiateData()
             }
-            list.add(addSearchModel)
-            return list
+
+            val result = mutableListOf<SearchModel>()
+            result.addAll(cachedDraftBoardings
+                .filter { it.vessel?.name.orEmpty().contains(filter, true) }
+                .map {
+                    RecordSearchModel(
+                        it.vessel!!,
+                        listOf(it).sortedByDescending { report -> report.date }, repository
+                    )
+                })
+            return result
+        }
+
+        private fun fetchDrafts() {
+            if (cachedDraftBoardings.isNullOrEmpty()) {
+                cachedDraftBoardings = repository.findDraftsGroupedByOfficerNameAndEmail()
+            }
+        }
+    }
+
+    private val searchCrewDataSource = object : SearchDataSource() {
+        lateinit var report: Report
+
+        private val addSearchModel = AddSearchModel(R.string.add_crew_member)
+
+        override fun initiateData(): List<SearchModel> {
+            val initialList = mutableListOf<SearchModel>()
+            val captain = report.captain
+            if (isCaptainNotNullOrBlank(captain)) {
+                initialList.add(CrewSearchModel(captain!!, true))
+            }
+
+            initialList.addAll(report.crew
+                .filter { it.name.isNotBlank() || it.license.isNotBlank() }
+                .map { member -> CrewSearchModel(member, false) })
+            initialList.add(addSearchModel)
+            return initialList
+        }
+
+        override fun applyFilter(filter: String): List<SearchModel> {
+            val filteredList = mutableListOf<SearchModel>()
+            val captain = report.captain
+            if (isCaptainNotNullOrBlank(captain) && containFilter(captain!!, filter)) {
+                filteredList.add(CrewSearchModel(captain, true))
+            }
+            filteredList.addAll(report.crew
+                .filter { it.name.isNotBlank() || it.license.isNotBlank() }
+                .filter { member -> containFilter(member, filter) }
+                .map { member -> CrewSearchModel(member, false) })
+            filteredList.add(addSearchModel)
+            return filteredList
         }
 
         private fun isCaptainNotNullOrBlank(captain: CrewMember?) =
-            captain != null && (captain.name.isNotBlank() || captain.license.isNotBlank())
+            !captain?.name.isNullOrBlank() && !captain?.license.isNullOrBlank()
 
         private fun containFilter(member: CrewMember, filter: String) =
             member.name.contains(filter, true) || member.license.contains(filter, true)

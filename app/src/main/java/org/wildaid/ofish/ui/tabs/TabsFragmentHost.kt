@@ -19,7 +19,6 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_tabs.*
@@ -36,6 +35,7 @@ import org.wildaid.ofish.ui.home.KEY_CREATE_REPORT_RESULT
 import org.wildaid.ofish.ui.vessel.VesselFragment
 import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.setVisible
+import org.wildaid.ofish.util.showSnackMessage
 
 const val BASIC_INFO_FRAGMENT_POSITION = 0
 const val VESSEL_FRAGMENT_POSITION = 1
@@ -97,11 +97,11 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
 
         fragmentViewModel.userEventLiveData.observe(viewLifecycleOwner, EventObserver {
             when (it) {
-                is TabsViewModel.UserEvent.AskSkipSectionsEvent -> showSkipSectionsDialog(it.skippedTabs)
-                is TabsViewModel.UserEvent.AskLeftEmptyFields -> showSkipSectionsDialog(it.skippedTabs)
-                is TabsViewModel.UserEvent.ChangeTabEvent -> selectTab(it.tabItem)
-                TabsViewModel.UserEvent.AskPrefillVesselEvent -> showAskPrefillBoatDialog()
-                TabsViewModel.UserEvent.AskPrefillCrewEvent -> showAskPrefillCrewDialog()
+                is TabsViewModel.TabsUserEvent.AskSkipSectionsEvent -> showSkipSectionsDialog(it.skippedTabs)
+                is TabsViewModel.TabsUserEvent.AskLeftEmptyFields -> showSkipSectionsDialog(it.skippedTabs)
+                is TabsViewModel.TabsUserEvent.ChangeTabEvent -> selectTab(it.tabItem)
+                TabsViewModel.TabsUserEvent.AskPrefillVesselEvent -> showAskPrefillBoatDialog()
+                TabsViewModel.TabsUserEvent.AskPrefillCrewEvent -> showAskPrefillCrewDialog()
             }
         })
 
@@ -130,10 +130,7 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
             childFragmentManager.findFragmentByTag("f$previousTabIndex") as BaseReportFragment?
 
         previousReportFragment?.let {
-            fragmentViewModel.onTabChanged(
-                previousTabIndex,
-                currentTabIndex
-            )
+            fragmentViewModel.onTabChanged(previousTabIndex, currentTabIndex)
         }
     }
 
@@ -235,69 +232,92 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
             SUBMIT_DIALOG_ID,
             title,
             message,
-            getString(R.string.menu_submit_report),
+            getString(R.string.submit),
             getString(R.string.keep_editing)
-        ).bundle()
+        ).apply {
+            neutral = getString(R.string.save_and_finish_later)
+        }.bundle()
 
         navigation.navigate(R.id.confirmation_dialog, dialogBundle)
     }
 
     private fun handleDialogClick(click: DialogClickEvent): Boolean {
-        var clickHandled = false
-        if (click.dialogBtn == DialogButton.POSITIVE) {
-            when (click.dialogId) {
-                ASK_PREFILL_VESSEL_DIALOG_ID -> {
+        return when (click.dialogId) {
+            ASK_PREFILL_VESSEL_DIALOG_ID -> {
+                if (click.dialogBtn == DialogButton.POSITIVE) {
                     val vesselFragment =
                         childFragmentManager.findFragmentByTag("$FRAGMENT_TAG_PREFIX$VESSEL_FRAGMENT_POSITION") as VesselFragment
                     fragmentViewModel.vesselToPrefill?.let {
                         vesselFragment.fillVesselInfo(it)
                     }
-                    clickHandled = true
                 }
-                ASK_PREFILL_CREW_DIALOG_ID -> {
+                true
+            }
+            ASK_PREFILL_CREW_DIALOG_ID -> {
+                if (click.dialogBtn == DialogButton.POSITIVE) {
                     val crewFragment =
                         childFragmentManager.findFragmentByTag("$FRAGMENT_TAG_PREFIX$CREW_FRAGMENT_POSITION") as CrewFragment
                     crewFragment.fillCrewInfo(
                         fragmentViewModel.prefillCaptain!!,
                         fragmentViewModel.crewToPrefill!!
                     )
-
-                    clickHandled = true
                 }
-                SUBMIT_DIALOG_ID -> {
-                    activityViewModel.saveReport(listener = object : OnSaveListener {
-                        override fun onSuccess() {
-                            val args =
-                                bundleOf(KEY_CREATE_REPORT_RESULT to getString(R.string.boarding_submitted))
-                            navigation.navigate(R.id.action_tabsFragment_to_home_navigation, args)
-                            requireActivity().finish()
-                        }
+                true
+            }
+            SUBMIT_DIALOG_ID -> {
+                if (click.dialogBtn == DialogButton.POSITIVE) {
+                    activityViewModel.saveReport(
+                        isDraft = false,
+                        listener = object : OnSaveListener {
+                            override fun onSuccess() {
+                                val args =
+                                    bundleOf(KEY_CREATE_REPORT_RESULT to getString(R.string.boarding_submitted))
+                                navigation.navigate(
+                                    R.id.action_tabsFragment_to_home_navigation,
+                                    args
+                                )
+                                requireActivity().finish()
+                            }
 
-                        override fun onError(it: Throwable) {
-                            Log.e("Save error", it.message ?: "")
-                            Snackbar.make(
-                                requireView(),
-                                getString(R.string.saving_error),
-                                Snackbar.LENGTH_LONG
-                            ).show()
-                        }
-                    })
+                            override fun onError(it: Throwable) {
+                                Log.e("Save error", it.message ?: "")
+                                showSnackMessage(requireView(), getString(R.string.saving_error))
+                            }
+                        })
+                } else if (click.dialogBtn == DialogButton.NEUTRAL) {
+                    activityViewModel.saveReport(
+                        isDraft = true,
+                        listener = object : OnSaveListener {
+                            override fun onSuccess() {
+                                val args =
+                                    bundleOf(KEY_CREATE_REPORT_RESULT to getString(R.string.draft_saved))
+                                navigation.navigate(
+                                    R.id.action_tabsFragment_to_home_navigation,
+                                    args
+                                )
+                                requireActivity().finish()
+                            }
 
-                    clickHandled = true
+                            override fun onError(it: Throwable) {
+                                Log.e("Save error", it.message ?: "")
+                                showSnackMessage(requireView(), getString(R.string.saving_error))
+                            }
+                        })
                 }
+                true
+            }
 
-                ASK_SKIP_TABS_DIALOG_ID -> {
+            ASK_SKIP_TABS_DIALOG_ID -> {
+                if (click.dialogBtn == DialogButton.POSITIVE) {
                     if (pendingSkippingTabs != null) {
                         fragmentViewModel.onTabsSkipped(pendingSkippingTabs.orEmpty())
                         pendingSkippingTabs = null
                     }
-
-                    clickHandled = true
                 }
+                true
             }
+            else -> false
         }
-
-        return clickHandled
     }
 
     @SuppressLint("ClickableViewAccessibility")

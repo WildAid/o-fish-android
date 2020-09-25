@@ -25,6 +25,14 @@ class NotesFragment : BaseReportFragment(R.layout.fragment_notes) {
         fragmentViewModel.initNotes(currentReport, currentReportPhotos)
     }
 
+    override fun isAllRequiredFieldsNotEmpty(): Boolean {
+        return true
+    }
+
+    override fun validateForms(): Boolean {
+        return true
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewDataBinding = FragmentNotesBinding.bind(view)
             .apply {
@@ -35,7 +43,7 @@ class NotesFragment : BaseReportFragment(R.layout.fragment_notes) {
         initUI()
 
         fragmentViewModel.notesLiveData.observe(viewLifecycleOwner, Observer(::displayNotes))
-        fragmentViewModel.buttonId.observe(viewLifecycleOwner, EventObserver(::onButtonClicked))
+        fragmentViewModel.notesUserEventLiveData.observe(viewLifecycleOwner, EventObserver(::handleUserEvent))
     }
 
     private fun initUI() {
@@ -48,7 +56,7 @@ class NotesFragment : BaseReportFragment(R.layout.fragment_notes) {
                 fragmentViewModel.editNote(it)
             },
             addPhotoAttachmentListener = { note ->
-                pickImage { imageUri ->
+                peekImage { imageUri ->
                     fragmentViewModel.addPhotoAttachmentForNote(imageUri, note)
                 }
             },
@@ -74,10 +82,10 @@ class NotesFragment : BaseReportFragment(R.layout.fragment_notes) {
         notesAdapter.setItems(newList)
     }
 
-    private fun onButtonClicked(buttonId: Int) {
+    private fun handleUserEvent(buttonId: NotesViewModel.NotesUserEvent) {
         hideKeyboard()
         when (buttonId) {
-            R.id.btn_save -> {
+            NotesViewModel.NotesUserEvent.SaveEvent -> {
                 onNextListener.onNextClicked(true)
             }
         }

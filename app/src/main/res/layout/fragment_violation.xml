@@ -95,7 +95,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/violation_description"
-                            android:text="@={viewmodel.currentReport.inspection.summary.seizures.text}" />
+                            android:text="@={viewmodel.seizureLiveData.seizure.text}" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -106,14 +106,29 @@
                         android:layout_marginTop="16dp"
                         android:visibility="gone"
                         app:endIconContentDescription="@string/note"
+                        app:endIconDrawable="@drawable/ic_remove"
+                        app:endIconMode="custom"
+                        app:endIconTint="@null"
                         app:layout_constraintTop_toBottomOf="@id/violation_seizure_input_layout">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/violation_seizure_note"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/note" />
+                            android:hint="@string/note"
+                            android:text="@={viewmodel.seizureLiveData.attachments.note}"
+                            app:focused="@{viewmodel.seizureLiveData.attachments.isNoteFocused().contentIfNotHandled}" />
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <org.wildaid.ofish.ui.base.PhotoAttachmentsLayout
+                        android:id="@+id/seizure_edit_photos_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        app:editMode="@{true}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/violation_seizure_note_layout"
+                        app:photos="@{viewmodel.seizureLiveData.attachments.photos}" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
