@@ -76,8 +76,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             }
             is LoginViewModel.LoginResult.LoginError -> {
                 showLoginErrorDialog()
-//                Snackbar.make(requireView(), loginResult.errorMsg.orEmpty(), Snackbar.LENGTH_LONG)
-//                    .show()
             }
         }
     }
