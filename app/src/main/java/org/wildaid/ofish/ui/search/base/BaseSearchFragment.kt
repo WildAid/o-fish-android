@@ -22,7 +22,9 @@ import kotlinx.android.synthetic.main.fragment_search.*
 import org.wildaid.ofish.R
 import org.wildaid.ofish.ui.base.ProgressDialogFragment
 import org.wildaid.ofish.ui.createreport.CreateReportActivity
+import org.wildaid.ofish.ui.createreport.CreateReportBundle
 import org.wildaid.ofish.ui.createreport.CreateReportViewModel
+import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_ARGS
 import org.wildaid.ofish.ui.search.complex.AddSearchModel
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
 import org.wildaid.ofish.ui.search.complex.RecordSearchModel
@@ -151,12 +153,22 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
             is AddSearchModel -> navigateFromAdd()
             is RecordSearchModel -> {
                 val clickedRecord = (selectedItem as RecordSearchModel)
-                val detailArgs =
-                    bundleOf(
-                        KEY_VESSEL_PERMIT_NUMBER to clickedRecord.vessel.permitNumber,
-                        KEY_VESSEL_NAME to clickedRecord.vessel.name
-                    )
-                navigation.navigate(R.id.vessel_details_fragment, detailArgs)
+                if (currentSearchEntity == ComplexSearchFragment.SearchDrafts) {
+                    val createReportArg =
+                        bundleOf(
+                            KEY_CREATE_REPORT_ARGS to CreateReportBundle(
+                                reportDraftId = clickedRecord.reports[0]._id
+                            )
+                        )
+                    navigation.navigate(R.id.action_complex_search_to_create_report, createReportArg)
+                } else {
+                    val detailArgs =
+                        bundleOf(
+                            KEY_VESSEL_PERMIT_NUMBER to clickedRecord.vessel.permitNumber,
+                            KEY_VESSEL_NAME to clickedRecord.vessel.name
+                        )
+                    navigation.navigate(R.id.vessel_details_fragment, detailArgs)
+                }
             }
             is TextViewSearchModel -> { // Nothing
             }

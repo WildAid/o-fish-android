@@ -129,7 +129,7 @@
         tools:layout="@layout/fragment_basic_information">
 
         <argument
-            android:name="bundle_of_info1"
+            android:name="bundle_of_info"
             app:argType="org.wildaid.ofish.ui.createreport.CreateReportBundle" />
 
     </activity>

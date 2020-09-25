@@ -2,10 +2,14 @@ package org.wildaid.ofish.ui.createreport
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import org.bson.types.ObjectId
 
 @Parcelize
-data class CreateReportBundle(val prefillVessel: PrefillVessel, val prefillCrew: PrefillCrew?) :
-    Parcelable
+data class CreateReportBundle(
+    val reportDraftId: ObjectId? = null,
+    val prefillVessel: PrefillVessel? = null,
+    val prefillCrew: PrefillCrew? = null
+) : Parcelable
 
 @Parcelize
 data class PrefillVessel(
