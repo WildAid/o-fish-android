@@ -17,7 +17,6 @@
         <action
             android:id="@+id/action_login_fragment_to_error_login_dialog"
             app:destination="@id/error_login_dialog" />
-
     </fragment>
 
     <activity
@@ -33,7 +32,7 @@
     <dialog
         android:id="@+id/error_login_dialog"
         android:name="org.wildaid.ofish.ui.base.ConfirmationDialogFragment"
-        android:label="C" >
+        android:label="SimpleConfirmationDialog" >
         <action
             android:id="@+id/action_error_login_dialog_to_login_fragment"
             app:destination="@id/login_fragment" />
