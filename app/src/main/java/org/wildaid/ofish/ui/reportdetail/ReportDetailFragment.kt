@@ -122,7 +122,10 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             it.vessel?.attachments?.photoIDs?.toList() ?: emptyList()
         )
         val navigationArgs =
-            bundleOf(KEY_CREATE_REPORT_ARGS to CreateReportBundle(prefillVessel, prefillCrew))
+            bundleOf(KEY_CREATE_REPORT_ARGS to CreateReportBundle(
+                prefillVessel = prefillVessel,
+                prefillCrew = prefillCrew)
+            )
 
         navigation.navigate(
             R.id.action_report_details_fragment_to_create_report,

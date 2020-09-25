@@ -102,6 +102,8 @@ class RepositoryImpl(
 
     override fun findReport(reportId: ObjectId) = realmDataSource.findReport(reportId)
 
+    override fun findDraft(draftId: ObjectId) = realmDataSource.findDraft(draftId)
+
     override fun findReportsForBoat(boatPermitNumber: String, vesselName: String) =
         realmDataSource.findReportsForBoat(boatPermitNumber, vesselName)
 

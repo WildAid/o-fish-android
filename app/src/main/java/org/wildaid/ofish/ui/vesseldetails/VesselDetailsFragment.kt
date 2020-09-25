@@ -144,7 +144,10 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
             }
         )
         val navigationArgs =
-            bundleOf(KEY_CREATE_REPORT_ARGS to CreateReportBundle(prefillVessel, prefillCrew))
+            bundleOf(KEY_CREATE_REPORT_ARGS to CreateReportBundle(
+                prefillVessel = prefillVessel,
+                prefillCrew = prefillCrew)
+            )
         navigation.navigate(
             R.id.action_vessel_details_fragment_to_create_report,
             navigationArgs

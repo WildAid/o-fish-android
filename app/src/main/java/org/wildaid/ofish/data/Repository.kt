@@ -39,6 +39,8 @@ interface Repository {
 
     fun findReport(reportId: ObjectId): Report?
 
+    fun findDraft(draftId: ObjectId): Report?
+
     fun findReportsForBoat(boatPermitNumber: String, vesselName: String): List<Report>
 
     fun getAmountOfDraftsByEmail(): Int

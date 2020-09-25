@@ -9,7 +9,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import kotlinx.coroutines.handleCoroutineException
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.OnSaveListener
@@ -30,14 +29,11 @@ class CreateReportActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_report)
-        navigation = findNavController(R.id.create_report_host_fragment).apply {
-            setGraph(R.navigation.create_report_navigation, intent.extras)
-        }
+        navigation = findNavController(R.id.create_report_host_fragment)
 
-        activityViewModel.initReport()
+        val createReportBundle = intent.extras?.getParcelable<CreateReportBundle?>(KEY_CREATE_REPORT_ARGS)
+        activityViewModel.initReport(createReportBundle?.reportDraftId)
         activityViewModel.createReportUserEvent.observe(this, EventObserver(::handleUserEvent))
-
-        subscribeToDialogEvents()
     }
 
     override fun onBackPressed() {
@@ -65,7 +61,13 @@ class CreateReportActivity : AppCompatActivity() {
     private fun handleUserEvent(event:  CreateReportViewModel.CreateReportUserEvent) {
         when(event) {
             CreateReportViewModel.CreateReportUserEvent.AskDiscardBoarding -> askDiscardReport()
+            CreateReportViewModel.CreateReportUserEvent.StartReportCreation -> displayCreationTabs()
         }
+    }
+
+    private fun displayCreationTabs() {
+        navigation.setGraph(R.navigation.create_report_navigation, intent.extras)
+        subscribeToDialogEvents()
     }
 
     private fun askDiscardReport() {

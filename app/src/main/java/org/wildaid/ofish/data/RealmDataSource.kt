@@ -189,6 +189,11 @@ class RealmDataSource(context: Context) {
         return realm.where<Report>().equalTo(FIELD_ID, reportId).findFirst()
     }
 
+    fun findDraft(draftId: ObjectId): Report? {
+        val draft = realm.where<Report>().equalTo(FIELD_ID, draftId).findFirst()
+        return realm.copyFromRealm(draft)
+    }
+
     fun findReportsForBoat(boatPermitNumber: String, vesselName: String): List<Report> {
         return realm.where<Report>()
             .equalTo(VESSEL_PERMIT_NUMBER, boatPermitNumber)
