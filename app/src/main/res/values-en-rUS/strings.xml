@@ -6,4 +6,5 @@
         <item>kg</item>
         <item>tonnes</item>
     </string-array>
+    <string name="invalid_email_or_password">Invalid email or password</string>
 </resources>

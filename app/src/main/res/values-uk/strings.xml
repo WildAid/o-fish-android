@@ -196,4 +196,5 @@
 
     <!--    Time On Duty    -->
     <string name="become_not_at_sea">Зійти з моря</string>
+    <string name="invalid_email_or_password">Invalid email or password</string>
 </resources>
