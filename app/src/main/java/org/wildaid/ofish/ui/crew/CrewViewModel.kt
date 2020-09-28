@@ -186,7 +186,8 @@ class CrewViewModel(
                 title = captainTitle,
                 attachments = AttachmentItem(captain.attachments!!),
                 isRemovable = false,
-                isCaptain = true
+                isCaptain = true,
+                inEditMode = false
             )
         )
 
@@ -200,7 +201,8 @@ class CrewViewModel(
                     title = "$memberTitle ${index.inc()}",
                     attachments = AttachmentItem(it.attachments!!),
                     isRemovable = true,
-                    isCaptain = false
+                    isCaptain = false,
+                    inEditMode = false
                 )
             )
         }

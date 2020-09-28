@@ -40,13 +40,15 @@ class CatchViewModel(
         this.currentReportPhotos = currentReportPhotos
 
         val catch = (currentReport.inspection?.actualCatch ?: RealmList()).ifEmpty {
-            listOf(Catch())
+            RealmList(Catch())
         }
+        currentReport.inspection?.actualCatch = catch
+
         catch.forEachIndexed{index, it ->
             currentCatchItems.add(
                 CatchItem(
                     catch = it,
-                    title = "$catchTitle ${index + 1}",
+                    title = "$catchTitle ${index.inc()}",
                     inEditMode = false,
                     attachmentItem = AttachmentItem(it.attachments!!)
                 )

@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.realm.RealmList
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.OffenceData
@@ -45,10 +46,25 @@ class ViolationViewModel(
         this.currentReport = report
         this.currentReportPhotos = currentReportPhotos
 
-        addViolation()
+        val violations = (report.inspection?.summary?.violations ?: RealmList()).ifEmpty {
+            RealmList(Violation())
+        }
+        report.inspection?.summary?.violations = violations
+        violations.forEachIndexed{ index, it ->
+            currentViolationItems.add(
+                ViolationItem(
+                    violation = it,
+                    title = "$violationTitle ${index.inc()}",
+                    attachments = AttachmentItem(it.attachments!!)
+                )
+            )
+        }
+
+        _violationLiveData.value = currentViolationItems
 
         val seizure = report.inspection?.summary?.seizures!!
         currentSeizureItem = SeizureItem(seizure, AttachmentItem(seizure.attachments!!))
+        _seizureLiveData.value = currentSeizureItem
     }
 
     fun refreshIssuedTo() {
