@@ -38,11 +38,19 @@ class CreateReportViewModel(val repository: Repository) : ViewModel() {
         repository.saveReport(report, photosToSave, listener)
     }
 
+    fun deleteReport() {
+        repository.deleteDraft(report)
+    }
+
     fun onBackPressed(): Boolean {
         if (isOnSearch || isAddingCrewMember) {
             return false
         }
-        _createReportUserEvent.value = Event(CreateReportUserEvent.AskDiscardBoarding)
+        if (report.draft!!) {
+            _createReportUserEvent.value = Event(CreateReportUserEvent.AskDeleteDraft)
+        } else {
+            _createReportUserEvent.value = Event(CreateReportUserEvent.AskDiscardBoarding)
+        }
         return true
     }
 
@@ -76,6 +84,7 @@ class CreateReportViewModel(val repository: Repository) : ViewModel() {
 
     sealed class CreateReportUserEvent {
         object AskDiscardBoarding : CreateReportUserEvent()
-        object StartReportCreation: CreateReportUserEvent()
+        object StartReportCreation : CreateReportUserEvent()
+        object AskDeleteDraft : CreateReportUserEvent()
     }
 }

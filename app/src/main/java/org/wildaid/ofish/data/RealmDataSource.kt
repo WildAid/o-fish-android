@@ -28,6 +28,7 @@ const val DATE = "date"
 const val BUSINESS = "business"
 const val LOCATION = "location"
 const val DRAFT = "draft"
+const val _ID = "_id"
 const val REPORTING_EMAIL_OFFICER = "reportingOfficer.email"
 const val LAST_DELIVERY_DATE = "lastDelivery.date"
 const val VESSEL_PERMIT_NUMBER = "vessel.permitNumber"
@@ -157,6 +158,19 @@ class RealmDataSource(context: Context) {
             { listener.onSuccess() },
             { listener.onError(it) }
         )
+    }
+
+    fun deleteDraft(report: Report) {
+        realm.executeTransaction {
+            it.where<Report>()
+                .equalTo(_ID, report._id)
+                .and()
+                .equalTo(VESSEL_NAME, report.vessel?.name)
+                .and()
+                .equalTo(VESSEL_PERMIT_NUMBER, report.vessel?.permitNumber)
+                .findFirst()
+                ?.deleteFromRealm()
+        }
     }
 
     fun getCurrentOfficer() = currentOfficer
