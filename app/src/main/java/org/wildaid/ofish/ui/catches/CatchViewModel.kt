@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.realm.RealmList
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.Repository
@@ -37,7 +38,21 @@ class CatchViewModel(
     fun initCatch(report: Report, currentReportPhotos: MutableList<PhotoItem>) {
         this.currentReport = report
         this.currentReportPhotos = currentReportPhotos
-        addCatch()
+
+        val catch = (currentReport.inspection?.actualCatch ?: RealmList()).ifEmpty {
+            listOf(Catch())
+        }
+        catch.forEachIndexed{index, it ->
+            currentCatchItems.add(
+                CatchItem(
+                    catch = it,
+                    title = "$catchTitle ${index + 1}",
+                    inEditMode = false,
+                    attachmentItem = AttachmentItem(it.attachments!!)
+                )
+            )
+        }
+        _catchItemsLiveData.value = currentCatchItems
     }
 
     fun updateSpeciesForCatch(species: String, catchItem: CatchItem) {

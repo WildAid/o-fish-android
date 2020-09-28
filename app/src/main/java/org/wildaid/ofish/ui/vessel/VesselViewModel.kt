@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.realm.RealmList
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.Repository
@@ -59,10 +60,7 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
         R.id.delivery_note
     )
 
-    fun initVessel(
-        report: Report,
-        currentReportPhotos: MutableList<PhotoItem>
-    ) {
+    fun initVessel(report: Report, currentReportPhotos: MutableList<PhotoItem>) {
         this.currentReport = report
         this.currentReportPhotos = currentReportPhotos
 
@@ -76,8 +74,12 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
             _deliveryItemItemLiveData.value = currentDeliveryItem
         }
 
+        val ems = (currentReport.vessel?.ems ?: RealmList()).ifEmpty { RealmList(EMS()) }
+        currentReport.vessel?.ems = ems
         currentEMSItems = mutableListOf()
-        addEms()
+        ems.forEach {
+            currentEMSItems.add(EMSItem(it, true, AttachmentItem(it.attachments!!)))
+        }
         _emsLiveData.value = currentEMSItems
     }
 
