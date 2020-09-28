@@ -109,7 +109,7 @@
     <string name="not_at_sea">Pas en mer</string>
     <string name="you_are_not_at_sea">Vous êtes actuellement pas en mer</string>
     <string name="change_status_to_at_sea">Changer le statut en "En mer"?</string>
-    <string name="board_vessel">Inspecter le Vaisseau</string>
+    <string name="board_vessel">Inspecter le\n Vaisseau</string>
     <string name="find_records">Chercher les rapports</string>
     <string name="first_last_name">%s %s</string>
 
@@ -197,9 +197,9 @@
     <string name="submit">Soumettre</string>
     <string name="draft_saved">Embarquement enregistré</string>
     <string name="keep_editing">Continuez de modifier</string>
-    <string name="save_and_finish">Enregistrer et terminer plus tard</string>
     <string name="boarding_submitted">Inspection validée!</string>
     <string name="boarding_canceled">Inspection annulée</string>
+    <string name="login_error">Une erreur s\'est produite lors de la connexion</string>
     <string name="saving_error">Une erreur s\'est produite durant la sauvegarde</string>
     <string name="continue_with_empty_fields">Continuer avec un champ vide?</string>
     <string name="continue_action">Continuer</string>
@@ -222,4 +222,5 @@
     <string name="error_end_date">La date de début doit précéder la date de fin</string>
     <string name="error_date_in_future">Enregistrer la date correcte</string>
     <string name="risk_no_notes_or_photos">Aucune note ou photo pour risque</string>
+    <string name="invalid_email_or_password">Email ou mot de passe invalide</string>
 </resources>

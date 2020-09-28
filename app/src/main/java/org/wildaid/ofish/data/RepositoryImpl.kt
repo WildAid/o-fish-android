@@ -116,6 +116,10 @@ class RepositoryImpl(
         return realmDataSource.getAmountOfDraftsByOfficerEmail(officerData.email)
     }
 
+    override fun getAmountOfDraftsForCurrentDuty(): Int {
+        return realmDataSource.getAmountOfDraftsForCurrentDuty()
+    }
+
     override fun findReportsForCurrentDuty(): List<Report> {
         return realmDataSource.findReportsForCurrentDuty()
     }

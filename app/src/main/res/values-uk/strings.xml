@@ -183,17 +183,19 @@
     <string name="cancel_boarding">Скасувати прибуття?</string>
     <string name="board_not_saved">Це прибуття не буде збережене</string>
     <string name="keep_editing">Продовжуйте редагування</string>
-    <string name="save_and_finish">Зберегти та продовжити пізніше</string>
+    <string name="save_and_finish_later">Зберегти та продовжити пізніше</string>
     <string name="boarding_submitted">Прибуття подане</string>
     <string name="boarding_canceled">Прибуття скасоване</string>
     <string name="saving_error">Помилка при збереженні</string>
     <string name="draft_saved">Прибуття збережено</string>
     <string name="submit">Подати</string>
     <string name="continue_with_empty_fields">Продовжити з порожніми полями?</string>
+    <string name="login_error">Відбулась помилка під час логіну</string>
     <string name="continue_action">Продовжити</string>
     <string name="chose_image_source">Виберіть джерело світлини</string>
     <string name="risk_no_notes_or_photos">Немає Нотатків або Фотокарток</string>
 
     <!--    Time On Duty    -->
     <string name="become_not_at_sea">Зійти з моря</string>
+    <string name="invalid_email_or_password">Невірний емеіл або пароль</string>
 </resources>

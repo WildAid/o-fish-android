@@ -243,6 +243,18 @@ class RealmDataSource(context: Context) {
             .count()
     }
 
+    fun getAmountOfDraftsForCurrentDuty(): Int {
+        val dutyChange = getRecentStartCurrentDuty()
+        dutyChange?.let {
+            return realm.where<Report>()
+                .sort(DATE, Sort.DESCENDING)
+                .greaterThan(DATE, it.date)
+                .equalTo(DRAFT, true)
+                .count().toInt()
+        }
+        return 0
+    }
+
     fun findReportsForCurrentDuty(): List<Report> {
         val dutyChange = getRecentStartCurrentDuty()
         dutyChange?.let {

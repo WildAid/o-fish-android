@@ -9,79 +9,99 @@
         android:background="@color/white">
 
         <ImageView
-            android:id="@+id/record_vessel_image"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_margin="18dp"
-            android:src="@drawable/ic_vessel_placeholder_2"
+            android:id="@+id/record_vessel_draft_mark"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/constraintLayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/record_vessel_name"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:ellipsize="end"
-            android:textColor="@android:color/black"
-            android:fontFamily="sans-serif-medium"
-            android:singleLine="true"
-            android:textSize="17sp"
-            app:layout_constraintStart_toEndOf="@id/record_vessel_image"
-            app:layout_constraintTop_toTopOf="@id/record_vessel_image"
-            tools:text="Vessel name long name" />
-
-        <TextView
-            android:id="@+id/record_vessel_permit_number"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toStartOf="@id/record_vessel_safety_level"
-            app:layout_constraintStart_toEndOf="@id/record_vessel_image"
-            app:layout_constraintTop_toBottomOf="@id/record_vessel_name"
-            tools:text="Vessel name long name" />
-
-        <TextView
-            android:id="@+id/record_vessel_last_boarding"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toStartOf="@id/record_vessel_safety_level"
-            app:layout_constraintStart_toEndOf="@id/record_vessel_image"
-            app:layout_constraintTop_toBottomOf="@id/record_vessel_permit_number"
-            tools:text="Vessel name long name" />
-
-        <TextView
-            android:id="@+id/record_vessel_crew_size"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:ellipsize="end"
-            android:paddingBottom="16dp"
-            android:singleLine="true"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toStartOf="@id/record_vessel_safety_level"
-            app:layout_constraintStart_toEndOf="@id/record_vessel_image"
-            app:layout_constraintTop_toBottomOf="@id/record_vessel_last_boarding"
-            tools:text="Vessel name long name" />
-
-        <org.wildaid.ofish.ui.base.SafetyColorTextView
-            android:id="@+id/record_vessel_safety_level"
-            android:layout_width="68dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="8dp"
-            android:gravity="center"
-            android:textAllCaps="true"
-            android:textSize="13sp"
-            android:textStyle="bold"
+            android:layout_marginStart="15dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/record_vessel_image"
-            tools:text="Amber" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/record_vessel_image"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_margin="18dp"
+                android:src="@drawable/ic_vessel_placeholder_2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/record_vessel_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-medium"
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                app:layout_constraintStart_toEndOf="@id/record_vessel_image"
+                app:layout_constraintTop_toTopOf="@id/record_vessel_image"
+                tools:text="Vessel name long name" />
+
+            <TextView
+                android:id="@+id/record_vessel_permit_number"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@id/record_vessel_safety_level"
+                app:layout_constraintStart_toEndOf="@id/record_vessel_image"
+                app:layout_constraintTop_toBottomOf="@id/record_vessel_name"
+                tools:text="Vessel name long name" />
+
+            <TextView
+                android:id="@+id/record_vessel_last_boarding"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@id/record_vessel_safety_level"
+                app:layout_constraintStart_toEndOf="@id/record_vessel_image"
+                app:layout_constraintTop_toBottomOf="@id/record_vessel_permit_number"
+                tools:text="Vessel name long name" />
+
+            <TextView
+                android:id="@+id/record_vessel_crew_size"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:ellipsize="end"
+                android:paddingBottom="16dp"
+                android:singleLine="true"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@id/record_vessel_safety_level"
+                app:layout_constraintStart_toEndOf="@id/record_vessel_image"
+                app:layout_constraintTop_toBottomOf="@id/record_vessel_last_boarding"
+                tools:text="Vessel name long name" />
+
+            <org.wildaid.ofish.ui.base.SafetyColorTextView
+                android:id="@+id/record_vessel_safety_level"
+                android:layout_width="68dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/record_vessel_image"
+                tools:text="Amber" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
