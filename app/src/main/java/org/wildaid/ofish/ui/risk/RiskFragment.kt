@@ -19,7 +19,7 @@ class RiskFragment : BaseReportFragment(R.layout.fragment_risk) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fragmentViewModel.initReport(currentReport, currentReportPhotos)
+        fragmentViewModel.initViewModel(currentReport, currentReportPhotos)
     }
 
     override fun isAllRequiredFieldsNotEmpty(): Boolean {

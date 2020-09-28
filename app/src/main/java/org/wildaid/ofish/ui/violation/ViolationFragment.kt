@@ -31,7 +31,7 @@ class ViolationFragment : BaseReportFragment(R.layout.fragment_violation) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fragmentViewModel.initViolations(currentReport, currentReportPhotos)
+        fragmentViewModel.initViewModel(currentReport, currentReportPhotos)
         subscribeToSearchResult()
     }
 

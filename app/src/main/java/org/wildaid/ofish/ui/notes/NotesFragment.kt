@@ -22,7 +22,7 @@ class NotesFragment : BaseReportFragment(R.layout.fragment_notes) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fragmentViewModel.initNotes(currentReport, currentReportPhotos)
+        fragmentViewModel.initViewModel(currentReport, currentReportPhotos)
     }
 
     override fun isAllRequiredFieldsNotEmpty(): Boolean {

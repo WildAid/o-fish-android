@@ -1,22 +1,25 @@
 package org.wildaid.ofish.ui.vessel
 
+import android.app.Application
 import android.net.Uri
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import io.realm.RealmList
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.Boat
 import org.wildaid.ofish.data.report.EMS
-import org.wildaid.ofish.data.report.Photo
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.base.AttachmentItem
+import org.wildaid.ofish.ui.base.BaseReportViewModel
 import org.wildaid.ofish.ui.base.PhotoItem
 
-class VesselViewModel(val repository: Repository) : ViewModel() {
+class VesselViewModel(
+    repository: Repository,
+    app: Application
+) : BaseReportViewModel(repository, app) {
 
     private var _vesselItemLiveData = MutableLiveData<VesselItem>()
     val vesselItemLiveData: LiveData<VesselItem>
@@ -39,8 +42,6 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
     private lateinit var currentVesselItem: VesselItem
     private lateinit var currentDeliveryItem: DeliveryItem
     private lateinit var currentEMSItems: MutableList<EMSItem>
-    private lateinit var currentReport: Report
-    private lateinit var currentReportPhotos: MutableList<PhotoItem>
 
     private var lastFocusInInfo = false
     private var lastFocusDelivery = false
@@ -60,10 +61,8 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
         R.id.delivery_note
     )
 
-    fun initVessel(report: Report, currentReportPhotos: MutableList<PhotoItem>) {
-        this.currentReport = report
-        this.currentReportPhotos = currentReportPhotos
-
+    override fun initViewModel(report: Report, currentReportPhotos: MutableList<PhotoItem>) {
+        super.initViewModel(report, currentReportPhotos)
         report.vessel?.also {
             currentVesselItem = VesselItem(it, true, AttachmentItem(it.attachments!!))
             _vesselItemLiveData.postValue(currentVesselItem)
@@ -132,7 +131,7 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
     }
 
     fun addPhotoForVessel(imageUri: Uri) {
-        val newPhoto = createPhoto(imageUri)
+        val newPhoto = createPhotoItem(imageUri)
         currentReportPhotos.add(newPhoto)
         currentVesselItem.attachments.addPhoto(newPhoto)
         _vesselItemLiveData.value = currentVesselItem
@@ -145,7 +144,7 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
     }
 
     fun addPhotoForDelivery(imageUri: Uri) {
-        val newPhoto = createPhoto(imageUri)
+        val newPhoto = createPhotoItem(imageUri)
         currentReportPhotos.add(newPhoto)
         currentDeliveryItem.attachments.addPhoto(newPhoto)
         _deliveryItemItemLiveData.value = currentDeliveryItem
@@ -198,7 +197,7 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
     }
 
     fun addPhotoForEms(imageUri: Uri, emsItem: EMSItem) {
-        val newPhoto = createPhoto(imageUri)
+        val newPhoto = createPhotoItem(imageUri)
         emsItem.attachments.addPhoto(newPhoto)
         currentReportPhotos.add(newPhoto)
 
@@ -277,15 +276,6 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
         }
         currentDeliveryItem.inEditMode = deliveryInEditMode
         _deliveryItemItemLiveData.value = currentDeliveryItem
-    }
-
-    private fun createPhoto(imageUri: Uri): PhotoItem {
-        return PhotoItem(
-            Photo().apply {
-                referencingReportID = currentReport._id.toString()
-            },
-            imageUri
-        )
     }
 
     fun createNewBusiness() {

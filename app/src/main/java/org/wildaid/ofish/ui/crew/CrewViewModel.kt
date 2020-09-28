@@ -13,13 +13,14 @@ import org.wildaid.ofish.data.report.CrewMember
 import org.wildaid.ofish.data.report.Photo
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.base.AttachmentItem
+import org.wildaid.ofish.ui.base.BaseReportViewModel
 import org.wildaid.ofish.ui.base.PhotoItem
 import org.wildaid.ofish.util.getString
 
 class CrewViewModel(
-    val repository: Repository,
-    application: Application
-) : AndroidViewModel(application) {
+    repository: Repository,
+    app: Application
+) : BaseReportViewModel(repository, app) {
 
     private var _crewMembersData = MutableLiveData<List<CrewMemberItem>>()
     val crewMembersData: LiveData<List<CrewMemberItem>>
@@ -33,19 +34,13 @@ class CrewViewModel(
     val crewUserEvent: LiveData<Event<CrewUserEvent>>
         get() = _crewUserEvent
 
-    private lateinit var currentReport: Report
-    private lateinit var currentReportPhotos: MutableList<PhotoItem>
     private var currentCrewItems = mutableListOf<CrewMemberItem>()
 
     private val captainTitle = getString(R.string.captain)
     private val memberTitle = getString(R.string.crew_member)
 
-    fun initCrewMembers(
-        currentReport: Report,
-        currentReportPhotos: MutableList<PhotoItem>
-    ) {
-        this.currentReport = currentReport
-        this.currentReportPhotos = currentReportPhotos
+    override fun initViewModel(report: Report, currentReportPhotos: MutableList<PhotoItem>) {
+        super.initViewModel(report, currentReportPhotos)
         this._crewMembersData.postValue(initiateCrewMembers())
     }
 
@@ -100,7 +95,7 @@ class CrewViewModel(
     }
 
     fun addPhotoForMember(imageUri: Uri, member: CrewMemberItem) {
-        val newPhotoItem = PhotoItem(createPhoto(), imageUri)
+        val newPhotoItem = createPhotoItem(imageUri)
         currentReportPhotos.add(newPhotoItem)
         currentCrewItems.find { member.crewMember == it.crewMember }?.attachments?.addPhoto(
             newPhotoItem
@@ -191,6 +186,7 @@ class CrewViewModel(
             )
         )
 
+        // Init crew
         val crew = currentReport.crew.ifEmpty { RealmList(CrewMember()) }
         currentReport.crew = crew
 
@@ -207,12 +203,6 @@ class CrewViewModel(
             )
         }
         return currentCrewItems
-    }
-
-    private fun createPhoto(): Photo {
-        return Photo().apply {
-            referencingReportID = currentReport._id.toString()
-        }
     }
 
     sealed class CrewUserEvent {

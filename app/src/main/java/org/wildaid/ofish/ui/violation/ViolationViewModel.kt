@@ -2,7 +2,6 @@ package org.wildaid.ofish.ui.violation
 
 import android.app.Application
 import android.net.Uri
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.realm.RealmList
@@ -15,14 +14,14 @@ import org.wildaid.ofish.data.report.Photo
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.data.report.Violation
 import org.wildaid.ofish.ui.base.AttachmentItem
+import org.wildaid.ofish.ui.base.BaseReportViewModel
 import org.wildaid.ofish.ui.base.PhotoItem
 import org.wildaid.ofish.util.getString
 
 class ViolationViewModel(
-    val repository: Repository,
-    application: Application
-) :
-    AndroidViewModel(application) {
+    repository: Repository,
+    app: Application
+) : BaseReportViewModel(repository, app) {
 
     private var _violationLiveData = MutableLiveData<List<ViolationItem>>()
     val violationLiveData: LiveData<List<ViolationItem>>
@@ -35,16 +34,13 @@ class ViolationViewModel(
     private var _violationUserEventLiveData = MutableLiveData<Event<ViolationUserEvent>>()
     val violationUserEventLiveData: LiveData<Event<ViolationUserEvent>>
         get() = _violationUserEventLiveData
-    lateinit var currentReport: Report
 
     private val violationTitle = getString(R.string.violation)
     private val currentViolationItems = mutableListOf<ViolationItem>()
     private lateinit var currentSeizureItem : SeizureItem
-    private lateinit var currentReportPhotos: MutableList<PhotoItem>
 
-    fun initViolations(report: Report, currentReportPhotos: MutableList<PhotoItem>) {
-        this.currentReport = report
-        this.currentReportPhotos = currentReportPhotos
+    override fun initViewModel(report: Report, currentReportPhotos: MutableList<PhotoItem>) {
+        super.initViewModel(report, currentReportPhotos)
 
         val violations = (report.inspection?.summary?.violations ?: RealmList()).ifEmpty {
             RealmList(Violation())
@@ -102,7 +98,7 @@ class ViolationViewModel(
     }
 
     fun addPhotoForViolation(imageUri: Uri, item: ViolationItem) {
-        val newPhotoItem = PhotoItem(createPhoto(), imageUri)
+        val newPhotoItem = createPhotoItem(imageUri)
         currentReportPhotos.add(newPhotoItem)
         currentViolationItems.find { it.violation == item.violation }?.attachments?.addPhoto(
             newPhotoItem
@@ -116,7 +112,7 @@ class ViolationViewModel(
     }
 
     fun addPhotoForSeizure(imageUri: Uri) {
-        val newPhotoItem = PhotoItem(createPhoto(), imageUri)
+        val newPhotoItem = createPhotoItem(imageUri)
         currentReportPhotos.add(newPhotoItem)
         currentSeizureItem.attachments.addPhoto(newPhotoItem)
         _seizureLiveData.value = currentSeizureItem
@@ -182,12 +178,6 @@ class ViolationViewModel(
 
     fun onNextClicked() {
         _violationUserEventLiveData.value = Event(ViolationUserEvent.NextEvent)
-    }
-
-    private fun createPhoto(): Photo {
-        return Photo().apply {
-            referencingReportID = currentReport._id.toString()
-        }
     }
 
     sealed class ViolationUserEvent {

@@ -26,7 +26,7 @@ class ActivitiesFragment : BaseReportFragment(R.layout.fragment_activities) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         subscribeToSearchResult()
-        fragmentViewModel.initActivities(currentReport, currentReportPhotos)
+        fragmentViewModel.initViewModel(currentReport, currentReportPhotos)
     }
 
     override fun isAllRequiredFieldsNotEmpty(): Boolean {
