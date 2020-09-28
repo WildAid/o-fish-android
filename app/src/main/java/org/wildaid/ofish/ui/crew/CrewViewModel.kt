@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.realm.RealmList
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.Repository
@@ -173,33 +174,36 @@ class CrewViewModel(
         currentReport.captain != currentCrewItems[0].crewMember || currentReport.crew.size != currentCrewItems.size - 1
 
     private fun initiateCrewMembers(): List<CrewMemberItem> {
-        val captain = CrewMember()
-        val crewMember = CrewMember()
+        currentCrewItems = mutableListOf()
+
+        // Init captain
+        val captain = currentReport.captain ?: CrewMember()
         currentReport.captain = captain
-        currentReport.crew.add(crewMember)
 
-        currentCrewItems = mutableListOf<CrewMemberItem>().apply {
-            add(
-                CrewMemberItem(
-                    captain,
-                    title = captainTitle,
-                    attachments = AttachmentItem(captain.attachments!!),
-                    isRemovable = false,
-                    isCaptain = true
-                )
+        currentCrewItems.add(
+            CrewMemberItem(
+                captain,
+                title = captainTitle,
+                attachments = AttachmentItem(captain.attachments!!),
+                isRemovable = false,
+                isCaptain = true
             )
+        )
 
-            add(
+        val crew = currentReport.crew.ifEmpty { RealmList(CrewMember()) }
+        currentReport.crew = crew
+
+        crew.forEachIndexed { index, it ->
+            currentCrewItems.add(
                 CrewMemberItem(
-                    crewMember,
-                    title = "$memberTitle 1",
-                    attachments = AttachmentItem(crewMember.attachments!!),
+                    it,
+                    title = "$memberTitle ${index.inc()}",
+                    attachments = AttachmentItem(it.attachments!!),
                     isRemovable = true,
                     isCaptain = false
                 )
             )
         }
-
         return currentCrewItems
     }
 

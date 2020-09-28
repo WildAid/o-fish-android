@@ -24,6 +24,7 @@ const val ASK_TO_LOGOUT_DIALOG_ID = 11
 const val TEN_HOURS_TIMER_REQUEST_ID = 12
 
 private const val TEN_HOURS = 10 * 60 * 60 * 1000
+private const val CREATE_REPORT_FINISHED_DIALOG_ID = 100
 
 class HomeActivity : AppCompatActivity(R.layout.activity_home) {
     private val activityViewModel: HomeActivityViewModel by viewModels { getViewModelFactory() }
@@ -64,6 +65,14 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
             }.build()
             navigation.navigate(R.id.home_fragment, intent?.extras, navOptions)
         }
+
+        intent?.extras?.let {
+            if (it.containsKey(KEY_CREATE_REPORT_RESULT)) {
+                val message = it.getString(KEY_CREATE_REPORT_RESULT, null)
+                it.remove(KEY_CREATE_REPORT_RESULT)
+                showCreateReportDialog(message)
+            }
+        }
     }
 
     private fun askToChangeDuty() {
@@ -93,6 +102,17 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
         ).bundle()
 
         navigation.navigate(R.id.action_profileFragment_to_ask_logout_dialog, dialogBundle)
+    }
+
+    private fun showCreateReportDialog(message: String) {
+        val dialogBundle = ConfirmationDialogFragment.Bundler(
+            CREATE_REPORT_FINISHED_DIALOG_ID,
+            null,
+            message,
+            getString(android.R.string.ok)
+        ).bundle()
+
+        navigation.navigate(R.id.ask_change_duty_dialog, dialogBundle)
     }
 
     private fun setOrCancelTimer(onDuty: Boolean) {

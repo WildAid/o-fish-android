@@ -40,7 +40,6 @@ const val KEY_CREATE_REPORT_RESULT = "create_report_message_result"
 const val ZOOM_LEVEL = 10f
 
 private const val REQUEST_CODE_PERMISSIONS = 1444
-private const val CREATE_REPORT_FINISHED_DIALOG_ID = 100
 
 class HomeFragment : Fragment(R.layout.fragment_home),
     OnMapReadyCallback {
@@ -68,13 +67,6 @@ class HomeFragment : Fragment(R.layout.fragment_home),
 
         setObservers()
         subscribeToDialogEvents()
-        arguments?.let {
-            if (it.containsKey(KEY_CREATE_REPORT_RESULT)) {
-                val message = it.getString(KEY_CREATE_REPORT_RESULT, null)
-                it.remove(KEY_CREATE_REPORT_RESULT)
-                showCreateReportDialog(message)
-            }
-        }
     }
 
     override fun onResume() {
@@ -221,17 +213,6 @@ class HomeFragment : Fragment(R.layout.fragment_home),
             fragmentViewModel.saveProfileImage(uri)
             updateProfilePhoto()
         }
-    }
-
-    private fun showCreateReportDialog(message: String) {
-        val dialogBundle = ConfirmationDialogFragment.Bundler(
-            CREATE_REPORT_FINISHED_DIALOG_ID,
-            null,
-            message,
-            getString(android.R.string.ok)
-        ).bundle()
-
-        navigation.navigate(R.id.ask_change_duty_dialog, dialogBundle)
     }
 
     private fun checkPermissions() {
