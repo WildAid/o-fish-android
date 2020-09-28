@@ -164,10 +164,6 @@ class RealmDataSource(context: Context) {
         realm.executeTransaction {
             it.where<Report>()
                 .equalTo(_ID, report._id)
-                .and()
-                .equalTo(VESSEL_NAME, report.vessel?.name)
-                .and()
-                .equalTo(VESSEL_PERMIT_NUMBER, report.vessel?.permitNumber)
                 .findFirst()
                 ?.deleteFromRealm()
         }
