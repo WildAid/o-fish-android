@@ -40,6 +40,7 @@ class CreateReportViewModel(val repository: Repository) : ViewModel() {
 
     fun deleteReport() {
         repository.deleteDraft(report)
+//        _createReportUserEvent.value = Event(CreateReportUserEvent.NavigateToDraftList)
     }
 
     fun onBackPressed(): Boolean {
@@ -86,5 +87,6 @@ class CreateReportViewModel(val repository: Repository) : ViewModel() {
         object AskDiscardBoarding : CreateReportUserEvent()
         object StartReportCreation : CreateReportUserEvent()
         object AskDeleteDraft : CreateReportUserEvent()
+        object NavigateToDraftList: CreateReportUserEvent()
     }
 }

@@ -90,10 +90,10 @@ class HomeFragment : Fragment(R.layout.fragment_home),
 
         fragmentViewModel.userEventLiveData.observe(viewLifecycleOwner, EventObserver {
             when (it) {
+                HomeFragmentViewModel.HomeFragmentUserEvent.ShowDrafts -> findDrafts()
                 HomeFragmentViewModel.HomeFragmentUserEvent.BoardVessel -> boardVessel()
                 HomeFragmentViewModel.HomeFragmentUserEvent.FindRecords -> findRecords()
                 HomeFragmentViewModel.HomeFragmentUserEvent.ShowUserStatus -> navigateToProfile()
-                HomeFragmentViewModel.HomeFragmentUserEvent.ShowDrafts -> findDrafts()
             }
         })
 
@@ -287,6 +287,10 @@ class HomeFragment : Fragment(R.layout.fragment_home),
                 if (event.dialogBtn == DialogButton.NEGATIVE) {
                     activityViewModel.onDutyChanged(false)
                 }
+                true
+            }
+            CREATE_REPORT_FINISHED_DIALOG_ID -> {
+                findDrafts()
                 true
             }
             else -> false

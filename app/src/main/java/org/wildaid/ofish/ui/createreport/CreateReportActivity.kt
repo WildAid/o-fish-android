@@ -17,11 +17,14 @@ import org.wildaid.ofish.ui.base.DIALOG_CLICK_EVENT
 import org.wildaid.ofish.ui.base.DialogButton
 import org.wildaid.ofish.ui.base.DialogClickEvent
 import org.wildaid.ofish.ui.home.KEY_CREATE_REPORT_RESULT
+import org.wildaid.ofish.ui.search.base.BaseSearchFragment
+import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
 import org.wildaid.ofish.util.getViewModelFactory
 
 const val KEY_CREATE_REPORT_ARGS = "bundle_of_info"
 private const val DISCARD_DIALOG_ID = 17
 private const val DELETE_DRAFT_DIALOG_ID = 26
+const val SHOULD_NAVIGATE_TO_DRAFT_LIST = "should_navigate_to_draft_list"
 
 class CreateReportActivity : AppCompatActivity() {
     private val activityViewModel: CreateReportViewModel by viewModels { getViewModelFactory() }
@@ -65,7 +68,14 @@ class CreateReportActivity : AppCompatActivity() {
             CreateReportViewModel.CreateReportUserEvent.AskDeleteDraft -> askDiscardDraft()
             CreateReportViewModel.CreateReportUserEvent.AskDiscardBoarding -> askDiscardReport()
             CreateReportViewModel.CreateReportUserEvent.StartReportCreation -> displayCreationTabs()
+//            CreateReportViewModel.CreateReportUserEvent.NavigateToDraftList -> navigateToDraftList()
         }
+    }
+
+    private fun navigateToDraftList() {
+        val bundle =
+            bundleOf(BaseSearchFragment.SEARCH_ENTITY_KEY to ComplexSearchFragment.SearchDrafts)
+        navigation.navigate(R.id.action_home_fragment_to_complex_search, bundle)
     }
 
     private fun displayCreationTabs() {
@@ -129,8 +139,10 @@ class CreateReportActivity : AppCompatActivity() {
             }
             DELETE_DRAFT_DIALOG_ID -> {
                 if (click.dialogBtn == DialogButton.NEUTRAL) {
-                    val args =
-                        bundleOf(KEY_CREATE_REPORT_RESULT to getString(R.string.draft_deleted))
+                    val args = bundleOf(
+                        KEY_CREATE_REPORT_RESULT to getString(R.string.draft_deleted),
+                        SHOULD_NAVIGATE_TO_DRAFT_LIST to true
+                    )
                     activityViewModel.deleteReport()
                     navigation.navigate(R.id.action_tabsFragment_to_home_navigation, args)
                     this.finish()
