@@ -44,17 +44,17 @@ class ActivitiesViewModel(val repository: Repository) : ViewModel() {
 
         report.inspection?.activity?.let {
             currentActivityItem = ActivityItem(it, AttachmentItem(it.attachments!!))
-            _activityItemLiveData.value = currentActivityItem
+            _activityItemLiveData.postValue(currentActivityItem)
         }
 
         report.inspection?.fishery?.let {
             currentFisheryItem = FisheryItem(it, AttachmentItem(it.attachments!!))
-            _fisheryItemLiveData.value = currentFisheryItem
+            _fisheryItemLiveData.postValue(currentFisheryItem)
         }
 
         report.inspection?.gearType?.let {
             currentGearItem = GearItem(it, AttachmentItem(it.attachments!!))
-            _gearItemLiveData.value = currentGearItem
+            _gearItemLiveData.postValue(currentGearItem)
         }
     }
 

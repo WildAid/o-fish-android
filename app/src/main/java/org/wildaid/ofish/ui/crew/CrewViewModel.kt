@@ -46,7 +46,7 @@ class CrewViewModel(
     ) {
         this.currentReport = currentReport
         this.currentReportPhotos = currentReportPhotos
-        this._crewMembersData.value = initiateCrewMembers()
+        this._crewMembersData.postValue(initiateCrewMembers())
     }
 
     fun fillCrew(captain: CrewMember, crews: List<CrewMember>) {

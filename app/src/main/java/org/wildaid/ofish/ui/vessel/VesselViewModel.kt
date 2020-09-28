@@ -66,12 +66,12 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
 
         report.vessel?.also {
             currentVesselItem = VesselItem(it, true, AttachmentItem(it.attachments!!))
-            _vesselItemLiveData.value = currentVesselItem
+            _vesselItemLiveData.postValue(currentVesselItem)
         }
 
         report.vessel?.lastDelivery?.also {
             currentDeliveryItem = DeliveryItem(it, true, AttachmentItem(it.attachments!!))
-            _deliveryItemItemLiveData.value = currentDeliveryItem
+            _deliveryItemItemLiveData.postValue(currentDeliveryItem)
         }
 
         val ems = (currentReport.vessel?.ems ?: RealmList()).ifEmpty { RealmList(EMS()) }
@@ -80,7 +80,7 @@ class VesselViewModel(val repository: Repository) : ViewModel() {
         ems.forEach {
             currentEMSItems.add(EMSItem(it, true, AttachmentItem(it.attachments!!)))
         }
-        _emsLiveData.value = currentEMSItems
+        _emsLiveData.postValue(currentEMSItems)
     }
 
     fun fillVesselInfo(vesselToPrefill: Boat) {

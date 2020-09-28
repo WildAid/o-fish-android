@@ -9,6 +9,7 @@ import org.wildaid.ofish.Event
 import org.wildaid.ofish.data.SafetyColor
 import org.wildaid.ofish.data.report.Photo
 import org.wildaid.ofish.data.report.Report
+import org.wildaid.ofish.data.report.SafetyLevel
 import org.wildaid.ofish.ui.base.AttachmentItem
 import org.wildaid.ofish.ui.base.PhotoItem
 
@@ -28,14 +29,12 @@ class RiskViewModel(application: Application) : AndroidViewModel(application) {
     fun initReport(currentReport: Report, currentReportPhotos: MutableList<PhotoItem>) {
         this.currentReport = currentReport
         this.currentReportPhotos = currentReportPhotos
-        this.currentReport.inspection?.summary?.safetyLevel?.let {
-            val safetyLevel = it.apply { level = SafetyColor.Green.name }
-            this.currentRiskItem = RiskItem(
-                safetyLevel,
-                AttachmentItem(safetyLevel.attachments!!)
-            )
-            this._riskLiveData.value = currentRiskItem
+
+        val safetyLevel = this.currentReport.inspection?.summary?.safetyLevel ?: SafetyLevel().apply {
+            level = SafetyColor.Green.name
         }
+        this.currentRiskItem = RiskItem(safetyLevel, AttachmentItem(safetyLevel.attachments!!))
+        _riskLiveData.postValue(this.currentRiskItem)
     }
 
     fun addPhotoAttachment(imageUri: Uri) {

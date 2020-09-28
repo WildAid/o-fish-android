@@ -60,7 +60,7 @@ class ViolationViewModel(
             )
         }
 
-        _violationLiveData.value = currentViolationItems
+        _violationLiveData.postValue(currentViolationItems)
 
         val seizure = report.inspection?.summary?.seizures!!
         currentSeizureItem = SeizureItem(seizure, AttachmentItem(seizure.attachments!!))

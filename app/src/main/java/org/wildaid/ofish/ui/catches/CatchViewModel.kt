@@ -54,7 +54,7 @@ class CatchViewModel(
                 )
             )
         }
-        _catchItemsLiveData.value = currentCatchItems
+        _catchItemsLiveData.postValue(currentCatchItems)
     }
 
     fun updateSpeciesForCatch(species: String, catchItem: CatchItem) {
