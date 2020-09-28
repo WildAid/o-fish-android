@@ -32,6 +32,7 @@ import org.wildaid.ofish.R
 import org.wildaid.ofish.data.mpa.addTestMpa
 import org.wildaid.ofish.databinding.FragmentHomeBinding
 import org.wildaid.ofish.ui.base.*
+import org.wildaid.ofish.ui.createreport.SHOULD_NAVIGATE_TO_DRAFT_LIST
 import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
 import org.wildaid.ofish.util.*
@@ -290,7 +291,15 @@ class HomeFragment : Fragment(R.layout.fragment_home),
                 true
             }
             CREATE_REPORT_FINISHED_DIALOG_ID -> {
-                findDrafts()
+
+                arguments?.let {
+                    if (it.containsKey(SHOULD_NAVIGATE_TO_DRAFT_LIST)) {
+                        val shouldOpenDrafts = it.getBoolean(SHOULD_NAVIGATE_TO_DRAFT_LIST)
+                        if (shouldOpenDrafts) {
+                            findDrafts()
+                        }
+                    }
+                }
                 true
             }
             else -> false
