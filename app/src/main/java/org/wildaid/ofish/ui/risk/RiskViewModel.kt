@@ -33,7 +33,10 @@ class RiskViewModel(
         val safetyLevel = this.currentReport.inspection?.summary?.safetyLevel ?: SafetyLevel().apply {
             level = SafetyColor.Green.name
         }
-        this.currentRiskItem = RiskItem(safetyLevel, AttachmentItem(safetyLevel.attachments!!))
+        this.currentRiskItem = RiskItem(safetyLevel, AttachmentItem(
+            safetyLevel.attachments!!,
+            getPhotoItemsForIds(safetyLevel.attachments!!.photoIDs)
+        ))
         _riskLiveData.postValue(this.currentRiskItem)
     }
 

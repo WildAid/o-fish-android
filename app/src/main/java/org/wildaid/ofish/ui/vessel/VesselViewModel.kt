@@ -64,12 +64,18 @@ class VesselViewModel(
     override fun initViewModel(report: Report, currentReportPhotos: MutableList<PhotoItem>) {
         super.initViewModel(report, currentReportPhotos)
         report.vessel?.also {
-            currentVesselItem = VesselItem(it, true, AttachmentItem(it.attachments!!))
+            currentVesselItem = VesselItem(it, true, AttachmentItem(
+                it.attachments!!,
+                getPhotoItemsForIds(it.attachments!!.photoIDs)
+            ))
             _vesselItemLiveData.postValue(currentVesselItem)
         }
 
         report.vessel?.lastDelivery?.also {
-            currentDeliveryItem = DeliveryItem(it, true, AttachmentItem(it.attachments!!))
+            currentDeliveryItem = DeliveryItem(it, true, AttachmentItem(
+                it.attachments!!,
+                getPhotoItemsForIds(it.attachments!!.photoIDs)
+            ))
             _deliveryItemItemLiveData.postValue(currentDeliveryItem)
         }
 
@@ -77,7 +83,10 @@ class VesselViewModel(
         currentReport.vessel?.ems = ems
         currentEMSItems = mutableListOf()
         ems.forEach {
-            currentEMSItems.add(EMSItem(it, true, AttachmentItem(it.attachments!!)))
+            currentEMSItems.add(EMSItem(it, true, AttachmentItem(
+                it.attachments!!,
+                getPhotoItemsForIds(it.attachments!!.photoIDs)
+            )))
         }
         _emsLiveData.postValue(currentEMSItems)
     }

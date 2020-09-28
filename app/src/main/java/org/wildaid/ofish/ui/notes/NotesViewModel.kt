@@ -39,7 +39,8 @@ class NotesViewModel(
                 NoteItem(
                     note = it,
                     title = "$noteTitle ${index.inc()}",
-                    inEditMode = false
+                    inEditMode = false,
+                    photos = getPhotoItemsForIds(it.photoIDs)
                 )
             )
         }

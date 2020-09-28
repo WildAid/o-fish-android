@@ -40,17 +40,26 @@ class ActivitiesViewModel(
         super.initViewModel(report, currentReportPhotos)
 
         report.inspection?.activity?.let {
-            currentActivityItem = ActivityItem(it, AttachmentItem(it.attachments!!))
+            currentActivityItem = ActivityItem(it, AttachmentItem(
+                it.attachments!!,
+                getPhotoItemsForIds(it.attachments!!.photoIDs)
+            ))
             _activityItemLiveData.postValue(currentActivityItem)
         }
 
         report.inspection?.fishery?.let {
-            currentFisheryItem = FisheryItem(it, AttachmentItem(it.attachments!!))
+            currentFisheryItem = FisheryItem(it, AttachmentItem(
+                it.attachments!!,
+                getPhotoItemsForIds(it.attachments!!.photoIDs)
+            ))
             _fisheryItemLiveData.postValue(currentFisheryItem)
         }
 
         report.inspection?.gearType?.let {
-            currentGearItem = GearItem(it, AttachmentItem(it.attachments!!))
+            currentGearItem = GearItem(it, AttachmentItem(
+                it.attachments!!,
+                getPhotoItemsForIds(it.attachments!!.photoIDs)
+            ))
             _gearItemLiveData.postValue(currentGearItem)
         }
     }

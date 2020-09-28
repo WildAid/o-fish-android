@@ -22,6 +22,10 @@ abstract class BaseReportViewModel(
         this.currentReportPhotos = currentReportPhotos
     }
 
+    protected fun getPhotoItemsForIds(photoIds: List<String>?): MutableList<PhotoItem> {
+        return repository.getPhotosWithIds(photoIds.orEmpty()).map { PhotoItem(it) }.toMutableList()
+    }
+
     protected fun createPhotoItem(imageUri: Uri): PhotoItem {
         return PhotoItem(
             Photo().apply {

@@ -51,7 +51,11 @@ class ViolationViewModel(
                 ViolationItem(
                     violation = it,
                     title = "$violationTitle ${index.inc()}",
-                    attachments = AttachmentItem(it.attachments!!)
+                    attachments = AttachmentItem(
+                        it.attachments!!,
+                        getPhotoItemsForIds(it.attachments!!.photoIDs)
+                    ),
+                    inEditMode = false
                 )
             )
         }

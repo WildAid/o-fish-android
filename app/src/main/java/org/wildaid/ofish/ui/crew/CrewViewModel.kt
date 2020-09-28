@@ -2,7 +2,6 @@ package org.wildaid.ofish.ui.crew
 
 import android.app.Application
 import android.net.Uri
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.realm.RealmList
@@ -10,7 +9,6 @@ import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.CrewMember
-import org.wildaid.ofish.data.report.Photo
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.base.AttachmentItem
 import org.wildaid.ofish.ui.base.BaseReportViewModel
@@ -118,7 +116,7 @@ class CrewViewModel(
 
         val newCrewMember = crewMember ?: CrewMember()
         if (isCaptain) {
-            currentReport.captain = crewMember
+            currentReport.captain = newCrewMember
         } else {
             currentReport.crew.add(newCrewMember)
         }
@@ -179,7 +177,10 @@ class CrewViewModel(
             CrewMemberItem(
                 captain,
                 title = captainTitle,
-                attachments = AttachmentItem(captain.attachments!!),
+                attachments = AttachmentItem(
+                    captain.attachments!!,
+                    getPhotoItemsForIds(captain.attachments!!.photoIDs)
+                ),
                 isRemovable = false,
                 isCaptain = true,
                 inEditMode = false
@@ -195,7 +196,10 @@ class CrewViewModel(
                 CrewMemberItem(
                     it,
                     title = "$memberTitle ${index.inc()}",
-                    attachments = AttachmentItem(it.attachments!!),
+                    attachments = AttachmentItem(
+                        it.attachments!!,
+                        getPhotoItemsForIds(it.attachments!!.photoIDs)
+                    ),
                     isRemovable = true,
                     isCaptain = false,
                     inEditMode = false
