@@ -208,7 +208,6 @@
     <string name="saving_error">An error occurred while saving</string>
     <string name="login_error">An error occurred while signing in</string>
     <string name="continue_with_empty_fields">Continue with empty fields?</string>
-    <string name="wrong_date_picked">You choose future data</string>
     <string name="continue_action">Continue</string>
     <string name="chose_image_source">Choose image source</string>
 
@@ -231,5 +230,4 @@
     <string name="error_date_in_future">Please set correct date</string>
     <string name="risk_no_notes_or_photos">No Notes or Photos for Risk</string>
     <string name="invalid_email_or_password">Invalid email or password</string>
-    <string name="pick_another_date">Pick another date</string>
 </resources>
