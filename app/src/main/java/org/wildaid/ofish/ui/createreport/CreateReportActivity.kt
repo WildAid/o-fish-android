@@ -56,7 +56,9 @@ class CreateReportActivity : AppCompatActivity() {
 
             if (navStack.savedStateHandle.contains(DIALOG_CLICK_EVENT)) {
                 val click = navStack.savedStateHandle.get<DialogClickEvent>(DIALOG_CLICK_EVENT)!!
-                handleDialogClick(click)
+                if (handleDialogClick(click)) {
+                    navStack.savedStateHandle.remove<DialogClickEvent>(DIALOG_CLICK_EVENT)!!
+                }
             }
         })
     }
@@ -105,8 +107,8 @@ class CreateReportActivity : AppCompatActivity() {
         navigation.navigate(R.id.confirmation_dialog, dialogBundle)
     }
 
-    private fun handleDialogClick(click: DialogClickEvent) {
-        when (click.dialogId) {
+    private fun handleDialogClick(click: DialogClickEvent) :  Boolean{
+        return when (click.dialogId) {
             DISCARD_DIALOG_ID -> {
                 if (click.dialogBtn == DialogButton.NEUTRAL) {
                     navigateHome(getString(R.string.boarding_canceled))
@@ -122,6 +124,7 @@ class CreateReportActivity : AppCompatActivity() {
                         }
                     })
                 }
+                true
             }
             DELETE_DRAFT_DIALOG_ID -> {
                 if (click.dialogBtn == DialogButton.NEUTRAL) {
@@ -139,7 +142,9 @@ class CreateReportActivity : AppCompatActivity() {
                         }
                     })
                 }
+                true
             }
+            else -> false
         }
     }
 
@@ -156,5 +161,6 @@ class CreateReportActivity : AppCompatActivity() {
             SHOULD_NAVIGATE_TO_DRAFT_LIST to true
         )
         navigation.navigate(R.id.action_tabsFragment_to_home_navigation, args)
+        this.finish()
     }
 }
