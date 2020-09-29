@@ -18,6 +18,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.mpa.addTestMpa
@@ -134,7 +136,24 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
     }
 
     private fun onDatePicked(datePicker: DatePicker, year: Int, month: Int, dayOfMonth: Int) {
-        fragmentViewModel.updateDate(year, month, dayOfMonth)
+        val calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())
+        val currentDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+        val currentMonth = calendar.get(Calendar.MONTH)
+        val currentYear = calendar.get(Calendar.YEAR)
+
+        if (dayOfMonth > currentDayOfMonth || month > currentMonth || year > currentYear) {
+            Snackbar.make(
+                requireView().findViewById(R.id.snackbar_container) ?: requireView(),
+                R.string.wrong_date_picked,
+                Snackbar.LENGTH_LONG
+            ).apply {
+                animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
+                setAction(R.string.pick_another_date) { peekDate() }
+                setActionTextColor(resources.getColor(R.color.tabs_amber, null))
+            }.show()
+        } else {
+            fragmentViewModel.updateDate(year, month, dayOfMonth)
+        }
     }
 
     private fun peekTime() {
