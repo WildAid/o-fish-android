@@ -2,7 +2,6 @@
     <string name="app_name">O-FISH</string>
     <string name="no">Ні</string>
     <string name="empty"/>
-    <string name="other">Інше</string>
 
     <!--    Vessel  -->
     <string name="prefill_vessel_dialog_title">Заповнити судову інформацію від попередньої посадки?</string>

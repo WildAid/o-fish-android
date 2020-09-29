@@ -2,7 +2,6 @@
     <string name="app_name">O-FISH</string>
     <string name="no">no</string>
     <string name="empty" />
-    <string name="other">Autres</string>
 
     <!--    Vessel  -->
     <string name="prefill_vessel_dialog_title">Pré-remplir la rubrique à partir de la dernière inspection?</string>

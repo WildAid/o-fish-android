@@ -2,7 +2,6 @@
     <string name="app_name">O-FISH</string>
     <string name="no">no</string>
     <string name="empty" />
-    <string name="other">Other</string>
 
     <!--    Vessel  -->
     <string name="prefill_vessel_dialog_title">Prefill Vessel Information From Previous Boarding?</string>

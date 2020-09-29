@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.wildaid.ofish.R
+import org.wildaid.ofish.data.OTHER
 import org.wildaid.ofish.databinding.ItemEditVesselEmsBinding
 import org.wildaid.ofish.ui.base.AdapterDiffCallback
 import org.wildaid.ofish.ui.base.PhotoItem
-import org.wildaid.ofish.util.requestKeyBoard
 import org.wildaid.ofish.util.setVisible
 
 class EMSAdapter(
@@ -65,9 +65,7 @@ class EMSAdapter(
             binding.emsEditGroup.setVisible(emsItem.inEditMode)
             binding.emsViewGroup.setVisible(!emsItem.inEditMode)
             binding.emsViewLayout.emsItemAttachments.attachmentNoteGroup.setVisible(emsItem.attachments.hasNotes())
-            binding.vesselEditEmsDescriptionLayout.setVisible(
-                emsItem.inEditMode
-            )
+            binding.vesselEditEmsDescriptionLayout.setVisible(emsItem.ems.emsType == OTHER)
 
             binding.emsItemEditPhotos.onPhotoClickListener = { view, item ->
                 emsOnPhotoClickListener.invoke(view, item)
