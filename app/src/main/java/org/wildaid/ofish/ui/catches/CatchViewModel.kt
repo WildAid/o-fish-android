@@ -44,7 +44,7 @@ class CatchViewModel(
                 CatchItem(
                     catch = it,
                     title = "$catchTitle ${index.inc()}",
-                    inEditMode = false,
+                    inEditMode = true,
                     attachmentItem = AttachmentItem(
                         it.attachments!!,
                         getPhotoItemsForIds(it.attachments!!.photoIDs)

@@ -183,7 +183,7 @@ class CrewViewModel(
                 ),
                 isRemovable = false,
                 isCaptain = true,
-                inEditMode = false
+                inEditMode = true
             )
         )
 
@@ -202,7 +202,7 @@ class CrewViewModel(
                     ),
                     isRemovable = true,
                     isCaptain = false,
-                    inEditMode = false
+                    inEditMode = true
                 )
             )
         }

@@ -55,7 +55,7 @@ class ViolationViewModel(
                         it.attachments!!,
                         getPhotoItemsForIds(it.attachments!!.photoIDs)
                     ),
-                    inEditMode = false
+                    inEditMode = true
                 )
             )
         }
