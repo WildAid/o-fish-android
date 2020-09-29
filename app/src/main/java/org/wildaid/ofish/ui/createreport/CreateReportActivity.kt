@@ -17,10 +17,14 @@ import org.wildaid.ofish.ui.base.DIALOG_CLICK_EVENT
 import org.wildaid.ofish.ui.base.DialogButton
 import org.wildaid.ofish.ui.base.DialogClickEvent
 import org.wildaid.ofish.ui.home.KEY_CREATE_REPORT_RESULT
+import org.wildaid.ofish.ui.search.base.BaseSearchFragment
+import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
 import org.wildaid.ofish.util.getViewModelFactory
 
 const val KEY_CREATE_REPORT_ARGS = "bundle_of_info"
 private const val DISCARD_DIALOG_ID = 17
+private const val DELETE_DRAFT_DIALOG_ID = 26
+const val SHOULD_NAVIGATE_TO_DRAFT_LIST = "should_navigate_to_draft_list"
 
 class CreateReportActivity : AppCompatActivity() {
     private val activityViewModel: CreateReportViewModel by viewModels { getViewModelFactory() }
@@ -31,7 +35,8 @@ class CreateReportActivity : AppCompatActivity() {
         setContentView(R.layout.activity_create_report)
         navigation = findNavController(R.id.create_report_host_fragment)
 
-        val createReportBundle = intent.extras?.getParcelable<CreateReportBundle?>(KEY_CREATE_REPORT_ARGS)
+        val createReportBundle =
+            intent.extras?.getParcelable<CreateReportBundle?>(KEY_CREATE_REPORT_ARGS)
         activityViewModel.initReport(createReportBundle?.reportDraftId)
         activityViewModel.createReportUserEvent.observe(this, EventObserver(::handleUserEvent))
     }
@@ -58,16 +63,39 @@ class CreateReportActivity : AppCompatActivity() {
         })
     }
 
-    private fun handleUserEvent(event:  CreateReportViewModel.CreateReportUserEvent) {
-        when(event) {
+    private fun handleUserEvent(event: CreateReportViewModel.CreateReportUserEvent) {
+        when (event) {
+            CreateReportViewModel.CreateReportUserEvent.AskDeleteDraft -> askDiscardDraft()
             CreateReportViewModel.CreateReportUserEvent.AskDiscardBoarding -> askDiscardReport()
             CreateReportViewModel.CreateReportUserEvent.StartReportCreation -> displayCreationTabs()
+//            CreateReportViewModel.CreateReportUserEvent.NavigateToDraftList -> navigateToDraftList()
         }
+    }
+
+    private fun navigateToDraftList() {
+        val bundle =
+            bundleOf(BaseSearchFragment.SEARCH_ENTITY_KEY to ComplexSearchFragment.SearchDrafts)
+        navigation.navigate(R.id.action_home_fragment_to_complex_search, bundle)
     }
 
     private fun displayCreationTabs() {
         navigation.setGraph(R.navigation.create_report_navigation, intent.extras)
         subscribeToDialogEvents()
+    }
+
+    private fun askDiscardDraft() {
+        val dialogBundle = ConfirmationDialogFragment.Bundler(
+            DELETE_DRAFT_DIALOG_ID,
+            getString(R.string.cancel_boarding),
+            getString(R.string.board_not_saved),
+            getString(R.string.keep_editing),
+            getString(R.string.save_and_finish_later)
+        ).apply {
+            neutral = getString(R.string.delete_draft)
+            highLightNegative = true
+        }.bundle()
+
+        navigation.navigate(R.id.confirmation_dialog, dialogBundle)
     }
 
     private fun askDiscardReport() {
@@ -89,20 +117,47 @@ class CreateReportActivity : AppCompatActivity() {
         when (click.dialogId) {
             DISCARD_DIALOG_ID -> {
                 if (click.dialogBtn == DialogButton.NEUTRAL) {
-                    val args = bundleOf(KEY_CREATE_REPORT_RESULT to getString(R.string.boarding_canceled))
+                    val args =
+                        bundleOf(KEY_CREATE_REPORT_RESULT to getString(R.string.boarding_canceled))
                     navigation.navigate(R.id.action_tabsFragment_to_home_navigation, args)
                     this.finish()
                 } else if (click.dialogBtn == DialogButton.NEGATIVE) {
                     activityViewModel.saveReport(isDraft = true, listener = object :
                         OnSaveListener {
                         override fun onSuccess() {
-                            val args = bundleOf(KEY_CREATE_REPORT_RESULT to getString(R.string.draft_saved))
+                            val args =
+                                bundleOf(KEY_CREATE_REPORT_RESULT to getString(R.string.draft_saved))
                             navigation.navigate(R.id.action_tabsFragment_to_home_navigation, args)
                             finish()
                         }
 
                         override fun onError(it: Throwable) {
-                             Log.e("Save error", it.message ?: "")
+                            Log.e("Save error", it.message ?: "")
+                        }
+                    })
+                }
+            }
+            DELETE_DRAFT_DIALOG_ID -> {
+                if (click.dialogBtn == DialogButton.NEUTRAL) {
+                    val args = bundleOf(
+                        KEY_CREATE_REPORT_RESULT to getString(R.string.draft_deleted),
+                        SHOULD_NAVIGATE_TO_DRAFT_LIST to true
+                    )
+                    activityViewModel.deleteReport()
+                    navigation.navigate(R.id.action_tabsFragment_to_home_navigation, args)
+                    this.finish()
+                } else if (click.dialogBtn == DialogButton.NEGATIVE) {
+                    activityViewModel.saveReport(isDraft = true, listener = object :
+                        OnSaveListener {
+                        override fun onSuccess() {
+                            val args =
+                                bundleOf(KEY_CREATE_REPORT_RESULT to getString(R.string.draft_saved))
+                            navigation.navigate(R.id.action_tabsFragment_to_home_navigation, args)
+                            finish()
+                        }
+
+                        override fun onError(it: Throwable) {
+                            Log.e("Save error", it.message ?: "")
                         }
                     })
                 }

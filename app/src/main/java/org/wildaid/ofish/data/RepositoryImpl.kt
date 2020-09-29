@@ -111,6 +111,8 @@ class RepositoryImpl(
     override fun findReportsForBoat(boatPermitNumber: String, vesselName: String) =
         realmDataSource.findReportsForBoat(boatPermitNumber, vesselName)
 
+    override fun deleteDraft(report: Report) = realmDataSource.deleteDraft(report)
+
     override fun getAmountOfDraftsByEmail(): Int {
         val officerData = getCurrentOfficer()
         return realmDataSource.getAmountOfDraftsByOfficerEmail(officerData.email)

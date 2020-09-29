@@ -30,6 +30,8 @@ interface Repository {
         listener: OnSaveListener
     )
 
+    fun deleteDraft(report: Report)
+
     fun getCurrentOfficer(): OfficerData
 
     fun isLoggedIn(): Boolean
