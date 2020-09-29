@@ -23,7 +23,12 @@ interface Repository {
 
     fun saveOnDutyChange(onDuty: Boolean, date: Date)
 
-    fun saveReport(report: Report, reportPhotos: List<Pair<Photo, Uri?>>, listener: OnSaveListener)
+    fun saveReport(
+        report: Report,
+        isDraft: Boolean?,
+        reportPhotos: List<Pair<Photo, Uri?>>,
+        listener: OnSaveListener
+    )
 
     fun deleteDraft(report: Report)
 

@@ -10,6 +10,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.SafetyColor
 import org.wildaid.ofish.data.report.Inspection
 import org.wildaid.ofish.data.report.Report
@@ -24,6 +25,8 @@ class RiskViewModelTest {
 
     @MockK
     private lateinit var report: Report
+    @MockK(relaxed = true)
+    private lateinit var repository: Repository
 
     @Before
     fun setUp() {
@@ -38,8 +41,8 @@ class RiskViewModelTest {
             }
         }
 
-        riskVM = RiskViewModel(ApplicationProvider.getApplicationContext()).apply {
-            initReport(report, mutableListOf())
+        riskVM = RiskViewModel(repository, ApplicationProvider.getApplicationContext()).apply {
+            initViewModel(report, mutableListOf())
         }
     }
 

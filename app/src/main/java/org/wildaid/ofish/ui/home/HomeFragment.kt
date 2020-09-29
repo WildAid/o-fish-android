@@ -69,6 +69,7 @@ class HomeFragment : Fragment(R.layout.fragment_home),
 
         setObservers()
         subscribeToDialogEvents()
+
         arguments?.let {
             if (it.containsKey(KEY_CREATE_REPORT_RESULT)) {
                 val message = it.getString(KEY_CREATE_REPORT_RESULT, null)
@@ -138,6 +139,17 @@ class HomeFragment : Fragment(R.layout.fragment_home),
                 .placeholder(R.drawable.ic_account_circle)
                 .into(it)
         }
+    }
+
+    private fun showCreateReportDialog(message: String) {
+        val dialogBundle = ConfirmationDialogFragment.Bundler(
+            CREATE_REPORT_FINISHED_DIALOG_ID,
+            null,
+            message,
+            getString(android.R.string.ok)
+        ).bundle()
+
+        navigation.navigate(R.id.ask_change_duty_dialog, dialogBundle)
     }
 
     private fun updateProfilePhoto() {
@@ -222,17 +234,6 @@ class HomeFragment : Fragment(R.layout.fragment_home),
             fragmentViewModel.saveProfileImage(uri)
             updateProfilePhoto()
         }
-    }
-
-    private fun showCreateReportDialog(message: String) {
-        val dialogBundle = ConfirmationDialogFragment.Bundler(
-            CREATE_REPORT_FINISHED_DIALOG_ID,
-            null,
-            message,
-            getString(android.R.string.ok)
-        ).bundle()
-
-        navigation.navigate(R.id.ask_change_duty_dialog, dialogBundle)
     }
 
     private fun checkPermissions() {

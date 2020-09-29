@@ -2,23 +2,23 @@ package org.wildaid.ofish.ui.catches
 
 import android.app.Application
 import android.net.Uri
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.realm.RealmList
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.Catch
-import org.wildaid.ofish.data.report.Photo
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.base.AttachmentItem
+import org.wildaid.ofish.ui.base.BaseReportViewModel
 import org.wildaid.ofish.ui.base.PhotoItem
 import org.wildaid.ofish.util.getString
 
 class CatchViewModel(
-    val repository: Repository,
-    application: Application
-) : AndroidViewModel(application) {
+    repository: Repository,
+    app: Application
+) : BaseReportViewModel(repository, app) {
 
     private var _catchItemsLiveData = MutableLiveData<List<CatchItem>>()
     val catchItemsLiveData: LiveData<List<CatchItem>>
@@ -31,13 +31,28 @@ class CatchViewModel(
     private val catchTitle = getString(R.string.catch_title)
     private val currentCatchItems = mutableListOf<CatchItem>()
 
-    private lateinit var currentReport: Report
-    private lateinit var currentReportPhotos: MutableList<PhotoItem>
+    override fun initViewModel(report: Report, currentReportPhotos: MutableList<PhotoItem>) {
+        super.initViewModel(report, currentReportPhotos)
 
-    fun initCatch(report: Report, currentReportPhotos: MutableList<PhotoItem>) {
-        this.currentReport = report
-        this.currentReportPhotos = currentReportPhotos
-        addCatch()
+        val catch = (currentReport.inspection?.actualCatch ?: RealmList()).ifEmpty {
+            RealmList(Catch())
+        }
+        currentReport.inspection?.actualCatch = catch
+
+        catch.forEachIndexed{index, it ->
+            currentCatchItems.add(
+                CatchItem(
+                    catch = it,
+                    title = "$catchTitle ${index.inc()}",
+                    inEditMode = true,
+                    attachmentItem = AttachmentItem(
+                        it.attachments!!,
+                        getPhotoItemsForIds(it.attachments!!.photoIDs)
+                    )
+                )
+            )
+        }
+        _catchItemsLiveData.postValue(currentCatchItems)
     }
 
     fun updateSpeciesForCatch(species: String, catchItem: CatchItem) {
@@ -92,7 +107,7 @@ class CatchViewModel(
     }
 
     fun addPhotoForCatch(imageUri: Uri, catchItem: CatchItem) {
-        val newPhotoItem = createPhoto(imageUri)
+        val newPhotoItem = createPhotoItem(imageUri)
         currentReportPhotos.add(newPhotoItem)
         currentCatchItems.find {
             it.title == catchItem.title
@@ -117,15 +132,6 @@ class CatchViewModel(
                 item.title = "$catchTitle ${index + 1}"
             }
         }
-    }
-
-    private fun createPhoto(imageUri: Uri): PhotoItem {
-        return PhotoItem(
-            Photo().apply {
-                referencingReportID = currentReport._id.toString()
-            },
-            imageUri
-        )
     }
 
     sealed class CatchUserEvent {

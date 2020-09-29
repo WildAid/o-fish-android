@@ -30,7 +30,7 @@ class CatchFragment : BaseReportFragment(R.layout.fragment_catch) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fragmentViewModel.initCatch(currentReport, currentReportPhotos)
+        fragmentViewModel.initViewModel(currentReport, currentReportPhotos)
         subscribeToSearchResult()
     }
 

@@ -1,17 +1,20 @@
 package org.wildaid.ofish.ui.activity
 
+import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.data.Repository
-import org.wildaid.ofish.data.report.Photo
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.base.AttachmentItem
+import org.wildaid.ofish.ui.base.BaseReportViewModel
 import org.wildaid.ofish.ui.base.PhotoItem
 
-class ActivitiesViewModel(val repository: Repository) : ViewModel() {
+class ActivitiesViewModel(
+    repository: Repository,
+    app: Application
+) : BaseReportViewModel(repository, app) {
 
     private var _activityItemLiveData = MutableLiveData<ActivityItem>()
     val activityItemLiveData: LiveData<ActivityItem>
@@ -32,29 +35,32 @@ class ActivitiesViewModel(val repository: Repository) : ViewModel() {
     private lateinit var currentActivityItem: ActivityItem
     private lateinit var currentFisheryItem: FisheryItem
     private lateinit var currentGearItem: GearItem
-    private lateinit var currentReport: Report
-    private lateinit var currentReportPhotos: MutableList<PhotoItem>
 
-    fun initActivities(
-        report: Report,
-        currentReportPhotos: MutableList<PhotoItem>
-    ) {
-        this.currentReport = report
-        this.currentReportPhotos = currentReportPhotos
+    override fun initViewModel(report: Report, currentReportPhotos: MutableList<PhotoItem>) {
+        super.initViewModel(report, currentReportPhotos)
 
         report.inspection?.activity?.let {
-            currentActivityItem = ActivityItem(it, AttachmentItem(it.attachments!!))
-            _activityItemLiveData.value = currentActivityItem
+            currentActivityItem = ActivityItem(it, AttachmentItem(
+                it.attachments!!,
+                getPhotoItemsForIds(it.attachments!!.photoIDs)
+            ))
+            _activityItemLiveData.postValue(currentActivityItem)
         }
 
         report.inspection?.fishery?.let {
-            currentFisheryItem = FisheryItem(it, AttachmentItem(it.attachments!!))
-            _fisheryItemLiveData.value = currentFisheryItem
+            currentFisheryItem = FisheryItem(it, AttachmentItem(
+                it.attachments!!,
+                getPhotoItemsForIds(it.attachments!!.photoIDs)
+            ))
+            _fisheryItemLiveData.postValue(currentFisheryItem)
         }
 
         report.inspection?.gearType?.let {
-            currentGearItem = GearItem(it, AttachmentItem(it.attachments!!))
-            _gearItemLiveData.value = currentGearItem
+            currentGearItem = GearItem(it, AttachmentItem(
+                it.attachments!!,
+                getPhotoItemsForIds(it.attachments!!.photoIDs)
+            ))
+            _gearItemLiveData.postValue(currentGearItem)
         }
     }
 
@@ -74,7 +80,7 @@ class ActivitiesViewModel(val repository: Repository) : ViewModel() {
     }
 
     fun addPhotoForActivity(imageUri: Uri) {
-        val newPhotoItem = createPhoto(imageUri)
+        val newPhotoItem = createPhotoItem(imageUri)
         currentReportPhotos.add(newPhotoItem)
         currentActivityItem.attachments.addPhoto(newPhotoItem)
         _activityItemLiveData.value = currentActivityItem
@@ -102,7 +108,7 @@ class ActivitiesViewModel(val repository: Repository) : ViewModel() {
     }
 
     fun addPhotoForFishery(imageUri: Uri) {
-        val newPhotoItem = createPhoto(imageUri)
+        val newPhotoItem = createPhotoItem(imageUri)
         currentReportPhotos.add(newPhotoItem)
         currentFisheryItem.attachments.addPhoto(newPhotoItem)
         _fisheryItemLiveData.value = currentFisheryItem
@@ -130,7 +136,7 @@ class ActivitiesViewModel(val repository: Repository) : ViewModel() {
     }
 
     fun addPhotoForGear(imageUri: Uri) {
-        val newPhotoItem = createPhoto(imageUri)
+        val newPhotoItem = createPhotoItem(imageUri)
         currentReportPhotos.add(newPhotoItem)
         currentGearItem.attachments.addPhoto(newPhotoItem)
         _gearItemLiveData.value = currentGearItem
@@ -169,16 +175,6 @@ class ActivitiesViewModel(val repository: Repository) : ViewModel() {
     fun addGearAttachment() {
         _activitiesUserEvents.value = Event(ActivitiesUserEvent.AddGearAttachmentEvent)
     }
-
-    private fun createPhoto(imageUri: Uri): PhotoItem {
-        return PhotoItem(
-            Photo().apply {
-                referencingReportID = currentReport._id.toString()
-            },
-            imageUri
-        )
-    }
-
 
     sealed class ActivitiesUserEvent {
         object ChooseActivityEvent : ActivitiesUserEvent()

@@ -265,36 +265,15 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
                 true
             }
             SUBMIT_DIALOG_ID -> {
-                if (click.dialogBtn == DialogButton.POSITIVE) {
+                if (click.dialogBtn == DialogButton.POSITIVE || click.dialogBtn == DialogButton.NEUTRAL) {
+                    val isDraft = click.dialogBtn == DialogButton.NEUTRAL
+                    val successMessage = if (isDraft) getString(R.string.draft_saved) else getString(R.string.boarding_submitted)
                     activityViewModel.saveReport(
-                        isDraft = false,
+                        isDraft = isDraft,
                         listener = object : OnSaveListener {
                             override fun onSuccess() {
-                                val args =
-                                    bundleOf(KEY_CREATE_REPORT_RESULT to getString(R.string.boarding_submitted))
-                                navigation.navigate(
-                                    R.id.action_tabsFragment_to_home_navigation,
-                                    args
-                                )
-                                requireActivity().finish()
-                            }
-
-                            override fun onError(it: Throwable) {
-                                Log.e("Save error", it.message ?: "")
-                                showSnackMessage(requireView(), getString(R.string.saving_error))
-                            }
-                        })
-                } else if (click.dialogBtn == DialogButton.NEUTRAL) {
-                    activityViewModel.saveReport(
-                        isDraft = true,
-                        listener = object : OnSaveListener {
-                            override fun onSuccess() {
-                                val args =
-                                    bundleOf(KEY_CREATE_REPORT_RESULT to getString(R.string.draft_saved))
-                                navigation.navigate(
-                                    R.id.action_tabsFragment_to_home_navigation,
-                                    args
-                                )
+                                val args = bundleOf(KEY_CREATE_REPORT_RESULT to successMessage)
+                                navigation.navigate(R.id.action_tabsFragment_to_home_navigation, args)
                                 requireActivity().finish()
                             }
 

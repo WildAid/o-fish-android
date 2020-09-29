@@ -143,6 +143,28 @@ class RealmDataSource(context: Context) {
         }
     }
 
+    fun saveDraftWithTransaction(
+        draft: Report,
+        listener: OnSaveListener,
+        photoIterator: Iterator<Photo>
+    ) {
+        realm.executeTransactionAsync(
+            {
+                while (photoIterator.hasNext()) {
+                    val photo = photoIterator.next()
+                    if (it.where<Photo>().equalTo(FIELD_ID, photo._id.toString()).count() > 0) {
+                        it.copyToRealmOrUpdate(photo)
+                    } else {
+                        it.insert(photo)
+                    }
+                }
+                it.copyToRealmOrUpdate(draft)
+            },
+            { listener.onSuccess() },
+            { listener.onError(it) }
+        )
+    }
+
     fun saveReportWithTransaction(
         report: Report,
         listener: OnSaveListener,
@@ -176,6 +198,12 @@ class RealmDataSource(context: Context) {
     fun findReportsGroupedByVesselNameAndPermitNumber(sort: Sort): List<Report> {
         return realm.where<Report>()
             .isNotEmpty(VESSEL_NAME)
+            .and()
+            .beginGroup()
+            .equalTo(DRAFT, false)
+            .or()
+            .equalTo(DRAFT, null as Boolean?)
+            .endGroup()
             .sort(DATE, sort)
             .findAll()
     }
@@ -201,7 +229,9 @@ class RealmDataSource(context: Context) {
 
     fun findDraft(draftId: ObjectId): Report? {
         val draft = realm.where<Report>().equalTo(FIELD_ID, draftId).findFirst()
-        return realm.copyFromRealm(draft)
+        return draft?.let {
+            realm.copyFromRealm(it)
+        }
     }
 
     fun findReportsForBoat(boatPermitNumber: String, vesselName: String): List<Report> {

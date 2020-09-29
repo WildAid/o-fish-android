@@ -2,22 +2,22 @@ package org.wildaid.ofish.ui.notes
 
 import android.app.Application
 import android.net.Uri
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.realm.RealmList
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.AnnotatedNote
-import org.wildaid.ofish.data.report.Photo
 import org.wildaid.ofish.data.report.Report
+import org.wildaid.ofish.ui.base.BaseReportViewModel
 import org.wildaid.ofish.ui.base.PhotoItem
 import org.wildaid.ofish.util.getString
 
 class NotesViewModel(
-    val repository: Repository,
-    application: Application
-) : AndroidViewModel(application) {
+    repository: Repository,
+    app: Application
+) : BaseReportViewModel(repository, app) {
 
     private var _notesLiveData = MutableLiveData<List<NoteItem>>()
     val notesLiveData: LiveData<List<NoteItem>>
@@ -28,39 +28,45 @@ class NotesViewModel(
         get() = _notesUserEventLiveData
 
     private val noteTitle = getString(R.string.note)
+    private var currentNoteItems = mutableListOf<NoteItem>()
 
-    private lateinit var currentReport: Report
-    private lateinit var currentReportPhotos: MutableList<PhotoItem>
+    override fun initViewModel(report: Report, currentReportPhotos: MutableList<PhotoItem>) {
+        super.initViewModel(report, currentReportPhotos)
 
-    fun initNotes(report: Report, currentReportPhotos: MutableList<PhotoItem>) {
-        this.currentReport = report
-        this.currentReportPhotos = currentReportPhotos
-        addNote()
+        val notes = report.notes.ifEmpty { RealmList(AnnotatedNote()) }
+        notes.forEachIndexed { index, it ->
+            currentNoteItems.add(
+                NoteItem(
+                    note = it,
+                    title = "$noteTitle ${index.inc()}",
+                    inEditMode = true,
+                    photos = getPhotoItemsForIds(it.photoIDs)
+                )
+            )
+        }
+
+        _notesLiveData.postValue(currentNoteItems)
     }
 
     fun addNote() {
-        val noteItems = notesLiveData.value.orEmpty().toMutableList()
         val createdNote = AnnotatedNote()
-
         currentReport.notes.add(createdNote)
-        noteItems.add(NoteItem(createdNote, "$noteTitle ${noteItems.size + 1}", true))
-        notifyNotesWithEditItem(noteItems, noteItems.lastOrNull())
+        currentNoteItems.add(NoteItem(createdNote, "$noteTitle ${currentNoteItems.size + 1}", true))
+        notifyNotesWithEditItem(currentNoteItems, currentNoteItems.lastOrNull())
     }
 
     fun removeNote(position: Int) {
-        val noteItems = notesLiveData.value.orEmpty().toMutableList()
-        noteItems.removeAt(position)
+        currentNoteItems.removeAt(position)
         currentReport.notes.removeAt(position)
-        notifyNotesWithEditItem(noteItems)
+        notifyNotesWithEditItem(currentNoteItems)
     }
 
     fun editNote(editingItem: NoteItem) {
-        val noteItems = notesLiveData.value.orEmpty().toMutableList()
-        notifyNotesWithEditItem(noteItems, editingItem)
+        notifyNotesWithEditItem(currentNoteItems, editingItem)
     }
 
     fun addPhotoAttachmentForNote(uri: Uri, noteItem: NoteItem) {
-        val newPhotoItem = createPhoto(uri)
+        val newPhotoItem = createPhotoItem(uri)
         currentReportPhotos.add(newPhotoItem)
         noteItem.addPhoto(newPhotoItem)
         _notesLiveData.value = notesLiveData.value
@@ -87,16 +93,7 @@ class NotesViewModel(
         }
     }
 
-    private fun createPhoto(imageUri: Uri): PhotoItem {
-        return PhotoItem(
-            Photo().apply {
-                referencingReportID = currentReport._id.toString()
-            },
-            imageUri
-        )
-    }
-
-    sealed class NotesUserEvent{
-        object SaveEvent: NotesUserEvent()
+    sealed class NotesUserEvent {
+        object SaveEvent : NotesUserEvent()
     }
 }

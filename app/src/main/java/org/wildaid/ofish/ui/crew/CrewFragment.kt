@@ -24,7 +24,7 @@ class CrewFragment : BaseReportFragment(R.layout.fragment_crew) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fragmentViewModel.initCrewMembers(currentReport, currentReportPhotos)
+        fragmentViewModel.initViewModel(currentReport, currentReportPhotos)
     }
 
     override fun isAllRequiredFieldsNotEmpty(): Boolean {

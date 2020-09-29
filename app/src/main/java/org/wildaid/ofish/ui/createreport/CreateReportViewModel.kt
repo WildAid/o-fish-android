@@ -35,7 +35,7 @@ class CreateReportViewModel(val repository: Repository) : ViewModel() {
     fun saveReport(isDraft: Boolean? = null, listener: OnSaveListener) {
         report.draft = isDraft
         val photosToSave = reportPhotos.map { Pair(it.photo, it.localUri) }
-        repository.saveReport(report, photosToSave, listener)
+        repository.saveReport(report, isDraft, photosToSave, listener)
     }
 
     fun deleteReport() {

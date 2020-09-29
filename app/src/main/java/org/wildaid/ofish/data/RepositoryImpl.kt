@@ -36,6 +36,7 @@ class RepositoryImpl(
 
     override fun saveReport(
         report: Report,
+        isDraft: Boolean?,
         reportPhotos: List<Pair<Photo, Uri?>>,
         listener: OnSaveListener
     ) {
@@ -64,27 +65,30 @@ class RepositoryImpl(
             report.vessel?.lastDelivery = null
         }
 
-        realmDataSource.saveReportWithTransaction(
-            report, listener,
-            object : Iterator<Photo> {
-                val originalIterator = reportPhotos.iterator()
-                override fun hasNext() = originalIterator.hasNext()
+        val photoIterator = object : Iterator<Photo> {
+            val originalIterator = reportPhotos.iterator()
+            override fun hasNext() = originalIterator.hasNext()
 
-                override fun next(): Photo {
-                    val pair = originalIterator.next()
-                    val imageUri = pair.second
+            override fun next(): Photo {
+                val pair = originalIterator.next()
+                val imageUri = pair.second
 
-                    return pair.first.also {
-                        if (imageUri != null) {
-                            it.picture = androidDataSource.readCompressedBytes(imageUri)
-                            it.thumbNail = androidDataSource.generateImagePreview(imageUri)
-                        }
+                return pair.first.also {
+                    if (imageUri != null) {
+                        it.picture = androidDataSource.readCompressedBytes(imageUri)
+                        it.thumbNail = androidDataSource.generateImagePreview(imageUri)
                     }
                 }
             }
-        )
-    }
+        }
 
+        if (report.draft == true) {
+            realmDataSource.saveDraftWithTransaction(report, listener, photoIterator)
+        } else {
+            report.draft = isDraft
+            realmDataSource.saveReportWithTransaction(report, listener, photoIterator)
+        }
+    }
 
     override fun getCurrentOfficer() = realmDataSource.getCurrentOfficer()
 

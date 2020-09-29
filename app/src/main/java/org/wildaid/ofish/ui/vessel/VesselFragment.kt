@@ -37,7 +37,7 @@ class VesselFragment : BaseReportFragment(R.layout.fragment_vessel) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fragmentViewModel.initVessel(currentReport, currentReportPhotos)
+        fragmentViewModel.initViewModel(currentReport, currentReportPhotos)
         subscribeToSearchResult()
     }
 
