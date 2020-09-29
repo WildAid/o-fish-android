@@ -30,8 +30,8 @@ class RiskViewModel(
     override fun initViewModel(report: Report, currentReportPhotos: MutableList<PhotoItem>) {
         super.initViewModel(report, currentReportPhotos)
 
-        val safetyLevel = this.currentReport.inspection?.summary?.safetyLevel ?: SafetyLevel().apply {
-            level = SafetyColor.Green.name
+        val safetyLevel = (this.currentReport.inspection?.summary?.safetyLevel ?: SafetyLevel()).also {
+            it.level = it.level.ifBlank { SafetyColor.Green.name }
         }
         this.currentRiskItem = RiskItem(safetyLevel, AttachmentItem(
             safetyLevel.attachments!!,
