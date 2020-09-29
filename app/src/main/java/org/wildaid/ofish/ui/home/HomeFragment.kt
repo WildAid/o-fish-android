@@ -32,6 +32,7 @@ import org.wildaid.ofish.R
 import org.wildaid.ofish.data.mpa.addTestMpa
 import org.wildaid.ofish.databinding.FragmentHomeBinding
 import org.wildaid.ofish.ui.base.*
+import org.wildaid.ofish.ui.createreport.SHOULD_NAVIGATE_TO_DRAFT_LIST
 import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
 import org.wildaid.ofish.util.*
@@ -90,10 +91,10 @@ class HomeFragment : Fragment(R.layout.fragment_home),
 
         fragmentViewModel.userEventLiveData.observe(viewLifecycleOwner, EventObserver {
             when (it) {
+                HomeFragmentViewModel.HomeFragmentUserEvent.ShowDrafts -> findDrafts()
                 HomeFragmentViewModel.HomeFragmentUserEvent.BoardVessel -> boardVessel()
                 HomeFragmentViewModel.HomeFragmentUserEvent.FindRecords -> findRecords()
                 HomeFragmentViewModel.HomeFragmentUserEvent.ShowUserStatus -> navigateToProfile()
-                HomeFragmentViewModel.HomeFragmentUserEvent.ShowDrafts -> findDrafts()
             }
         })
 
@@ -286,6 +287,18 @@ class HomeFragment : Fragment(R.layout.fragment_home),
                 }
                 if (event.dialogBtn == DialogButton.NEGATIVE) {
                     activityViewModel.onDutyChanged(false)
+                }
+                true
+            }
+            CREATE_REPORT_FINISHED_DIALOG_ID -> {
+
+                arguments?.let {
+                    if (it.containsKey(SHOULD_NAVIGATE_TO_DRAFT_LIST)) {
+                        val shouldOpenDrafts = it.getBoolean(SHOULD_NAVIGATE_TO_DRAFT_LIST)
+                        if (shouldOpenDrafts) {
+                            findDrafts()
+                        }
+                    }
                 }
                 true
             }

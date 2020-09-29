@@ -19,9 +19,7 @@
             app:destination="@id/complex_search"
             app:enterAnim="@anim/slide_out_up"
             app:popExitAnim="@anim/slide_in_up" />
-        <action
-            android:id="@+id/action_tabsFragment_to_ask_change_duty_dialog"
-            app:destination="@id/ask_change_duty_dialog" />
+
         <action
             android:id="@+id/action_tabsFragment_to_simple_search"
             app:destination="@id/simple_search"
@@ -70,7 +68,7 @@
     <fragment
         android:id="@+id/add_crew_fragment"
         android:name="org.wildaid.ofish.ui.violation.AddCrewFragment"
-        android:label="@string/add_crew_member" >
+        android:label="@string/add_crew_member">
         <action
             android:id="@+id/action_add_crew_fragment_to_confirmation_dialog"
             app:destination="@id/confirmation_dialog" />
@@ -90,7 +88,13 @@
             android:name="create_report_message_result"
             android:defaultValue="@null"
             app:argType="string" />
+
+        <argument
+            android:name="should_open_draft_list"
+            android:defaultValue="false"
+            app:argType="boolean" />
     </activity>
+
     <fragment
         android:id="@+id/addAmountFragment"
         android:name="org.wildaid.ofish.ui.catches.AddAmountFragment"

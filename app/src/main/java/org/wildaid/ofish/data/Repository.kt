@@ -25,6 +25,8 @@ interface Repository {
 
     fun saveReport(report: Report, reportPhotos: List<Pair<Photo, Uri?>>, listener: OnSaveListener)
 
+    fun deleteDraft(report: Report)
+
     fun getCurrentOfficer(): OfficerData
 
     fun isLoggedIn(): Boolean
