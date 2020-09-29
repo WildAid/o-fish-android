@@ -68,7 +68,7 @@ class CreateReportActivity : AppCompatActivity() {
             CreateReportViewModel.CreateReportUserEvent.AskDeleteDraft -> askDiscardDraft()
             CreateReportViewModel.CreateReportUserEvent.AskDiscardBoarding -> askDiscardReport()
             CreateReportViewModel.CreateReportUserEvent.StartReportCreation -> displayCreationTabs()
-//            CreateReportViewModel.CreateReportUserEvent.NavigateToDraftList -> navigateToDraftList()
+            CreateReportViewModel.CreateReportUserEvent.NavigateToDraftList -> navigateToDraftList()
         }
     }
 
