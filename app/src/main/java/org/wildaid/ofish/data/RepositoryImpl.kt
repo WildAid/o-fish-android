@@ -111,7 +111,37 @@ class RepositoryImpl(
     override fun findReportsForBoat(boatPermitNumber: String, vesselName: String) =
         realmDataSource.findReportsForBoat(boatPermitNumber, vesselName)
 
-    override fun deleteDraft(report: Report) = realmDataSource.deleteDraft(report)
+    override fun deleteDraft(draft: Report) {
+        val photosToRemove = mutableListOf<String>()
+        photosToRemove.addAll(draft.vessel?.attachments?.photoIDs.orEmpty())
+        photosToRemove.addAll(draft.vessel?.lastDelivery?.attachments?.photoIDs.orEmpty())
+        photosToRemove.addAll(draft.captain?.attachments?.photoIDs.orEmpty())
+
+        photosToRemove.addAll(draft.crew.map {
+            it.attachments?.photoIDs.orEmpty()
+        }.flatten())
+
+        photosToRemove.addAll(draft.notes.map {
+            it?.photoIDs.orEmpty()
+        }.flatten())
+
+        photosToRemove.addAll(draft.inspection?.attachments?.photoIDs.orEmpty())
+        photosToRemove.addAll(draft.inspection?.activity?.attachments?.photoIDs.orEmpty())
+        photosToRemove.addAll(draft.inspection?.fishery?.attachments?.photoIDs.orEmpty())
+        photosToRemove.addAll(draft.inspection?.gearType?.attachments?.photoIDs.orEmpty())
+        photosToRemove.addAll(draft.inspection?.summary?.seizures?.attachments?.photoIDs.orEmpty())
+        photosToRemove.addAll(draft.inspection?.summary?.safetyLevel?.attachments?.photoIDs.orEmpty())
+
+        photosToRemove.addAll(draft.inspection?.summary?.violations.orEmpty().map {
+            it?.attachments?.photoIDs.orEmpty()
+        }.flatten())
+
+        photosToRemove.addAll(draft.inspection?.actualCatch.orEmpty().map {
+            it?.attachments?.photoIDs.orEmpty()
+        }.flatten())
+
+        realmDataSource.deleteDraft(draft, photosToRemove)
+    }
 
     override fun getAmountOfDraftsByEmail(): Int {
         val officerData = getCurrentOfficer()

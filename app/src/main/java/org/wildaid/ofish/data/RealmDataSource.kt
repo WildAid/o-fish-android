@@ -154,11 +154,7 @@ class RealmDataSource(context: Context) {
             {
                 while (photoIterator.hasNext()) {
                     val photo = photoIterator.next()
-                    if (it.where<Photo>().equalTo(FIELD_ID, photo._id.toString()).count() > 0) {
-                        it.copyToRealmOrUpdate(photo)
-                    } else {
-                        it.insert(photo)
-                    }
+                    it.copyToRealmOrUpdate(photo)
                 }
                 it.copyToRealmOrUpdate(draft)
             },
@@ -184,12 +180,18 @@ class RealmDataSource(context: Context) {
         )
     }
 
-    fun deleteDraft(report: Report) {
+    fun deleteDraft(report: Report, photoIds: MutableList<String>) {
         realm.executeTransaction {
             it.where<Report>()
                 .equalTo(_ID, report._id)
                 .findFirst()
                 ?.deleteFromRealm()
+
+            if (!photoIds.isNullOrEmpty()) {
+                val query = realm.where<Photo>().equalTo(FIELD_ID, ObjectId(photoIds.first()))
+                photoIds.forEach { id ->  query.or().equalTo(FIELD_ID, ObjectId(id)) }
+                query.findAll().deleteAllFromRealm()
+            }
         }
     }
 
