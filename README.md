@@ -20,3 +20,5 @@ This is the Android Mobile app for O-FISH. To build and use the app, you must [u
 1. Add the Realm App ID from your template to `local.properties`:<BR>
 `realm_app_id=your_app_id`<BR>
 
+To be able to login to the app once it is built, you need to create a user in your instance of the [O-FISH Realm App](https://github.com/WildAid/o-fish-realm) or [in the sandbox environment](https://wildaid.github.io/contribute/sandbox.html).
+
