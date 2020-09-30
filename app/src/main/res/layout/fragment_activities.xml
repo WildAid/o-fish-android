@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:background="@color/background_screen_with_cards">
 
-        <ScrollView
+        <org.wildaid.ofish.ui.base.HideKeyboardNestedScrollView
             android:id="@+id/activities_scroll"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -283,7 +283,7 @@
                         app:photos="@{viewModel.gearItemLiveData.attachments.photos}" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
-        </ScrollView>
+        </org.wildaid.ofish.ui.base.HideKeyboardNestedScrollView>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@id/snackbar_container"

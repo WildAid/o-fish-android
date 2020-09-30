@@ -29,7 +29,7 @@
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/scroll_bottom_padding">
 
-                <androidx.recyclerview.widget.RecyclerView
+                <org.wildaid.ofish.ui.base.HideKeyboardRecyclerView
                     android:id="@+id/catch_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

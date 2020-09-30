@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.core.widget.NestedScrollView
+        <org.wildaid.ofish.ui.base.HideKeyboardNestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@color/background_screen_with_cards"
@@ -27,7 +27,7 @@
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/scroll_bottom_padding">
 
-                <androidx.recyclerview.widget.RecyclerView
+                <org.wildaid.ofish.ui.base.HideKeyboardRecyclerView
                     android:id="@+id/notes_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.core.widget.NestedScrollView>
+        </org.wildaid.ofish.ui.base.HideKeyboardNestedScrollView>
 
         <Button
             android:id="@+id/btn_save"
