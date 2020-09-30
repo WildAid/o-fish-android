@@ -35,6 +35,8 @@ const val VESSEL_PERMIT_NUMBER = "vessel.permitNumber"
 const val VESSEL_NAME = "vessel.name"
 const val USER_EMAIL = "user.email"
 
+const val OTHER = "Other"
+
 private const val TAG = "Realm Setup"
 
 class RealmDataSource(context: Context) {

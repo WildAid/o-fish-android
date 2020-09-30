@@ -129,6 +129,7 @@
                 android:id="@+id/vessel_edit_ems_description_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:endIconContentDescription="@string/description"
                 app:layout_constraintTop_toBottomOf="@id/vessel_edit_ems_register_number_layout">
 
