@@ -130,6 +130,7 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
         )
+        dialog.datePicker.maxDate = System.currentTimeMillis()
         dialog.show()
     }
 
