@@ -128,7 +128,6 @@ class CreateReportActivity : AppCompatActivity() {
             }
             DELETE_DRAFT_DIALOG_ID -> {
                 if (click.dialogBtn == DialogButton.NEUTRAL) {
-
                     activityViewModel.deleteReport()
                 } else if (click.dialogBtn == DialogButton.NEGATIVE) {
                     activityViewModel.saveReport(isDraft = true, listener = object :
