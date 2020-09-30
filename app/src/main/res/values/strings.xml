@@ -185,7 +185,7 @@
     <string name="back">Back</string>
 
     <!--  Vessel Search  -->
-    <string name="new_boarding">New Boarding</string>
+    <string name="new_boarding">Draft Boarding</string>
     <string name="add_new_vessel">Add New Vessel</string>
     <string name="duty_report">Duty Report</string>
 
