@@ -15,9 +15,11 @@
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_user_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/main_blue"
+            app:navigationIcon="@drawable/ic_close_white"
             app:subtitleTextColor="@color/white"
             app:title="@string/profile_toolbar_title"
             app:titleTextColor="@color/white" />
