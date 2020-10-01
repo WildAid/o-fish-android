@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:background="@color/background_screen_with_cards">
 
-        <androidx.core.widget.NestedScrollView
+        <org.wildaid.ofish.ui.base.HideKeyboardNestedScrollView
             android:id="@+id/crew_scroll"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -29,7 +29,7 @@
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/scroll_bottom_padding">
 
-                <androidx.recyclerview.widget.RecyclerView
+                <org.wildaid.ofish.ui.base.HideKeyboardRecyclerView
                     android:id="@+id/crew_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
                     android:textColor="@color/main_blue"
                     app:layout_constraintTop_toBottomOf="@id/crew_recycler" />
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
+        </org.wildaid.ofish.ui.base.HideKeyboardNestedScrollView>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@id/snackbar_container"
