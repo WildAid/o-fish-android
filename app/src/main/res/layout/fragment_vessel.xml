@@ -56,6 +56,7 @@
                         android:layout_height="@dimen/edit_icon_size"
                         android:onClick="@{(View)-> viewModel.fieldFocusListener.onFocusChange(View, true)}"
                         android:src="@drawable/ic_edit"
+                        android:tint="@color/dark_grey"
                         app:layout_constraintEnd_toEndOf="@id/vessel_information_title"
                         app:layout_constraintTop_toTopOf="@id/vessel_information_title" />
 
@@ -64,6 +65,7 @@
                         android:layout_width="@dimen/add_attachment_icon_size"
                         android:layout_height="@dimen/add_attachment_icon_size"
                         android:src="@drawable/ic_add_attachment"
+                        android:tint="@color/dark_grey"
                         app:layout_constraintEnd_toEndOf="@id/vessel_information_title"
                         app:layout_constraintTop_toTopOf="@id/vessel_information_title" />
 
@@ -227,6 +229,7 @@
                         android:layout_height="@dimen/edit_icon_size"
                         android:onClick="@{(View)-> viewModel.fieldFocusListener.onFocusChange(View, true)}"
                         android:src="@drawable/ic_edit"
+                        android:tint="@color/dark_grey"
                         app:layout_constraintEnd_toEndOf="@id/vessel_last_delivery_title"
                         app:layout_constraintTop_toTopOf="@id/vessel_last_delivery_title" />
 
@@ -235,6 +238,7 @@
                         android:layout_width="@dimen/add_attachment_icon_size"
                         android:layout_height="@dimen/add_attachment_icon_size"
                         android:src="@drawable/ic_add_attachment"
+                        android:tint="@color/dark_grey"
                         app:layout_constraintEnd_toEndOf="@id/vessel_last_delivery_title"
                         app:layout_constraintTop_toTopOf="@id/vessel_last_delivery_title" />
 
