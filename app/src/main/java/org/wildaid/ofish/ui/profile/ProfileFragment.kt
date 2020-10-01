@@ -63,7 +63,10 @@ class ProfileFragment : Fragment(R.layout.fragment_user_profile) {
             this.activityViewModel = this@ProfileFragment.activityViewModel
         }
 
-        dataBinding!!.imageUser.setOnClickListener { pickUserImage() }
+        dataBinding?.let {
+            it.imageUser.setOnClickListener { pickUserImage() }
+            it.toolbarUserProfile.setNavigationOnClickListener { navigation.navigateUp() }
+        }
     }
 
     private fun pickUserImage() {
