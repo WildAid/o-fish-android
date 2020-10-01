@@ -194,7 +194,7 @@
     <string name="board_not_saved">En cas d\'annulation, cet embarquement ne sera pas enregistré. Vous pouvez cependant le sauvegarder pour le terminer plus tard.</string>
     <string name="save_and_finish_later">Enregistrer et terminer plus tard</string>
     <string name="submit">Soumettre</string>
-    <string name="draft_saved">Embarquement enregistré</string>
+    <string name="draft_saved">Brouillon enregistré</string>
     <string name="keep_editing">Continuez de modifier</string>
     <string name="boarding_submitted">Inspection validée!</string>
     <string name="boarding_canceled">Inspection annulée</string>

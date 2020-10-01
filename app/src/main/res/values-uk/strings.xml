@@ -186,7 +186,7 @@
     <string name="boarding_submitted">Прибуття подане</string>
     <string name="boarding_canceled">Прибуття скасоване</string>
     <string name="saving_error">Помилка при збереженні</string>
-    <string name="draft_saved">Прибуття збережено</string>
+    <string name="draft_saved">Чернетка збережена</string>
     <string name="submit">Подати</string>
     <string name="continue_with_empty_fields">Продовжити з порожніми полями?</string>
     <string name="login_error">Відбулась помилка під час логіну</string>

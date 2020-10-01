@@ -197,7 +197,7 @@
     <string name="cancel_boarding">Cancel boarding?</string>
     <string name="board_not_saved">If canceled, this boarding will not be saved. You may however save it to finish later.</string>
     <string name="save_and_finish_later">Save and Finish Later</string>
-    <string name="draft_saved">Boarding Saved</string>
+    <string name="draft_saved">Draft Saved</string>
     <string name="delete_draft">Delete Boarding</string>
     <string name="draft_deleted">Draft Deleted</string>
     <string name="submit">Submit</string>
