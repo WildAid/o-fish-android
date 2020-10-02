@@ -118,6 +118,7 @@
                     android:id="@+id/vessel_edit_ems_register_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="number"
                     android:hint="@string/registry_number"
                     android:imeOptions="actionNext"
                     android:nextFocusDown="@id/delivery_location"
