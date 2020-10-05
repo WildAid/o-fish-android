@@ -151,7 +151,7 @@
                                 android:hint="@string/flag_state"
                                 android:imeOptions="actionDone"
                                 android:singleLine="true"
-                                android:text="@{viewModel.vesselItemLiveData.vessel.nationality}"
+                                android:text="@{viewModel.vesselItemLiveData.vessel.nationality()}"
                                 app:onFocusChangeListener="@{viewModel.fieldFocusListener}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
