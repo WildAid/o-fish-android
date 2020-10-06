@@ -83,6 +83,7 @@ class RealmDataSource(context: Context) {
             } else {
                 val user = it.get()
                 instantiateRealm(user)
+                initDarkModeState()
                 loginSuccess.invoke(user)
             }
         }
@@ -104,6 +105,7 @@ class RealmDataSource(context: Context) {
     fun restoreLoggedUser(): io.realm.mongodb.User? {
         return realmApp.currentUser()?.also {
             instantiateRealm(it)
+            initDarkModeState()
         }
     }
 
@@ -343,5 +345,28 @@ class RealmDataSource(context: Context) {
         realm.executeTransaction {
             it.copyToRealmOrUpdate(photo)
         }
+    }
+    
+    fun initDarkModeState() {
+        if(getDarkModeState() != null) {
+            return
+        }
+
+        realm.executeTransaction {
+            realm.copyToRealm(DarkMode().apply {
+                this.enabled = false
+            })
+        }
+    }
+
+    fun saveDarkModeState(darkModeEnabled: Boolean) {
+        val darkMode = getDarkModeState()!!
+        realm.executeTransaction {
+            darkMode.enabled = darkModeEnabled
+        }
+    }
+
+    fun getDarkModeState(): DarkMode? {
+        return realm.where<DarkMode>().findFirst()
     }
 }
