@@ -1,6 +1,5 @@
 package org.wildaid.ofish.ui.profile
 
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -64,7 +63,10 @@ class ProfileFragment : Fragment(R.layout.fragment_user_profile) {
             this.activityViewModel = this@ProfileFragment.activityViewModel
         }
 
-        dataBinding!!.imageUser.setOnClickListener { pickUserImage() }
+        dataBinding?.let {
+            it.imageUser.setOnClickListener { pickUserImage() }
+            it.toolbarUserProfile.setNavigationOnClickListener { navigation.navigateUp() }
+        }
     }
 
     private fun pickUserImage() {

@@ -60,6 +60,7 @@
             android:layout_height="@dimen/edit_icon_size"
             android:onClick="@{() -> holder.onCatchEditClicked()}"
             android:src="@drawable/ic_edit"
+            android:tint="@color/dark_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -69,6 +70,7 @@
             android:layout_height="@dimen/add_attachment_icon_size"
             android:onClick="@{() -> holder.onCatchAddAttachmentClicked()}"
             android:src="@drawable/ic_add_attachment"
+            android:tint="@color/dark_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -138,7 +140,7 @@
             app:layout_constraintStart_toStartOf="@id/spinner_unit"
             app:layout_constraintTop_toTopOf="@id/spinner_unit" />
 
-        <Spinner
+        <org.wildaid.ofish.ui.base.HideKeyboardRecyclerSpinner
             android:id="@+id/spinner_unit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -18,7 +18,7 @@
         android:animateLayoutChanges="true"
         android:background="@color/background_screen_with_cards">
 
-        <androidx.core.widget.NestedScrollView
+        <org.wildaid.ofish.ui.base.HideKeyboardNestedScrollView
             android:id="@+id/vessel_scroll"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -56,6 +56,7 @@
                         android:layout_height="@dimen/edit_icon_size"
                         android:onClick="@{(View)-> viewModel.fieldFocusListener.onFocusChange(View, true)}"
                         android:src="@drawable/ic_edit"
+                        android:tint="@color/dark_grey"
                         app:layout_constraintEnd_toEndOf="@id/vessel_information_title"
                         app:layout_constraintTop_toTopOf="@id/vessel_information_title" />
 
@@ -64,6 +65,7 @@
                         android:layout_width="@dimen/add_attachment_icon_size"
                         android:layout_height="@dimen/add_attachment_icon_size"
                         android:src="@drawable/ic_add_attachment"
+                        android:tint="@color/dark_grey"
                         app:layout_constraintEnd_toEndOf="@id/vessel_information_title"
                         app:layout_constraintTop_toTopOf="@id/vessel_information_title" />
 
@@ -228,6 +230,7 @@
                         android:layout_height="@dimen/edit_icon_size"
                         android:onClick="@{(View)-> viewModel.fieldFocusListener.onFocusChange(View, true)}"
                         android:src="@drawable/ic_edit"
+                        android:tint="@color/dark_grey"
                         app:layout_constraintEnd_toEndOf="@id/vessel_last_delivery_title"
                         app:layout_constraintTop_toTopOf="@id/vessel_last_delivery_title" />
 
@@ -236,6 +239,7 @@
                         android:layout_width="@dimen/add_attachment_icon_size"
                         android:layout_height="@dimen/add_attachment_icon_size"
                         android:src="@drawable/ic_add_attachment"
+                        android:tint="@color/dark_grey"
                         app:layout_constraintEnd_toEndOf="@id/vessel_last_delivery_title"
                         app:layout_constraintTop_toTopOf="@id/vessel_last_delivery_title" />
 
@@ -352,7 +356,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <!--      EMS list    -->
-                <androidx.recyclerview.widget.RecyclerView
+                <org.wildaid.ofish.ui.base.HideKeyboardRecyclerView
                     android:id="@+id/vessel_ems_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -380,7 +384,7 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/vessel_ems_recycler" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+        </org.wildaid.ofish.ui.base.HideKeyboardNestedScrollView>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@id/snackbar_container"

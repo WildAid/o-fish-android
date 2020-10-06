@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:background="@color/background_screen_with_cards">
 
-        <androidx.core.widget.NestedScrollView
+        <org.wildaid.ofish.ui.base.HideKeyboardNestedScrollView
             android:id="@+id/violation_scroll"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -28,7 +28,7 @@
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/scroll_bottom_padding">
 
-                <androidx.recyclerview.widget.RecyclerView
+                <org.wildaid.ofish.ui.base.HideKeyboardRecyclerView
                     android:id="@+id/violation_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -79,6 +79,7 @@
                         android:layout_height="@dimen/add_attachment_icon_size"
                         android:layout_margin="16dp"
                         android:src="@drawable/ic_add_attachment"
+                        android:tint="@color/dark_grey"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -132,7 +133,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.core.widget.NestedScrollView>
+        </org.wildaid.ofish.ui.base.HideKeyboardNestedScrollView>
 
         <Button
             android:id="@+id/btn_next"

@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:background="@color/background_screen_with_cards">
 
-        <ScrollView
+        <org.wildaid.ofish.ui.base.HideKeyboardNestedScrollView
             android:id="@+id/activities_scroll"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -56,6 +56,7 @@
                         android:layout_height="@dimen/add_attachment_icon_size"
                         android:onClick="@{()-> viewModel.addActivityAttachment()}"
                         android:src="@drawable/ic_add_attachment"
+                        android:tint="@color/dark_grey"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -141,6 +142,7 @@
                         android:layout_height="@dimen/add_attachment_icon_size"
                         android:onClick="@{()-> viewModel.addFisheryAttachment()}"
                         android:src="@drawable/ic_add_attachment"
+                        android:tint="@color/dark_grey"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -225,6 +227,7 @@
                         android:layout_height="@dimen/add_attachment_icon_size"
                         android:onClick="@{()-> viewModel.addGearAttachment()}"
                         android:src="@drawable/ic_add_attachment"
+                        android:tint="@color/dark_grey"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -283,7 +286,7 @@
                         app:photos="@{viewModel.gearItemLiveData.attachments.photos}" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
-        </ScrollView>
+        </org.wildaid.ofish.ui.base.HideKeyboardNestedScrollView>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@id/snackbar_container"
