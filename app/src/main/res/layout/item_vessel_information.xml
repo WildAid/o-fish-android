@@ -106,7 +106,7 @@
             style="@style/TextValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{vessel.nationality}"
+            android:text="@{vessel.nationality()}"
             app:layout_constraintStart_toEndOf="@id/report_vessel_port"
             app:layout_constraintTop_toBottomOf="@id/report_vessel_flag_state_title"
             app:layout_constraintWidth_percent="0.5"
