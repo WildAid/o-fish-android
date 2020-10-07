@@ -30,6 +30,7 @@
             app:tabIndicatorHeight="5dp"
             app:tabMode="scrollable"
             app:tabPaddingEnd="-1dp"
+            app:tabIndicatorColor="@color/main_blue"
             app:tabPaddingStart="-1dp"
             app:tabTextColor="@color/selector_tabs_text" />
     </com.google.android.material.appbar.AppBarLayout>
