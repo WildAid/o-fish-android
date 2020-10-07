@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <color name="colorPrimary">@color/white</color>
-    <color name="colorPrimaryDark">@color/main_blue</color>
-    <color name="colorAccent">@color/main_blue</color>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#000000</color>
 
-    <color name="background_card">#FFFFFF</color>
-    <color name="background_screen_with_cards">#F9FAFA</color>
+    <color name="background_card">#1C1C1E</color>
+    <color name="background_screen_with_cards">#000000</color>
     <color name="map_coordinates_background">#B4FFFFFF</color>
-
     <color name="divider">#CCC7C7</color>
     <color name="grey">#696969</color>
     <color name="dark_grey">#666666</color>
@@ -28,8 +27,8 @@
     <color name="red_text">#960B0B</color>
     <color name="red_text_2">#891515</color>
     <color name="red_background">#F6D4D4</color>
-    <color name="small_title_text">#993C3C43</color>
-    <color name="main_blue">#0A4074</color>
+    <color name="small_title_text">#DADADA</color>
+    <color name="main_blue">#3B78B6</color>
     <color name="main_blue_disabled">#800A4074</color>
     <color name="tabs_blue_background">#190A4074</color>
     <color name="tabs_amber">#E17000</color>
@@ -38,17 +37,15 @@
     <color name="light_grey_background">#F7F7F7</color>
     <color name="grey_text">#818181</color>
     <color name="search_record_background">#FFFFFF</color>
-    <color name="status_bar_blue">#002548</color>
+    <color name="status_bar_blue">#000000</color>
     <color name="search_icon_color">#8A000000</color>
-
     <color name="text_input_hint">#979797</color>
-    <color name="header_color">#000000</color>
-    <color name="close">#FFF</color>
-    <color name="input_tint">#000000</color>
-    <color name="attachment_color">#666666</color>
-    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#000000</color>
-    <color name="mtrl_textinput_focused_box_stroke_color" tools:override="true">#000000</color>
-    <color name="mtrl_textinput_hovered_box_stroke_color" tools:override="true">#000000</color>
+    <color name="header_color">#FFFFFF</color>
+    <color name="close">#3B78B6</color>
+    <color name="input_tint">#FFF</color>
+    <color name="attachment_color">#979797</color>
 
-
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#FFF</color>
+    <color name="mtrl_textinput_focused_box_stroke_color" tools:override="true">#FFF</color>
+    <color name="mtrl_textinput_hovered_box_stroke_color" tools:override="true">#FFF</color>
 </resources>

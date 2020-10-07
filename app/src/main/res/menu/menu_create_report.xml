@@ -4,6 +4,6 @@
     <item
         android:id="@+id/menu_report_submit"
         android:title="@string/menu_save_report"
-        app:itemTextColor="@color/white"
+        app:itemTextColor="@color/main_blue"
         app:showAsAction="ifRoom|collapseActionView" />
 </menu>
