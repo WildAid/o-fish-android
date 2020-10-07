@@ -15,7 +15,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tabs_toolbar"
             android:layout_width="match_parent"
-            android:background="@color/main_blue"
+            android:background="@color/colorPrimaryDark"
             app:titleTextColor="@color/white"
             app:title="@string/new_boarding"
             app:subtitleTextColor="@color/white"
