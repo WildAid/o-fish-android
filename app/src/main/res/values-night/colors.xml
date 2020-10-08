@@ -5,8 +5,8 @@
     <color name="colorAccent">@color/white</color>
     <color name="colorLogo">@color/main_blue</color>
 
-    <color name="background_card">#000000</color>
-    <color name="background_screen_with_cards">#F9FAFA</color>
+    <color name="background_card">#1C1C1E</color>
+    <color name="background_screen_with_cards">#000000</color>
     <color name="map_coordinates_background">#B4FFFFFF</color>
 
     <color name="divider">#CCC7C7</color>
@@ -58,4 +58,5 @@
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#FFFFFF</color>
     <color name="mtrl_textinput_focused_box_stroke_color" tools:override="true">#FFFFFF</color>
     <color name="mtrl_textinput_hovered_box_stroke_color" tools:override="true">#FFFFFF</color>
+    <color name="tab_bar">#000000</color>
 </resources>

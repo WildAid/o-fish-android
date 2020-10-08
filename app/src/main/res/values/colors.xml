@@ -58,4 +58,5 @@
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#000000</color>
     <color name="mtrl_textinput_focused_box_stroke_color" tools:override="true">#000000</color>
     <color name="mtrl_textinput_hovered_box_stroke_color" tools:override="true">#000000</color>
+    <color name="tab_bar">#FFFFFF</color>
 </resources>

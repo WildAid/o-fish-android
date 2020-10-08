@@ -140,7 +140,7 @@
                 <TextView
                     android:id="@+id/basic_info_location_header"
                     style="@style/CardHeader"
-
+                    android:textColor="@color/header_color"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -196,6 +196,7 @@
                 <TextView
                     android:id="@+id/basic_info_lat"
                     style="@style/TextValue"
+                    android:textColor="@color/header_color"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -212,6 +213,7 @@
                     android:id="@+id/basic_info_long"
                     style="@style/TextValue"
                     android:layout_width="0dp"
+                    android:textColor="@color/header_color"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
