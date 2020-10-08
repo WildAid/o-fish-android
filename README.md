@@ -10,7 +10,7 @@ This repo implements the Android O-FISH app.
 
 ## Prerequisites
 
-This is the Android Mobile app for O-FISH. To build and use the app, you must [use the sandbox realm-app-id](https://wildaid.github.io/contribute/sandbox.html) or [build your own foundation](http://wildaid.github.io/build).
+This is the Android Mobile app for O-FISH. To build and use the app, you must [use the sandbox realm-app-id](https://bit.ly/ofishsandbox) or [build your own foundation](http://wildaid.github.io/build).
 
 ## Building and running the app
 
@@ -20,5 +20,5 @@ This is the Android Mobile app for O-FISH. To build and use the app, you must [u
 1. Add the Realm App ID from your template to `local.properties`:<BR>
 `realm_app_id=your_app_id`<BR>
 
-To be able to login to the app once it is built, you need to create a user in your instance of the [O-FISH Realm App](https://github.com/WildAid/o-fish-realm) or [in the sandbox environment](https://wildaid.github.io/contribute/sandbox.html).
+To be able to login to the app once it is built, you need to create a user in your instance of the [O-FISH Realm App](https://github.com/WildAid/o-fish-realm) or [in the sandbox environment](https://bit.ly/ofishsandbox).
 

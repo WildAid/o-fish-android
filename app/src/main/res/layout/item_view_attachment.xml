@@ -49,6 +49,7 @@
             android:layout_height="wrap_content"
             android:text="@{note}"
             app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/header_color"
             app:layout_constraintTop_toBottomOf="@id/attachment_note_title"
             app:layout_constraintWidth_percent="0.5"
             tools:text="Some long notes here will be displayed in multi line" />
