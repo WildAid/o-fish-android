@@ -29,7 +29,7 @@
     <color name="red_text">#960B0B</color>
     <color name="red_text_2">#891515</color>
     <color name="red_background">#F6D4D4</color>
-    <color name="small_title_text">#993C3C43</color>
+    <color name="small_title_text">#979797</color>
     <color name="main_blue">#0A4074</color>
     <color name="main_blue_disabled">#800A4074</color>
     <color name="tabs_blue_background">#190A4074</color>
@@ -41,8 +41,15 @@
     <color name="search_record_background">#FFFFFF</color>
     <color name="status_bar_blue">#002548</color>
     <color name="search_icon_color">#8A000000</color>
+    <color name="black_1">#000000</color>
+    <color name="black_2">#1C1C1E</color>
+    <color name="grey_1">#979797</color>
+    <color name="grey_8">#F9FAFA</color>
 
     <color name="text_input_hint">#979797</color>
+    <color name="colorFont">@color/black_1</color>
+    <color name="colorAppBar">@color/main_blue</color>
+    <color name="colorBackground">@color/grey_8</color>
     <color name="header_color">#000000</color>
     <color name="close">#FFF</color>
     <color name="input_tint">#000000</color>

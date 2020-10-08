@@ -18,8 +18,7 @@
             android:id="@+id/toolbar_user_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/main_blue"
-            app:navigationIcon="@drawable/ic_close_white"
+            android:background="@color/colorAppBar"
             app:subtitleTextColor="@color/white"
             app:title="@string/profile_toolbar_title"
             app:titleTextColor="@color/white" />
@@ -27,12 +26,13 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_card"
+            android:background="@color/colorPrimary"
             app:cardCornerRadius="4dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/image_user"
@@ -65,7 +65,7 @@
                     android:ellipsize="end"
                     android:lines="1"
                     android:text="@{@string/first_last_name(activityViewModel.currentOfficerLiveData.firstName, activityViewModel.currentOfficerLiveData.lastName)}"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/colorFont"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/image_user"
@@ -81,6 +81,7 @@
                     android:lines="1"
                     android:text="@{activityViewModel.currentOfficerLiveData.email}"
                     android:textSize="18sp"
+                    android:textColor="@color/record_second"
                     app:layout_constraintStart_toEndOf="@id/image_user"
                     app:layout_constraintTop_toBottomOf="@id/text_user_email"
                     tools:text="officer.nemo@mail.com" />
@@ -97,11 +98,10 @@
                     android:id="@+id/text_duty_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="12dp"
                     android:text="@{activityViewModel.onDutyTextStatusLiveData}"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/colorFont"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider"
@@ -118,18 +118,39 @@
                     app:layout_constraintTop_toTopOf="@id/text_duty_status" />
 
                 <TextView
-                    android:id="@+id/text_logout"
+                    android:id="@+id/dark_mode_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
                     android:layout_marginTop="24dp"
-                    android:onClick="@{() -> activityViewModel.logOutUser()}"
-                    android:paddingBottom="12dp"
-                    android:text="@string/log_out"
-                    android:textColor="@android:color/black"
+                    android:layout_marginStart="12dp"
+                    android:textColor="@color/colorFont"
                     android:textSize="16sp"
+                    android:text="Dark Mode"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_duty_status" />
+
+                <Switch
+                    android:id="@+id/dark_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:checked="@{activityViewModel.darkModeLiveData}"
+                    android:onClick="@{()->activityViewModel.onDarkModeStateChange()}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/dark_mode_text" />
+
+                <Button
+                    android:id="@+id/btn_login"
+                    android:layout_marginHorizontal="12dp"
+                    android:background="@drawable/button_border"
+                    android:textColor="@color/main_blue"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginVertical="24dp"
+                    android:text="@string/log_out"
+                    android:onClick="@{() -> activityViewModel.logOutUser()}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dark_mode_text" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
