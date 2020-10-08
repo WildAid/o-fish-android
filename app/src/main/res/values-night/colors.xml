@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <color name="colorPrimary">@color/black_2</color>
     <color name="colorPrimaryDark">@color/main_blue</color>
     <color name="colorAccent">@color/white</color>
+    <color name="colorLogo">@color/main_blue</color>
 
     <color name="background_card">#000000</color>
     <color name="background_screen_with_cards">#F9FAFA</color>
@@ -30,8 +31,8 @@
     <color name="red_background">#F6D4D4</color>
     <color name="small_title_text">#979797</color>
     <color name="main_blue">#3B78B6</color>
-    <color name="tabs_blue_background">#25323E</color>
     <color name="main_blue_disabled">#849FB9</color>
+    <color name="tabs_blue_background">#25323E</color>
     <color name="tabs_amber">#E17000</color>
     <color name="captain_background">#E7ECF1</color>
     <color name="record_second">#979797</color>
@@ -50,4 +51,11 @@
     <color name="colorFont">@color/white</color>
     <color name="colorAppBar">@color/black_2</color>
     <color name="colorBackground">@color/black_1</color>
+    <color name="header_color">#FFFFFF</color>
+    <color name="close">#000000</color>
+    <color name="input_tint">#FFFFFF</color>
+    <color name="attachment_color">#D8D8D8</color>
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#FFFFFF</color>
+    <color name="mtrl_textinput_focused_box_stroke_color" tools:override="true">#FFFFFF</color>
+    <color name="mtrl_textinput_hovered_box_stroke_color" tools:override="true">#FFFFFF</color>
 </resources>
