@@ -1,7 +1,9 @@
 package org.wildaid.ofish.ui.home
 
 import android.app.Application
+import android.content.Context.MODE_PRIVATE
 import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -22,6 +24,10 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
     private var _onDutyTextStatusLiveData = MutableLiveData<String>()
     val onDutyTextStatusLiveData: LiveData<String>
         get() = _onDutyTextStatusLiveData
+
+    private var _darkModeLiveData = MutableLiveData<Boolean>()
+    val darkModeLiveData: LiveData<Boolean>
+        get() = _darkModeLiveData
 
     private var _currentOfficerLiveData = MutableLiveData<OfficerData>()
     val currentOfficerLiveData: LiveData<OfficerData>
@@ -44,6 +50,7 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
         val lastOnDutyStatus = repository.getRecentOnDutyChange()?.status == ON_DUTY
         _onDutyStatusLiveData.value = lastOnDutyStatus
         updateStringStatus(lastOnDutyStatus)
+        updateDarkModeStatus()
     }
 
     fun changeStatus() {
@@ -64,6 +71,18 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
         repository.saveOnDutyChange(onDuty, date)
 
         updateStringStatus(onDuty)
+    }
+
+    fun onDarkModeStateChange() {
+        if(_darkModeLiveData.value!!) {
+            _darkModeLiveData.value = false
+            repository.saveDarkModeState(false)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        } else {
+            _darkModeLiveData.value = true
+            repository.saveDarkModeState(true)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }
     }
 
     fun logOutUser() {
@@ -87,6 +106,15 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
             _onDutyTextStatusLiveData.value = getString(R.string.at_sea)
         else
             _onDutyTextStatusLiveData.value = getString(R.string.not_at_sea)
+    }
+
+    private fun updateDarkModeStatus() {
+        _darkModeLiveData.value = repository.getDarkModeState()?.enabled
+        if(_darkModeLiveData.value!!)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        else
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
     }
 
     sealed class HomeActivityUserEvent {
