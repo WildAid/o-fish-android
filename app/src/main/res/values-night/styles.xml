@@ -43,8 +43,8 @@
     </style>
 
     <!--Dialogs-->
-    <style name="BaseAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="BaseAlertDialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+        <item name="colorAccent">@color/colorFont</item>
     </style>
 
     <style name="circleImageView" parent="">
