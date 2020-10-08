@@ -27,7 +27,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/background_card"
                 android:padding="18dp">
 
                 <TextView
@@ -36,6 +36,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/date_time"
+                    android:textColor="@color/header_color"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -72,6 +73,7 @@
                     android:onClick="@{() -> viewmodel.chooseDate()}"
                     app:dateToString="@{viewmodel.reportLiveData.date}"
                     app:layout_constraintHorizontal_weight="1"
+                    android:textColor="@color/header_color"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toLeftOf="@id/basic_info_time"
                     app:layout_constraintTop_toBottomOf="@id/basic_info_date_header"
@@ -82,6 +84,7 @@
                     style="@style/TextValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/header_color"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
                     android:onClick="@{() -> viewmodel.chooseTime()}"
@@ -130,13 +133,14 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/background_card"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp">
 
                 <TextView
                     android:id="@+id/basic_info_location_header"
                     style="@style/CardHeader"
+                    android:textColor="@color/header_color"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -192,6 +196,7 @@
                 <TextView
                     android:id="@+id/basic_info_lat"
                     style="@style/TextValue"
+                    android:textColor="@color/header_color"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -208,6 +213,7 @@
                     android:id="@+id/basic_info_long"
                     style="@style/TextValue"
                     android:layout_width="0dp"
+                    android:textColor="@color/header_color"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"

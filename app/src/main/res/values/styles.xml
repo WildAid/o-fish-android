@@ -9,6 +9,7 @@
         <item name="actionOverflowButtonStyle">@style/OverflowButton</item>
         <item name="searchViewStyle">@style/ToolbarSearchViewStyle</item>
         <item name="textInputStyle">@style/TextInputLayoutStyle</item>
+            <item name="colorControlActivated">#FFF</item>
     </style>
 
     <style name="OverflowButton" parent="Widget.MaterialComponents.PopupMenu.Overflow">
@@ -16,7 +17,7 @@
     </style>
 
     <style name="CardHeader" parent="Widget.AppCompat.TextView">
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/header_color</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">20sp</item>
     </style>
@@ -27,7 +28,7 @@
     </style>
 
     <style name="TextValue" parent="Widget.AppCompat.TextView">
-        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColor">@color/header_color</item>
         <item name="android:textSize">16sp</item>
     </style>
 

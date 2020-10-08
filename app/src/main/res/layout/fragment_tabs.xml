@@ -25,11 +25,13 @@
             android:id="@+id/tabs_layout"
             android:layout_width="match_parent"
             android:layout_height="56dp"
+            android:background="@color/tab_bar"
             app:tabBackground="@drawable/selector_tabs_background"
             app:tabIndicatorFullWidth="true"
             app:tabIndicatorHeight="5dp"
             app:tabMode="scrollable"
             app:tabPaddingEnd="-1dp"
+            app:tabIndicatorColor="@color/main_blue"
             app:tabPaddingStart="-1dp"
             app:tabTextColor="@color/selector_tabs_text" />
     </com.google.android.material.appbar.AppBarLayout>

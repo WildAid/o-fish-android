@@ -41,6 +41,7 @@ class BasicInformationViewModel : ViewModel() {
 
     fun chooseDate() {
         _basicInfoUserEventLiveData.value = Event(BasicInfoUserEvent.ChooseDate)
+
     }
 
     fun chooseTime() {
