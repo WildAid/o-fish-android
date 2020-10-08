@@ -3,6 +3,7 @@
     <color name="colorPrimary">#000000</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#000000</color>
+    <color name="colorLogo">@color/white</color>
 
     <color name="background_card">#1C1C1E</color>
     <color name="background_screen_with_cards">#000000</color>
