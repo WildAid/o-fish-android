@@ -15,6 +15,7 @@ import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.base.AttachmentItem
 import org.wildaid.ofish.ui.base.BaseReportViewModel
 import org.wildaid.ofish.ui.base.PhotoItem
+import java.util.*
 
 class VesselViewModel(
     repository: Repository,
@@ -109,8 +110,22 @@ class VesselViewModel(
         _vesselItemLiveData.value = currentVesselItem
     }
 
+    fun getCountryCode(countryName: String): String {
+        val isoCountryCodes: Array<String> = Locale.getISOCountries()
+        var countryCode: String = ""
+        for (code in isoCountryCodes) {
+            val locale = Locale("", code)
+            val name: String = locale.displayCountry
+            if (name == countryName) {
+                countryCode = code
+                break
+            }
+        }
+        return countryCode
+    }
+
     fun updateVesselFlagState(flagState: String) {
-        currentVesselItem.vessel.nationality = flagState
+        currentVesselItem.vessel.nationality = getCountryCode(flagState)
         _vesselItemLiveData.value = currentVesselItem
     }
 

@@ -25,7 +25,7 @@
                         android:translateX="335"
                         android:translateY="13.5">
                         <path
-                            android:fillColor="#dddddd"
+                            android:fillColor="@color/attachment_color"
                             android:pathData="M 7.1199623,12.76114 17.437046,5.8021941 19.963111,7.4973021 9.6456627,14.456494
 9.557223,14.495004 7.2420482,15.084959 C 6.6545817,15.22952 6.045096,14.857872
 6.1874497,14.448318 l 0.03082,-0.06853 0.84375,-1.557398 z M 19.449538,4.457555
