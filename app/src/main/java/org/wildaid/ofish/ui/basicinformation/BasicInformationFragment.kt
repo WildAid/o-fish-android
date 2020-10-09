@@ -3,6 +3,7 @@ package org.wildaid.ofish.ui.basicinformation
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.res.Configuration
 import android.location.Location
 import android.os.Bundle
 import android.view.View
@@ -16,6 +17,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import org.wildaid.ofish.EventObserver
@@ -88,6 +90,10 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
     @SuppressLint("MissingPermission")
     override fun onMapReady(map: GoogleMap) {
         this.map = map
+
+        val isNightMode=resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        if(isNightMode==Configuration.UI_MODE_NIGHT_YES )
+        map.setMapStyle(MapStyleOptions.loadRawResourceStyle(activity?.applicationContext,R.raw.map_dark_mode))
 
         this.map.setOnCameraMoveListener { updateMarker() }
 
