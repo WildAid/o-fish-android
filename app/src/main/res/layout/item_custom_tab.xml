@@ -6,7 +6,6 @@
     android:layout_height="match_parent">
 
     <CheckedTextView
-        android:id="@+id/android:text1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@null"
