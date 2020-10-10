@@ -65,7 +65,7 @@
             android:layout_height="@dimen/edit_icon_size"
             android:onClick="@{() -> holder.onEditClicked()}"
             android:src="@drawable/ic_edit"
-            android:tint="@color/dark_grey"
+            android:tint="@color/attachment_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -75,7 +75,7 @@
             android:layout_height="@dimen/add_attachment_icon_size"
             android:onClick="@{() -> holder.onAttachmentClicked()}"
             android:src="@drawable/ic_add_attachment"
-            android:tint="@color/dark_grey"
+            android:tint="@color/attachment_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -94,6 +94,7 @@
                 android:id="@+id/crew_member_edit_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textCursorDrawable="@null"
                 android:imeOptions="actionNext"
                 android:nextFocusDown="@id/crew_member_edit_license_number"
                 android:onTextChanged="@{(text, start, before, count) -> holder.onNameChanged(text)}"
@@ -115,6 +116,7 @@
                 android:id="@+id/crew_member_edit_license_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textCursorDrawable="@null"
                 android:hint="@string/crew_member_license_number"
                 android:imeOptions="actionNext"
                 android:onTextChanged="@{(text, start, before, count) -> holder.onLicenseChanged(text)}"
@@ -137,6 +139,7 @@
                 android:id="@+id/crew_member_edit_note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textCursorDrawable="@null"
                 android:hint="@string/note"
                 android:imeOptions="actionDone"
                 android:onTextChanged="@{(text, start, before, count) -> holder.onNoteChanged(text)}"
