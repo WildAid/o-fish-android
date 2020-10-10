@@ -4,10 +4,10 @@
     <item>
         <selector>
             <item
-                android:drawable="@android:color/darker_gray"
+                android:drawable="@color/grey_1"
                 android:state_pressed="true" />
 
-            <item android:drawable="@color/white" />
+            <item android:drawable="@color/background_menu" />
         </selector>
     </item>
 </ripple>

@@ -10,6 +10,7 @@
         android:id="@+id/item_title"
         android:layout_width="match_parent"
         android:layout_height="58dp"
+        android:textColor="@color/header_color"
         android:background="@drawable/selector_adapter_item"
         android:clickable="true"
         android:gravity="center_vertical"
