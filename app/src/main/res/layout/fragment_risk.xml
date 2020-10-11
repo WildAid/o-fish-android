@@ -24,7 +24,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/background_card"
                 android:paddingStart="18dp"
                 android:paddingTop="18dp"
                 android:paddingEnd="18dp"
@@ -36,6 +36,7 @@
                     android:layout_width="0dp"
                     android:layout_height="36sp"
                     android:text="@string/risk"
+                    android:textColor="@color/header_color"
                     app:layout_constraintEnd_toStartOf="@id/risk_action_icon"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
