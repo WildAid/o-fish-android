@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:background="@color/search_background">
 
         <ImageView
             android:id="@+id/record_vessel_draft_mark"
@@ -44,7 +44,7 @@
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-medium"
                 android:singleLine="true"
-                android:textColor="@android:color/black"
+                android:textColor="@color/colorFont"
                 android:textSize="17sp"
                 app:layout_constraintStart_toEndOf="@id/record_vessel_image"
                 app:layout_constraintTop_toTopOf="@id/record_vessel_image"
