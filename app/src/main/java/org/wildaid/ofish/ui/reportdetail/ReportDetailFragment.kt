@@ -7,6 +7,9 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -85,15 +88,34 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             report_scroll_view
         )
 
-        report_toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white)
         subscribeToDialogEvents()
 
         shouldShowBoardButton()
-        setToolbarTitle()
+        setUpToolbar()
     }
 
-    private fun setToolbarTitle() {
+    private fun setUpToolbar() {
         report_toolbar.title = additionalTitle
+        activity?.window?.statusBarColor = ContextCompat.getColor(report_toolbar.context, R.color.boarding_record_status_bar)
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+            activity?.window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
+        report_toolbar.setNavigationIcon(
+            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+                R.drawable.ic_arrow_back_grey
+            } else {
+                R.drawable.ic_arrow_back_white
+            }
+        )
+        report_toolbar.overflowIcon?.let {
+            DrawableCompat.setTint(
+                it,
+                ContextCompat.getColor(
+                    report_toolbar.context,
+                    R.color.boarding_record_toolbar_icon_color
+                )
+            )
+        }
     }
 
     private fun shouldShowBoardButton() {
@@ -145,6 +167,12 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_report_details, menu)
+        for (i in 0 until menu.size()){
+            val icon = menu.getItem(i)?.icon
+            icon?.let {
+                DrawableCompat.setTint(icon, ContextCompat.getColor(report_toolbar.context, R.color.boarding_record_toolbar_icon_color))
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

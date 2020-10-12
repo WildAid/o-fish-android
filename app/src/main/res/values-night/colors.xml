@@ -59,4 +59,11 @@
     <color name="mtrl_textinput_focused_box_stroke_color" tools:override="true">#FFFFFF</color>
     <color name="mtrl_textinput_hovered_box_stroke_color" tools:override="true">#FFFFFF</color>
     <color name="tab_bar">#000000</color>
+
+    <!-- BOARDING RECORD  -->
+    <color name="boarding_record_toolbar">@color/black_2</color>
+    <color name="boarding_record_status_bar">@color/black_2</color>
+    <color name="boarding_record_toolbar_text_color">@color/white</color>
+    <color name="boarding_record_toolbar_icon_color">@color/white</color>
+    <color name="boarding_record_details_color">@color/black_1</color>
 </resources>
