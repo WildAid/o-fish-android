@@ -14,7 +14,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/selector_adapter_item"
+        android:background="@color/tab_bar"
         android:orientation="vertical">
 
         <TextView
