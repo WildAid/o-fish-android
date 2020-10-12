@@ -144,7 +144,8 @@ class ComplexSearchAdapter(itemListener: (SearchModel) -> Unit) :
                 if (value.name == safetyLevel) {
                     binding.recordVesselSafetyLevel.setSafetyColor(
                         value,
-                        R.dimen.safety_background_radius_small
+                        R.dimen.safety_background_radius_small,
+                        item.repository.getDarkModeState()
                     )
                     break
                 }

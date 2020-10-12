@@ -27,7 +27,11 @@ import org.wildaid.ofish.ui.base.DIALOG_CLICK_EVENT
 import org.wildaid.ofish.ui.base.DialogButton
 import org.wildaid.ofish.ui.base.DialogClickEvent
 import org.wildaid.ofish.ui.base.ItemDivider
-import org.wildaid.ofish.ui.createreport.*
+import org.wildaid.ofish.ui.createreport.CreateReportBundle
+import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_ARGS
+import org.wildaid.ofish.ui.createreport.PrefillCrew
+import org.wildaid.ofish.ui.createreport.PrefillCrewMember
+import org.wildaid.ofish.ui.createreport.PrefillVessel
 import org.wildaid.ofish.ui.home.ASK_CHANGE_DUTY_DIALOG_ID
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
 import org.wildaid.ofish.ui.reportdetail.KEY_REPORT_ID
@@ -64,10 +68,13 @@ class VesselDetailsFragment : Fragment(R.layout.fragment_vessel_details) {
         fragmentViewModel.activityViewModel = activityViewModel
         setHasOptionsMenu(true)
 
-        recordsAdapter = VesselRecordsAdapter {
-            val bundle = bundleOf(KEY_REPORT_ID to it.report._id)
-            navigation.navigate(R.id.report_details_fragment, bundle)
-        }
+        recordsAdapter = VesselRecordsAdapter(
+            {
+                val bundle = bundleOf(KEY_REPORT_ID to it.report._id)
+                navigation.navigate(R.id.report_details_fragment, bundle)
+            },
+            activityViewModel.repository
+        )
 
         photosAdapter = VesselPhotosAdapter()
     }

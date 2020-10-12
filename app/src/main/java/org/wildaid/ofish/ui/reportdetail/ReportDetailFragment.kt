@@ -406,11 +406,13 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
 
         fragmentBinding.reportColorStatus.setSafetyColor(
             safetyColor,
-            R.dimen.safety_background_radius_big
+            R.dimen.safety_background_radius_big,
+            activityViewModel.repository.getDarkModeState()
         )
         fragmentBinding.reportRisksColor.setSafetyColor(
             safetyColor,
-            R.dimen.safety_background_radius_big
+            R.dimen.safety_background_radius_big,
+            activityViewModel.repository.getDarkModeState()
         )
 
         fragmentBinding.reportRiskBody.let {
