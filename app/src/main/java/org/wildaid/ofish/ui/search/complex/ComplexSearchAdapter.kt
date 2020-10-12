@@ -164,10 +164,10 @@ class ComplexSearchAdapter(itemListener: (SearchModel) -> Unit) :
         private fun bindImage(item: RecordSearchModel, context: Context) {
             item.reports.forEach { report ->
                 report.vessel?.attachments?.photoIDs?.firstOrNull()?.let {
-                    item.repository.getPhotoById(it).also { photo ->
+                    item.repository.getPhotoById(it)?.let { photo ->
                         Glide
                             .with(context)
-                            .load(photo?.getResourceForLoading())
+                            .load(photo.getResourceForLoading())
                             .transform(CenterCrop(), RoundedCorners(radiusInPixels))
                             .placeholder(R.drawable.ic_vessel_placeholder_2)
                             .into(binding.recordVesselImage)
