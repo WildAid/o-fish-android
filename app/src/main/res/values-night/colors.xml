@@ -36,8 +36,8 @@
     <color name="tabs_amber">#E17000</color>
     <color name="captain_background">#E7ECF1</color>
     <color name="record_second">#979797</color>
-    <color name="light_grey_background">#F7F7F7</color>
-    <color name="grey_text">#818181</color>
+    <color name="light_grey_background">#2C2C2E</color>
+    <color name="grey_text">#CBCBCB</color>
     <color name="search_record_background">#FFFFFF</color>
     <color name="status_bar_blue">#002548</color>
     <color name="search_icon_color">#8A000000</color>
