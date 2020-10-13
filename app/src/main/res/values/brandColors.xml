@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Component colors -->
+    <!-- https://mongodb.invisionapp.com/share/PCYZ6ZW7FR8#/screens/433591768_Color_Key_-_Light_Mode -->
+
+    <color name="brand_amber_lightest">#FFF9EB</color>
+    <color name="brand_amber_light">#FFECBC</color>
+    <color name="brand_amber">#FFBF22</color>
+    <color name="brand_amber_darkest">#614500</color>
+
+    <color name="brand_green_lightest">#EBF5EF</color>
+    <color name="brand_green_light">#DEEFE5</color>
+    <color name="brand_green">#00B34A</color>
+    <color name="brand_green_dark">#008537</color>
+    <color name="brand_green_darkest">#006128</color>
+
+    <color name="brand_red_lightest">#FCF2F2</color>
+    <color name="brand_red_light">#F6D4D4</color>
+    <color name="brand_red">#DE3A2E</color>
+    <color name="brand_red_dark">#CF2222</color>
+    <color name="brand_red_darkest">#891515</color>
+
+    <color name="brand_orange">#E17000</color>
+
+    <color name="brand_black">#000000</color>
+    <color name="brand_white">#FFFFFF</color>
+
+    <color name="brand_grey_1">#666666</color>
+    <color name="brand_grey_2">#696969</color>
+    <color name="brand_grey_3">#979797</color>
+    <color name="brand_grey_4">#B9B9B9</color>
+    <color name="brand_grey_5">#CBCBCB</color>
+    <color name="brand_grey_6">#DADADA</color>
+    <color name="brand_grey_7">#E6E6E6</color>
+    <color name="brand_grey_8">#F9FAFA</color>
+
+    <color name="brand_blue">#0A4074</color>
+    <color name="brand_blue_light">#849FB9</color>
+    <color name="brand_blue_lighter">#C2CFDC</color>
+    <color name="brand_blue_lightest">#E6EBF1</color>
+
+</resources>
