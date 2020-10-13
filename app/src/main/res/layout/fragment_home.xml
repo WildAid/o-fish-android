@@ -124,14 +124,14 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/latitude"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/colorFont" />
 
                 <TextView
                     android:id="@+id/home_latitude"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/colorFont"
                     tools:text="-0.0743200" />
             </LinearLayout>
 
@@ -150,14 +150,14 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/longitude"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/colorFont" />
 
                 <TextView
                     android:id="@+id/home_longitude"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/colorFont"
                     tools:text="-90.3034418" />
             </LinearLayout>
         </LinearLayout>
