@@ -77,8 +77,7 @@ class VesselRecordsAdapter(
                 if (value.name == safetyLevel) {
                     dataBinding.vesselSafetyLevel.setSafetyColor(
                         value,
-                        R.dimen.safety_background_radius_small,
-                        repository.getDarkModeState()
+                        R.dimen.safety_background_radius_small
                     )
                     break
                 }

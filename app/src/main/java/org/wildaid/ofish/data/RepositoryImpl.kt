@@ -222,12 +222,4 @@ class RepositoryImpl(
         val pictureId = getCurrentOfficer().pictureId
         return getPhotoById(pictureId)
     }
-
-    override fun saveDarkModeState(darkModeEnabled: Boolean) {
-        realmDataSource.saveDarkModeState(darkModeEnabled)
-    }
-
-    override fun getDarkModeState() = realmDataSource.getDarkModeState()
-
-    override fun initDarkModeState() = realmDataSource.initDarkModeState()
 }
