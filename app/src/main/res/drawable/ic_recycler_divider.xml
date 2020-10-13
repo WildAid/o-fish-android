@@ -4,5 +4,5 @@
     <size
         android:width="0.75dp"
         android:height="0.75dp" />
-    <solid android:color="@color/light_grey" />
+    <solid android:color="@color/recycler_view_divider" />
 </shape>
