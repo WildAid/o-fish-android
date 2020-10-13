@@ -11,12 +11,14 @@ import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import org.wildaid.ofish.R
+import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.SafetyColor
 import org.wildaid.ofish.databinding.ItemVesselRecordBinding
 import org.wildaid.ofish.ui.base.AdapterDiffCallback
 
 class VesselRecordsAdapter(
-    val onItemClick: (ReportItem) -> Unit
+    val onItemClick: (ReportItem) -> Unit,
+    val repository: Repository
 ) : RecyclerView.Adapter<VesselRecordsAdapter.RecordViewHolder>() {
     private val dataList: ArrayList<ReportItem> = ArrayList()
 
@@ -75,7 +77,8 @@ class VesselRecordsAdapter(
                 if (value.name == safetyLevel) {
                     dataBinding.vesselSafetyLevel.setSafetyColor(
                         value,
-                        R.dimen.safety_background_radius_small
+                        R.dimen.safety_background_radius_small,
+                        repository.getDarkModeState()
                     )
                     break
                 }

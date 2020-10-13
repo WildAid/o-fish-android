@@ -23,7 +23,7 @@
     </style>
 
     <style name="SmallTitle" parent="Widget.AppCompat.TextView">
-        <item name="android:textColor">@color/small_title_text</item>
+        <item name="android:textColor">@color/grey_1</item>
         <item name="android:textSize">12sp</item>
     </style>
 

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Component colors -->
+    <!-- https://mongodb.invisionapp.com/share/PCYZ6ZW7FR8#/screens/433591769_Color_Key_-_Dark_Mode -->
+
+    <color name="brand_amber">#FFD575</color>
+
+    <color name="brand_green_dark">#00B34A</color>
+    <color name="brand_green">#52D287</color>
+
+    <color name="brand_red_dark">#CF2222</color>
+    <color name="brand_red">#FF6666</color>
+
+    <color name="brand_orange">#F19438</color>
+
+    <color name="brand_black">#000000</color>
+    <color name="brand_black_2" tools:ignore="MissingDefaultResource">#1C1C1E</color>
+    <color name="brand_black_3" tools:ignore="MissingDefaultResource">#2C2C2E</color>
+    <color name="brand_black_4" tools:ignore="MissingDefaultResource">#38383A</color>
+    <color name="brand_black_5" tools:ignore="MissingDefaultResource">#48484B</color>
+    <color name="brand_white">#FFFFFF</color>
+
+    <color name="brand_grey_1" tools:ignore="MissingDefaultResource">#666666</color>
+    <color name="brand_grey_2" tools:ignore="MissingDefaultResource">#CBCBCB</color>
+    <color name="brand_grey_3" tools:ignore="MissingDefaultResource">#DADADA</color>
+
+    <color name="brand_blue_darkest" tools:ignore="MissingDefaultResource">#25323E</color>
+    <color name="brand_blue_dark" tools:ignore="MissingDefaultResource">#1E3C5B</color>
+    <color name="brand_blue">#3B78B6</color>
+    <color name="brand_blue_light">#C2CFDC</color>
+    <color name="brand_blue_lightest">#E6EBF1</color>
+
+</resources>

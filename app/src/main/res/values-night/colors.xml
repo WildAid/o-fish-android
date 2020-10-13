@@ -43,8 +43,13 @@
     <color name="search_icon_color">#8A000000</color>
     <color name="black_1">#000000</color>
     <color name="black_2">#1C1C1E</color>
+    <color name="black_4">#38383A</color>
     <color name="grey_1">#979797</color>
+    <color name="grey_3" tools:ignore="MissingDefaultResource">#DADADA</color>
     <color name="grey_8">#F9FAFA</color>
+    <color name="green_night" tools:ignore="MissingDefaultResource">#52D287</color>
+    <color name="red_night" tools:ignore="MissingDefaultResource">#FF6666</color>
+    <color name="amber_night" tools:ignore="MissingDefaultResource">#FFD575</color>
 
     <color name="selected_tab">#FFFFFF</color>
     <color name="text_input_hint">#979797</color>
@@ -60,10 +65,17 @@
     <color name="mtrl_textinput_hovered_box_stroke_color" tools:override="true">#FFFFFF</color>
     <color name="tab_bar">#000000</color>
 
-    <!-- BOARDING RECORD  -->
+    <color name="search_background">@color/black_1</color>
+    <color name="empty_result_image_background">@color/black_4</color>
+    <color name="vessel_placeholder_background">@color/black_4</color>
+    <color name="vessel_placeholder_foreground">@color/grey_3</color>
+    <color name="recycler_view_divider">@color/black_4</color>
+  
+      <!-- BOARDING RECORD  -->
     <color name="boarding_record_toolbar">@color/black_2</color>
     <color name="boarding_record_status_bar">@color/black_2</color>
     <color name="boarding_record_toolbar_text_color">@color/white</color>
     <color name="boarding_record_toolbar_icon_color">@color/white</color>
     <color name="boarding_record_details_color">@color/black_1</color>
+
 </resources>
