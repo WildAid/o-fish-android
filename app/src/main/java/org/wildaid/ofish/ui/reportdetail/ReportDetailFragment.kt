@@ -1,6 +1,7 @@
 package org.wildaid.ofish.ui.reportdetail
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -22,16 +23,51 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.android.synthetic.main.fragment_report_details.*
+import kotlinx.android.synthetic.main.fragment_report_details.boardVesselButton
+import kotlinx.android.synthetic.main.fragment_report_details.report_activity_container
+import kotlinx.android.synthetic.main.fragment_report_details.report_catch_container
+import kotlinx.android.synthetic.main.fragment_report_details.report_catch_title
+import kotlinx.android.synthetic.main.fragment_report_details.report_crew_container
+import kotlinx.android.synthetic.main.fragment_report_details.report_crew_title
+import kotlinx.android.synthetic.main.fragment_report_details.report_notes_container
+import kotlinx.android.synthetic.main.fragment_report_details.report_scroll_view
+import kotlinx.android.synthetic.main.fragment_report_details.report_toolbar
+import kotlinx.android.synthetic.main.fragment_report_details.report_violation_container
+import kotlinx.android.synthetic.main.fragment_report_details.report_violation_title
 import org.bson.types.ObjectId
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.SafetyColor
-import org.wildaid.ofish.data.report.*
-import org.wildaid.ofish.databinding.*
-import org.wildaid.ofish.ui.base.*
-import org.wildaid.ofish.ui.createreport.*
+import org.wildaid.ofish.data.report.AnnotatedNote
+import org.wildaid.ofish.data.report.Boat
+import org.wildaid.ofish.data.report.Catch
+import org.wildaid.ofish.data.report.CrewMember
+import org.wildaid.ofish.data.report.Delivery
+import org.wildaid.ofish.data.report.EMS
+import org.wildaid.ofish.data.report.Inspection
+import org.wildaid.ofish.data.report.Report
+import org.wildaid.ofish.data.report.SafetyLevel
+import org.wildaid.ofish.data.report.Violation
+import org.wildaid.ofish.databinding.FragmentReportDetailsBinding
+import org.wildaid.ofish.databinding.ItemReportActivityBinding
+import org.wildaid.ofish.databinding.ItemReportCatchBinding
+import org.wildaid.ofish.databinding.ItemReportCrewBinding
+import org.wildaid.ofish.databinding.ItemReportEmsBinding
+import org.wildaid.ofish.databinding.ItemReportViolationBinding
+import org.wildaid.ofish.databinding.ItemViewAttachmentBinding
+import org.wildaid.ofish.ui.base.DIALOG_CLICK_EVENT
+import org.wildaid.ofish.ui.base.DialogButton
+import org.wildaid.ofish.ui.base.DialogClickEvent
+import org.wildaid.ofish.ui.base.NestedScrollMapFragment
+import org.wildaid.ofish.ui.base.PHOTO_ID
+import org.wildaid.ofish.ui.base.PhotoItem
+import org.wildaid.ofish.ui.createreport.CreateReportBundle
+import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_ARGS
+import org.wildaid.ofish.ui.createreport.PrefillCrew
+import org.wildaid.ofish.ui.createreport.PrefillCrewMember
+import org.wildaid.ofish.ui.createreport.PrefillVessel
 import org.wildaid.ofish.ui.home.ASK_CHANGE_DUTY_DIALOG_ID
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
 import org.wildaid.ofish.ui.home.ZOOM_LEVEL
@@ -242,6 +278,14 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             map.isMyLocationEnabled = true
             map.addMarker(MarkerOptions().position(coordinates))
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, ZOOM_LEVEL))
+            val isNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+            if (isNightMode == Configuration.UI_MODE_NIGHT_YES) {
+                map.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                        activity?.applicationContext, R.raw.map_dark_mode
+                    )
+                )
+            }
         }
     }
 
