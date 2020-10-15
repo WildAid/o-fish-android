@@ -1,12 +1,16 @@
 package org.wildaid.ofish.ui.reportdetail
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -19,16 +23,51 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.android.synthetic.main.fragment_report_details.*
+import kotlinx.android.synthetic.main.fragment_report_details.boardVesselButton
+import kotlinx.android.synthetic.main.fragment_report_details.report_activity_container
+import kotlinx.android.synthetic.main.fragment_report_details.report_catch_container
+import kotlinx.android.synthetic.main.fragment_report_details.report_catch_title
+import kotlinx.android.synthetic.main.fragment_report_details.report_crew_container
+import kotlinx.android.synthetic.main.fragment_report_details.report_crew_title
+import kotlinx.android.synthetic.main.fragment_report_details.report_notes_container
+import kotlinx.android.synthetic.main.fragment_report_details.report_scroll_view
+import kotlinx.android.synthetic.main.fragment_report_details.report_toolbar
+import kotlinx.android.synthetic.main.fragment_report_details.report_violation_container
+import kotlinx.android.synthetic.main.fragment_report_details.report_violation_title
 import org.bson.types.ObjectId
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.SafetyColor
-import org.wildaid.ofish.data.report.*
-import org.wildaid.ofish.databinding.*
-import org.wildaid.ofish.ui.base.*
-import org.wildaid.ofish.ui.createreport.*
+import org.wildaid.ofish.data.report.AnnotatedNote
+import org.wildaid.ofish.data.report.Boat
+import org.wildaid.ofish.data.report.Catch
+import org.wildaid.ofish.data.report.CrewMember
+import org.wildaid.ofish.data.report.Delivery
+import org.wildaid.ofish.data.report.EMS
+import org.wildaid.ofish.data.report.Inspection
+import org.wildaid.ofish.data.report.Report
+import org.wildaid.ofish.data.report.SafetyLevel
+import org.wildaid.ofish.data.report.Violation
+import org.wildaid.ofish.databinding.FragmentReportDetailsBinding
+import org.wildaid.ofish.databinding.ItemReportActivityBinding
+import org.wildaid.ofish.databinding.ItemReportCatchBinding
+import org.wildaid.ofish.databinding.ItemReportCrewBinding
+import org.wildaid.ofish.databinding.ItemReportEmsBinding
+import org.wildaid.ofish.databinding.ItemReportViolationBinding
+import org.wildaid.ofish.databinding.ItemViewAttachmentBinding
+import org.wildaid.ofish.ui.base.DIALOG_CLICK_EVENT
+import org.wildaid.ofish.ui.base.DialogButton
+import org.wildaid.ofish.ui.base.DialogClickEvent
+import org.wildaid.ofish.ui.base.NestedScrollMapFragment
+import org.wildaid.ofish.ui.base.PHOTO_ID
+import org.wildaid.ofish.ui.base.PhotoItem
+import org.wildaid.ofish.ui.createreport.CreateReportBundle
+import org.wildaid.ofish.ui.createreport.KEY_CREATE_REPORT_ARGS
+import org.wildaid.ofish.ui.createreport.PrefillCrew
+import org.wildaid.ofish.ui.createreport.PrefillCrewMember
+import org.wildaid.ofish.ui.createreport.PrefillVessel
 import org.wildaid.ofish.ui.home.ASK_CHANGE_DUTY_DIALOG_ID
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
 import org.wildaid.ofish.ui.home.ZOOM_LEVEL
@@ -85,15 +124,34 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             report_scroll_view
         )
 
-        report_toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white)
         subscribeToDialogEvents()
 
         shouldShowBoardButton()
-        setToolbarTitle()
+        setUpToolbar()
     }
 
-    private fun setToolbarTitle() {
+    private fun setUpToolbar() {
         report_toolbar.title = additionalTitle
+        activity?.window?.statusBarColor = ContextCompat.getColor(report_toolbar.context, R.color.boarding_record_status_bar)
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+            activity?.window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
+        report_toolbar.setNavigationIcon(
+            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+                R.drawable.ic_arrow_back_grey
+            } else {
+                R.drawable.ic_arrow_back_white
+            }
+        )
+        report_toolbar.overflowIcon?.let {
+            DrawableCompat.setTint(
+                it,
+                ContextCompat.getColor(
+                    report_toolbar.context,
+                    R.color.boarding_record_toolbar_icon_color
+                )
+            )
+        }
     }
 
     private fun shouldShowBoardButton() {
@@ -145,6 +203,12 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_report_details, menu)
+        for (i in 0 until menu.size()){
+            val icon = menu.getItem(i)?.icon
+            icon?.let {
+                DrawableCompat.setTint(icon, ContextCompat.getColor(report_toolbar.context, R.color.boarding_record_toolbar_icon_color))
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -214,6 +278,14 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
             map.isMyLocationEnabled = true
             map.addMarker(MarkerOptions().position(coordinates))
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, ZOOM_LEVEL))
+            val isNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+            if (isNightMode == Configuration.UI_MODE_NIGHT_YES) {
+                map.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                        activity?.applicationContext, R.raw.map_dark_mode
+                    )
+                )
+            }
         }
     }
 

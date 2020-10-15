@@ -10,5 +10,5 @@
         android:id="@+id/menu_search_records"
         android:title="@string/find_records"
         android:icon="@drawable/ic_search_white"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 </menu>
