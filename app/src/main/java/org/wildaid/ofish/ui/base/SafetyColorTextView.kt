@@ -6,9 +6,9 @@ import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
+import androidx.appcompat.app.AppCompatDelegate
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.SafetyColor
-import org.wildaid.ofish.data.report.DarkMode
 
 class SafetyColorTextView @JvmOverloads constructor(
     context: Context,
@@ -16,8 +16,9 @@ class SafetyColorTextView @JvmOverloads constructor(
     defStyle: Int = 0
 ) : androidx.appcompat.widget.AppCompatTextView(context, attrs, defStyle) {
 
-    fun setSafetyColor(safetyColor: SafetyColor, @DimenRes radiusRes: Int, darkMode: DarkMode?) {
-        if (darkMode?.enabled == false) {
+    fun setSafetyColor(safetyColor: SafetyColor, @DimenRes radiusRes: Int) {
+        val isDarkModeEnabled = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+        if (!isDarkModeEnabled) {
             setSafetyColorForLightMode(safetyColor, radiusRes)
         } else {
             setSafetyColorForDarkMode(safetyColor, radiusRes)

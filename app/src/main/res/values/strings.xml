@@ -229,4 +229,8 @@
     <string name="error_date_in_future">Please set correct date</string>
     <string name="risk_no_notes_or_photos">No Notes or Photos for Risk</string>
     <string name="invalid_email_or_password">Invalid email or password</string>
+    
+    <!--    Dark mode -->
+    <string name="DARK_MODE_STATE">darkModeState</string>
+    <string name="DARK_MODE_ENABLED">darkModeEnabled</string>
 </resources>
