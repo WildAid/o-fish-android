@@ -74,6 +74,7 @@
                         android:id="@+id/image_user"
                         android:layout_width="52dp"
                         android:layout_height="52dp"
+                        android:contentDescription="@string/profile_toolbar_title"
                         android:onClick="@{()-> fragmentViewModel.showUserStatus()}"
                         android:padding="8dp"
                         android:scaleType="centerCrop"
