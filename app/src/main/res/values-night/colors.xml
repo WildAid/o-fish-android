@@ -7,7 +7,7 @@
 
     <color name="background_card">#1C1C1E</color>
     <color name="background_screen_with_cards">#000000</color>
-    <color name="map_coordinates_background">#B4FFFFFF</color>
+    <color name="map_coordinates_background">#B41C1C1E</color>
 
     <color name="divider">#CCC7C7</color>
     <color name="grey">#696969</color>
@@ -38,9 +38,9 @@
     <color name="record_second">#979797</color>
     <color name="light_grey_background">#2C2C2E</color>
     <color name="grey_text">#CBCBCB</color>
-    <color name="search_record_background">#FFFFFF</color>
+    <color name="search_record_background">#1C1C1E</color>
     <color name="status_bar_blue">#002548</color>
-    <color name="search_icon_color">#8A000000</color>
+    <color name="search_icon_color">#979797</color>
     <color name="black_1">#000000</color>
     <color name="black_2">#1C1C1E</color>
     <color name="black_4">#38383A</color>
