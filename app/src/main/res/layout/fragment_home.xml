@@ -178,6 +178,7 @@
             android:layout_height="70dp"
             android:layout_marginBottom="80dp"
             android:background="@drawable/bg_for_vessel_button"
+            android:contentDescription="@string/board_vessel"
             android:onClick="@{() -> fragmentViewModel.boardVessel()}"
             android:src="@drawable/ic_board_vessel"
             app:layout_constraintBottom_toBottomOf="parent"
