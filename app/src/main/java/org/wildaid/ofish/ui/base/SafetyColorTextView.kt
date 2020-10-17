@@ -88,7 +88,7 @@ class SafetyColorTextView @JvmOverloads constructor(
         gd.shape = GradientDrawable.RECTANGLE
         gd.setStroke(4, resources.getColor(colorRes, null))
         gd.cornerRadius = resources.getDimension(radiusRes)
-        gd.setColor(resources.getColor(R.color.black_1, null))
+        gd.setColor(resources.getColor(R.color.black_2, null))
         return gd
     }
 }
