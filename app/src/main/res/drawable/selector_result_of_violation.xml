@@ -29,7 +29,7 @@
                     <stroke
                         android:width="1dp"
                         android:color="@color/main_blue" />
-                    <solid android:color="@android:color/white" />
+                    <solid android:color="@color/tab_bar" />
                 </shape>
             </item>
         </selector>
