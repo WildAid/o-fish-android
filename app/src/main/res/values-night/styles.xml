@@ -78,4 +78,9 @@
     <style name="TextInputLayoutHintStyle">
         <item name="android:textSize">16sp</item>
     </style>
+
+    <style name="VesselInfoToolbar" parent="AppTheme">
+        <item name="actionMenuTextColor">@color/vessel_info_toolbar_text_color</item>
+        <item name="android:actionMenuTextColor">@color/vessel_info_toolbar_text_color</item>
+    </style>
 </resources>

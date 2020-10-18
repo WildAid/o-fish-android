@@ -83,5 +83,9 @@
         <item name="boxStrokeColor">@color/header_color</item>
     </style>
 
+    <style name="VesselInfoToolbar" parent="AppTheme">
+        <item name="actionMenuTextColor">@color/vessel_info_toolbar_text_color</item>
+        <item name="android:actionMenuTextColor">@color/vessel_info_toolbar_text_color</item>
+    </style>
 
 </resources>

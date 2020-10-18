@@ -10,6 +10,9 @@ import android.view.View
 import android.widget.CheckedTextView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -301,8 +304,7 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initUI(report: Report, reportPhotos: MutableList<PhotoItem>) {
-        (requireActivity() as AppCompatActivity).setSupportActionBar(tabs_toolbar)
-        tabs_toolbar.setNavigationIcon(R.drawable.ic_close_white)
+        setUpToolbar()
 
         fragmentFactory = TabsFragmentFactory(requireContext(), this, report, reportPhotos)
         tabsFragmentAdapter = TabsFragmentAdapter(fragmentFactory, childFragmentManager, lifecycle)
@@ -348,6 +350,19 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
                             currentReportFragment.isAllRequiredFieldsNotEmpty()
                         )
             }
+        }
+    }
+
+    private fun setUpToolbar() {
+        (requireActivity() as AppCompatActivity).setSupportActionBar(tabs_toolbar)
+        activity?.window?.statusBarColor = ContextCompat.getColor(tabs_toolbar.context, R.color.vessel_info_status_bar)
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+            activity?.window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+            tabs_toolbar.setNavigationIcon(R.drawable.ic_close_grey)
+        } else {
+            tabs_toolbar.setNavigationIcon(R.drawable.ic_close_white)
         }
     }
 }

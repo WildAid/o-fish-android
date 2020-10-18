@@ -76,4 +76,10 @@
     <color name="boarding_record_toolbar_text_color">@color/black_1</color>
     <color name="boarding_record_toolbar_icon_color">@color/grey</color>
     <color name="boarding_record_details_color">@color/grey_8</color>
+
+    <!-- VESSEL INFO -->
+    <color name="vessel_info_toolbar">#FFFFFF</color>
+    <color name="vessel_info_status_bar">#FFFFFF</color>
+    <color name="vessel_info_toolbar_text_color">@color/black_1</color>
+    <color name="vessel_info_toolbar_icon_color">@color/grey</color>
 </resources>

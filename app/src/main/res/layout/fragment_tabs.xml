@@ -15,10 +15,11 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tabs_toolbar"
             android:layout_width="match_parent"
-            android:background="@color/colorPrimaryDark"
-            app:titleTextColor="@color/white"
+            android:background="@color/vessel_info_toolbar"
+            app:titleTextColor="@color/vessel_info_toolbar_text_color"
             app:title="@string/new_boarding"
-            app:subtitleTextColor="@color/white"
+            android:theme="@style/VesselInfoToolbar"
+            app:subtitleTextColor="@color/vessel_info_toolbar_text_color"
             android:layout_height="wrap_content" />
 
         <com.google.android.material.tabs.TabLayout
