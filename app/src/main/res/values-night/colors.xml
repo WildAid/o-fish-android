@@ -83,5 +83,5 @@
     <color name="vessel_info_status_bar">@color/black_2</color>
     <color name="vessel_info_toolbar_text_color">@color/white</color>
     <color name="vessel_info_toolbar_icon_color">@color/white</color>
-
+    <color name="vessel_text_hint_color">@color/grey</color>
 </resources>

@@ -78,6 +78,7 @@
                         app:layout_constraintTop_toBottomOf="@id/vessel_view_info">
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:theme="@style/VesselInfoTextInputLayoutAppearance"
                             android:id="@+id/vessel_name_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -90,6 +91,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="@string/vessel_name"
+                                android:textCursorDrawable="@null"
                                 android:imeOptions="actionNext"
                                 android:nextFocusDown="@id/vessel_permit_number"
                                 android:singleLine="true"
@@ -98,6 +100,7 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:theme="@style/VesselInfoTextInputLayoutAppearance"
                             android:id="@+id/vessel_permit_number_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -111,6 +114,7 @@
                                 android:layout_height="wrap_content"
                                 android:hint="@string/permit_number"
                                 android:imeOptions="actionNext"
+                                android:textCursorDrawable="@null"
                                 android:nextFocusDown="@id/vessel_home_port"
                                 android:singleLine="true"
                                 android:inputType="textCapCharacters"
@@ -119,6 +123,7 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:theme="@style/VesselInfoTextInputLayoutAppearance"
                             android:id="@+id/vessel_home_port_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -132,6 +137,7 @@
                                 android:layout_height="wrap_content"
                                 android:hint="@string/home_port"
                                 android:imeOptions="actionNext"
+                                android:textCursorDrawable="@null"
                                 android:nextFocusDown="@id/vessel_flag_state"
                                 android:singleLine="true"
                                 android:text="@={viewModel.vesselItemLiveData.vessel.homePort}"
@@ -139,6 +145,7 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:theme="@style/VesselInfoTextInputLayoutAppearance"
                             android:id="@+id/vessel_flag_state_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -152,12 +159,14 @@
                                 android:layout_height="wrap_content"
                                 android:hint="@string/flag_state"
                                 android:imeOptions="actionDone"
+                                android:textCursorDrawable="@null"
                                 android:singleLine="true"
                                 android:text="@{viewModel.vesselItemLiveData.vessel.nationality()}"
                                 app:onFocusChangeListener="@{viewModel.fieldFocusListener}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:theme="@style/VesselInfoTextInputLayoutAppearance"
                             android:id="@+id/vessel_note_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -250,6 +259,7 @@
                         app:layout_constraintTop_toBottomOf="@id/vessel_last_delivery_title">
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:theme="@style/VesselInfoTextInputLayoutAppearance"
                             android:id="@+id/delivery_date_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -270,6 +280,7 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:theme="@style/VesselInfoTextInputLayoutAppearance"
                             android:id="@+id/delivery_business_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -284,16 +295,18 @@
                                 android:layout_height="wrap_content"
                                 android:hint="@string/business"
                                 android:imeOptions="actionNext"
+                                android:textCursorDrawable="@null"
                                 android:nextFocusDown="@id/delivery_location"
                                 android:text="@={viewModel.deliveryItemItemLiveData.lastDelivery.business}"
                                 app:onFocusChangeListener="@{viewModel.fieldFocusListener}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:theme="@style/VesselInfoTextInputLayoutAppearance"
                             android:id="@+id/delivery_location_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
+
                             app:endIconContentDescription="@string/location"
                             app:errorEnabled="true"
                             app:layout_constraintTop_toBottomOf="@id/delivery_business_layout">
@@ -304,11 +317,13 @@
                                 android:layout_height="wrap_content"
                                 android:hint="@string/location"
                                 android:imeOptions="actionDone"
+                                android:textCursorDrawable="@null"
                                 android:text="@={viewModel.deliveryItemItemLiveData.lastDelivery.location}"
                                 app:onFocusChangeListener="@{viewModel.fieldFocusListener}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:theme="@style/VesselInfoTextInputLayoutAppearance"
                             android:id="@+id/delivery_note_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -370,13 +385,15 @@
                     android:id="@+id/ems_add_footer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
+                    android:background="@drawable/round_corners_box"
                     android:drawableStart="@drawable/ic_add"
                     android:drawablePadding="4dp"
                     android:gravity="center"
                     android:onClick="@{() -> viewModel.addEms()}"
-                    android:paddingTop="24dp"
-                    android:paddingBottom="24dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
                     android:text="@string/add_ems"
                     android:textColor="@color/main_blue"
                     android:textSize="@dimen/add_remove_text_size"
