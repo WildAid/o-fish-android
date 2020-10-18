@@ -73,9 +73,8 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
             fetchReports()
 
             val result = mutableListOf<SearchModel>()
-            result.add(TextViewSearchModel(R.string.recently_boarded))
-
             if (isAddAvailable) result.add(addSearchModel)
+            if (cachedAllReports.isNotEmpty()) result.add(TextViewSearchModel(R.string.recently_boarded))
 
             result.addAll(cachedAllReports
                 .asSequence()
