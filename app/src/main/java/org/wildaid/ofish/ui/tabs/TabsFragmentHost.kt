@@ -303,6 +303,9 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
     private fun initUI(report: Report, reportPhotos: MutableList<PhotoItem>) {
         (requireActivity() as AppCompatActivity).setSupportActionBar(tabs_toolbar)
         tabs_toolbar.setNavigationIcon(R.drawable.ic_close_white)
+        tabs_toolbar.title = getString(
+            if (report.draft == true) R.string.edit_boarding else R.string.new_boarding
+        )
 
         fragmentFactory = TabsFragmentFactory(requireContext(), this, report, reportPhotos)
         tabsFragmentAdapter = TabsFragmentAdapter(fragmentFactory, childFragmentManager, lifecycle)

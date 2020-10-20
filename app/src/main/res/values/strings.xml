@@ -186,6 +186,7 @@
 
     <!--  Vessel Search  -->
     <string name="new_boarding">New Boarding</string>
+    <string name="edit_boarding">Draft Boarding</string>
     <string name="add_new_vessel">Add New Vessel</string>
     <string name="duty_report">Duty Report</string>
 
