@@ -15,7 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/selector_adapter_item"
+        android:background="@color/tab_bar"
         android:orientation="vertical"
         android:padding="16dp">
 
@@ -35,7 +35,7 @@
             android:paddingStart="8dp"
             android:paddingEnd="16dp"
             android:text="@{holder.item.value.name}"
-            android:textColor="@android:color/black"
+            android:textColor="@color/header_color"
             android:textSize="17sp"
             app:layout_constraintLeft_toRightOf="@id/image_member"
             app:layout_constraintTop_toTopOf="@id/image_member"
@@ -48,7 +48,7 @@
             android:paddingStart="8dp"
             android:paddingEnd="16dp"
             android:text="@{@string/license_number(holder.item.value.license)}"
-            android:textColor="@android:color/black"
+            android:textColor="@color/header_color"
             android:textSize="13sp"
             app:layout_constraintLeft_toRightOf="@id/image_member"
             app:layout_constraintTop_toBottomOf="@id/item_crew_name"

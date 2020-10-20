@@ -63,7 +63,7 @@
             android:layout_height="@dimen/edit_icon_size"
             android:onClick="@{() -> holder.onViolationEditClicked()}"
             android:src="@drawable/ic_edit"
-            android:tint="@color/dark_grey"
+            android:tint="@color/attachment_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -73,7 +73,7 @@
             android:layout_height="@dimen/add_attachment_icon_size"
             android:onClick="@{() -> holder.onViolationAddAttachmentClicked()}"
             android:src="@drawable/ic_add_attachment"
-            android:tint="@color/dark_grey"
+            android:tint="@color/attachment_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
