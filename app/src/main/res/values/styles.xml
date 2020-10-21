@@ -53,10 +53,6 @@
         <item name="cornerSize">50%</item>
     </style>
 
-    <style name="SwitchTheme" parent="Theme.AppCompat.Light">
-        <item name="android:colorControlActivated"></item>
-    </style>
-
     <style name="TextAppearance.App.CollapsingToolbar.Expanded" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="android:textColor">@android:color/black</item>
         <item name="android:textSize">20sp</item>
