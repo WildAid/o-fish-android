@@ -1,6 +1,7 @@
 package org.wildaid.ofish.ui.home
 
 import android.app.AlarmManager
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.SearchManager
 import android.content.Context
@@ -41,6 +42,7 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
             }
         })
         activityViewModel.timerLiveData.observe(this, EventObserver(::setOrCancelTimer))
+        clearAllNotifications()
     }
 
     private fun navigateToPatrolSummary() {
@@ -109,5 +111,10 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
         } else {
             alarmManager?.cancel(alarmIntent)
         }
+    }
+
+    private fun clearAllNotifications() {
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancelAll()
     }
 }

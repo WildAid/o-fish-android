@@ -364,5 +364,8 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
         } else {
             tabs_toolbar.setNavigationIcon(R.drawable.ic_close_white)
         }
+        tabs_toolbar.title = getString(
+            if (report.draft == true) R.string.edit_boarding else R.string.new_boarding
+        )
     }
 }
