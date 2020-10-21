@@ -304,7 +304,7 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initUI(report: Report, reportPhotos: MutableList<PhotoItem>) {
-        setUpToolbar()
+        setUpToolbar(report)
 
         fragmentFactory = TabsFragmentFactory(requireContext(), this, report, reportPhotos)
         tabsFragmentAdapter = TabsFragmentAdapter(fragmentFactory, childFragmentManager, lifecycle)
@@ -353,7 +353,7 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
         }
     }
 
-    private fun setUpToolbar() {
+    private fun setUpToolbar(report: Report) {
         (requireActivity() as AppCompatActivity).setSupportActionBar(tabs_toolbar)
         activity?.window?.statusBarColor = ContextCompat.getColor(tabs_toolbar.context, R.color.status_bar)
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
