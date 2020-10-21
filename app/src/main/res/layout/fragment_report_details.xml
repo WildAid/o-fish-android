@@ -26,12 +26,12 @@
                 android:id="@+id/report_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/boarding_record_toolbar"
-                app:subtitleTextColor="@color/boarding_record_toolbar_text_color"
+                android:background="@color/toolbar"
+                app:subtitleTextColor="@color/colorFont"
                 app:title="@string/boarding_record"
                 android:elevation="0dp"
                 app:navigationIcon="@drawable/ic_arrow_back_white"
-                app:titleTextColor="@color/boarding_record_toolbar_text_color" />
+                app:titleTextColor="@color/colorFont" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
@@ -72,7 +72,7 @@
                         android:id="@+id/report_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/boarding_record_toolbar_text_color"
+                        android:textColor="@color/colorFont"
                         android:textSize="17sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/report_date"

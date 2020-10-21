@@ -355,7 +355,7 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
 
     private fun setUpToolbar() {
         (requireActivity() as AppCompatActivity).setSupportActionBar(tabs_toolbar)
-        activity?.window?.statusBarColor = ContextCompat.getColor(tabs_toolbar.context, R.color.vessel_info_status_bar)
+        activity?.window?.statusBarColor = ContextCompat.getColor(tabs_toolbar.context, R.color.status_bar)
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
             activity?.window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }

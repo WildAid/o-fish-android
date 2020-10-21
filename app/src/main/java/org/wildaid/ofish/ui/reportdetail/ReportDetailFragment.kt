@@ -132,7 +132,7 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
 
     private fun setUpToolbar() {
         report_toolbar.title = additionalTitle
-        activity?.window?.statusBarColor = ContextCompat.getColor(report_toolbar.context, R.color.boarding_record_status_bar)
+        activity?.window?.statusBarColor = ContextCompat.getColor(report_toolbar.context, R.color.status_bar)
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
             activity?.window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
@@ -148,7 +148,7 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
                 it,
                 ContextCompat.getColor(
                     report_toolbar.context,
-                    R.color.boarding_record_toolbar_icon_color
+                    R.color.toolbar_icon_color
                 )
             )
         }
@@ -206,7 +206,7 @@ class ReportDetailFragment : Fragment(R.layout.fragment_report_details) {
         for (i in 0 until menu.size()){
             val icon = menu.getItem(i)?.icon
             icon?.let {
-                DrawableCompat.setTint(icon, ContextCompat.getColor(report_toolbar.context, R.color.boarding_record_toolbar_icon_color))
+                DrawableCompat.setTint(icon, ContextCompat.getColor(report_toolbar.context, R.color.toolbar_icon_color))
             }
         }
     }
