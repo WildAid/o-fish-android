@@ -17,6 +17,7 @@
     <color name="tab_inactive">#979797</color>
     <color name="white">#FFFFFF</color>
     <color name="green">#008537</color>
+    <color name="green_dark">#00B34A</color>
     <color name="light_green">#ECF4EF</color>
     <color name="green_background">#DEEFE5</color>
     <color name="green_text">#006128</color>
