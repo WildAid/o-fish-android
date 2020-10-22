@@ -9,6 +9,7 @@
         <item name="actionOverflowButtonStyle">@style/OverflowButton</item>
         <item name="searchViewStyle">@style/ToolbarSearchViewStyle</item>
         <item name="textInputStyle">@style/TextInputLayoutStyle</item>
+        <item name="colorControlActivated">@color/green_dark</item>
     </style>
 
     <style name="OverflowButton" parent="Widget.MaterialComponents.PopupMenu.Overflow">
