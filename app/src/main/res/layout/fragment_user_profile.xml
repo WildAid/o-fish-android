@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorAppBar"
             app:navigationIcon="@drawable/ic_close_white"
+            app:navigationContentDescription="@string/profile_toolbar_close"
             app:subtitleTextColor="@color/white"
             app:title="@string/profile_toolbar_title"
             app:titleTextColor="@color/white" />
