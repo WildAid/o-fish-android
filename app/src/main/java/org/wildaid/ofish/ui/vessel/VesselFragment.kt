@@ -57,7 +57,7 @@ class VesselFragment : BaseReportFragment(R.layout.fragment_vessel) {
             val text = it.editText?.text
             if (it.visibility == View.VISIBLE && text.isNullOrBlank()) {
                 result = false
-                it.errorIconDrawable = resources.getDrawable(R.drawable.ic_error_outline, null)
+                showEmptyFieldWarning(it)
             }
         }
         isFieldCheckPassed = true

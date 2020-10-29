@@ -2,11 +2,14 @@ package org.wildaid.ofish.ui.base
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.LayoutRes
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -65,7 +68,7 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
         val text = field.editText?.text
         if (field.visibility == View.VISIBLE && text.isNullOrBlank()) {
             result = false
-            field.errorIconDrawable = resources.getDrawable(R.drawable.ic_error_outline, null)
+            showEmptyFieldWarning(field)
         }
         return result
     }
@@ -154,7 +157,7 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
         ).apply {
             animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
             setAction(R.string.continue_action) { onNextListener.onNextClicked() }
-            setActionTextColor(resources.getColor(R.color.tabs_amber, null))
+            setActionTextColor(resources.getColor(R.color.orange, null))
         }.show()
     }
 
@@ -163,6 +166,19 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
         val extra = FragmentNavigatorExtras(view to view.transitionName)
         navigation.navigate(R.id.action_tabsFragment_to_fullImageFragment, bundle, null, extra)
     }
+
+    protected fun showEmptyFieldWarning(inputLayout: TextInputLayout) {
+        inputLayout.errorIconDrawable = resources.getDrawable(R.drawable.ic_error_filled, null)
+
+        inputLayout.defaultHintTextColor =  ContextCompat.getColorStateList(requireContext(), R.color.orange)
+        inputLayout.hintTextColor =  ContextCompat.getColorStateList(requireContext(), R.color.text_input_hint)
+
+        if (inputLayout.editText != null) {
+            val colorStateList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.orange))
+            ViewCompat.setBackgroundTintList(inputLayout.editText!!, colorStateList)
+        }
+    }
+
 }
 
 interface OnNextClickedListener {

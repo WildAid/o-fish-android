@@ -239,7 +239,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="15dp"
                                 android:text="@{@string/formatted_draft(viewmodel.getDraftCountForCurrentDuty())}"
-                                android:textColor="@color/tabs_amber"
+                                android:textColor="@color/orange"
                                 android:textSize="17sp"
                                 android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="holder"
             type="org.wildaid.ofish.ui.crew.CrewAdapter.CrewMemberViewHolder" />
@@ -83,9 +82,9 @@
             android:id="@+id/crew_member_edit_name_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:hint="@{holder.nameHint}"
             app:endIconContentDescription="@string/crew_member_name"
-            android:layout_marginTop="12dp"
             app:endIconMode="custom"
             app:errorEnabled="true"
             app:layout_constraintTop_toBottomOf="@id/crew_member_title">
@@ -94,20 +93,20 @@
                 android:id="@+id/crew_member_edit_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textCursorDrawable="@null"
                 android:imeOptions="actionNext"
                 android:nextFocusDown="@id/crew_member_edit_license_number"
                 android:onTextChanged="@{(text, start, before, count) -> holder.onNameChanged(text)}"
                 android:singleLine="true"
-                android:text="@={holder.currentItem.crewMember.name}" />
+                android:text="@={holder.currentItem.crewMember.name}"
+                android:textCursorDrawable="@null" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/crew_member_edit_license_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:endIconContentDescription="@string/crew_member_name"
             android:layout_marginTop="12dp"
+            app:endIconContentDescription="@string/crew_member_name"
             app:endIconMode="custom"
             app:errorEnabled="true"
             app:layout_constraintTop_toBottomOf="@+id/crew_member_edit_name_layout">
@@ -116,21 +115,21 @@
                 android:id="@+id/crew_member_edit_license_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textCursorDrawable="@null"
                 android:hint="@string/crew_member_license_number"
                 android:imeOptions="actionNext"
                 android:onTextChanged="@{(text, start, before, count) -> holder.onLicenseChanged(text)}"
                 android:singleLine="true"
-                android:text="@={holder.currentItem.crewMember.license}" />
+                android:text="@={holder.currentItem.crewMember.license}"
+                android:textCursorDrawable="@null" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/crew_member_edit_note_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             app:endIconContentDescription="@string/note"
             app:endIconDrawable="@drawable/ic_remove"
-            android:layout_marginTop="12dp"
             app:endIconMode="custom"
             app:endIconTint="@null"
             app:layout_constraintTop_toBottomOf="@+id/crew_member_edit_license_layout">
@@ -139,13 +138,13 @@
                 android:id="@+id/crew_member_edit_note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textCursorDrawable="@null"
                 android:hint="@string/note"
                 android:imeOptions="actionDone"
                 android:onTextChanged="@{(text, start, before, count) -> holder.onNoteChanged(text)}"
                 android:singleLine="true"
                 android:text="@={holder.currentItem.attachments.note}"
-                app:focused="@{holder.currentItem.attachments.isNoteFocused().contentIfNotHandled}"/>
+                android:textCursorDrawable="@null"
+                app:focused="@{holder.currentItem.attachments.isNoteFocused().contentIfNotHandled}" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
