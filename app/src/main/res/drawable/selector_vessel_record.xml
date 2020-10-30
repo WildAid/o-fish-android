@@ -7,7 +7,7 @@
                 android:drawable="@android:color/darker_gray"
                 android:state_pressed="true" />
 
-            <item android:drawable="@color/search_background" />
+            <item android:drawable="@color/background_card" />
         </selector>
     </item>
 </ripple>

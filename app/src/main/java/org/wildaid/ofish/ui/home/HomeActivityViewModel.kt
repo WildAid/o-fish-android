@@ -1,7 +1,9 @@
 package org.wildaid.ofish.ui.home
 
 import android.app.Application
-import android.content.Context.MODE_PRIVATE
+import android.content.Context
+import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.AndroidViewModel
@@ -76,11 +78,11 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
     fun onDarkModeStateChange() {
         if(_darkModeLiveData.value!!) {
             _darkModeLiveData.value = false
-            repository.saveDarkModeState(false)
+            saveDarkModeState(false)
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         } else {
             _darkModeLiveData.value = true
-            repository.saveDarkModeState(true)
+            saveDarkModeState(true)
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
     }
@@ -109,12 +111,21 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
     }
 
     private fun updateDarkModeStatus() {
-        _darkModeLiveData.value = repository.getDarkModeState()?.enabled
-        if(_darkModeLiveData.value!!)
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        else
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        _darkModeLiveData.value = getDarkModeStatus()
+    }
 
+    private fun getDarkModeStatus(): Boolean {
+        val defaultNightMode: Int = AppCompatDelegate.getDefaultNightMode()
+        return defaultNightMode == AppCompatDelegate.MODE_NIGHT_YES
+    }
+
+    private fun saveDarkModeState(updatedState: Boolean) {
+        val sharedPref: SharedPreferences = getApplication<Application>()
+            .getSharedPreferences(getString(R.string.DARK_MODE_STATE), Context.MODE_PRIVATE) ?: return
+        with (sharedPref.edit()) {
+            putBoolean(getString(R.string.DARK_MODE_ENABLED), updatedState)
+            apply()
+        }
     }
 
     sealed class HomeActivityUserEvent {

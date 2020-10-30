@@ -79,10 +79,4 @@ interface Repository {
     fun updateCurrentOfficerPhoto(uri: Uri)
 
     fun getCurrentOfficerPhoto(): Photo?
-
-    fun saveDarkModeState(darkModeEnabled: Boolean)
-
-    fun getDarkModeState(): DarkMode?
-
-    fun initDarkModeState()
 }

@@ -4,8 +4,11 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.SharedPreferences
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ProcessLifecycleOwner
 import org.wildaid.ofish.R
+import org.wildaid.ofish.util.getString
 
 const val OFISH_PROVIDER_SUFFIX = ".fileprovider"
 const val CHANNEL_ID = "o_fish_channel"
@@ -21,6 +24,7 @@ class OFishApplication : Application() {
         super.onCreate()
         createNotificationChannel(this)
         setupLifecycleListener()
+        setupDarkMode(this)
     }
 
     private fun createNotificationChannel(context: Context) {
@@ -37,5 +41,14 @@ class OFishApplication : Application() {
 
     private fun setupLifecycleListener() {
         ProcessLifecycleOwner.get().lifecycle.addObserver(appLifecycleListener)
+    }
+
+    private fun setupDarkMode(context: Context) {
+        val sharedPref: SharedPreferences = context.getSharedPreferences(getString(R.string.DARK_MODE_STATE), Context.MODE_PRIVATE)
+        val isDarkModeEnabled = sharedPref.getBoolean(getString(R.string.DARK_MODE_ENABLED), false)
+        if(isDarkModeEnabled)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        else
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
 }

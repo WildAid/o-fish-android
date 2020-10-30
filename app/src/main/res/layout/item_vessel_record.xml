@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/selector_adapter_item"
+        android:background="@drawable/selector_vessel_record"
         android:paddingTop="8dp"
         android:padding="12dp"
         android:paddingBottom="16dp">
@@ -38,7 +38,7 @@
             android:ellipsize="end"
             android:fontFamily="sans-serif-medium"
             android:singleLine="true"
-            android:textColor="@android:color/black"
+            android:textColor="@color/header_color"
             android:textSize="17sp"
             app:layout_constraintStart_toEndOf="@id/vessel_record_map_container"
             app:layout_constraintTop_toTopOf="@id/vessel_record_map_container"

@@ -1,0 +1,226 @@
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!--    Vessel  -->
+    <string name="prefill_vessel_dialog_title">¿Pre-ingresar la informacion del barco desde la ultima inspección?</string>
+    <string name="prefill_vessel_dialog_description">Aún podrá editar campos</string>
+    <string name="prefill_vessel_dialog_yes">Prellenado</string>
+    <string name="vessel_name">Nombre del barco</string>
+    <string name="vessel">Barco</string>
+    <string name="vessel_information">Información del barco</string>
+    <string name="permit_number">Número de permiso</string>
+    <string name="home_port">Puerto de base</string>
+    <string name="last_delivery">Última entrega</string>
+    <string name="date">Fecha</string>
+    <string name="yes">si</string>
+    <string name="business">Empresa</string>
+    <string name="add_ems">Añadir EMS</string>
+    <string name="location">Ubicación</string>
+    <string name="remove_ems">Quita SME</string>
+    <string name="flag_state">Estado del bandera</string>
+    <string name="electronic_monitoring_system">Sistema de Monitoreo Electrónico</string>
+    <string name="ems_type">Tipo SME</string>
+    <string name="registry_number">Número de registro</string>
+    <string name="crew_next">Tripulación\t\t\u279C</string>
+    <string name="select_attachment_dialog_title">Por favor seleccione un archivo adjunto</string>
+    <string name="select_attachment_dialog_message">Puede agregar una nota o una foto como archivo adjunto</string>
+    <string name="select_attachment_dialog_note">Nota</string>
+    <string name="select_attachment_dialog_photo">Foto</string>
+    <string name="new_business">Nueva negocio</string>
+    <string name="photos">Fotos:</string>
+    <string name="remove_note">Quitar la Nota</string>
+
+    <!--  Report  -->
+    <string name="menu_save_report">Guardar</string>
+    <string name="menu_cancel_report">Cancelar Inspección</string>
+
+    <string name="skip_sections_dialog_title">¿Saltar las siguientes secciones?</string>
+    <string name="skip_sections_dialog_yes">Saltar</string>
+
+    <!--Flag State-->
+    <string name="flag_state_title">Abanderamiento</string>
+
+    <!--  Crew member strings  -->
+    <string name="crew">Tripulación</string>
+    <string name="crew_member_name">Nombre del Tripulante</string>
+    <string name="crew_member_license_number">Número de licencia</string>
+    <string name="crew_member_add_member">Agregar tripulante</string>
+    <string name="crew_member_remove_member">Quitar %s</string>
+    <string name="activity_next">Actividad\t\t\u279C</string>
+    <string name="license_number">Número de licencia %s</string>
+
+    <!-- Basic Information -->
+    <string name="date_time">Fecha y Hora</string>
+    <string name="basic_information">Información Básica</string>
+    <string name="time">Hora</string>
+    <string name="latitude">Latitud</string>
+    <string name="longitude">Longitud</string>
+    <string name="vessel_next">Barco\t\t\u279C</string>
+
+    <!--  Activities  -->
+    <string name="activity">Actividad</string>
+    <string name="fishery">Pesquería</string>
+    <string name="fishery_species">Especies</string>
+    <string name="gear">Arte de pesca</string>
+    <string name="note">Nota</string>
+    <string name="catch_next">Especie de captura\t\t\u279C</string>
+    <string name="no_catch">Sin Captura</string>
+
+    <!--    Violation -->
+    <string name="violation">Infracción</string>
+    <string name="violation_add_violation">Agregar infracción</string>
+    <string name="violation_seizures">Incautación</string>
+    <string name="violation_description">Disposición de la infracción</string>
+    <string name="result_of_violation">Resultado de la Infracción</string>
+    <string name="warning">Advertencia</string>
+    <string name="citation">Multa</string>
+    <string name="remove_violation">Remover infracción %1$s</string>
+    <string name="risk_next">Riesgo\t\t\u279C</string>
+    <string name="issued_to">Emitido a</string>
+    <string name="add_crew_member">Miembro de la tripulación</string>
+
+    <!--  Login  -->
+    <string name="password">Contraseña</string>
+    <string name="email_username">Correo Electrónico/Nombre de Usuario</string>
+    <string name="log_in">Iniciar Sesión</string>
+    <string name="log_out">Cerrar Sesión</string>
+    <string name="forgot_password">¿Se te olvidó tu contraseña?</string>
+    <string name="processing">Procesando</string>
+
+    <!--  Risk  -->
+    <string name="risk">Riesgo</string>
+    <string name="green">Verde</string>
+    <string name="amber">Ámbar</string>
+    <string name="red">Rojo</string>
+    <string name="reason_for_risk">Explicación %1$s</string>
+    <string name="notes_next">Notas\t\t\u279C</string>
+
+    <!--    Notes -->
+    <string name="notes">Notas</string>
+    <string name="btn_save">Guardar</string>
+    <string name="notes_add_note">Añadir la nota</string>
+    <string name="new_note">Nueva nota</string>
+
+    <!--  Home  -->
+    <string name="at_sea">En el mar</string>
+    <string name="not_at_sea">No en el mar</string>
+    <string name="you_are_not_at_sea">Actualmente no estás en el mar</string>
+    <string name="change_status_to_at_sea">¿Cambiar estado a "en el mar"?</string>
+    <string name="board_vessel">Inspeccionar el barco</string>
+    <string name="find_records">Buscar Registros</string>
+    <string name="draft_boardings">Borradores</string>
+
+    <!--  Profile  -->
+    <string name="logout_dialog_title">¿Seguro que quieres cerrar la sesión?</string>
+    <string name="logout_dialog_message">Solo puede volver a iniciar sesión una vez que tenga servicio de celular o esté conectado con el servicio de Internet</string>
+    <string name="logout_dialog_yes">Si</string>
+    <string name="profile_toolbar_title">Perfil de Oficial</string>
+
+    <!--  Find records  -->
+    <plurals name="crew_member_size">
+        <item quantity="one">%d Miembro de la tripulación</item>
+        <item quantity="other">%d Miembros de la tripulación</item>
+    </plurals>
+    <string name="records_permit_number">Permiso #%s</string>
+    <string name="record_last_contact">Último contacto registrado %1$tB %1$td, %1$tY</string>
+    <string name="recently_boarded">Inspeccionado recientemente</string>
+    <string name="no_results_for">No hay resultados por \"%s\"</string>
+
+    <!--  Report details  -->
+    <string name="boarding_record">Registro de inspección </string>
+    <string name="description">Descripción</string>
+    <string name="captain">Capitán</string>
+    <string name="report_catch">Captura</string>
+    <string name="report_note_indexed">Nota %d</string>
+    <string name="captains_name">Nombre de Capitán</string>
+    <string name="report_crew_count">Tripulación (%d)</string>
+    <string name="report_catch_count">Captura (%d)</string>
+    <string name="report_violations_count">Infracciones (%d)</string>
+
+    <!--  Catch  -->
+    <string name="catch_title">Captura</string>
+    <string name="add_catch">Agregar Captura</string>
+    <string name="species">Especies</string>
+    <string name="weight">Peso</string>
+    <string name="amount">Cantidad</string>
+    <string name="count">Contar</string>
+    <string name="remove_catch">Quitar Captura %1$d</string>
+    <string name="violation_next">Infracción\t\t\u279C</string>
+    <string-array name="weight_units">
+        <item>Kg</item>
+        <item>toneladas</item>
+        <item>libras</item>
+        <item>toneladas métricas</item>
+    </string-array>
+    <string-array name="amount">
+        <item>Peso</item>
+        <item>Recuento</item>
+        <item>Peso y Recuento</item>
+    </string-array>
+
+    <!--  Add Crew Member  -->
+    <string name="crew_member">Tripulante</string>
+    <string name="add_crew_member_title">Agregar tripulante</string>
+    <string name="validation_error">Completa todos los campos</string>
+    <string name="report_already_contains_captain">Este reporte ya contiene un capitán</string>
+    <string name="replace_captain">¿Estás seguro de que quieres reemplazar al capitán?</string>
+    <string name="continue_editing">Continuar editando</string>
+    <string name="prefill_crew_dialog_title">¿Rellenar información de la tripulación del embarque anterior?</string>
+    <string name="prefill_crew_dialog_description">Podrás editar o borrar campos</string>
+    <string name="prefill_crew_dialog_yes">Rellenar</string>
+
+    <!--  Vessel details  -->
+    <string name="previous_boardings">Inspecciones anteriores</string>
+    <string name="boardings">Inspecciones </string>
+    <string name="warnings">Advertencias</string>
+    <string name="citations">Multas</string>
+    <string name="zero_violations">0 Infracciones</string>
+    <string name="warnings_count">%d Advertencias</string>
+    <string name="citation_count">%d Multas</string>
+    <string name="warnings_citation_count">%d Advertencias * %d Multas</string>
+    <string name="back">Regresa</string>
+
+    <!--  Vessel Search  -->
+    <string name="new_boarding">Nuevo inspección</string>
+    <string name="add_new_vessel">Agregar barco nueva</string>
+    <string name="duty_report">Reporte de turno</string>
+
+    <!--    Submit/Cancel report dialogs-->
+    <string name="submit_boarding">¿Submitir inspección?</string>
+    <string name="you_left_blank">Dejó las siguientes secciones en blanco:</string>
+    <string name="sure_to_submit">¿Estás seguro de que deseas submitir la inspección?</string>
+    <string name="sure_to_submit_with_skipped">%s\n\n¿Estás seguro que quieres submitir?</string>
+    <string name="cancel_boarding">¿Cancelar inspección?</string>
+    <string name="board_not_saved">Esta inspección no se guardará.</string>
+    <string name="save_and_finish_later">Guardar y Acabar Después</string>
+    <string name="draft_saved">Borrador Guardado</string>
+    <string name="delete_draft">Eliminar Borrador</string>
+    <string name="draft_deleted">Borrador Eliminado</string>
+    <string name="submit">Enviar</string>
+    <string name="keep_editing">Continuar Editando</string>
+    <string name="boarding_submitted">¡Inspección submitida!</string>
+    <string name="boarding_canceled">Inspección cancelada</string>
+    <string name="saving_error">Se produjo un error al guardar</string>
+    <string name="login_error">Error en inicio de sesión</string>
+    <string name="continue_with_empty_fields">¿Continuar con campos vacíos?</string>
+    <string name="continue_action">Continuar</string>
+    <string name="chose_image_source">Elija la fuente de la imagen</string>
+
+    <!--    Notifications-->
+    <string name="channel_name">Notificaciones O-FISH</string>
+    <string name="channel_description">O-FISH mostrará recordatorios de servicio</string>
+
+    <!--    Time On Duty -->
+    <string name="time_at_sea">Tiempo en el mar</string>
+    <string name="start_date">Fecha de Inicio</string>
+    <string name="start_time">Hora de Inicio</string>
+    <string name="end_date">Fecha Final</string>
+    <string name="end_time">Hora de finalización</string>
+    <string name="patrol_summary">Resumen del patrullaje</string>
+    <string name="become_not_at_sea">No estar en el mar</string>
+    <string name="boarding_count">%d Inspecciones</string>
+    <string name="formatted_draft">%d Borradores</string>
+    <string name="error_start_date">La fecha de inicio debe ser antes de la fecha de cierre</string>
+    <string name="error_end_date">La fecha de cierre debe ser despues de la fecha de inicio</string>
+    <string name="error_date_in_future">Selecione la fecha correcta</string>
+    <string name="risk_no_notes_or_photos">Sin Notas o Fotos por Riesgo</string>
+    <string name="invalid_email_or_password">Correo electrónico o contraseña no válidos</string>
+</resources>

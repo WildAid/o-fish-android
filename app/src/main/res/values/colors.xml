@@ -17,6 +17,7 @@
     <color name="tab_inactive">#979797</color>
     <color name="white">#FFFFFF</color>
     <color name="green">#008537</color>
+    <color name="green_dark">#00B34A</color>
     <color name="light_green">#ECF4EF</color>
     <color name="green_background">#DEEFE5</color>
     <color name="green_text">#006128</color>
@@ -69,4 +70,11 @@
     <color name="mtrl_textinput_focused_box_stroke_color" tools:override="true">#000000</color>
     <color name="mtrl_textinput_hovered_box_stroke_color" tools:override="true">#000000</color>
     <color name="tab_bar">#FFFFFF</color>
+
+    <!-- BOARDING RECORD  -->
+    <color name="boarding_record_toolbar">#FFFFFF</color>
+    <color name="boarding_record_status_bar">#FFFFFF</color>
+    <color name="boarding_record_toolbar_text_color">@color/black_1</color>
+    <color name="boarding_record_toolbar_icon_color">@color/grey</color>
+    <color name="boarding_record_details_color">@color/grey_8</color>
 </resources>
