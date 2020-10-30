@@ -144,13 +144,18 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
                 }
             } else {
                 val visitedStatusColorRes =
-                    if (tabState.status == TabStatus.SKIPPED) R.color.tabs_amber else R.color.main_blue
+                    if (tabState.status == TabStatus.SKIPPED) R.color.orange else R.color.tab_text_color
+
+                val bgVisitedStatusColorRes =
+                    if (tabState.status == TabStatus.SKIPPED) R.color.orange else R.color.blue
+
                 val visitedStatusColor = resources.getColor(visitedStatusColorRes, null)
+                val bgVisitedStatusColor = resources.getColor(bgVisitedStatusColorRes, null)
 
                 tabs_layout.getTabAt(tabState.position)?.customView?.also { view ->
                     view.findViewById<View>(R.id.tab_bottom_line)?.setVisible(true)
                     view.findViewById<View>(R.id.tab_bottom_line)
-                        ?.setBackgroundColor(visitedStatusColor)
+                        ?.setBackgroundColor(bgVisitedStatusColor)
                     view.findViewById<CheckedTextView>(android.R.id.text1)
                         ?.setTextColor(visitedStatusColor)
                 }
