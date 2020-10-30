@@ -74,6 +74,7 @@
                         android:id="@+id/image_user"
                         android:layout_width="52dp"
                         android:layout_height="52dp"
+                        android:contentDescription="@string/profile_toolbar_title"
                         android:onClick="@{()-> fragmentViewModel.showUserStatus()}"
                         android:padding="8dp"
                         android:scaleType="centerCrop"
@@ -124,14 +125,14 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/latitude"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/colorFont" />
 
                 <TextView
                     android:id="@+id/home_latitude"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/colorFont"
                     tools:text="-0.0743200" />
             </LinearLayout>
 
@@ -150,14 +151,14 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/longitude"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/colorFont" />
 
                 <TextView
                     android:id="@+id/home_longitude"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/colorFont"
                     tools:text="-90.3034418" />
             </LinearLayout>
         </LinearLayout>
@@ -177,6 +178,7 @@
             android:layout_height="70dp"
             android:layout_marginBottom="80dp"
             android:background="@drawable/bg_for_vessel_button"
+            android:contentDescription="@string/board_vessel"
             android:onClick="@{() -> fragmentViewModel.boardVessel()}"
             android:src="@drawable/ic_board_vessel"
             app:layout_constraintBottom_toBottomOf="parent"

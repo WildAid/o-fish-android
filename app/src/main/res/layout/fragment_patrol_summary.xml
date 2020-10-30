@@ -31,7 +31,7 @@
                 android:id="@+id/patrol_summary_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/main_blue"
+                android:background="@color/colorAppBar"
                 app:subtitleTextColor="@color/white"
                 app:title="@string/patrol_summary"
                 app:titleTextColor="@color/white" />
@@ -59,7 +59,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
+                        android:background="@color/background_card"
                         android:padding="16dp">
 
                         <TextView
@@ -215,7 +215,8 @@
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:background="@color/background_card">
 
                             <TextView
                                 android:id="@+id/boarding_count"
@@ -251,6 +252,7 @@
                             android:id="@+id/summary_recycler"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:background="@color/background_card"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             tools:itemCount="5"
                             tools:listitem="@layout/item_record" />

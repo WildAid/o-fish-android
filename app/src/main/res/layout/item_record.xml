@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/search_background">
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/record_vessel_draft_mark"
@@ -44,7 +45,7 @@
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-medium"
                 android:singleLine="true"
-                android:textColor="@color/colorFont"
+                android:textColor="@color/header_color"
                 android:textSize="17sp"
                 app:layout_constraintStart_toEndOf="@id/record_vessel_image"
                 app:layout_constraintTop_toTopOf="@id/record_vessel_image"
@@ -57,6 +58,7 @@
                 android:layout_marginStart="18dp"
                 android:ellipsize="end"
                 android:singleLine="true"
+                android:textColor="@color/grey_1"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toStartOf="@id/record_vessel_safety_level"
                 app:layout_constraintStart_toEndOf="@id/record_vessel_image"
@@ -70,6 +72,7 @@
                 android:layout_marginStart="18dp"
                 android:ellipsize="end"
                 android:singleLine="true"
+                android:textColor="@color/grey_1"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toStartOf="@id/record_vessel_safety_level"
                 app:layout_constraintStart_toEndOf="@id/record_vessel_image"
@@ -84,6 +87,7 @@
                 android:ellipsize="end"
                 android:paddingBottom="16dp"
                 android:singleLine="true"
+                android:textColor="@color/grey_1"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toStartOf="@id/record_vessel_safety_level"
                 app:layout_constraintStart_toEndOf="@id/record_vessel_image"

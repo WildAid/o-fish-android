@@ -86,8 +86,7 @@ class PatrolSummaryAdapter(
                 if (value.name == safetyLevel) {
                     binding.recordVesselSafetyLevel.setSafetyColor(
                         value,
-                        R.dimen.safety_background_radius_small,
-                        repository.getDarkModeState()
+                        R.dimen.safety_background_radius_small
                     )
                     break
                 }

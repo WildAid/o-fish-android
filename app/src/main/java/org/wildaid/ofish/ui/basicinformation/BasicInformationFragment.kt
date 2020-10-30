@@ -3,8 +3,10 @@ package org.wildaid.ofish.ui.basicinformation
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.content.res.Configuration
 import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
 import android.view.View
 import android.widget.DatePicker
@@ -31,7 +33,7 @@ import org.wildaid.ofish.util.hideKeyboard
 import java.util.*
 
 class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_information),
-    OnMapReadyCallback {
+        OnMapReadyCallback {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var viewDataBinding: FragmentBasicInformationBinding
@@ -63,11 +65,11 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
         }
 
         val mapFragment =
-            childFragmentManager.findFragmentById(R.id.basic_info_map) as SupportMapFragment?
+                childFragmentManager.findFragmentById(R.id.basic_info_map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
 
         fragmentViewModel.basicInfoUserEventLiveData.observe(
-            viewLifecycleOwner, EventObserver(::handleUserEvent)
+                viewLifecycleOwner, EventObserver(::handleUserEvent)
         )
     }
 
@@ -76,8 +78,8 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
         val coord = LatLng(location.latitude, location.longitude)
         if (!::marker.isInitialized) {
             marker = map.addMarker(
-                MarkerOptions()
-                    .position(coord)
+                    MarkerOptions()
+                            .position(coord)
             )
         }
         map.isMyLocationEnabled = true
@@ -91,12 +93,16 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
     override fun onMapReady(map: GoogleMap) {
         this.map = map
 
-        val isNightMode=resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        if(isNightMode==Configuration.UI_MODE_NIGHT_YES )
-        map.setMapStyle(MapStyleOptions.loadRawResourceStyle(activity?.applicationContext,R.raw.map_dark_mode))
+        val isNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        if (isNightMode == Configuration.UI_MODE_NIGHT_YES)
+            map.setMapStyle(MapStyleOptions.loadRawResourceStyle(activity?.applicationContext, R.raw.map_dark_mode))
 
-        this.map.setOnCameraMoveListener { updateMarker() }
+        if(!isLocationTurnedOn(requireContext()))
+           setDummyLocation()
 
+        this.map.setOnCameraMoveListener {
+                updateMarker()
+        }
         fusedLocationClient.lastLocation.addOnSuccessListener {
             it?.let {
                 fragmentViewModel.setLocation(it.latitude, it.longitude)
@@ -110,7 +116,7 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
     private fun updateMarker() {
         val target = map.cameraPosition.target
         fragmentViewModel.setLocation(target.latitude, target.longitude)
-        marker.position = target
+         marker.position = target
     }
 
     private fun handleUserEvent(event: BasicInformationViewModel.BasicInfoUserEvent) {
@@ -131,10 +137,10 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
     private fun peekDate() {
         val calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())
         val dialog = DatePickerDialog(
-            requireContext(), ::onDatePicked,
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
+                requireContext(), ::onDatePicked,
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
         )
         dialog.datePicker.maxDate = System.currentTimeMillis()
         dialog.show()
@@ -147,11 +153,11 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
     private fun peekTime() {
         val calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())
         val dialog = TimePickerDialog(
-            requireContext(),
-            ::onTimePicked,
-            calendar.get(Calendar.HOUR),
-            calendar.get(Calendar.MINUTE),
-            false
+                requireContext(),
+                ::onTimePicked,
+                calendar.get(Calendar.HOUR),
+                calendar.get(Calendar.MINUTE),
+                false
         )
         dialog.show()
     }
@@ -159,4 +165,26 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
     private fun onTimePicked(timePicker: TimePicker, hourOfDay: Int, minute: Int) {
         fragmentViewModel.updateTime(hourOfDay, minute)
     }
+
+    private fun isLocationTurnedOn(context: Context): Boolean {
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+                LocationManager.NETWORK_PROVIDER)
+    }
+
+    private fun setDummyLocation(){
+        val dummyLocation = LocationManager.GPS_PROVIDER
+        val loc = Location(dummyLocation)
+        val mockLocation = Location(dummyLocation)
+        mockLocation.latitude = 31.398667
+        mockLocation.longitude = -99.31185  //Texas
+        mockLocation.altitude = loc.altitude
+        mockLocation.time = System.currentTimeMillis()
+        mockLocation.accuracy = 1f
+
+        initMap(mockLocation)
+
+    }
+
+
 }

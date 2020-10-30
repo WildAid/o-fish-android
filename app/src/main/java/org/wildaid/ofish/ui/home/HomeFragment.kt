@@ -3,12 +3,14 @@ package org.wildaid.ofish.ui.home
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -26,6 +28,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
@@ -179,12 +182,19 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         googleMap = map
         checkPermissions()
         addTestMpa(googleMap, resources)
+        if(isDarkModeEnabled())
+            map.setMapStyle(MapStyleOptions.loadRawResourceStyle(activity?.applicationContext,R.raw.map_dark_mode))
     }
 
     @SuppressLint("ResourceType")
     private fun setMyLocationPosition() {
         googleMap.isMyLocationEnabled = true
         val locationButton: View = (home_map.findViewById<View>(1).parent as View).findViewById(2)
+        if(isDarkModeEnabled()) {
+            (locationButton as ImageView).setImageResource(R.drawable.my_location)
+            locationButton.setBackgroundResource(R.drawable.shape_rectangle_my_location)
+            locationButton.setPadding(25,25,25,25)
+        }
         val rlp: RelativeLayout.LayoutParams =
             locationButton.layoutParams as RelativeLayout.LayoutParams
         rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE)
@@ -305,5 +315,10 @@ class HomeFragment : Fragment(R.layout.fragment_home),
             }
             else -> false
         }
+    }
+
+    private fun isDarkModeEnabled(): Boolean {
+        val defaultNightMode: Int = AppCompatDelegate.getDefaultNightMode()
+        return defaultNightMode == AppCompatDelegate.MODE_NIGHT_YES
     }
 }
