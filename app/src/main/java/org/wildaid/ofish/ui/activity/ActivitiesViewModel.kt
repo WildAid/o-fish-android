@@ -16,18 +16,18 @@ class ActivitiesViewModel(
     app: Application
 ) : BaseReportViewModel(repository, app) {
 
-    private var _activityItemLiveData = MutableLiveData<ActivityItem>()
+    private val _activityItemLiveData = MutableLiveData<ActivityItem>()
     val activityItemLiveData: LiveData<ActivityItem>
         get() = _activityItemLiveData
-    private var _fisheryItemLiveData = MutableLiveData<FisheryItem>()
+    private val _fisheryItemLiveData = MutableLiveData<FisheryItem>()
     val fisheryItemLiveData: LiveData<FisheryItem>
         get() = _fisheryItemLiveData
 
-    private var _gearItemLiveData = MutableLiveData<GearItem>()
+    private val _gearItemLiveData = MutableLiveData<GearItem>()
     val gearItemLiveData: LiveData<GearItem>
         get() = _gearItemLiveData
 
-    private var _activitiesUserEvents: MutableLiveData<Event<ActivitiesUserEvent>> =
+    private val _activitiesUserEvents: MutableLiveData<Event<ActivitiesUserEvent>> =
         MutableLiveData()
     val activitiesUserEvents: LiveData<Event<ActivitiesUserEvent>>
         get() = _activitiesUserEvents

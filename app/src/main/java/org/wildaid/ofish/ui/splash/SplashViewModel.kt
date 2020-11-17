@@ -7,7 +7,7 @@ import org.wildaid.ofish.data.Repository
 
 class SplashViewModel(val repository: Repository) : ViewModel() {
 
-    private var _authLiveData = MutableLiveData<AuthState>()
+    private val _authLiveData = MutableLiveData<AuthState>()
     val authLiveData: LiveData<AuthState>
         get() = _authLiveData
 

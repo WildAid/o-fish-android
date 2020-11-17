@@ -14,11 +14,11 @@ import org.wildaid.ofish.util.getString
 class LoginViewModel(val repository: Repository, application: Application) :
     AndroidViewModel(application) {
 
-    private var _loginLiveData = MutableLiveData<LoginResult>()
+    private val _loginLiveData = MutableLiveData<LoginResult>()
     val loginLiveData: LiveData<LoginResult>
         get() = _loginLiveData
 
-    private var _progressLiveData = MutableLiveData<Event<Boolean>>()
+    private val _progressLiveData = MutableLiveData<Event<Boolean>>()
     val progressLiveData: LiveData<Event<Boolean>>
         get() = _progressLiveData
 

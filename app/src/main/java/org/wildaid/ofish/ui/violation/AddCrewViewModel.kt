@@ -10,11 +10,11 @@ import org.wildaid.ofish.ui.search.complex.CrewSearchModel
 
 class AddCrewViewModel : ViewModel() {
 
-    private var _crewMember = MutableLiveData<Event<CrewSearchModel>>()
+    private val _crewMember = MutableLiveData<Event<CrewSearchModel>>()
     val crewMember: LiveData<Event<CrewSearchModel>>
         get() = _crewMember
 
-    private var _validated = MutableLiveData<Event<AddCrewValidation>>()
+    private val _validated = MutableLiveData<Event<AddCrewValidation>>()
     val validated: LiveData<Event<AddCrewValidation>>
         get() = _validated
 

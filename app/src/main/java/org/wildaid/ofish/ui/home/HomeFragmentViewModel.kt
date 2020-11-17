@@ -9,16 +9,15 @@ import org.wildaid.ofish.data.Repository
 
 class HomeFragmentViewModel(val repository: Repository) : ViewModel() {
 
-    private var _locationLiveData = MutableLiveData<Pair<Double, Double>>()
+    private val _locationLiveData = MutableLiveData<Pair<Double, Double>>()
     val locationLiveData: LiveData<Pair<Double, Double>>
         get() = _locationLiveData
 
-    private var _userEventLiveData = MutableLiveData<Event<HomeFragmentUserEvent>>()
+    private val _userEventLiveData = MutableLiveData<Event<HomeFragmentUserEvent>>()
     val userEventLiveData: LiveData<Event<HomeFragmentUserEvent>>
         get() = _userEventLiveData
 
-
-    private var _amountOfDrafts = MutableLiveData<Int>()
+    private val _amountOfDrafts = MutableLiveData<Int>()
     val amountOfDrafts: LiveData<Int>
         get() = _amountOfDrafts
 

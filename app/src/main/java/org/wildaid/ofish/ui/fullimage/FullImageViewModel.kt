@@ -8,7 +8,7 @@ import org.wildaid.ofish.ui.base.PhotoItem
 
 class FullImageViewModel(val repository: Repository) : ViewModel() {
 
-    private var _photoLiveData = MutableLiveData<PhotoItem>()
+    private val _photoLiveData = MutableLiveData<PhotoItem>()
     val photoLiveData: LiveData<PhotoItem>
         get() = _photoLiveData
 

@@ -19,16 +19,16 @@ class NotesViewModel(
     app: Application
 ) : BaseReportViewModel(repository, app) {
 
-    private var _notesLiveData = MutableLiveData<List<NoteItem>>()
+    private val _notesLiveData = MutableLiveData<List<NoteItem>>()
     val notesLiveData: LiveData<List<NoteItem>>
         get() = _notesLiveData
 
-    private var _notesUserEventLiveData = MutableLiveData<Event<NotesUserEvent>>()
+    private val _notesUserEventLiveData = MutableLiveData<Event<NotesUserEvent>>()
     val notesUserEventLiveData: LiveData<Event<NotesUserEvent>>
         get() = _notesUserEventLiveData
 
     private val noteTitle = getString(R.string.note)
-    private var currentNoteItems = mutableListOf<NoteItem>()
+    private val currentNoteItems = mutableListOf<NoteItem>()
 
     override fun initViewModel(report: Report, currentReportPhotos: MutableList<PhotoItem>) {
         super.initViewModel(report, currentReportPhotos)

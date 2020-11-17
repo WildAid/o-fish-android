@@ -12,7 +12,7 @@ import org.wildaid.ofish.ui.base.PhotoItem
 import java.util.*
 
 class CreateReportViewModel(val repository: Repository) : ViewModel() {
-    private var _createReportUserEvent = MutableLiveData<Event<CreateReportUserEvent>>()
+    private val _createReportUserEvent = MutableLiveData<Event<CreateReportUserEvent>>()
     val createReportUserEvent: LiveData<Event<CreateReportUserEvent>>
         get() = _createReportUserEvent
 

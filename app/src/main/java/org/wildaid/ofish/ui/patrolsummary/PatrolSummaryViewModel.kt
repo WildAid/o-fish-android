@@ -11,23 +11,23 @@ import java.util.*
 
 class PatrolSummaryViewModel(val repository: Repository) : ViewModel() {
 
-    private var _patrolSummaryUserEventLiveData = MutableLiveData<Event<PatrolSummaryUserEvent>>()
+    private val _patrolSummaryUserEventLiveData = MutableLiveData<Event<PatrolSummaryUserEvent>>()
     val patrolSummaryUserEventLiveData: LiveData<Event<PatrolSummaryUserEvent>>
         get() = _patrolSummaryUserEventLiveData
 
-    private var _dutyStartTime = MutableLiveData<Date>()
+    private val _dutyStartTime = MutableLiveData<Date>()
     val dutyStartTime: LiveData<Date>
         get() = _dutyStartTime
 
-    private var _dutyEndTime = MutableLiveData<Date>(Date())
+    private val _dutyEndTime = MutableLiveData<Date>(Date())
     val dutyEndTime: LiveData<Date>
         get() = _dutyEndTime
 
-    private var _reports = MutableLiveData<List<Report>>()
+    private val _reports = MutableLiveData<List<Report>>()
     val reports: LiveData<List<Report>>
         get() = _reports
 
-    private var _errorMessage = MutableLiveData<Event<Int>>()
+    private val _errorMessage = MutableLiveData<Event<Int>>()
     val errorMessage: LiveData<Event<Int>>
         get() = _errorMessage
 

@@ -15,11 +15,11 @@ import org.wildaid.ofish.util.convert
 
 class ReportDetailViewModel(val repository: Repository) : ViewModel() {
 
-    private var _reportLiveData = MutableLiveData<Report>()
+    private val _reportLiveData = MutableLiveData<Report>()
     val reportLiveData: LiveData<Report>
         get() = _reportLiveData
 
-    private var _boardVesselLiveData = MutableLiveData<Event<Report>>()
+    private val _boardVesselLiveData = MutableLiveData<Event<Report>>()
     val boardVesselLiveData: LiveData<Event<Report>>
         get() = _boardVesselLiveData
 

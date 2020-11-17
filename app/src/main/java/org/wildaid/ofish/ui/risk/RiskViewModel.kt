@@ -24,8 +24,8 @@ class RiskViewModel(
 
     private lateinit var currentRiskItem: RiskItem
 
-    private var _riskLiveData = MutableLiveData<RiskItem>()
-    private var _userEventsLiveData = MutableLiveData<Event<RiskUserEvent>>()
+    private val _riskLiveData = MutableLiveData<RiskItem>()
+    private val _userEventsLiveData = MutableLiveData<Event<RiskUserEvent>>()
 
     override fun initViewModel(report: Report, currentReportPhotos: MutableList<PhotoItem>) {
         super.initViewModel(report, currentReportPhotos)

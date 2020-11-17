@@ -10,11 +10,11 @@ import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
 
 abstract class BaseSearchViewModel<T>(application: Application) : AndroidViewModel(application) {
 
-    protected var _dataList = MutableLiveData<List<T>>()
+    private val _dataList = MutableLiveData<List<T>>()
     val dataList: LiveData<List<T>>
         get() = _dataList
 
-    protected var _progressLiveData = MutableLiveData(false)
+    private val _progressLiveData = MutableLiveData(false)
     val progressLiveData: LiveData<Boolean>
         get() = _progressLiveData
 
