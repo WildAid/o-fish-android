@@ -20,10 +20,10 @@ android {
 signingConfigs {
 
    release {
-       storeFile file(RELEASE_STORE_FILE)
-       storePassword RELEASE_STORE_PASSWORD
-       keyAlias RELEASE_KEY_ALIAS
-       keyPassword RELEASE_KEY_PASSWORD
+//       storeFile file(RELEASE_STORE_FILE)
+//       storePassword RELEASE_STORE_PASSWORD
+//       keyAlias RELEASE_KEY_ALIAS
+//       keyPassword RELEASE_KEY_PASSWORD
 
        // Optional, specify signing versions used
        v1SigningEnabled true
@@ -84,8 +84,6 @@ signingConfigs {
 }
 
 dependencies {
-    def nav_version = "2.3.0"
-
     // Local dependencies
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -93,22 +91,22 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     // Android
-    implementation 'androidx.core:core-ktx:1.3.0'
+    implementation 'androidx.core:core-ktx:1.3.2'
     implementation "androidx.fragment:fragment-ktx:1.2.5"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
     implementation 'androidx.activity:activity-ktx:1.1.0'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.3.1"
+    implementation "androidx.navigation:navigation-ui-ktx:2.3.1"
 
-    implementation 'com.google.android.material:material:1.3.0-alpha01'
+    implementation 'com.google.android.material:material:1.3.0-alpha03'
 
     // Google Maps
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
-    implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:17.1.0'
 
     // Glide  - Image loader library
     implementation 'com.github.bumptech.glide:glide:4.11.0'
@@ -116,21 +114,21 @@ dependencies {
 
     // JUnit test dependencies
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
 
     // Robolectric to run android code and  resources on JVM
     testImplementation 'org.robolectric:robolectric:4.3'
 
     // Android dependencies for unit tests
-    testImplementation 'androidx.test:core:1.2.0'
+    testImplementation 'androidx.test:core:1.3.0'
 
     // Kotlin mock library  Mockk.io
     testImplementation "io.mockk:mockk:1.10.0"
 
 
     // Android test dependencies
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     ktlint "com.pinterest:ktlint:0.37.2"
 }
