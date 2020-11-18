@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -12,10 +14,10 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import kotlinx.android.synthetic.main.fragment_login.*
 import org.wildaid.ofish.BuildConfig
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
+import org.wildaid.ofish.databinding.FragmentLoginBinding
 import org.wildaid.ofish.ui.base.ConfirmationDialogFragment
 import org.wildaid.ofish.ui.base.DIALOG_CLICK_EVENT
 import org.wildaid.ofish.ui.base.DialogButton
@@ -24,9 +26,18 @@ import org.wildaid.ofish.util.getViewModelFactory
 
 const val LOGIN_ERROR_DIALOG = 401
 
-class LoginFragment : Fragment(R.layout.fragment_login) {
+class LoginFragment : Fragment() {
+
     private val loginViewModel by viewModels<LoginViewModel> { getViewModelFactory() }
     private val navigation: NavController by lazy { findNavController() }
+
+    private lateinit var binding: FragmentLoginBinding
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return FragmentLoginBinding.inflate(inflater, container, false)
+                .also { this.binding = it }
+                .root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loginViewModel.loginLiveData.observe(viewLifecycleOwner, Observer(::handleLoginResult))
@@ -36,37 +47,25 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         if (BuildConfig.REALM_USER.isBlank() || BuildConfig.REALM_PASSWORD.isBlank()) {
             Log.i(
-                "Login Setup",
-                "You can specify properties realm_user and/or realm_password in realm.properties to pre fill credentials"
+                    "Login Setup",
+                    "You can specify properties realm_user and/or realm_password in realm.properties to pre fill credentials"
             )
         }
-        ed_user.setText(BuildConfig.REALM_USER)
-        ed_password.setText(BuildConfig.REALM_PASSWORD)
+        binding.edUser.setText(BuildConfig.REALM_USER)
+        binding.edPassword.setText(BuildConfig.REALM_PASSWORD)
 
-        btn_login.isEnabled = isUserFieldsValid()
+        binding.btnLogin.isEnabled = isUserFieldsValid()
 
-        ed_user.addTextChangedListener(watcher)
-        ed_password.addTextChangedListener(watcher)
+        binding.edUser.addTextChangedListener(watcher)
+        binding.edPassword.addTextChangedListener(watcher)
 
-        btn_login.setOnClickListener {
-            loginViewModel.login(ed_user.text.toString(), ed_password.text.toString())
-        }
-    }
-
-    private val watcher = object : TextWatcher {
-        override fun afterTextChanged(s: Editable?) {
-        }
-
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        }
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            btn_login.isEnabled = isUserFieldsValid()
+        binding.btnLogin.setOnClickListener {
+            loginViewModel.login(binding.edUser.text.toString(), binding.edPassword.text.toString())
         }
     }
 
     private fun isUserFieldsValid() =
-        !(ed_user.text.isNullOrBlank() || ed_password.text.isNullOrBlank())
+            !(binding.edUser.text.isNullOrBlank() || binding.edPassword.text.isNullOrBlank())
 
     private fun handleLoginResult(loginResult: LoginViewModel.LoginResult) {
         when (loginResult) {
@@ -111,10 +110,10 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun showLoginErrorDialog() {
         val dialogBundle = ConfirmationDialogFragment.Bundler(
-            LOGIN_ERROR_DIALOG,
-            getString(R.string.login_error),
-            getString(R.string.invalid_email_or_password),
-            getString(android.R.string.ok)
+                LOGIN_ERROR_DIALOG,
+                getString(R.string.login_error),
+                getString(R.string.invalid_email_or_password),
+                getString(android.R.string.ok)
         ).bundle()
         navigation.navigate(R.id.error_login_dialog, dialogBundle)
     }
@@ -124,6 +123,18 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             navigation.navigate(R.id.progress_dialog)
         } else if (navigation.currentDestination?.id == R.id.progress_dialog) {
             navigation.popBackStack()
+        }
+    }
+
+    private val watcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            binding.btnLogin.isEnabled = isUserFieldsValid()
         }
     }
 }

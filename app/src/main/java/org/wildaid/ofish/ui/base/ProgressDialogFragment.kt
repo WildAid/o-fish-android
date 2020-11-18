@@ -9,6 +9,7 @@ import org.wildaid.ofish.R
 private const val MESSAGE = "message"
 
 class ProgressDialogFragment : DialogFragment() {
+
     private var message: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

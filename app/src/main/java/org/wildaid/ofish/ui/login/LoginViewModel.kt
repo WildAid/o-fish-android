@@ -10,9 +10,10 @@ import org.wildaid.ofish.R
 import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.util.getString
 
-
-class LoginViewModel(val repository: Repository, application: Application) :
-    AndroidViewModel(application) {
+class LoginViewModel(
+        val repository: Repository,
+        application: Application
+) : AndroidViewModel(application) {
 
     private val _loginLiveData = MutableLiveData<LoginResult>()
     val loginLiveData: LiveData<LoginResult>
@@ -23,17 +24,19 @@ class LoginViewModel(val repository: Repository, application: Application) :
         get() = _progressLiveData
 
     fun login(userName: String, password: String) {
-        repository.login(userName, password,
-            loginSuccess = {
-                Log.d("Login", "Logged in as $it")
-                _progressLiveData.value = Event(false)
-                _loginLiveData.value = LoginResult.LoginSuccess
-            },
-            loginError = {
-                Log.d("Login", "Cannot log in. Error ${it?.errorMessage}")
-                _progressLiveData.value = Event(false)
-                _loginLiveData.value = LoginResult.LoginError(getString(R.string.login_error))
-            }
+        repository.login(
+                userName = userName,
+                password = password,
+                loginSuccess = {
+                    Log.d("Login", "Logged in as $it")
+                    _progressLiveData.value = Event(false)
+                    _loginLiveData.value = LoginResult.LoginSuccess
+                },
+                loginError = {
+                    Log.d("Login", "Cannot log in. Error ${it?.errorMessage}")
+                    _progressLiveData.value = Event(false)
+                    _loginLiveData.value = LoginResult.LoginError(getString(R.string.login_error))
+                }
         )
 
         _progressLiveData.value = Event(true)
