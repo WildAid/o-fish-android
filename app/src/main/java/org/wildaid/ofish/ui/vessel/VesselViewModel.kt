@@ -82,13 +82,12 @@ class VesselViewModel(
 
         val ems = (currentReport.vessel?.ems ?: RealmList()).ifEmpty { RealmList(EMS()) }
         currentReport.vessel?.ems = ems
-        currentEMSItems = mutableListOf()
-        ems.forEach {
-            currentEMSItems.add(EMSItem(it, true, AttachmentItem(
-                it.attachments!!,
-                getPhotoItemsForIds(it.attachments!!.photoIDs)
-            )))
-        }
+
+        currentEMSItems = ems.map {
+            val attachments = AttachmentItem(it.attachments!!, getPhotoItemsForIds(it.attachments!!.photoIDs))
+            EMSItem(it,true, attachments)
+        }.toMutableList()
+
         _emsLiveData.postValue(currentEMSItems)
     }
 

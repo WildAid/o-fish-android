@@ -32,7 +32,7 @@ class CrewViewModel(
     val crewUserEvent: LiveData<Event<CrewUserEvent>>
         get() = _crewUserEvent
 
-    private var currentCrewItems = mutableListOf<CrewMemberItem>()
+    private val currentCrewItems = mutableListOf<CrewMemberItem>()
 
     private val captainTitle = getString(R.string.captain)
     private val memberTitle = getString(R.string.crew_member)
@@ -167,7 +167,7 @@ class CrewViewModel(
         currentReport.captain != currentCrewItems[0].crewMember || currentReport.crew.size != currentCrewItems.size - 1
 
     private fun initiateCrewMembers(): List<CrewMemberItem> {
-        currentCrewItems = mutableListOf()
+        currentCrewItems.clear()
 
         // Init captain
         val captain = currentReport.captain ?: CrewMember()

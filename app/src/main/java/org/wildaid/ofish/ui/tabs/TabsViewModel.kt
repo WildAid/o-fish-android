@@ -64,7 +64,7 @@ class TabsViewModel(val repository: Repository, application: Application) :
                 attachments?.photoIDs?.addAll(it.captain.photosIds)
             }
 
-            this.crewToPrefill = mutableListOf(
+            this.crewToPrefill = listOf(
                 *it.crew.map { crew ->
                     CrewMember().apply {
                         name = crew.name
