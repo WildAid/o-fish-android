@@ -85,8 +85,10 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
                 })
         }
 
-        val report =
-            if (requireActivity() is CreateReportActivity) activityViewModel.report else null
+        val report = when {
+            requireActivity() is CreateReportActivity -> activityViewModel.report
+            else -> null
+        }
         baseSearchViewModel.initDataList(currentSearchEntity, report)
         baseSearchViewModel.dataList.observe(viewLifecycleOwner, Observer {
             if (it.isNotEmpty()) {
@@ -160,7 +162,10 @@ abstract class BaseSearchFragment<T> : Fragment(R.layout.fragment_search) {
                                 reportDraftId = clickedRecord.reports[0]._id
                             )
                         )
-                    navigation.navigate(R.id.action_complex_search_to_create_report, createReportArg)
+                    navigation.navigate(
+                        R.id.action_complex_search_to_create_report,
+                        createReportArg
+                    )
                 } else {
                     val detailArgs =
                         bundleOf(

@@ -1,9 +1,8 @@
 package org.wildaid.ofish.ui.vesseldetails
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
+import kotlinx.coroutines.flow.*
 import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.Repository
@@ -13,9 +12,13 @@ import org.wildaid.ofish.data.report.Photo
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
 import org.wildaid.ofish.util.getString
+import java.lang.IllegalArgumentException
+import java.lang.IllegalStateException
 
-class VesselDetailsViewModel(private val repository: Repository, application: Application) :
-    AndroidViewModel(application) {
+class VesselDetailsViewModel(
+    private val repository: Repository,
+    application: Application
+) : AndroidViewModel(application) {
 
     private var _vesselItemLiveData = MutableLiveData<VesselItem>()
     val vesselItemLiveData: LiveData<VesselItem>
@@ -29,49 +32,21 @@ class VesselDetailsViewModel(private val repository: Repository, application: Ap
     val userEventLiveData: LiveData<Event<VesselDetailsUserEvent>>
         get() = _userEventLiveData
 
+    private lateinit var vesselReports: List<Report>
+
     lateinit var activityViewModel: HomeActivityViewModel
 
-    private lateinit var vesselReports: List<Report>
-    private lateinit var currentVessel: Boat
-
     fun loadVessel(vesselPermitNumber: String, vesselName: String) {
-        currentVessel = repository.findBoat(vesselPermitNumber, vesselName) ?: return
-        vesselReports = repository.findReportsForBoat(vesselPermitNumber, vesselName)
-        val warnings = vesselReports
-            .flatMap { it.inspection?.summary?.violations!! }
-            .count { it.disposition == ViolationRisk.Warning.name }
-
-        val citations = vesselReports
-            .flatMap { it.inspection?.summary?.violations!! }
-            .count { it.disposition == ViolationRisk.Citation.name }
-
-        val vesselReportItems = vesselReports.map {
-            ReportItem(
-                it,
-                it.inspection?.summary?.violations!!
-                    .count { it.disposition == ViolationRisk.Warning.name },
-                it.inspection?.summary?.violations!!
-                    .count { it.disposition == ViolationRisk.Citation.name }
-            )
-        }
-
-        _vesselItemLiveData.value =
-            VesselItem(currentVessel, vesselReportItems, vesselReports.size, warnings, citations)
-
-        vesselReports.map {
-            repository.getPhotosWithIds(it.vessel?.attachments?.photoIDs.orEmpty())
-        }.flatten().ifEmpty {
-            listOf(Photo()) // invalid photo, just to display holder
-        }.also {
-            _vesselPhotosLiveData.value = it
-        }
-    }
-
-    fun getPermitNumberDescription(): String {
-        return getString(
-            R.string.records_permit_number,
-            vesselItemLiveData.value?.vessel?.permitNumber
-        )
+        repository.findReportsForBoat(vesselPermitNumber, vesselName)
+            .flatMapMerge { reports ->
+                repository.findBoat(vesselPermitNumber, vesselName)
+                    .map { boat ->
+                        val kajshd = 0
+                        Pair(boat, reports)
+                    }
+            }.onEach { (boat, reports) ->
+                initView(boat, reports)
+            }.launchIn(viewModelScope)
     }
 
     fun boardVessel() {
@@ -83,6 +58,47 @@ class VesselDetailsViewModel(private val repository: Repository, application: Ap
         } else {
             activityViewModel.userEventLiveData.value =
                 Event(HomeActivityViewModel.HomeActivityUserEvent.AskDutyConfirmationEvent)
+        }
+    }
+
+    fun getPermitNumberDescription(): LiveData<String> {
+        return vesselItemLiveData.map {
+            getString(R.string.records_permit_number, it.vessel.permitNumber)
+        }
+    }
+
+    private fun initView(boat: Boat?, reports: List<Report>) {
+        if (boat == null) {
+            throw IllegalArgumentException("Boat cannot be null.")
+        }
+
+        vesselReports = reports
+
+        val warnings = reports.flatMap { it.inspection?.summary?.violations!! }
+            .count { it.disposition == ViolationRisk.Warning.name }
+
+        val citations = reports.flatMap { it.inspection?.summary?.violations!! }
+            .count { it.disposition == ViolationRisk.Citation.name }
+
+        val vesselReportItems = reports.map { report ->
+            ReportItem(
+                report,
+                report.inspection?.summary?.violations!!
+                    .count { it.disposition == ViolationRisk.Warning.name },
+                report.inspection?.summary?.violations!!
+                    .count { it.disposition == ViolationRisk.Citation.name }
+            )
+        }
+
+        _vesselItemLiveData.value =
+            VesselItem(boat, vesselReportItems, reports.size, warnings, citations)
+
+        reports.map {
+            repository.getPhotosWithIds(it.vessel?.attachments?.photoIDs.orEmpty())
+        }.flatten().ifEmpty {
+            listOf(Photo()) // invalid photo, just to display holder
+        }.also {
+            _vesselPhotosLiveData.value = it
         }
     }
 }

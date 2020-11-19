@@ -49,13 +49,13 @@ class ComplexSearchViewModelTest {
         val searchDataSource =
             complexSearchViewModel.getDataSource(ComplexSearchFragment.SearchBusiness, null)
 
-        assert(searchDataSource.initiateData().size == initiateBussines.size + 1)
-        assert(searchDataSource.initiateData().first() is BusinessSearchModel)
+        assert(searchDataSource.initiateDataBlocking().size == initiateBussines.size + 1)
+        assert(searchDataSource.initiateDataBlocking().first() is BusinessSearchModel)
         assert(
-            (searchDataSource.initiateData()
+            (searchDataSource.initiateDataBlocking()
                 .first() as BusinessSearchModel).value == initiateBussines.first()
         )
-        assert(searchDataSource.initiateData().last() is AddSearchModel)
+        assert(searchDataSource.initiateDataBlocking().last() is AddSearchModel)
 
         val filter = "3"
         val filteredBusiness = listOf(Pair("Business3", "Location3"))
@@ -83,10 +83,10 @@ class ComplexSearchViewModelTest {
         val searchDataSource =
             complexSearchViewModel.getDataSource(ComplexSearchFragment.SearchViolation, null)
 
-        assert(searchDataSource.initiateData().size == initiateOffence.size)
-        assert(searchDataSource.initiateData().first() is ViolationSearchModel)
+        assert(searchDataSource.initiateDataBlocking().size == initiateOffence.size)
+        assert(searchDataSource.initiateDataBlocking().first() is ViolationSearchModel)
         assert(
-            (searchDataSource.initiateData()
+            (searchDataSource.initiateDataBlocking()
                 .first() as ViolationSearchModel).value == initiateOffence.first()
         )
 
@@ -135,20 +135,20 @@ class ComplexSearchViewModelTest {
             }
         )
 
-        every { mockedRepository.findReportsGroupedByVessel() } returns initiateGroupedReports
+        every { mockedRepository.findReportsGroupedByVesselBlocking() } returns initiateGroupedReports
 
         val searchDataSource =
             complexSearchViewModel.getDataSource(ComplexSearchFragment.SearchRecords, null)
 
-        assert(searchDataSource.initiateData().size == initiateGroupedReports.size + 1)
-        assert(searchDataSource.initiateData().first() is TextViewSearchModel)
-        assert(searchDataSource.initiateData()[1] is RecordSearchModel)
+        assert(searchDataSource.initiateDataBlocking().size == initiateGroupedReports.size + 1)
+        assert(searchDataSource.initiateDataBlocking().first() is TextViewSearchModel)
+        assert(searchDataSource.initiateDataBlocking()[1] is RecordSearchModel)
         assert(
-            (searchDataSource.initiateData()
+            (searchDataSource.initiateDataBlocking()
                 .last() as RecordSearchModel).vessel.name == initiateGroupedReports.last().vessel?.name
         )
         assert(
-            (searchDataSource.initiateData()
+            (searchDataSource.initiateDataBlocking()
                 .last() as RecordSearchModel).vessel.permitNumber == initiateGroupedReports.last().vessel?.permitNumber
         )
 
@@ -206,12 +206,12 @@ class ComplexSearchViewModelTest {
             }
         )
 
-        every { mockedRepository.findReportsGroupedByVessel() } returns initiateGroupedReports
+        every { mockedRepository.findReportsGroupedByVesselBlocking() } returns initiateGroupedReports
 
         val searchDataSource =
             complexSearchViewModel.getDataSource(ComplexSearchFragment.SearchBoardVessels, null)
 
-        val initiateData = searchDataSource.initiateData()
+        val initiateData = searchDataSource.initiateDataBlocking()
         assert(initiateData.size == initiateGroupedReports.size + 2)
         assert(initiateData[0] is AddSearchModel)
         assert(initiateData[1] is TextViewSearchModel)
@@ -249,8 +249,8 @@ class ComplexSearchViewModelTest {
         val searchDataSource =
             complexSearchViewModel.getDataSource(ComplexSearchFragment.SearchCrew, mockedReport)
 
-        assert(searchDataSource.initiateData().size == 1)
-        assert(searchDataSource.initiateData().first() is AddSearchModel)
+        assert(searchDataSource.initiateDataBlocking().size == 1)
+        assert(searchDataSource.initiateDataBlocking().first() is AddSearchModel)
     }
 
     @Test
@@ -290,9 +290,9 @@ class ComplexSearchViewModelTest {
 
         val initiateCrew = listOf(mockedReport.captain, *mockedReport.crew.toArray())
 
-        assert(searchDataSource.initiateData().size == initiateCrew.size + 1)
-        assert(searchDataSource.initiateData().first() is CrewSearchModel)
-        assert(searchDataSource.initiateData().last() is AddSearchModel)
+        assert(searchDataSource.initiateDataBlocking().size == initiateCrew.size + 1)
+        assert(searchDataSource.initiateDataBlocking().first() is CrewSearchModel)
+        assert(searchDataSource.initiateDataBlocking().last() is AddSearchModel)
 
         val filter = "3"
         val filteredCrew = listOf(

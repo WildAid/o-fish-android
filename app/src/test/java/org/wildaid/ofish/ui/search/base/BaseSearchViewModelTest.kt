@@ -29,7 +29,7 @@ class BaseSearchViewModelTest {
 
     @Test
     fun testInitDataList() {
-        val requiredValue = TestViewModel(mockedRepository).TestSearchDataSource().initiateData()
+        val requiredValue = TestViewModel(mockedRepository).TestSearchDataSource().initiateDataBlocking()
 
         testViewModel.initDataList(BaseSearchType(), null)
         assert(testViewModel.dataList.value == requiredValue)
@@ -57,7 +57,7 @@ class BaseSearchViewModelTest {
 
         assert(
             testViewModel.dataList.value == TestViewModel(mockedRepository).TestSearchDataSource()
-                .initiateData()
+                .initiateDataBlocking()
         )
     }
 
@@ -90,7 +90,7 @@ class TestViewModel(mockedRepository: Repository) :
     }
 
     inner class TestSearchDataSource : BaseSearchViewModel<Any>.SearchDataSource() {
-        override fun initiateData(): List<Any> {
+        override fun initiateDataBlocking(): List<Any> {
             return listOf("CA", "UA", "UK", "MX", "US", "DE")
         }
 

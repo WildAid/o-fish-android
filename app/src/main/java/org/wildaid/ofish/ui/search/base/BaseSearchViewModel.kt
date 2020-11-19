@@ -4,6 +4,10 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.search.complex.AddSearchModel
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
@@ -24,7 +28,10 @@ abstract class BaseSearchViewModel<T>(application: Application) : AndroidViewMod
 
     fun initDataList(searchEntity: BaseSearchType, report: Report?) {
         searchDataSource = getDataSource(searchEntity, report)
-        _dataList.value = searchDataSource.initiateData()
+        searchDataSource.initiateData()
+            .onEach { list ->
+                _dataList.postValue(list)
+            }.launchIn(viewModelScope)
     }
 
     fun applyFilter(filter: String) {
@@ -51,7 +58,8 @@ abstract class BaseSearchViewModel<T>(application: Application) : AndroidViewMod
     }
 
     abstract inner class SearchDataSource {
-        abstract fun initiateData(): List<T>
+        abstract fun initiateDataBlocking(): List<T>
+        abstract fun initiateData(): Flow<List<T>>
         abstract fun applyFilter(filter: String): List<T>
     }
 }

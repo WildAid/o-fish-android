@@ -4,7 +4,9 @@ import android.net.Uri
 import io.realm.Sort
 import io.realm.mongodb.AppException
 import io.realm.mongodb.User
+import kotlinx.coroutines.flow.Flow
 import org.bson.types.ObjectId
+import org.wildaid.ofish.data.report.Boat
 import org.wildaid.ofish.data.report.DutyChange
 import org.wildaid.ofish.data.report.Photo
 import org.wildaid.ofish.data.report.Report
@@ -94,7 +96,10 @@ class RepositoryImpl(
 
     override fun isLoggedIn() = realmDataSource.isLoggedIn()
 
-    override fun findReportsGroupedByVessel(sort: Sort) =
+    override fun findReportsGroupedByVesselBlocking(sort: Sort) =
+        realmDataSource.findReportsGroupedByVesselNameAndPermitNumberBlocking(sort)
+
+    override fun findReportsGroupedByVessel(sort: Sort): Flow<List<Report>> =
         realmDataSource.findReportsGroupedByVesselNameAndPermitNumber(sort)
 
     override fun findDraftsGroupedByOfficerNameAndEmail(sort: Sort): List<Report> {
@@ -108,8 +113,12 @@ class RepositoryImpl(
 
     override fun findDraft(draftId: ObjectId) = realmDataSource.findDraft(draftId)
 
-    override fun findReportsForBoat(boatPermitNumber: String, vesselName: String) =
-        realmDataSource.findReportsForBoat(boatPermitNumber, vesselName)
+    override fun findReportsForBoat(
+        boatPermitNumber: String,
+        vesselName: String
+    ): Flow<List<Report>> {
+        return realmDataSource.findReportsForBoat(boatPermitNumber, vesselName)
+    }
 
     override fun deleteDraft(draft: Report) {
         val photosToRemove = mutableListOf<String>()
@@ -158,7 +167,7 @@ class RepositoryImpl(
 
     override fun findAllBoats() = realmDataSource.findAllBoats()
 
-    override fun findBoat(boatPermitNumber: String, vesselName: String) =
+    override fun findBoat(boatPermitNumber: String, vesselName: String): Flow<Boat?> =
         realmDataSource.findBoat(boatPermitNumber, vesselName)
 
     override fun getMenuData() = realmDataSource.getMenuData()

@@ -146,7 +146,7 @@ class SimpleSearchViewModelTest {
 
     @Test
     fun initiateSimpleSearchDataSource() {
-        assert(searchData.initiateData() == wholeList)
+        assert(searchData.initiateDataBlocking() == wholeList)
     }
 
     @Test

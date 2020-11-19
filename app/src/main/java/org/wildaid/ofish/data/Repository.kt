@@ -4,6 +4,7 @@ import android.net.Uri
 import io.realm.Sort
 import io.realm.mongodb.AppException
 import io.realm.mongodb.User
+import kotlinx.coroutines.flow.Flow
 import org.bson.types.ObjectId
 import org.wildaid.ofish.data.report.*
 import java.util.*
@@ -36,7 +37,8 @@ interface Repository {
 
     fun isLoggedIn(): Boolean
 
-    fun findReportsGroupedByVessel(sort: Sort = Sort.DESCENDING): List<Report>
+    fun findReportsGroupedByVesselBlocking(sort: Sort = Sort.DESCENDING): List<Report>
+    fun findReportsGroupedByVessel(sort: Sort = Sort.DESCENDING): Flow<List<Report>>
 
     fun findDraftsGroupedByOfficerNameAndEmail(sort: Sort = Sort.DESCENDING): List<Report>
 
@@ -48,7 +50,7 @@ interface Repository {
 
     fun findDraft(draftId: ObjectId): Report?
 
-    fun findReportsForBoat(boatPermitNumber: String, vesselName: String): List<Report>
+    fun findReportsForBoat(boatPermitNumber: String, vesselName: String): Flow<List<Report>>
 
     fun getAmountOfDraftsByEmail(): Int
 
@@ -58,7 +60,7 @@ interface Repository {
 
     fun getMenuData(): MenuData?
 
-    fun findBoat(boatPermitNumber: String, vesselName: String): Boat?
+    fun findBoat(boatPermitNumber: String, vesselName: String): Flow<Boat?>
 
     fun getPhotosWithIds(ids: List<String>): List<Photo>
 
