@@ -7,6 +7,8 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import io.realm.RealmList
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -146,11 +148,19 @@ class SimpleSearchViewModelTest {
 
     @Test
     fun initiateSimpleSearchDataSource() {
-        assert(searchData.initiateDataBlocking() == wholeList)
+        runBlocking {
+            val result = searchData.initiateData()
+                .first()
+            assert(result == wholeList)
+        }
     }
 
     @Test
     fun filterSimpleSearchDataSource() {
-        assert(searchData.applyFilter("U") == filteredList)
+        runBlocking {
+            val result = searchData.applyFilter("U")
+                .first()
+            assert(result == filteredList)
+        }
     }
 }

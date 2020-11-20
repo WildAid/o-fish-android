@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.search.complex.AddSearchModel
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
@@ -29,15 +30,18 @@ abstract class BaseSearchViewModel<T>(application: Application) : AndroidViewMod
     fun initDataList(searchEntity: BaseSearchType, report: Report?) {
         searchDataSource = getDataSource(searchEntity, report)
         searchDataSource.initiateData()
-            .onEach { list ->
-                _dataList.postValue(list)
-            }.launchIn(viewModelScope)
+            .onEach { list -> _dataList.postValue(list) }
+            .launchIn(viewModelScope)
     }
 
     fun applyFilter(filter: String) {
-        _progressLiveData.value = true
-        _dataList.value = searchDataSource.applyFilter(filter)
-        _progressLiveData.value = false
+        searchDataSource.applyFilter(filter)
+            .onStart { _progressLiveData.postValue(true) }
+            .onEach { list ->
+                _dataList.postValue(list)
+                _progressLiveData.postValue(false)
+            }
+            .launchIn(viewModelScope)
     }
 
     fun isReportSearchEmpty() = isDataEmpty()
@@ -58,8 +62,7 @@ abstract class BaseSearchViewModel<T>(application: Application) : AndroidViewMod
     }
 
     abstract inner class SearchDataSource {
-        abstract fun initiateDataBlocking(): List<T>
         abstract fun initiateData(): Flow<List<T>>
-        abstract fun applyFilter(filter: String): List<T>
+        abstract fun applyFilter(filter: String): Flow<List<T>>
     }
 }

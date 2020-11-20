@@ -228,13 +228,14 @@ class RealmDataSource(context: Context) {
             .toFlow()
     }
 
-    fun findDraftsGroupedByOfficerEmail(sort: Sort, email: String): List<Report> {
+    fun findDraftsGroupedByOfficerEmail(sort: Sort, email: String): Flow<List<Report>> {
         return realm.where<Report>()
             .equalTo(DRAFT, true)
             .and()
             .equalTo(REPORTING_EMAIL_OFFICER, email)
             .sort(DATE, sort)
-            .findAll()
+            .findAllAsync()
+            .toFlow()
     }
 
     fun findAllReports(sort: Sort): List<Report> {

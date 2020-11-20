@@ -37,10 +37,9 @@ interface Repository {
 
     fun isLoggedIn(): Boolean
 
-    fun findReportsGroupedByVesselBlocking(sort: Sort = Sort.DESCENDING): List<Report>
     fun findReportsGroupedByVessel(sort: Sort = Sort.DESCENDING): Flow<List<Report>>
 
-    fun findDraftsGroupedByOfficerNameAndEmail(sort: Sort = Sort.DESCENDING): List<Report>
+    fun findDraftsGroupedByOfficerNameAndEmail(sort: Sort = Sort.DESCENDING): Flow<List<Report>>
 
     fun findAllReports(sort: Sort = Sort.DESCENDING): List<Report>
 

@@ -96,13 +96,10 @@ class RepositoryImpl(
 
     override fun isLoggedIn() = realmDataSource.isLoggedIn()
 
-    override fun findReportsGroupedByVesselBlocking(sort: Sort) =
-        realmDataSource.findReportsGroupedByVesselNameAndPermitNumberBlocking(sort)
-
     override fun findReportsGroupedByVessel(sort: Sort): Flow<List<Report>> =
         realmDataSource.findReportsGroupedByVesselNameAndPermitNumber(sort)
 
-    override fun findDraftsGroupedByOfficerNameAndEmail(sort: Sort): List<Report> {
+    override fun findDraftsGroupedByOfficerNameAndEmail(sort: Sort): Flow<List<Report>> {
         val officerData = getCurrentOfficer()
         return realmDataSource.findDraftsGroupedByOfficerEmail(sort, officerData.email)
     }
