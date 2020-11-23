@@ -201,19 +201,6 @@ class RealmDataSource(context: Context) {
 
     fun isLoggedIn() = realmApp.currentUser() != null
 
-    fun findReportsGroupedByVesselNameAndPermitNumberBlocking(sort: Sort): List<Report> {
-        return realm.where<Report>()
-            .isNotEmpty(VESSEL_NAME)
-            .and()
-            .beginGroup()
-            .equalTo(DRAFT, false)
-            .or()
-            .equalTo(DRAFT, null as Boolean?)
-            .endGroup()
-            .sort(DATE, sort)
-            .findAll()
-    }
-
     fun findReportsGroupedByVesselNameAndPermitNumber(sort: Sort): Flow<List<Report>> {
         return realm.where<Report>()
             .isNotEmpty(VESSEL_NAME)

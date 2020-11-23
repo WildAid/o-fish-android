@@ -7,6 +7,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,7 +35,7 @@ class BaseSearchViewModelTest {
 
     @Test
     fun testInitDataList() {
-        runBlocking {
+        runBlockingTest {
             testViewModel.initDataList(BaseSearchType(), null)
             val result = TestViewModel(mockedRepository).TestSearchDataSource()
                 .initiateData()
@@ -54,7 +55,7 @@ class BaseSearchViewModelTest {
         assert(!testViewModel.isReportSearchEmpty())
         assert(!testViewModel.dataList.value.isNullOrEmpty())
 
-        runBlocking {
+        runBlockingTest {
             val result = TestViewModel(mockedRepository).TestSearchDataSource()
                 .initiateData()
                 .first()

@@ -9,6 +9,7 @@ import io.realm.RealmList
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 
@@ -52,7 +53,7 @@ class ComplexSearchViewModelTest {
         val searchDataSource =
             complexSearchViewModel.getDataSource(ComplexSearchFragment.SearchBusiness, null)
 
-        runBlocking {
+        runBlockingTest {
             val result = searchDataSource.initiateData()
                 .first()
 
@@ -92,7 +93,7 @@ class ComplexSearchViewModelTest {
         val searchDataSource =
             complexSearchViewModel.getDataSource(ComplexSearchFragment.SearchViolation, null)
 
-        runBlocking {
+        runBlockingTest {
             val results = searchDataSource.initiateData()
                 .first()
 
@@ -154,7 +155,7 @@ class ComplexSearchViewModelTest {
         val searchDataSource =
             complexSearchViewModel.getDataSource(ComplexSearchFragment.SearchRecords, null)
 
-        runBlocking {
+        runBlockingTest {
             val results = searchDataSource.initiateData()
                 .first()
             assert(results.size == initiateGroupedReports.size + 1)
@@ -228,7 +229,7 @@ class ComplexSearchViewModelTest {
         val searchDataSource =
             complexSearchViewModel.getDataSource(ComplexSearchFragment.SearchBoardVessels, null)
 
-        runBlocking {
+        runBlockingTest {
             val initiateData = searchDataSource.initiateData()
                 .first()
             assert(initiateData.size == initiateGroupedReports.size + 2)
@@ -265,7 +266,7 @@ class ComplexSearchViewModelTest {
 
     @Test
     fun testEmptyCrewDataSource() {
-        runBlocking {
+        runBlockingTest {
             val mockedReport = Report()
             val searchDataSource =
                 complexSearchViewModel.getDataSource(ComplexSearchFragment.SearchCrew, mockedReport)
@@ -279,7 +280,7 @@ class ComplexSearchViewModelTest {
 
     @Test
     fun testCrewDataSource() {
-        runBlocking {
+        runBlockingTest {
             val mockedReport = Report().apply {
                 captain = CrewMember().apply {
                     name = "Captain"
