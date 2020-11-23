@@ -40,10 +40,7 @@ class VesselDetailsViewModel(
         repository.findReportsForBoat(vesselPermitNumber, vesselName)
             .flatMapMerge { reports ->
                 repository.findBoat(vesselPermitNumber, vesselName)
-                    .map { boat ->
-                        val kajshd = 0
-                        Pair(boat, reports)
-                    }
+                    .map { boat -> Pair(boat, reports) }
             }.onEach { (boat, reports) ->
                 initView(boat, reports)
             }.launchIn(viewModelScope)
@@ -82,10 +79,10 @@ class VesselDetailsViewModel(
 
         val vesselReportItems = reports.map { report ->
             ReportItem(
-                report,
-                report.inspection?.summary?.violations!!
+                report = report,
+                warningsCount = report.inspection?.summary?.violations!!
                     .count { it.disposition == ViolationRisk.Warning.name },
-                report.inspection?.summary?.violations!!
+                citationCount = report.inspection?.summary?.violations!!
                     .count { it.disposition == ViolationRisk.Citation.name }
             )
         }
