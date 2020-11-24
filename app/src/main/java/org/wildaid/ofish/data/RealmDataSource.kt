@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import io.realm.Realm
 import io.realm.Sort
+import io.realm.kotlin.toFlow
 import io.realm.kotlin.where
 import io.realm.log.LogLevel
 import io.realm.log.RealmLog
@@ -17,7 +18,6 @@ import org.bson.Document
 import org.bson.types.ObjectId
 import org.wildaid.ofish.BuildConfig
 import org.wildaid.ofish.data.report.*
-import org.wildaid.ofish.toFlow
 import java.util.*
 
 const val ON_DUTY = "On Duty"
