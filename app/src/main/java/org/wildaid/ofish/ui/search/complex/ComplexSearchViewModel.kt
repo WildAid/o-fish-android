@@ -36,7 +36,7 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
         private val addSearchModel = AddSearchModel(R.string.new_business)
 
         override fun initiateData(): Flow<List<SearchModel>> {
-            // FIXME: make repo operation a flow instead
+            // TODO: make repo operation a flow instead
             return mutableListOf<SearchModel>().apply {
                 addAll(repository.getBusinessAndLocation().map { BusinessSearchModel(it) })
                 add(addSearchModel)
@@ -46,7 +46,7 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
         }
 
         override fun applyFilter(filter: String): Flow<List<SearchModel>> {
-            // FIXME: make repo operation a flow instead
+            // TODO: make repo operation a flow instead
             return mutableListOf<SearchModel>().apply {
                 this.addAll(
                     repository.getBusinessAndLocation()
@@ -64,7 +64,7 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
 
     private val searchViolationDataSource = object : SearchDataSource() {
         override fun initiateData(): Flow<List<SearchModel>> {
-            // FIXME: make repo operation a flow instead
+            // TODO: make repo operation a flow instead
             return repository.getOffences()
                 .map { offenceData ->
                     ViolationSearchModel(offenceData)
@@ -74,7 +74,7 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
         }
 
         override fun applyFilter(filter: String): Flow<List<SearchModel>> {
-            // FIXME: make repo operation a flow instead
+            // TODO: make repo operation a flow instead
             return repository.getOffences()
                 .filter { it.code.contains(filter, true) || it.explanation.contains(filter, true) }
                 .map { ViolationSearchModel(it) }
@@ -207,7 +207,7 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
         private val addSearchModel = AddSearchModel(R.string.add_crew_member)
 
         override fun initiateData(): Flow<List<SearchModel>> {
-            // FIXME: make repo operation a flow instead
+            // TODO: make repo operation a flow instead
             return mutableListOf<SearchModel>().apply {
                 val captain = report.captain
                 if (isCaptainNotNullOrBlank(captain)) {
@@ -226,7 +226,7 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
         }
 
         override fun applyFilter(filter: String): Flow<List<SearchModel>> {
-            // FIXME: make repo operation a flow instead
+            // TODO: make repo operation a flow instead
             return mutableListOf<SearchModel>().apply {
                 val captain = report.captain
                 if (isCaptainNotNullOrBlank(captain) && containFilter(captain!!, filter)) {
