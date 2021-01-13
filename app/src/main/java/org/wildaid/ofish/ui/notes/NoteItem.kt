@@ -7,7 +7,7 @@ data class NoteItem(
     var note: AnnotatedNote,
     var title: String,
     var inEditMode: Boolean,
-    var photos: MutableList<PhotoItem> = mutableListOf()
+    val photos: MutableList<PhotoItem> = mutableListOf()
 ) {
     fun hasPhotos() = photos.isNotEmpty()
 

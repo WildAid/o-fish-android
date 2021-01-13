@@ -6,6 +6,10 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.realm.RealmList
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 
@@ -36,7 +40,7 @@ class ComplexSearchViewModelTest {
 
     @Test
     fun testBusinessDataSource() {
-        val initiateBussines = listOf(
+        val initiateBusiness = listOf(
             Pair("Business1", "Location1"),
             Pair("Business2", "Location2"),
             Pair("Business3", "Location3"),
@@ -44,28 +48,34 @@ class ComplexSearchViewModelTest {
             Pair("Business5", "Location5")
         )
 
-        every { mockedRepository.getBusinessAndLocation() } returns initiateBussines
+        every { mockedRepository.getBusinessAndLocation() } returns initiateBusiness
 
         val searchDataSource =
             complexSearchViewModel.getDataSource(ComplexSearchFragment.SearchBusiness, null)
 
-        assert(searchDataSource.initiateData().size == initiateBussines.size + 1)
-        assert(searchDataSource.initiateData().first() is BusinessSearchModel)
-        assert(
-            (searchDataSource.initiateData()
-                .first() as BusinessSearchModel).value == initiateBussines.first()
-        )
-        assert(searchDataSource.initiateData().last() is AddSearchModel)
+        runBlockingTest {
+            val result = searchDataSource.initiateData()
+                .first()
 
-        val filter = "3"
-        val filteredBusiness = listOf(Pair("Business3", "Location3"))
-        assert(searchDataSource.applyFilter(filter).size == filteredBusiness.size + 1)
-        assert(searchDataSource.applyFilter(filter).first() is BusinessSearchModel)
-        assert(
-            (searchDataSource.applyFilter(filter)
-                .first() as BusinessSearchModel).value == filteredBusiness.first()
-        )
-        assert(searchDataSource.applyFilter(filter).last() is AddSearchModel)
+            assert(result.size == initiateBusiness.size + 1)
+            assert(result.first() is BusinessSearchModel)
+            assert(
+                (result.first() as BusinessSearchModel).value == initiateBusiness.first()
+            )
+            assert(result.last() is AddSearchModel)
+
+            val filter = "3"
+            val filteredBusiness = listOf(Pair("Business3", "Location3"))
+
+            val filterResult = searchDataSource.applyFilter(filter)
+                .first()
+            assert(filterResult.size == filteredBusiness.size + 1)
+            assert(filterResult.first() is BusinessSearchModel)
+            assert(
+                (filterResult.first() as BusinessSearchModel).value == filteredBusiness.first()
+            )
+            assert(filterResult.last() is AddSearchModel)
+        }
     }
 
     @Test
@@ -83,21 +93,26 @@ class ComplexSearchViewModelTest {
         val searchDataSource =
             complexSearchViewModel.getDataSource(ComplexSearchFragment.SearchViolation, null)
 
-        assert(searchDataSource.initiateData().size == initiateOffence.size)
-        assert(searchDataSource.initiateData().first() is ViolationSearchModel)
-        assert(
-            (searchDataSource.initiateData()
-                .first() as ViolationSearchModel).value == initiateOffence.first()
-        )
+        runBlockingTest {
+            val results = searchDataSource.initiateData()
+                .first()
 
-        val filter = "3"
-        val filteredOffence = listOf(OffenceData("Some code 3", "explanation 3"))
-        assert(searchDataSource.applyFilter(filter).size == filteredOffence.size)
-        assert(searchDataSource.applyFilter(filter).first() is ViolationSearchModel)
-        assert(
-            (searchDataSource.applyFilter(filter)
-                .first() as ViolationSearchModel).value == filteredOffence.first()
-        )
+            assert(results.size == initiateOffence.size)
+            assert(results.first() is ViolationSearchModel)
+            assert(
+                (results.first() as ViolationSearchModel).value == initiateOffence.first()
+            )
+
+            val filter = "3"
+            val filteredOffence = listOf(OffenceData("Some code 3", "explanation 3"))
+            val filterResults = searchDataSource.applyFilter(filter)
+                .first()
+            assert(filterResults.size == filteredOffence.size)
+            assert(filterResults.first() is ViolationSearchModel)
+            assert(
+                (filterResults.first() as ViolationSearchModel).value == filteredOffence.first()
+            )
+        }
     }
 
     @Test
@@ -135,40 +150,43 @@ class ComplexSearchViewModelTest {
             }
         )
 
-        every { mockedRepository.findReportsGroupedByVessel() } returns initiateGroupedReports
+        every { mockedRepository.findReportsGroupedByVessel() } returns flowOf(initiateGroupedReports)
 
         val searchDataSource =
             complexSearchViewModel.getDataSource(ComplexSearchFragment.SearchRecords, null)
 
-        assert(searchDataSource.initiateData().size == initiateGroupedReports.size + 1)
-        assert(searchDataSource.initiateData().first() is TextViewSearchModel)
-        assert(searchDataSource.initiateData()[1] is RecordSearchModel)
-        assert(
-            (searchDataSource.initiateData()
-                .last() as RecordSearchModel).vessel.name == initiateGroupedReports.last().vessel?.name
-        )
-        assert(
-            (searchDataSource.initiateData()
-                .last() as RecordSearchModel).vessel.permitNumber == initiateGroupedReports.last().vessel?.permitNumber
-        )
+        runBlockingTest {
+            val results = searchDataSource.initiateData()
+                .first()
+            assert(results.size == initiateGroupedReports.size + 1)
+            assert(results.first() is TextViewSearchModel)
+            assert(results[1] is RecordSearchModel)
+            assert(
+                (results.last() as RecordSearchModel).vessel.name == initiateGroupedReports.last().vessel?.name
+            )
+            assert(
+                (results.last() as RecordSearchModel).vessel.permitNumber == initiateGroupedReports.last().vessel?.permitNumber
+            )
 
-        val filter = "3"
-        val filteredRecords = listOf(Report().apply {
-            vessel = Boat().apply {
-                name = "Vessel name 3"
-                permitNumber = "Vessel permit 3"
-            }
-        })
-        assert(searchDataSource.applyFilter(filter).size == filteredRecords.size)
-        assert(searchDataSource.applyFilter(filter).first() is RecordSearchModel)
-        assert(
-            (searchDataSource.applyFilter(filter)
-                .last() as RecordSearchModel).vessel.name == filteredRecords.last().vessel?.name
-        )
-        assert(
-            (searchDataSource.applyFilter(filter)
-                .last() as RecordSearchModel).vessel.permitNumber == filteredRecords.last().vessel?.permitNumber
-        )
+            val filter = "3"
+            val filteredRecords = listOf(Report().apply {
+                vessel = Boat().apply {
+                    name = "Vessel name 3"
+                    permitNumber = "Vessel permit 3"
+                }
+            })
+
+            val filterResults = searchDataSource.applyFilter(filter)
+                .first()
+            assert(filterResults.size == filteredRecords.size)
+            assert(filterResults.first() is RecordSearchModel)
+            assert(
+                (filterResults.last() as RecordSearchModel).vessel.name == filteredRecords.last().vessel?.name
+            )
+            assert(
+                (filterResults.last() as RecordSearchModel).vessel.permitNumber == filteredRecords.last().vessel?.permitNumber
+            )
+        }
     }
 
     @Test
@@ -206,113 +224,127 @@ class ComplexSearchViewModelTest {
             }
         )
 
-        every { mockedRepository.findReportsGroupedByVessel() } returns initiateGroupedReports
+        every { mockedRepository.findReportsGroupedByVessel() } returns flowOf(initiateGroupedReports)
 
         val searchDataSource =
             complexSearchViewModel.getDataSource(ComplexSearchFragment.SearchBoardVessels, null)
 
-        val initiateData = searchDataSource.initiateData()
-        assert(initiateData.size == initiateGroupedReports.size + 2)
-        assert(initiateData[0] is AddSearchModel)
-        assert(initiateData[1] is TextViewSearchModel)
-        assert(
-            (initiateData.last() as RecordSearchModel).vessel.name
-                == initiateGroupedReports.last().vessel?.name
-        )
-        assert(
-            (initiateData.last() as RecordSearchModel).vessel.permitNumber
-                == initiateGroupedReports.last().vessel?.permitNumber
-        )
+        runBlockingTest {
+            val initiateData = searchDataSource.initiateData()
+                .first()
+            assert(initiateData.size == initiateGroupedReports.size + 2)
+            assert(initiateData[0] is AddSearchModel)
+            assert(initiateData[1] is TextViewSearchModel)
+            assert(
+                (initiateData.last() as RecordSearchModel).vessel.name
+                        == initiateGroupedReports.last().vessel?.name
+            )
+            assert(
+                (initiateData.last() as RecordSearchModel).vessel.permitNumber
+                        == initiateGroupedReports.last().vessel?.permitNumber
+            )
 
-        val filter = "3"
-        val filteredRecords = listOf(Report().apply {
-            vessel = Boat().apply {
-                name = "Vessel name 3"
-                permitNumber = "Vessel permit 3"
-            }
-        })
-        assert(searchDataSource.applyFilter(filter).size == filteredRecords.size + 1)
-        assert(searchDataSource.applyFilter(filter).first() is AddSearchModel)
-        assert(
-            (searchDataSource.applyFilter(filter)
-                .last() as RecordSearchModel).vessel.name == filteredRecords.last().vessel?.name
-        )
-        assert(
-            (searchDataSource.applyFilter(filter)
-                .last() as RecordSearchModel).vessel.permitNumber == filteredRecords.last().vessel?.permitNumber
-        )
+            val filter = "3"
+            val filteredRecords = listOf(Report().apply {
+                vessel = Boat().apply {
+                    name = "Vessel name 3"
+                    permitNumber = "Vessel permit 3"
+                }
+            })
+            val filterResults = searchDataSource.applyFilter(filter)
+                .first()
+            assert(filterResults.size == filteredRecords.size + 1)
+            assert(filterResults.first() is AddSearchModel)
+            assert(
+                (filterResults.last() as RecordSearchModel).vessel.name == filteredRecords.last().vessel?.name
+            )
+            assert(
+                (filterResults.last() as RecordSearchModel).vessel.permitNumber == filteredRecords.last().vessel?.permitNumber
+            )
+        }
     }
 
     @Test
     fun testEmptyCrewDataSource() {
-        val mockedReport = Report()
-        val searchDataSource =
-            complexSearchViewModel.getDataSource(ComplexSearchFragment.SearchCrew, mockedReport)
+        runBlockingTest {
+            val mockedReport = Report()
+            val searchDataSource =
+                complexSearchViewModel.getDataSource(ComplexSearchFragment.SearchCrew, mockedReport)
 
-        assert(searchDataSource.initiateData().size == 1)
-        assert(searchDataSource.initiateData().first() is AddSearchModel)
+            val results = searchDataSource.initiateData()
+                .first()
+            assert(results.size == 1)
+            assert(results.first() is AddSearchModel)
+        }
     }
 
     @Test
     fun testCrewDataSource() {
-        val mockedReport = Report().apply {
-            captain = CrewMember().apply {
-                name = "Captain"
-                license = "Captain license"
+        runBlockingTest {
+            val mockedReport = Report().apply {
+                captain = CrewMember().apply {
+                    name = "Captain"
+                    license = "Captain license"
+                }
+
+                crew = RealmList(
+                    CrewMember().apply {
+                        name = "Crew 1"
+                        license = "Crew license 1"
+                    },
+                    CrewMember().apply {
+                        name = "Crew 2"
+                        license = "Crew license 2"
+                    },
+                    CrewMember().apply {
+                        name = "Crew 3"
+                        license = "Crew license 3"
+                    },
+                    CrewMember().apply {
+                        name = "Crew 4"
+                        license = "Crew license 4"
+                    },
+                    CrewMember().apply {
+                        name = "Crew 5"
+                        license = "Crew license 5"
+                    }
+                )
             }
 
-            crew = RealmList(
-                CrewMember().apply {
-                    name = "Crew 1"
-                    license = "Crew license 1"
-                },
-                CrewMember().apply {
-                    name = "Crew 2"
-                    license = "Crew license 2"
-                },
+            val searchDataSource =
+                complexSearchViewModel.getDataSource(ComplexSearchFragment.SearchCrew, mockedReport)
+
+            val initiateCrew = listOf(mockedReport.captain, *mockedReport.crew.toArray())
+
+            val results = searchDataSource.initiateData()
+                .first()
+            assert(results.size == initiateCrew.size + 1)
+            assert(results.first() is CrewSearchModel)
+            assert(results.last() is AddSearchModel)
+
+            val filter = "3"
+            val filteredCrew = listOf(
                 CrewMember().apply {
                     name = "Crew 3"
                     license = "Crew license 3"
-                },
-                CrewMember().apply {
-                    name = "Crew 4"
-                    license = "Crew license 4"
-                },
-                CrewMember().apply {
-                    name = "Crew 5"
-                    license = "Crew license 5"
                 }
             )
+
+            val filterResults = searchDataSource.applyFilter(filter)
+                .first()
+            assert(filterResults.size == filteredCrew.size + 1)
+            assert(filterResults.first() is CrewSearchModel)
+            assert(
+                !(filterResults.first() as CrewSearchModel).isCaptain
+            )
+            assert(
+                (filterResults.first() as CrewSearchModel).value.name == filteredCrew.first().name
+            )
+            assert(
+                (filterResults.first() as CrewSearchModel).value.license == filteredCrew.first().license
+            )
+            assert(filterResults.last() is AddSearchModel)
         }
-
-        val searchDataSource =
-            complexSearchViewModel.getDataSource(ComplexSearchFragment.SearchCrew, mockedReport)
-
-        val initiateCrew = listOf(mockedReport.captain, *mockedReport.crew.toArray())
-
-        assert(searchDataSource.initiateData().size == initiateCrew.size + 1)
-        assert(searchDataSource.initiateData().first() is CrewSearchModel)
-        assert(searchDataSource.initiateData().last() is AddSearchModel)
-
-        val filter = "3"
-        val filteredCrew = listOf(
-            CrewMember().apply {
-                name = "Crew 3"
-                license = "Crew license 3"
-            }
-        )
-        assert(searchDataSource.applyFilter(filter).size == filteredCrew.size + 1)
-        assert(searchDataSource.applyFilter(filter).first() is CrewSearchModel)
-        assert(!(searchDataSource.applyFilter(filter).first() as CrewSearchModel).isCaptain)
-        assert(
-            (searchDataSource.applyFilter(filter)
-                .first() as CrewSearchModel).value.name == filteredCrew.first().name
-        )
-        assert(
-            (searchDataSource.applyFilter(filter)
-                .first() as CrewSearchModel).value.license == filteredCrew.first().license
-        )
-        assert(searchDataSource.applyFilter(filter).last() is AddSearchModel)
     }
 
     @Test(expected = IllegalArgumentException::class)

@@ -19,15 +19,15 @@ import org.wildaid.ofish.util.getString
 class TabsViewModel(val repository: Repository, application: Application) :
     AndroidViewModel(application) {
 
-    private var _reportLiveData = MutableLiveData<Pair<Report, MutableList<PhotoItem>>>()
+    private val _reportLiveData = MutableLiveData<Pair<Report, MutableList<PhotoItem>>>()
     val reportLiveData: LiveData<Pair<Report, MutableList<PhotoItem>>>
         get() = _reportLiveData
 
-    private var _userEventLiveData = MutableLiveData<Event<TabsUserEvent>>()
+    private val _userEventLiveData = MutableLiveData<Event<TabsUserEvent>>()
     val userEventLiveData: LiveData<Event<TabsUserEvent>>
         get() = _userEventLiveData
 
-    private var _tabsStateLiveData = MutableLiveData<List<TabItem>>()
+    private val _tabsStateLiveData = MutableLiveData<List<TabItem>>()
     val tabsStateLiveData: LiveData<List<TabItem>>
         get() = _tabsStateLiveData
 
@@ -64,7 +64,7 @@ class TabsViewModel(val repository: Repository, application: Application) :
                 attachments?.photoIDs?.addAll(it.captain.photosIds)
             }
 
-            this.crewToPrefill = mutableListOf(
+            this.crewToPrefill = listOf(
                 *it.crew.map { crew ->
                     CrewMember().apply {
                         name = crew.name

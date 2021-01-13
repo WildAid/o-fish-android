@@ -20,19 +20,19 @@ class CrewViewModel(
     app: Application
 ) : BaseReportViewModel(repository, app) {
 
-    private var _crewMembersData = MutableLiveData<List<CrewMemberItem>>()
+    private val _crewMembersData = MutableLiveData<List<CrewMemberItem>>()
     val crewMembersData: LiveData<List<CrewMemberItem>>
         get() = _crewMembersData
 
-    private var _canAddNewMemberData = MutableLiveData(true)
+    private val _canAddNewMemberData = MutableLiveData(true)
     val canAddNewMemberData: LiveData<Boolean>
         get() = _canAddNewMemberData
 
-    private var _crewUserEvent = MutableLiveData<Event<CrewUserEvent>>()
+    private val _crewUserEvent = MutableLiveData<Event<CrewUserEvent>>()
     val crewUserEvent: LiveData<Event<CrewUserEvent>>
         get() = _crewUserEvent
 
-    private var currentCrewItems = mutableListOf<CrewMemberItem>()
+    private val currentCrewItems = mutableListOf<CrewMemberItem>()
 
     private val captainTitle = getString(R.string.captain)
     private val memberTitle = getString(R.string.crew_member)
@@ -167,7 +167,7 @@ class CrewViewModel(
         currentReport.captain != currentCrewItems[0].crewMember || currentReport.crew.size != currentCrewItems.size - 1
 
     private fun initiateCrewMembers(): List<CrewMemberItem> {
-        currentCrewItems = mutableListOf()
+        currentCrewItems.clear()
 
         // Init captain
         val captain = currentReport.captain ?: CrewMember()

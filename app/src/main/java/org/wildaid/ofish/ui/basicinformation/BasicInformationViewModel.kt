@@ -12,19 +12,19 @@ import org.wildaid.ofish.util.convert
 import java.util.*
 
 class BasicInformationViewModel : ViewModel() {
-    private var _reportLiveData = MutableLiveData<Report>()
+    private val _reportLiveData = MutableLiveData<Report>()
     val reportLiveData: LiveData<Report>
         get() = _reportLiveData
 
-    private var _basicInfoUserEventLiveData = MutableLiveData<Event<BasicInfoUserEvent>>()
+    private val _basicInfoUserEventLiveData = MutableLiveData<Event<BasicInfoUserEvent>>()
     val basicInfoUserEventLiveData: LiveData<Event<BasicInfoUserEvent>>
         get() = _basicInfoUserEventLiveData
 
-    private var _latitude = MutableLiveData<String>()
+    private val _latitude = MutableLiveData<String>()
     val latitude: LiveData<String>
         get() = _latitude
 
-    private var _longitude = MutableLiveData<String>()
+    private val _longitude = MutableLiveData<String>()
     val longitude: LiveData<String>
         get() = _longitude
 

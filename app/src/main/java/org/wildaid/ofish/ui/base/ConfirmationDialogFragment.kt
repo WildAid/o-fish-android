@@ -22,6 +22,7 @@ private const val EXTRA_DIALOG_ARGS = "extra_dialog_args"
 const val DIALOG_CLICK_EVENT = "dialog_click_event"
 
 class ConfirmationDialogFragment : DialogFragment() {
+
     private var title: String? = null
     private lateinit var message: String
     private lateinit var positive: String
@@ -33,6 +34,7 @@ class ConfirmationDialogFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         dialogId = arguments?.getInt(EXTRA_DIALOG_ID) ?: 0
         title = arguments?.getString(EXTRA_DIALOG_TITLE)
         message = arguments?.getString(EXTRA_DIALOG_MESSAGE)!!
@@ -79,6 +81,7 @@ class ConfirmationDialogFragment : DialogFragment() {
                 dialog.getButton(AlertDialog.BUTTON_NEUTRAL)?.setTextColor(resources.getColor(R.color.red))
             }
         }
+
         return dialog
     }
 

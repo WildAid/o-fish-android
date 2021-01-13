@@ -1,6 +1,8 @@
 package org.wildaid.ofish.ui.search.simple
 
 import android.app.Application
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import org.wildaid.ofish.data.OTHER
 import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.Report
@@ -49,14 +51,18 @@ class SimpleSearchViewModel(val repository: Repository, application: Application
     inner class SimpleSearchDataSource(private val dataSource: List<String>) :
         BaseSearchViewModel<String>.SearchDataSource() {
 
+        override fun initiateData(): Flow<List<String>> = flowOf(dataSource)
 
-        override fun initiateData() = dataSource
-
-        override fun applyFilter(filter: String): List<String> {
-            val result = dataSource.filter { it.contains(filter, true) }
-            if (!(result.contains(OTHER)))
-                return result.plus(OTHER)
-            return result
+        override fun applyFilter(filter: String): Flow<List<String>> {
+            return dataSource.filter {
+                it.contains(filter, true)
+            }.let { result ->
+                if (!(result.contains(OTHER))) {
+                    flowOf(result.plus(OTHER))
+                } else {
+                    flowOf(result)
+                }
+            }
         }
     }
 }

@@ -1,9 +1,13 @@
 package org.wildaid.ofish.ui.search.base
 
 import android.os.Build
+import android.os.CountDownTimer
 import androidx.test.core.app.ApplicationProvider
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -13,6 +17,8 @@ import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.Report
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
 import org.wildaid.ofish.ui.search.simple.SimpleSearchFragment
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.P])
@@ -29,20 +35,14 @@ class BaseSearchViewModelTest {
 
     @Test
     fun testInitDataList() {
-        val requiredValue = TestViewModel(mockedRepository).TestSearchDataSource().initiateData()
+        runBlockingTest {
+            testViewModel.initDataList(BaseSearchType(), null)
+            val result = TestViewModel(mockedRepository).TestSearchDataSource()
+                .initiateData()
+                .first()
 
-        testViewModel.initDataList(BaseSearchType(), null)
-        assert(testViewModel.dataList.value == requiredValue)
-    }
-
-    @Test
-    fun testApplyFilter() {
-        val requiredValue = TestViewModel(mockedRepository).TestSearchDataSource().applyFilter("U")
-
-        testViewModel.initDataList(BaseSearchType(), null)
-        testViewModel.applyFilter("U")
-
-        assert(testViewModel.dataList.value == requiredValue)
+            assert(testViewModel.dataList.value == result)
+        }
     }
 
     @Test
@@ -55,10 +55,12 @@ class BaseSearchViewModelTest {
         assert(!testViewModel.isReportSearchEmpty())
         assert(!testViewModel.dataList.value.isNullOrEmpty())
 
-        assert(
-            testViewModel.dataList.value == TestViewModel(mockedRepository).TestSearchDataSource()
+        runBlockingTest {
+            val result = TestViewModel(mockedRepository).TestSearchDataSource()
                 .initiateData()
-        )
+                .first()
+            assert(testViewModel.dataList.value == result)
+        }
     }
 
     @Test
@@ -90,12 +92,12 @@ class TestViewModel(mockedRepository: Repository) :
     }
 
     inner class TestSearchDataSource : BaseSearchViewModel<Any>.SearchDataSource() {
-        override fun initiateData(): List<Any> {
-            return listOf("CA", "UA", "UK", "MX", "US", "DE")
+        override fun initiateData(): Flow<List<Any>> {
+            return flowOf(listOf("CA", "UA", "UK", "MX", "US", "DE"))
         }
 
-        override fun applyFilter(filter: String): List<Any> {
-            return listOf("UA", "UK", "US")
+        override fun applyFilter(filter: String): Flow<List<Any>> {
+            return flowOf(listOf("UA", "UK", "US"))
         }
     }
 }

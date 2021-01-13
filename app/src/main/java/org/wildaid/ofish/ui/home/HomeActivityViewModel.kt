@@ -19,23 +19,23 @@ import java.util.*
 
 class HomeActivityViewModel(val repository: Repository, app: Application) : AndroidViewModel(app) {
 
-    private var _onDutyStatusLiveData = MutableLiveData<Boolean>()
+    private val _onDutyStatusLiveData = MutableLiveData<Boolean>()
     val onDutyStatusLiveData: LiveData<Boolean>
         get() = _onDutyStatusLiveData
 
-    private var _onDutyTextStatusLiveData = MutableLiveData<String>()
+    private val _onDutyTextStatusLiveData = MutableLiveData<String>()
     val onDutyTextStatusLiveData: LiveData<String>
         get() = _onDutyTextStatusLiveData
 
-    private var _darkModeLiveData = MutableLiveData<Boolean>()
+    private val _darkModeLiveData = MutableLiveData<Boolean>()
     val darkModeLiveData: LiveData<Boolean>
         get() = _darkModeLiveData
 
-    private var _currentOfficerLiveData = MutableLiveData<OfficerData>()
+    private val _currentOfficerLiveData = MutableLiveData<OfficerData>()
     val currentOfficerLiveData: LiveData<OfficerData>
         get() = _currentOfficerLiveData
 
-    private var _timerLiveData = MutableLiveData<Event<Boolean>>()
+    private val _timerLiveData = MutableLiveData<Event<Boolean>>()
     val timerLiveData: LiveData<Event<Boolean>>
         get() = _timerLiveData
 

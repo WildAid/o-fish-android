@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import io.realm.Realm
 import io.realm.Sort
+import io.realm.kotlin.toFlow
 import io.realm.kotlin.where
 import io.realm.log.LogLevel
 import io.realm.log.RealmLog
@@ -12,6 +13,7 @@ import io.realm.mongodb.AppConfiguration
 import io.realm.mongodb.AppException
 import io.realm.mongodb.Credentials
 import io.realm.mongodb.sync.SyncConfiguration
+import kotlinx.coroutines.flow.Flow
 import org.bson.Document
 import org.bson.types.ObjectId
 import org.wildaid.ofish.BuildConfig
@@ -199,7 +201,7 @@ class RealmDataSource(context: Context) {
 
     fun isLoggedIn() = realmApp.currentUser() != null
 
-    fun findReportsGroupedByVesselNameAndPermitNumber(sort: Sort): List<Report> {
+    fun findReportsGroupedByVesselNameAndPermitNumber(sort: Sort): Flow<List<Report>> {
         return realm.where<Report>()
             .isNotEmpty(VESSEL_NAME)
             .and()
@@ -209,16 +211,18 @@ class RealmDataSource(context: Context) {
             .equalTo(DRAFT, null as Boolean?)
             .endGroup()
             .sort(DATE, sort)
-            .findAll()
+            .findAllAsync()
+            .toFlow()
     }
 
-    fun findDraftsGroupedByOfficerEmail(sort: Sort, email: String): List<Report> {
+    fun findDraftsGroupedByOfficerEmail(sort: Sort, email: String): Flow<List<Report>> {
         return realm.where<Report>()
             .equalTo(DRAFT, true)
             .and()
             .equalTo(REPORTING_EMAIL_OFFICER, email)
             .sort(DATE, sort)
-            .findAll()
+            .findAllAsync()
+            .toFlow()
     }
 
     fun findAllReports(sort: Sort): List<Report> {
@@ -238,14 +242,14 @@ class RealmDataSource(context: Context) {
         }
     }
 
-    fun findReportsForBoat(boatPermitNumber: String, vesselName: String): List<Report> {
+    fun findReportsForBoat(boatPermitNumber: String, vesselName: String): Flow<List<Report>> {
         return realm.where<Report>()
             .equalTo(VESSEL_PERMIT_NUMBER, boatPermitNumber)
             .and()
             .equalTo(VESSEL_NAME, vesselName)
             .sort(DATE, Sort.DESCENDING)
-            .findAll()
-            .toList()
+            .findAllAsync()
+            .toFlow()
     }
 
     fun getAmountOfDraftsByOfficerEmail(email: String): Int {
@@ -298,13 +302,14 @@ class RealmDataSource(context: Context) {
         return realm.where<Photo>().equalTo(FIELD_ID, ObjectId(id)).findFirst()
     }
 
-    fun findBoat(boatPermitNumber: String, vesselName: String): Boat? {
+    fun findBoat(boatPermitNumber: String, vesselName: String): Flow<Boat?> {
         return realm.where<Boat>()
             .equalTo(FIELD_PERMIT_NUMBER, boatPermitNumber)
             .and()
             .equalTo(FIELD_NAME, vesselName)
             .sort(LAST_DELIVERY_DATE, Sort.DESCENDING)
-            .findFirst()
+            .findFirstAsync()
+            .toFlow()
     }
 
     fun getMenuData(): MenuData? {

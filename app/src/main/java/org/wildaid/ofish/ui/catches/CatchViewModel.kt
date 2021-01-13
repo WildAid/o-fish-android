@@ -20,11 +20,11 @@ class CatchViewModel(
     app: Application
 ) : BaseReportViewModel(repository, app) {
 
-    private var _catchItemsLiveData = MutableLiveData<List<CatchItem>>()
+    private val _catchItemsLiveData = MutableLiveData<List<CatchItem>>()
     val catchItemsLiveData: LiveData<List<CatchItem>>
         get() = _catchItemsLiveData
 
-    private var _catchUserEventLiveData = MutableLiveData<Event<CatchUserEvent>>()
+    private val _catchUserEventLiveData = MutableLiveData<Event<CatchUserEvent>>()
     val catchUserEventLiveData: LiveData<Event<CatchUserEvent>>
         get() = _catchUserEventLiveData
 

@@ -7,7 +7,7 @@ import org.wildaid.ofish.data.report.Photo
 
 data class AttachmentItem(
     var attachment: Attachments,
-    var photos: MutableList<PhotoItem> = mutableListOf(),
+    val photos: MutableList<PhotoItem> = mutableListOf(),
     var isNoteFocused: Event<Boolean> = Event(false)
 ) {
     fun hasNotes(): Boolean = attachment.notes.isNotEmpty()
