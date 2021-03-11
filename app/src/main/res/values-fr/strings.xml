@@ -10,6 +10,7 @@
     <string name="vessel_name">Nom du vaisseau</string>
     <string name="vessel">Vaisseau</string>
     <string name="vessel_information">Détails du vaisseau</string>
+    <string name="add_an_attachment">Ajouter des pièces jointes</string>
     <string name="permit_number">Numéro de permis</string>
     <string name="home_port">Port de rattachement</string>
     <string name="last_delivery">Dernière livraison</string>

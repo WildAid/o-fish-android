@@ -67,7 +67,8 @@
                         android:src="@drawable/ic_add_attachment"
                         android:tint="@color/dark_grey"
                         app:layout_constraintEnd_toEndOf="@id/vessel_information_title"
-                        app:layout_constraintTop_toTopOf="@id/vessel_information_title" />
+                        app:layout_constraintTop_toTopOf="@id/vessel_information_title"
+                        android:contentDescription="@string/add_an_attachment" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/vessel_edit_info"
