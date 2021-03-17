@@ -10,7 +10,7 @@
     <string name="vessel_name">Назва судна</string>
     <string name="vessel">Судно</string>
     <string name="vessel_information">Інформація про судно</string>
-    <string name="add_an_attachment">Додати вкладення</string>
+    <string name="add_an_attachment">додати примітку або фото</string>
     <string name="permit_number">Номер дозволу</string>
     <string name="home_port">Порт приписки</string>
     <string name="last_delivery">Остання поставка</string>
