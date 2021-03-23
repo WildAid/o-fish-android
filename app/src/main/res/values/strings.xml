@@ -10,6 +10,7 @@
     <string name="vessel_name">Vessel Name</string>
     <string name="vessel">Vessel</string>
     <string name="vessel_information">Vessel Information</string>
+    <string name="add_an_attachment">Add Photo or Note</string>
     <string name="permit_number">Permit Number</string>
     <string name="home_port">Home Port</string>
     <string name="last_delivery">Last Delivery</string>
