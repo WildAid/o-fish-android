@@ -8,6 +8,8 @@ O-FISH (Officer Fishery Information Sharing Hub) is a multi-platform application
 
 This repo implements the Android O-FISH app.
 
+The details behind the data architecture, schema, and partitioning strategy are described in [Realm Data and Partitioning Strategy Behind the WildAid O-FISH Mobile Apps](https://developer.mongodb.com/how-to/realm-data-architecture-ofish-app).
+
 ## Prerequisites
 
 This is the Android Mobile app for O-FISH. To build and use the app, you must [use the sandbox realm-app-id](https://bit.ly/ofishsandbox) or [build your own foundation](http://wildaid.github.io/build).
