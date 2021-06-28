@@ -1,9 +1,9 @@
 package org.wildaid.ofish.ui.home
 
+import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -58,7 +58,7 @@ class HomeFragment : Fragment(R.layout.fragment_home),
     private val navigation: NavController by lazy { findNavController() }
     private val fragmentViewModel: HomeFragmentViewModel by viewModels { getViewModelFactory() }
     private val activityViewModel: HomeActivityViewModel by activityViewModels { getViewModelFactory() }
-    private val requiredPermissions = arrayOf(ACCESS_FINE_LOCATION)
+    private val requiredPermissions = arrayOf(ACCESS_FINE_LOCATION,ACCESS_COARSE_LOCATION)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
