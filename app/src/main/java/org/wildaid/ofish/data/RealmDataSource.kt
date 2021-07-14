@@ -173,9 +173,9 @@ class RealmDataSource(context: Context) {
         realm.executeTransactionAsync(
             {
                 while (photoIterator.hasNext()) {
-                    it.insert(photoIterator.next())
+                    it.insertOrUpdate(photoIterator.next())
                 }
-                it.insert(report)
+                it.insertOrUpdate(report)
             },
             { listener.onSuccess() },
             { listener.onError(it) }
@@ -331,7 +331,6 @@ class RealmDataSource(context: Context) {
 
         val configuration = SyncConfiguration
             .Builder(user, agencyName)
-            .allowWritesOnUiThread(true)
             .build()
         realm = Realm.getInstance(configuration)
     }
