@@ -331,7 +331,6 @@ class RealmDataSource(context: Context) {
 
         val configuration = SyncConfiguration
             .Builder(user, agencyName)
-            .allowWritesOnUiThread(true)
             .build()
         realm = Realm.getInstance(configuration)
     }
