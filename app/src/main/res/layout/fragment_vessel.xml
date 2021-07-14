@@ -92,6 +92,7 @@
                                 android:layout_height="wrap_content"
                                 android:hint="@string/vessel_name"
                                 android:imeOptions="actionNext"
+                                android:inputType="textVisiblePassword"
                                 android:nextFocusDown="@id/vessel_permit_number"
                                 android:singleLine="true"
                                 android:text="@={viewModel.vesselItemLiveData.vessel.name}"
@@ -133,6 +134,7 @@
                                 android:layout_height="wrap_content"
                                 android:hint="@string/home_port"
                                 android:imeOptions="actionNext"
+                                android:inputType="textVisiblePassword"
                                 android:nextFocusDown="@id/vessel_flag_state"
                                 android:singleLine="true"
                                 android:text="@={viewModel.vesselItemLiveData.vessel.homePort}"
@@ -285,6 +287,7 @@
                                 android:layout_height="wrap_content"
                                 android:hint="@string/business"
                                 android:imeOptions="actionNext"
+                                android:inputType="textVisiblePassword"
                                 android:nextFocusDown="@id/delivery_location"
                                 android:text="@={viewModel.deliveryItemItemLiveData.lastDelivery.business}"
                                 app:onFocusChangeListener="@{viewModel.fieldFocusListener}" />
@@ -305,6 +308,7 @@
                                 android:layout_height="wrap_content"
                                 android:hint="@string/location"
                                 android:imeOptions="actionDone"
+                                android:inputType="textVisiblePassword"
                                 android:text="@={viewModel.deliveryItemItemLiveData.lastDelivery.location}"
                                 app:onFocusChangeListener="@{viewModel.fieldFocusListener}" />
                         </com.google.android.material.textfield.TextInputLayout>

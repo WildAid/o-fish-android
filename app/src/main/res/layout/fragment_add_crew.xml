@@ -71,6 +71,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/crew_member_name"
                 android:imeOptions="actionNext"
+                android:inputType="textVisiblePassword"
                 android:nextFocusDown="@id/add_crew_member_edit_license"
                 android:singleLine="true"
                 android:text="@={viewmodel.newCrewMember.name}" />

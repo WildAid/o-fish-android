@@ -94,12 +94,13 @@
                 android:id="@+id/crew_member_edit_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textCursorDrawable="@null"
                 android:imeOptions="actionNext"
+                android:inputType="textVisiblePassword"
                 android:nextFocusDown="@id/crew_member_edit_license_number"
                 android:onTextChanged="@{(text, start, before, count) -> holder.onNameChanged(text)}"
                 android:singleLine="true"
-                android:text="@={holder.currentItem.crewMember.name}" />
+                android:text="@={holder.currentItem.crewMember.name}"
+                android:textCursorDrawable="@null" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
