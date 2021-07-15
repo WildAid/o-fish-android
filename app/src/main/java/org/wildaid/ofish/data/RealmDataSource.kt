@@ -110,7 +110,7 @@ class RealmDataSource(context: Context) {
     }
 
     fun saveOnDutyChange(onDuty: Boolean, date: Date) {
-        realm.executeTransaction {
+        realm.executeTransactionAsync {
             realm.copyToRealm(DutyChange().apply {
                 this.user = User().apply {
                     name = Name().apply {
@@ -142,7 +142,7 @@ class RealmDataSource(context: Context) {
 
     fun updateStartDateForCurrentDuty(date: Date) {
         val onDuty = getRecentStartCurrentDuty()!!
-        realm.executeTransaction {
+        realm.executeTransactionAsync {
             onDuty.date = date
         }
     }
@@ -183,7 +183,7 @@ class RealmDataSource(context: Context) {
     }
 
     fun deleteDraft(report: Report, photoIds: MutableList<String>) {
-        realm.executeTransaction {
+        realm.executeTransactionAsync {
             it.where<Report>()
                 .equalTo(_ID, report._id)
                 .findFirst()
@@ -191,7 +191,7 @@ class RealmDataSource(context: Context) {
 
             if (!photoIds.isNullOrEmpty()) {
                 val query = realm.where<Photo>().equalTo(FIELD_ID, ObjectId(photoIds.first()))
-                photoIds.forEach { id ->  query.or().equalTo(FIELD_ID, ObjectId(id)) }
+                photoIds.forEach { id -> query.or().equalTo(FIELD_ID, ObjectId(id)) }
                 query.findAll().deleteAllFromRealm()
             }
         }
@@ -345,7 +345,7 @@ class RealmDataSource(context: Context) {
     }
 
     fun savePhoto(photo: Photo) {
-        realm.executeTransaction {
+        realm.executeTransactionAsync {
             it.copyToRealmOrUpdate(photo)
         }
     }
