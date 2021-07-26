@@ -11,6 +11,7 @@ import org.wildaid.ofish.R
 import org.wildaid.ofish.databinding.ItemEditCatchBinding
 import org.wildaid.ofish.ui.base.AdapterDiffCallback
 import org.wildaid.ofish.ui.base.PhotoItem
+import org.wildaid.ofish.util.hideKeyboard
 import org.wildaid.ofish.util.setVisible
 
 class CatchAdapter(
@@ -75,7 +76,7 @@ class CatchAdapter(
 
             catchEditBinding.catchEditGroup.setVisible(editVisible)
             catchEditBinding.catchNoteLayout.setVisible(editVisible && item.attachmentItem.hasNotes())
-            catchEditBinding.catchEditGroupWeight.setVisible( editVisible)
+            catchEditBinding.catchEditGroupWeight.setVisible(editVisible)
             catchEditBinding.countEditLayout.setVisible(editVisible)
 
             catchEditBinding.catchEditPhotos.onPhotoClickListener =
@@ -150,6 +151,9 @@ class CatchAdapter(
                 ) {
                     currentItem.catch.unit = parent?.getItemAtPosition(position) as String
                 }
+            }
+            spinner.viewTreeObserver?.addOnWindowFocusChangeListener {
+                spinner.hideKeyboard()
             }
         }
 

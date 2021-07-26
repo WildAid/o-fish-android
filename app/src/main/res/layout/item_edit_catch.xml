@@ -140,7 +140,7 @@
             app:layout_constraintStart_toStartOf="@id/spinner_unit"
             app:layout_constraintTop_toTopOf="@id/spinner_unit" />
 
-        <org.wildaid.ofish.ui.base.HideKeyboardRecyclerSpinner
+        <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/spinner_unit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
