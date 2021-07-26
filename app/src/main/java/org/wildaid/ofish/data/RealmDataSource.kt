@@ -111,7 +111,7 @@ class RealmDataSource(context: Context) {
 
     fun saveOnDutyChange(onDuty: Boolean, date: Date) {
         realm.executeTransactionAsync {
-            realm.copyToRealm(DutyChange().apply {
+            it.copyToRealm(DutyChange().apply {
                 this.user = User().apply {
                     name = Name().apply {
                         first = currentOfficer.firstName
