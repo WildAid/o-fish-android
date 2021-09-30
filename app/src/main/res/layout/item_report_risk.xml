@@ -39,7 +39,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.5"
-            android:text="Reason for color" />
+            android:text="@string/reason_for_color" />
 
         <TextView
             android:id="@+id/report_risk_reason"
