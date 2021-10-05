@@ -2,6 +2,7 @@ package org.wildaid.ofish.ui.crew
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.forEach
 import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -36,14 +37,9 @@ class CrewFragment : BaseReportFragment(R.layout.fragment_crew) {
 
     override fun validateForms(): Boolean {
         var result = true
-        if (crew_recycler.childCount > 0) {
-            if (crew_recycler[0].crew_member_edit_name_layout.editText?.text?.isNotEmpty()!! || crew_recycler[0].crew_member_edit_license_layout.editText?.text?.isNotEmpty()!!) {
-                return true
-            } else {
-                validateField(crew_recycler[0].crew_member_edit_name_layout)
-                validateField(crew_recycler[0].crew_member_edit_license_layout)
-                result = false
-            }
+        crew_recycler.forEach {
+            result = validateField(it.crew_member_edit_name_layout) && result
+            result = validateField(it.crew_member_edit_license_layout) && result
         }
         isFieldCheckPassed = true
 
