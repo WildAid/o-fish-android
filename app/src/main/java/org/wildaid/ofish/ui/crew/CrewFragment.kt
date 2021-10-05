@@ -2,6 +2,7 @@ package org.wildaid.ofish.ui.crew
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.forEach
 import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
