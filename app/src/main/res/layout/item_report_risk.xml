@@ -38,8 +38,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.5"
-            android:text="@string/reason_for_color" />
+            app:layout_constraintWidth_percent="0.5" />
 
         <TextView
             android:id="@+id/report_risk_reason"
