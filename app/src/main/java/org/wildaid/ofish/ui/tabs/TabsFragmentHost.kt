@@ -45,11 +45,13 @@ const val CATCH_FRAGMENT_POSITION = 4
 const val VIOLATION_FRAGMENT_POSITION = 5
 const val RISK_FRAGMENT_POSITION = 6
 const val NOTES_FRAGMENT_POSITION = 7
+const val NOT_FILLED_TABS_COUNT = 7
 
 const val FRAGMENT_TAG_PREFIX = "f"
 private const val ASK_PREFILL_VESSEL_DIALOG_ID = 13
 private const val ASK_SKIP_TABS_DIALOG_ID = 14
 private const val SUBMIT_DIALOG_ID = 15
+private const val FILL_BOARD_DIALOG = 16
 private const val ASK_PREFILL_CREW_DIALOG_ID = 191232
 
 class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener {
@@ -169,8 +171,23 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
             if (event != Lifecycle.Event.ON_RESUME) {
                 return@LifecycleEventObserver
             }
-
-            if (navStack.savedStateHandle.contains(DIALOG_CLICK_EVENT)) {
+            if (navStack.savedStateHandle.contains(DIALOG_CLICK_EVENT)
+                &&
+                fragmentViewModel.getSkippedAndNotVisitedTabs().size == NOT_FILLED_TABS_COUNT
+            ) { if (fragmentViewModel.didOtherTabOpenedBefore) {
+                    val click =
+                        navStack.savedStateHandle.get<DialogClickEvent>(DIALOG_CLICK_EVENT)!!
+                    val handled = handleDialogClick(click)
+                    if (handled) {
+                        navStack.savedStateHandle.remove<DialogClickEvent>(DIALOG_CLICK_EVENT)!!
+                    }
+                } else {
+                    handleDialogClick(DialogClickEvent(FILL_BOARD_DIALOG, DialogButton.POSITIVE))
+                }
+            } else if (navStack.savedStateHandle.contains(DIALOG_CLICK_EVENT)
+                &&
+                fragmentViewModel.getSkippedAndNotVisitedTabs().size != NOT_FILLED_TABS_COUNT
+            ) {
                 val click = navStack.savedStateHandle.get<DialogClickEvent>(DIALOG_CLICK_EVENT)!!
                 val handled = handleDialogClick(click)
                 if (handled) {
@@ -221,35 +238,41 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
     }
 
     private fun showSubmitReportDialog() {
-        val tabs = fragmentViewModel.getSkippedAndNotVisitedTabs()
-        val title: String
-        val message: String
-        if (tabs.isEmpty()) {
-            title = getString(R.string.submit_boarding)
-            message = getString(R.string.sure_to_submit)
-        } else {
-            title = getString(R.string.you_left_blank)
-            message = getString(
-                R.string.sure_to_submit_with_skipped,
-                tabs.joinToString("\n") { "- ${it.title}" })
-        }
-        val dialogBundle = ConfirmationDialogFragment.Bundler(
-            SUBMIT_DIALOG_ID,
-            title,
-            message,
-            getString(R.string.submit),
-            getString(R.string.keep_editing)
-        ).apply {
-            neutral = getString(R.string.save_and_finish_later)
-        }.bundle()
+        if (fragmentViewModel.didOtherTabOpenedBefore) {
+            val tabs = fragmentViewModel.getSkippedAndNotVisitedTabs()
+            val title: String
+            val message: String
+            if (tabs.isEmpty()) {
+                title = getString(R.string.submit_boarding)
+                message = getString(R.string.sure_to_submit)
+            } else {
+                title = getString(R.string.you_left_blank)
+                message = getString(
+                    R.string.sure_to_submit_with_skipped,
+                    tabs.joinToString("\n") { "- ${it.title}" })
+            }
+            val dialogBundle = ConfirmationDialogFragment.Bundler(
+                SUBMIT_DIALOG_ID,
+                title,
+                message,
+                getString(R.string.submit),
+                getString(R.string.keep_editing)
+            ).apply {
+                neutral = getString(R.string.save_and_finish_later)
+            }.bundle()
 
-        navigation.navigate(R.id.confirmation_dialog, dialogBundle)
+            navigation.navigate(R.id.confirmation_dialog, dialogBundle)
+        } else {
+            handleDialogClick(DialogClickEvent(FILL_BOARD_DIALOG, DialogButton.POSITIVE))
+        }
+
     }
 
     private fun handleDialogClick(click: DialogClickEvent): Boolean {
         return when (click.dialogId) {
             ASK_PREFILL_VESSEL_DIALOG_ID -> {
                 if (click.dialogBtn == DialogButton.POSITIVE) {
+                    fragmentViewModel.didOtherTabOpenedBefore = true
                     val vesselFragment =
                         childFragmentManager.findFragmentByTag("$FRAGMENT_TAG_PREFIX$VESSEL_FRAGMENT_POSITION") as VesselFragment
                     fragmentViewModel.vesselToPrefill?.let {
@@ -296,8 +319,15 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
                     if (pendingSkippingTabs != null) {
                         fragmentViewModel.onTabsSkipped(pendingSkippingTabs.orEmpty())
                         pendingSkippingTabs = null
+                    } else if (click.dialogBtn == DialogButton.NEGATIVE) {
+                        fragmentViewModel.didOtherTabOpenedBefore = true
                     }
                 }
+                true
+            }
+            FILL_BOARD_DIALOG -> {
+                tabs_pager.currentItem += 1
+                fragmentViewModel.didOtherTabOpenedBefore = true
                 true
             }
             else -> false
