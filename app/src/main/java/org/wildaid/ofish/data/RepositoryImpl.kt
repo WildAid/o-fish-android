@@ -54,7 +54,8 @@ class RepositoryImpl(
             it.fish.isBlank()
         }
         report.inspection?.summary?.violations?.removeAll {
-            it.offence == null || it.offence?.code?.isBlank() == true
+            it.offence == null || it.offence?.code?.isBlank() == true ||
+            it.disposition.isEmpty() || it.crewMember == null || it.crewMember?.name.isNullOrEmpty()
         }
         report.notes.removeAll {
             it.note.isBlank()

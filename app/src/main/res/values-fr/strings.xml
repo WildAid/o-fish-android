@@ -227,4 +227,5 @@
     <string name="error_date_in_future">Enregistrer la date correcte</string>
     <string name="risk_no_notes_or_photos">Aucune note ou photo pour risque</string>
     <string name="invalid_email_or_password">Email ou mot de passe invalide</string>
+    <string name="violation_save_msg">Ce champ est requis pour enregistrer la violation</string>
 </resources>
