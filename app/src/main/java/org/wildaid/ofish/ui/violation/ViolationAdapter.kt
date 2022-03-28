@@ -97,7 +97,7 @@ class ViolationAdapter(
             }
 
             binding.violationNoteLayout.setVisible(item.inEditMode && item.attachments.hasNotes())
-            binding.violationRemoveGroup.setVisible(item.inEditMode && dataList.size > 1)
+            binding.violationRemoveGroup.setVisible(item.inEditMode)
 
             binding.violationDescriptionLayout.setVisible(
                 item.inEditMode
