@@ -198,4 +198,5 @@
     <!--    Time On Duty    -->
     <string name="become_not_at_sea">Зійти з моря</string>
     <string name="invalid_email_or_password">Невірний емеіл або пароль</string>
+    <string name="violation_save_msg">Це поле є обов’язковим для збереження порушення</string>
 </resources>

@@ -223,4 +223,5 @@
     <string name="error_date_in_future">Selecione la fecha correcta</string>
     <string name="risk_no_notes_or_photos">Sin Notas o Fotos por Riesgo</string>
     <string name="invalid_email_or_password">Correo electrónico o contraseña no válidos</string>
+    <string name="violation_save_msg">Este campo es obligatorio para guardar la infracción</string>
 </resources>
