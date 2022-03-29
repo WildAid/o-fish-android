@@ -1,11 +1,13 @@
 package org.wildaid.ofish.ui.profile
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.Observer
@@ -13,6 +15,8 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_user_profile.*
+import kotlinx.android.synthetic.main.fragment_user_profile.image_user
+import kotlinx.android.synthetic.main.fragment_user_profile.image_user_status
 import org.wildaid.ofish.R
 import org.wildaid.ofish.databinding.FragmentUserProfileBinding
 import org.wildaid.ofish.ui.base.DIALOG_CLICK_EVENT
@@ -28,6 +32,7 @@ class ProfileFragment : Fragment(R.layout.fragment_user_profile) {
     private val activityViewModel: HomeActivityViewModel by activityViewModels { getViewModelFactory() }
     private var dataBinding: FragmentUserProfileBinding? = null
     private val navigation: NavController by lazy { findNavController() }
+    private val fragmentViewModel: ProfileViewModel by viewModels { getViewModelFactory() }
     private lateinit var pendingImageUri: Uri
 
 
@@ -74,23 +79,29 @@ class ProfileFragment : Fragment(R.layout.fragment_user_profile) {
         pendingImageUri = createImageUri()
         val takePhotoIntent = createCameraIntent(pendingImageUri)
 
-        val intentList: MutableList<Intent> = mutableListOf()
-        combineIntents(intentList, pickImageIntent)
-        combineIntents(intentList, takePhotoIntent)
+        val chooser = Intent.createChooser(pickImageIntent, getString(R.string.chose_image_source))
+        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(takePhotoIntent))
+        startActivityForResult(chooser, REQUEST_PICK_IMAGE)
+    }
 
-        val chooserIntent: Intent?
-        if (intentList.size > 0) {
-            chooserIntent = Intent.createChooser(
-                intentList.removeAt(intentList.size - 1),
-                getString(R.string.chose_image_source)
-            )
-            chooserIntent.putExtra(
-                Intent.EXTRA_INITIAL_INTENTS,
-                intentList.toTypedArray()
-            )
-
-            startActivityForResult(chooserIntent, REQUEST_PICK_IMAGE)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
+            val uri = data?.data ?: pendingImageUri
+            fragmentViewModel.saveProfileImage(uri)
+            updateProfilePhoto(uri)
         }
+    }
+
+    private fun updateProfilePhoto(uri: Uri) {
+        Glide.with(this)
+            .clear(image_user)
+
+        Glide.get(requireContext()).clearMemory()
+        Thread {
+            Glide.get(requireContext()).clearDiskCache()
+        }.start()
+
+        loadOfficerPhotoWithUri(uri, image_user)
     }
 
 
