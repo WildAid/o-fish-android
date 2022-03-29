@@ -34,7 +34,7 @@ signingConfigs {
     defaultConfig {
         applicationId "org.wildaid.ofish"
         minSdkVersion 26
-        targetSdkVersion 31
+        targetSdkVersion 30
         versionCode 6
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -104,7 +104,11 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:2.3.1"
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
-    implementation 'com.google.android.material:material:1.3.0-alpha02'
+    // implementation 'com.google.android.material:material:1.3.0-alpha02'
+    // this implementation will get rid of the following error when the targetSdkVersion is 31.
+    // downgrading to targetSdkVerion 30, same as compileSdkVersion, gets rid of this problem.
+    // java.lang.IllegalArgumentException: Targeting S+ (version 31 and above) requires that one of FLAG_IMMUTABLE or FLAG_MUTABLE be specified when creating a PendingIntent. fix found at https://github.com/react-native-maps/react-native-maps/issues/4083
+    // implementation 'androidx.work:work-runtime-ktx:2.8.0-alpha01'
 
     // Google Maps
     implementation 'com.google.android.gms:play-services-location:17.1.0'
