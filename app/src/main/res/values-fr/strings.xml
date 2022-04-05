@@ -33,6 +33,9 @@
     <string name="photos">Photos:</string>
     <string name="remove_note">Enlever la remarque</string>
 
+    <string name="enter_new_business_name">Entrez le nouveau nom de lentreprise</string>
+    <string name="cancel">Annuler</string>
+
     <!--  Report  -->
     <string name="menu_save_report">Enregistrer</string>
     <string name="menu_cancel_report">Annuler l\'inspection</string>

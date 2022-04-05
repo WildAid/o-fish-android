@@ -1,17 +1,21 @@
 package org.wildaid.ofish.util
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
+import android.text.InputType
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.ImageView
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
 import org.wildaid.ofish.R
 import org.wildaid.ofish.app.OFISH_PROVIDER_SUFFIX
 import org.wildaid.ofish.app.ServiceLocator
@@ -82,11 +86,35 @@ fun Fragment.showSnackMessage(view: View, message: String) {
     Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
 }
 
-fun Fragment.loadOfficerPhotoWithUri(uri: Uri,imageView: ImageView){
+fun Fragment.loadOfficerPhotoWithUri(uri: Uri, imageView: ImageView) {
     this.let {
         Glide.with(this)
             .load(uri)
             .placeholder(R.drawable.ic_account_circle)
             .into(imageView)
     }
+}
+
+fun Fragment.showBusinessNameDialog(
+    textInputEditText: TextInputEditText,
+    successFunction: (name: String?) -> Unit
+) {
+    val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+    builder.setTitle(getString(R.string.new_business))
+
+    val input = EditText(context)
+    input.hint = getString(R.string.enter_new_business_name)
+    input.inputType = InputType.TYPE_CLASS_TEXT
+    builder.setView(input)
+
+    builder.setPositiveButton(getString(R.string.btn_save)) { _, _ ->
+        val newBusinessName = input.text.toString()
+        successFunction(newBusinessName)
+        textInputEditText.setText(newBusinessName)
+    }
+    builder.setNegativeButton(
+        getString(R.string.cancel)
+    ) { dialog, _ -> dialog.cancel() }
+
+    builder.show()
 }

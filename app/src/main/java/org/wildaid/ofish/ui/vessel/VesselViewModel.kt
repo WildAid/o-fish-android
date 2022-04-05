@@ -38,8 +38,6 @@ class VesselViewModel(
     val itemClicksLiveData: LiveData<Event<Int>>
         get() = _itemClicksLiveData
 
-    var isNewBusiness = false
-
     private lateinit var currentVesselItem: VesselItem
     private lateinit var currentDeliveryItem: DeliveryItem
     private lateinit var currentEMSItems: MutableList<EMSItem>
@@ -301,9 +299,8 @@ class VesselViewModel(
         _deliveryItemItemLiveData.value = currentDeliveryItem
     }
 
-    fun createNewBusiness() {
-        isNewBusiness = true
-        currentDeliveryItem.lastDelivery.business = ""
+    fun createNewBusiness(businessName: String) {
+        currentDeliveryItem.lastDelivery.business = businessName
         currentDeliveryItem.lastDelivery.location = ""
         _deliveryItemItemLiveData.value = currentDeliveryItem
     }

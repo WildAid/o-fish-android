@@ -38,8 +38,8 @@ class ComplexSearchViewModel(repository: Repository, application: Application) :
         override fun initiateData(): Flow<List<SearchModel>> {
             // TODO: make repo operation a flow instead
             return mutableListOf<SearchModel>().apply {
-                addAll(repository.getBusinessAndLocation().map { BusinessSearchModel(it) })
                 add(addSearchModel)
+                addAll(repository.getBusinessAndLocation().map { BusinessSearchModel(it) })
             }.let { searchModels ->
                 flowOf(searchModels)
             }

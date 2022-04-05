@@ -33,6 +33,11 @@
     <string name="photos">Photos:</string>
     <string name="remove_note">Remove Note</string>
 
+    <string name="enter_new_business_name">Enter the new business name</string>
+    <string name="cancel">Cancel</string>
+
+
+
     <!--  Report  -->
     <string name="menu_save_report">Save</string>
     <string name="menu_cancel_report">Cancel Boarding</string>

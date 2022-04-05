@@ -33,6 +33,9 @@
     <string name="photos">Світлина:</string>
     <string name="remove_note">Видалити Примітку</string>
 
+    <string name="enter_new_business_name">Введіть нову назву бізнес</string>
+    <string name="cancel">Скасувати</string>
+
     <!--  Report  -->
     <string name="menu_save_report">Зберегти</string>
     <string name="menu_cancel_report">Скасувати</string>

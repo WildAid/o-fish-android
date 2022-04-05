@@ -178,6 +178,9 @@
     <string name="warnings_citation_count">%d Advertencias * %d Multas</string>
     <string name="back">Regresa</string>
 
+    <string name="enter_new_business_name">Ingrese el nuevo nombre comercial</string>
+    <string name="cancel">Cancelar</string>
+
     <!--  Vessel Search  -->
     <string name="new_boarding">Nuevo inspección</string>
     <string name="add_new_vessel">Agregar barco nueva</string>
