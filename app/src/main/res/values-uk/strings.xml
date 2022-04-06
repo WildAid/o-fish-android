@@ -63,6 +63,8 @@
     <string name="longitude">Довгота</string>
     <string name="vessel_next">Судно\t\t\u279C</string>
 
+    <string name="set_location_manually">Встановіть своє місцезнаходження вручну</string>
+
     <!--  Activities  -->
     <string name="activity">Діяльність</string>
     <string name="fishery">Рибальство</string>

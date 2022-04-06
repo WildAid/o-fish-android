@@ -30,6 +30,7 @@ import org.wildaid.ofish.ui.base.BaseReportFragment
 import org.wildaid.ofish.ui.home.ZOOM_LEVEL
 import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.hideKeyboard
+import org.wildaid.ofish.util.showManuallySelectedLocationDialog
 import java.util.*
 
 class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_information),
@@ -71,6 +72,8 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
         fragmentViewModel.basicInfoUserEventLiveData.observe(
                 viewLifecycleOwner, EventObserver(::handleUserEvent)
         )
+
+        viewDataBinding.locationLayout.setOnClickListener { dialogSetup() }
     }
 
     @SuppressLint("MissingPermission")
@@ -186,5 +189,25 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
 
     }
 
+    private fun dialogSetup() {
+        showManuallySelectedLocationDialog(
+            viewDataBinding.basicInfoLat,
+            viewDataBinding.basicInfoLong
+        ) { onManuallySelectedLocationSuccess() }
+    }
+
+    private fun onManuallySelectedLocationSuccess() {
+        val latitude = viewDataBinding.basicInfoLat.text.toString().toDouble()
+        val longitude = viewDataBinding.basicInfoLong.text.toString().toDouble()
+
+        val location = Location("")
+        location.latitude = latitude
+        location.longitude = longitude
+
+        fragmentViewModel.setLocation(latitude, longitude)
+        initMap(location)
+        updateMarker()
+
+    }
 
 }

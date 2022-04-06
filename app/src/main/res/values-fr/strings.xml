@@ -63,6 +63,8 @@
     <string name="longitude">Longitude</string>
     <string name="vessel_next">vaisseau\t\t\u279C</string>
 
+    <string name="set_location_manually">Définissez votre emplacement manuellement</string>
+
     <!--  Activities  -->
     <string name="activity">Activité</string>
     <string name="fishery">Pêcherie</string>
