@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View"/>
+
         <variable
             name="holder"
             type="org.wildaid.ofish.ui.notes.NotesAdapter.NoteViewHolder" />
@@ -21,6 +23,7 @@
             android:id="@+id/group_note_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="@{holder.groupVisibilities?View.VISIBLE : View.GONE}"
             app:constraint_referenced_ids="note_action_add_attachment,
             report_note_edit_photos,
             note_edit_layout,
@@ -30,6 +33,7 @@
             android:id="@+id/group_note_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="@{holder.groupVisibilities?View.GONE : View.VISIBLE}"
             app:constraint_referenced_ids="view_note_layout,
             note_action_edit" />
 
@@ -80,13 +84,11 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/note_edit"
                 android:layout_width="match_parent"
-
-                android:textCursorDrawable="@null"
-                android:textColorHint="@color/header_color"
-
                 android:layout_height="wrap_content"
                 android:hint="@string/new_note"
-                android:text="@={holder.currentItem.note.note}" />
+                android:text="@={holder.currentItem.note.note}"
+                android:textColorHint="@color/header_color"
+                android:textCursorDrawable="@null" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <org.wildaid.ofish.ui.base.PhotoAttachmentsLayout
@@ -97,8 +99,7 @@
             android:layout_marginTop="12dp"
             app:editMode="@{true}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/note_edit_layout"
-            app:photos="@{holder.currentItem.photos}" />
+            app:layout_constraintTop_toBottomOf="@id/note_edit_layout" />
 
         <TextView
             android:id="@+id/note_action_remove"
@@ -126,7 +127,6 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/note_action_remove"
             app:note="@{holder.currentItem.note.note}"
-            app:noteTitle="@{@string/new_note}"
-            app:photos="@{holder.currentItem.photos}" />
+            app:noteTitle="@{@string/new_note}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

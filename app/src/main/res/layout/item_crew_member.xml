@@ -157,8 +157,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="12dp"
             app:editMode="@{true}"
-            app:layout_constraintTop_toBottomOf="@id/crew_member_edit_note_layout"
-            app:photos="@{holder.currentItem.attachments.photos}" />
+            app:layout_constraintTop_toBottomOf="@id/crew_member_edit_note_layout" />
 
         <View
             android:id="@+id/remove_btn_divider"
@@ -191,7 +190,6 @@
             app:crewMember="@{holder.currentItem.crewMember}"
             app:layout_constraintTop_toBottomOf="@id/crew_member_action_remove"
             app:nameHint="@{holder.nameHint}"
-            app:note="@{holder.currentItem.attachments.note}"
-            app:photos="@{holder.currentItem.attachments.photos}" />
+            app:note="@{holder.currentItem.attachments.note}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

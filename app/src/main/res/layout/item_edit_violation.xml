@@ -85,7 +85,6 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/violation_title"
             app:note="@{holder.currentItem.attachments.note}"
-            app:photos='@{holder.currentItem.attachments.photos}'
             app:violation='@{holder.currentItem.violation}' />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -247,8 +246,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="12dp"
             app:editMode="@{true}"
-            app:layout_constraintTop_toBottomOf="@id/violation_note_layout"
-            app:photos="@{holder.currentItem.attachments.photos}" />
+            app:layout_constraintTop_toBottomOf="@id/violation_note_layout" />
 
         <View
             android:id="@+id/remove_btn_divider"
@@ -271,6 +269,7 @@
             android:textSize="@dimen/add_remove_text_size"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/violation_note_layout" />
+            app:layout_constraintTop_toBottomOf="@+id/violation_edit_photos" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
