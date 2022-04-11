@@ -166,90 +166,103 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/basic_info_location_header" />
 
-                <TextView
-                    android:id="@+id/basic_info_lat_header"
-                    style="@style/SmallTitle"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/location_layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/latitude"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/basic_info_long_header"
-                    app:layout_constraintTop_toBottomOf="@id/basic_info_map" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/basic_info_map">
 
-                <TextView
-                    android:id="@+id/basic_info_long_header"
-                    style="@style/SmallTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:text="@string/longitude"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintLeft_toRightOf="@id/basic_info_lat_header"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/basic_info_map" />
+                    <TextView
+                        android:id="@+id/basic_info_lat_header"
+                        style="@style/SmallTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/latitude"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/basic_info_long_header"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/basic_info_lat"
-                    style="@style/TextValue"
-                    android:textColor="@color/header_color"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:text="@{viewmodel.latitude}"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/basic_info_long"
-                    app:layout_constraintTop_toBottomOf="@id/basic_info_lat_header"
-                    tools:text="50.123" />
-                <!--                    android:text="@{Double.toString(viewmodel.currentReport.location.latitude)}"-->
+                    <TextView
+                        android:id="@+id/basic_info_long_header"
+                        style="@style/SmallTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginRight="16dp"
+                        android:text="@string/longitude"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintLeft_toRightOf="@id/basic_info_lat_header"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/basic_info_long"
-                    style="@style/TextValue"
-                    android:layout_width="0dp"
-                    android:textColor="@color/header_color"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginEnd="16dp"
-                    android:text="@{viewmodel.longitude}"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintLeft_toRightOf="@id/basic_info_lat"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/basic_info_long_header"
-                    tools:text="-36.256" />
+                    <TextView
+                        android:id="@+id/basic_info_lat"
+                        style="@style/TextValue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="4dp"
+                        android:text="@{viewmodel.latitude}"
+                        android:textColor="@color/header_color"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/basic_info_long"
+                        app:layout_constraintTop_toBottomOf="@id/basic_info_lat_header"
+                        tools:text="50.123" />
+                    <!--                    android:text="@{Double.toString(viewmodel.currentReport.location.latitude)}"-->
 
-                <!--                    android:text="@{Double.toString(viewmodel.currentReport.location.longitude)}"-->
-                <View
-                    android:id="@+id/latitude_divider"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@color/divider"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/longitude_divider"
-                    app:layout_constraintTop_toBottomOf="@id/basic_info_long" />
+                    <TextView
+                        android:id="@+id/basic_info_long"
+                        style="@style/TextValue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@{viewmodel.longitude}"
+                        android:textColor="@color/header_color"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintLeft_toRightOf="@id/basic_info_lat"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/basic_info_long_header"
+                        tools:text="-36.256" />
 
-                <View
-                    android:id="@+id/longitude_divider"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@color/divider"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintLeft_toRightOf="@id/latitude_divider"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/basic_info_long" />
+                    <!--                    android:text="@{Double.toString(viewmodel.currentReport.location.longitude)}"-->
+                    <View
+                        android:id="@+id/latitude_divider"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@color/divider"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/longitude_divider"
+                        app:layout_constraintTop_toBottomOf="@id/basic_info_long" />
+
+                    <View
+                        android:id="@+id/longitude_divider"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@color/divider"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintLeft_toRightOf="@id/latitude_divider"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/basic_info_long" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 

@@ -21,9 +21,7 @@ import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.complex.BusinessSearchModel
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
 import org.wildaid.ofish.ui.search.simple.SimpleSearchFragment
-import org.wildaid.ofish.util.getViewModelFactory
-import org.wildaid.ofish.util.hideKeyboard
-import org.wildaid.ofish.util.setVisible
+import org.wildaid.ofish.util.*
 import java.util.*
 
 const val CREATE_NEW_BUSINESS = "create_new_business"
@@ -189,11 +187,9 @@ class VesselFragment : BaseReportFragment(R.layout.fragment_vessel) {
             }
 
             R.id.delivery_business -> {
-                if (!fragmentViewModel.isNewBusiness) {
-                    val bundle =
-                        bundleOf(BaseSearchFragment.SEARCH_ENTITY_KEY to ComplexSearchFragment.SearchBusiness)
-                    navigation.navigate(R.id.action_tabsFragment_to_complex_search, bundle)
-                }
+                val bundle =
+                    bundleOf(BaseSearchFragment.SEARCH_ENTITY_KEY to ComplexSearchFragment.SearchBusiness)
+                navigation.navigate(R.id.action_tabsFragment_to_complex_search, bundle)
             }
 
             R.id.delivery_edit_date -> {
@@ -248,7 +244,9 @@ class VesselFragment : BaseReportFragment(R.layout.fragment_vessel) {
                     if (business != null) fragmentViewModel.updateDeliveryBusiness(business)
 
                     val isNewBusiness = savedState.remove<Boolean>(CREATE_NEW_BUSINESS)
-                    if (isNewBusiness != null && isNewBusiness) fragmentViewModel.createNewBusiness()
+                    if (isNewBusiness != null && isNewBusiness) showBusinessNameDialog(
+                        fragmentBinding.deliveryBusiness
+                    ) { fragmentViewModel.createNewBusiness("") }
 
                     savedState.remove<Any>(BaseSearchFragment.SEARCH_ENTITY_KEY)
                 }
@@ -276,6 +274,7 @@ class VesselFragment : BaseReportFragment(R.layout.fragment_vessel) {
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
         )
+        dialog.datePicker.maxDate=Date().time
         dialog.show()
     }
 }

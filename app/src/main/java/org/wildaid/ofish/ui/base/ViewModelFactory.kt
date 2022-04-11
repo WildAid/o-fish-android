@@ -18,6 +18,7 @@ import org.wildaid.ofish.ui.home.HomeFragmentViewModel
 import org.wildaid.ofish.ui.login.LoginViewModel
 import org.wildaid.ofish.ui.notes.NotesViewModel
 import org.wildaid.ofish.ui.patrolsummary.PatrolSummaryViewModel
+import org.wildaid.ofish.ui.profile.ProfileViewModel
 import org.wildaid.ofish.ui.reportdetail.ReportDetailViewModel
 import org.wildaid.ofish.ui.risk.RiskViewModel
 import org.wildaid.ofish.ui.search.complex.ComplexSearchViewModel
@@ -96,6 +97,10 @@ class ViewModelFactory constructor(
 
             isAssignableFrom(FullImageViewModel::class.java) ->
                 FullImageViewModel(repository)
+
+            isAssignableFrom(ProfileViewModel::class.java) ->
+                ProfileViewModel(repository)
+
             else ->
                 throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }

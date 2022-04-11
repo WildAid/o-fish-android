@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
 
         <variable
             name="holder"
@@ -84,7 +85,6 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/violation_title"
             app:note="@{holder.currentItem.attachments.note}"
-            app:photos='@{holder.currentItem.attachments.photos}'
             app:violation='@{holder.currentItem.violation}' />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -98,6 +98,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
+                android:onTextChanged="@{(text, start, before, count) -> holder.onViolationTextChanged(text)}"
                 android:hint="@string/violation"
                 android:onClick="@{() -> holder.onSearchClicked(@id/violation_edit_name)}"
                 android:text="@{holder.currentItem.violation.offence.fullDescription}" />
@@ -182,6 +183,7 @@
             android:id="@+id/issued_edit_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:errorEnabled="@{holder.issuedToWarningVisible}"
             android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@id/result_violation_divider">
 
@@ -191,6 +193,7 @@
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 android:hint="@string/issued_to"
+                android:onTextChanged="@{(text, start, before, count) -> holder.onIssuedToTextChanged(text)}"
                 android:onClick="@{() -> holder.onSearchClicked(@id/issued_edit_name)}"
                 android:singleLine="true"
                 android:text="@{holder.currentItem.violation.crewMember.name}" />
@@ -243,8 +246,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="12dp"
             app:editMode="@{true}"
-            app:layout_constraintTop_toBottomOf="@id/violation_note_layout"
-            app:photos="@{holder.currentItem.attachments.photos}" />
+            app:layout_constraintTop_toBottomOf="@id/violation_note_layout" />
 
         <View
             android:id="@+id/remove_btn_divider"
@@ -267,6 +269,7 @@
             android:textSize="@dimen/add_remove_text_size"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/violation_note_layout" />
+            app:layout_constraintTop_toBottomOf="@+id/violation_edit_photos" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -17,19 +17,21 @@ configurations {
 }
 
 android {
-signingConfigs {
+    signingConfigs {
 
-   release {
-       storeFile file(RELEASE_STORE_FILE)
-       storePassword RELEASE_STORE_PASSWORD
-       keyAlias RELEASE_KEY_ALIAS
-       keyPassword RELEASE_KEY_PASSWORD
+        release {
+            storeFile file(RELEASE_STORE_FILE)
+            storePassword RELEASE_STORE_PASSWORD
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword RELEASE_KEY_PASSWORD
 
-       // Optional, specify signing versions used
-       v1SigningEnabled true
-       v2SigningEnabled true
-   }
-}
+            // Optional, specify signing versions used
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
+    //noinspection GradleCompatible
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
     defaultConfig {
@@ -47,9 +49,9 @@ signingConfigs {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             buildConfigField "String", "REALM_APP_ID", "\"${localProperties.getProperty("realm_app_id", "CHANGE_THIS_APP_ID")}\""
-            buildConfigField "String", "REALM_PASSWORD", "\"${localProperties.getProperty("realm_password", "")}\""
-            buildConfigField "String", "REALM_USER", "\"${localProperties.getProperty("realm_user", "")}\""
-            buildConfigField "String", "REALM_URL", "\"${localProperties.getProperty("realm_url", "")}\""
+//            buildConfigField "String", "REALM_PASSWORD", "\"${localProperties.getProperty("realm_password", "")}\""
+//            buildConfigField "String", "REALM_USER", "\"${localProperties.getProperty("realm_user", "")}\""
+//            buildConfigField "String", "REALM_URL", "\"${localProperties.getProperty("realm_url", "")}\""
         }
 
         debug {

@@ -1,8 +1,10 @@
 package org.wildaid.ofish.ui.violation
 
+import android.provider.Settings.Global.getString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.ObservableBoolean
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.wildaid.ofish.R
@@ -56,6 +58,7 @@ class ViolationAdapter(
 
     inner class ViolationViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         lateinit var currentItem: ViolationItem
+        var issuedToWarningVisible = ObservableBoolean(true)
 
         private val binding: ItemEditViolationBinding =
             ItemEditViolationBinding.bind(view).apply {
@@ -67,6 +70,17 @@ class ViolationAdapter(
             currentItem = item
             binding.violationActionRemove.text =
                 binding.root.context.getString(R.string.remove_violation, item.title)
+
+            if (item.inEditMode) {
+                binding.violationViewLayout.photos = emptyList()
+                binding.violationEditPhotos.setPhotos(item.attachments.photos)
+            } else {
+                binding.resultViolationDivider.visibility=View.GONE
+                binding.divider.visibility=View.GONE
+
+                binding.violationViewLayout.photos = item.attachments.photos
+                binding.violationEditPhotos.setPhotos(emptyList())
+            }
 
             binding.violationWarning.isSelected =
                 isWarningCitationSelected(binding.violationWarning.text)
@@ -94,7 +108,7 @@ class ViolationAdapter(
             }
 
             binding.violationNoteLayout.setVisible(item.inEditMode && item.attachments.hasNotes())
-            binding.violationRemoveGroup.setVisible(item.inEditMode && dataList.size > 1)
+            binding.violationRemoveGroup.setVisible(item.inEditMode)
 
             binding.violationDescriptionLayout.setVisible(
                 item.inEditMode
@@ -132,6 +146,31 @@ class ViolationAdapter(
 
         fun onSearchClicked(id: Int) {
             violationSearchListener.invoke(id, currentItem)
+        }
+
+        fun onViolationTextChanged(violationName: CharSequence) {
+            if (violationName.isNotEmpty()) {
+                onResultClicked(binding.violationWarning.id)
+
+                if (binding.issuedEditName.text.toString().isBlank()) issuedToWarningVisible
+                    .set(true) else issuedToWarningVisible.set(false)
+                binding.issuedEditLayout.error = binding.root.context.getString(R.string.violation_save_msg)
+            } else {
+                binding.violationWarning.isSelected = false
+                binding.violationCitation.isSelected = false
+                currentItem.violation.disposition = ""
+
+                issuedToWarningVisible.set(false)
+            }
+        }
+
+        fun onIssuedToTextChanged(issuedTo: CharSequence) {
+            if (issuedTo.isBlank()) {
+                if (binding.violationEditName.text.toString().isBlank())
+                    issuedToWarningVisible.set(false) else issuedToWarningVisible.set(true)
+            } else {
+                issuedToWarningVisible.set(false)
+            }
         }
     }
 }

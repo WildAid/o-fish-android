@@ -10,6 +10,7 @@ import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
+import androidx.core.view.accessibility.AccessibilityEventCompat.setAction
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -106,23 +107,9 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
         pendingImageUri = createImageUri()
         val takePhotoIntent = createCameraIntent(pendingImageUri!!)
 
-        val intentList: MutableList<Intent> = mutableListOf()
-        combineIntents(intentList, pickImageIntent)
-        combineIntents(intentList, takePhotoIntent)
-
-        val chooserIntent: Intent?
-        if (intentList.size > 0) {
-            chooserIntent = Intent.createChooser(
-                intentList.removeAt(intentList.size - 1),
-                getString(R.string.chose_image_source)
-            )
-            chooserIntent.putExtra(
-                Intent.EXTRA_INITIAL_INTENTS,
-                intentList.toTypedArray()
-            )
-
-            startActivityForResult(chooserIntent, REQUEST_PICK_IMAGE)
-        }
+        val chooser = Intent.createChooser(pickImageIntent, getString(R.string.chose_image_source))
+        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(takePhotoIntent))
+        startActivityForResult(chooser, REQUEST_PICK_IMAGE)
     }
 
     private fun subscribeForAttachmentDialogResult() {
@@ -170,8 +157,8 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
     protected fun showEmptyFieldWarning(inputLayout: TextInputLayout) {
         inputLayout.errorIconDrawable = resources.getDrawable(R.drawable.ic_error_filled, null)
 
-        inputLayout.defaultHintTextColor =  ContextCompat.getColorStateList(requireContext(), R.color.orange)
-        inputLayout.hintTextColor =  ContextCompat.getColorStateList(requireContext(), R.color.text_input_hint)
+        inputLayout.defaultHintTextColor = ContextCompat.getColorStateList(requireContext(), R.color.orange)
+        inputLayout.hintTextColor = ContextCompat.getColorStateList(requireContext(), R.color.text_input_hint)
 
         if (inputLayout.editText != null) {
             val colorStateList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.orange))

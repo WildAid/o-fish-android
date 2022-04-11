@@ -65,6 +65,14 @@ class CrewAdapter(
             binding.holder = this
             currentItem = item
 
+            if (item.inEditMode) {
+                binding.crewEditPhotos.setPhotos(item.attachments.photos)
+                binding.crewViewInfoLayout.photos = emptyList()
+            } else {
+                binding.crewEditPhotos.setPhotos(emptyList())
+                binding.crewViewInfoLayout.photos = item.attachments.photos
+            }
+
             binding.crewMemberEditGroup.setVisible(item.inEditMode)
             binding.crewMemberViewGroup.setVisible(!item.inEditMode)
             binding.crewMemberRemoveGroup.setVisible(item.isRemovable && item.inEditMode)

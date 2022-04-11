@@ -55,6 +55,8 @@
     <string name="longitude">Longitud</string>
     <string name="vessel_next">Barco\t\t\u279C</string>
 
+    <string name="set_location_manually">Establece tu ubicación manualmente</string>
+
     <!--  Activities  -->
     <string name="activity">Actividad</string>
     <string name="fishery">Pesquería</string>
@@ -178,6 +180,9 @@
     <string name="warnings_citation_count">%d Advertencias * %d Multas</string>
     <string name="back">Regresa</string>
 
+    <string name="enter_new_business_name">Ingrese el nuevo nombre comercial</string>
+    <string name="cancel">Cancelar</string>
+
     <!--  Vessel Search  -->
     <string name="new_boarding">Nuevo inspección</string>
     <string name="add_new_vessel">Agregar barco nueva</string>
@@ -223,4 +228,5 @@
     <string name="error_date_in_future">Selecione la fecha correcta</string>
     <string name="risk_no_notes_or_photos">Sin Notas o Fotos por Riesgo</string>
     <string name="invalid_email_or_password">Correo electrónico o contraseña no válidos</string>
+    <string name="violation_save_msg">Este campo es obligatorio para guardar la infracción</string>
 </resources>

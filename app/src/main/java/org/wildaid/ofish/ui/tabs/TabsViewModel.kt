@@ -31,6 +31,9 @@ class TabsViewModel(val repository: Repository, application: Application) :
     val tabsStateLiveData: LiveData<List<TabItem>>
         get() = _tabsStateLiveData
 
+    var didOtherTabOpenedBefore: Boolean = false
+
+
     var vesselToPrefill: Boat? = null
     var crewToPrefill: List<CrewMember>? = null
     var prefillCaptain: CrewMember? = null
