@@ -33,8 +33,12 @@ import org.wildaid.ofish.util.hideKeyboard
 import org.wildaid.ofish.util.showManuallySelectedLocationDialog
 import java.util.*
 
+const val LONG = 0
+const val LAT = 1
+
+
 class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_information),
-        OnMapReadyCallback {
+    OnMapReadyCallback {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var viewDataBinding: FragmentBasicInformationBinding
@@ -66,11 +70,11 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
         }
 
         val mapFragment =
-                childFragmentManager.findFragmentById(R.id.basic_info_map) as SupportMapFragment?
+            childFragmentManager.findFragmentById(R.id.basic_info_map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
 
         fragmentViewModel.basicInfoUserEventLiveData.observe(
-                viewLifecycleOwner, EventObserver(::handleUserEvent)
+            viewLifecycleOwner, EventObserver(::handleUserEvent)
         )
 
         viewDataBinding.locationLayout.setOnClickListener { dialogSetup() }
@@ -81,8 +85,8 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
         val coord = LatLng(location.latitude, location.longitude)
         if (!::marker.isInitialized) {
             marker = map.addMarker(
-                    MarkerOptions()
-                            .position(coord)
+                MarkerOptions()
+                    .position(coord)
             )
         }
         map.isMyLocationEnabled = true
@@ -98,28 +102,50 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
 
         val isNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         if (isNightMode == Configuration.UI_MODE_NIGHT_YES)
-            map.setMapStyle(MapStyleOptions.loadRawResourceStyle(activity?.applicationContext, R.raw.map_dark_mode))
+            map.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                    activity?.applicationContext,
+                    R.raw.map_dark_mode
+                )
+            )
 
-        if(!isLocationTurnedOn(requireContext()))
-           setDummyLocation()
+        if (currentReport.draft == true) {
+            val long = currentReport.location[LONG].toString()
+            val lat = currentReport.location[LAT].toString()
 
-        this.map.setOnCameraMoveListener {
-                updateMarker()
-        }
-        fusedLocationClient.lastLocation.addOnSuccessListener {
-            it?.let {
-                fragmentViewModel.setLocation(it.latitude, it.longitude)
-                initMap(it)
+            val location = Location("")
+            location.latitude = lat.toDouble()
+            location.longitude = long.toDouble()
+
+            fragmentViewModel.setLocation(location.latitude, location.longitude)
+            initMap(location)
+            cameraMoveListener()
+        } else {
+            if (!isLocationTurnedOn(requireContext()))
+                setDummyLocation()
+            cameraMoveListener()
+
+            fusedLocationClient.lastLocation.addOnSuccessListener {
+                it?.let {
+                    fragmentViewModel.setLocation(it.latitude, it.longitude)
+                    initMap(it)
+                }
             }
+            addTestMpa(this.map, resources)
         }
 
-        addTestMpa(this.map, resources)
+    }
+
+    private fun cameraMoveListener() {
+        this.map.setOnCameraMoveListener {
+            updateMarker()
+        }
     }
 
     private fun updateMarker() {
         val target = map.cameraPosition.target
         fragmentViewModel.setLocation(target.latitude, target.longitude)
-         marker.position = target
+        marker.position = target
     }
 
     private fun handleUserEvent(event: BasicInformationViewModel.BasicInfoUserEvent) {
@@ -140,10 +166,10 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
     private fun peekDate() {
         val calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())
         val dialog = DatePickerDialog(
-                requireContext(), ::onDatePicked,
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
+            requireContext(), ::onDatePicked,
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
         )
         dialog.datePicker.maxDate = System.currentTimeMillis()
         dialog.show()
@@ -156,11 +182,11 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
     private fun peekTime() {
         val calendar: Calendar = Calendar.getInstance(TimeZone.getDefault())
         val dialog = TimePickerDialog(
-                requireContext(),
-                ::onTimePicked,
-                calendar.get(Calendar.HOUR),
-                calendar.get(Calendar.MINUTE),
-                false
+            requireContext(),
+            ::onTimePicked,
+            calendar.get(Calendar.HOUR),
+            calendar.get(Calendar.MINUTE),
+            false
         )
         dialog.show()
     }
@@ -172,10 +198,11 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
     private fun isLocationTurnedOn(context: Context): Boolean {
         val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-                LocationManager.NETWORK_PROVIDER)
+            LocationManager.NETWORK_PROVIDER
+        )
     }
 
-    private fun setDummyLocation(){
+    private fun setDummyLocation() {
         val dummyLocation = LocationManager.GPS_PROVIDER
         val loc = Location(dummyLocation)
         val mockLocation = Location(dummyLocation)
