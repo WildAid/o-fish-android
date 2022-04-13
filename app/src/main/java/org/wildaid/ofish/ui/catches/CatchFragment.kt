@@ -18,6 +18,7 @@ import org.wildaid.ofish.ui.base.CARDS_OFFSET_SIZE
 import org.wildaid.ofish.ui.crew.VerticalSpaceItemDecoration
 import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.simple.SimpleSearchFragment
+import org.wildaid.ofish.ui.tabs.CATCH_FRAGMENT_POSITION
 import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.hideKeyboard
 
@@ -78,6 +79,12 @@ class CatchFragment : BaseReportFragment(R.layout.fragment_catch) {
         fragmentViewModel.catchUserEventLiveData.observe(
             viewLifecycleOwner, EventObserver(::handleUserEvent)
         )
+
+        onTabClickedPosition.observe(viewLifecycleOwner, EventObserver(::observeToNextClick))
+    }
+
+    private fun observeToNextClick(currentTabPosition: Int) {
+        if (currentTabPosition == CATCH_FRAGMENT_POSITION) handleUserEvent(CatchViewModel.CatchUserEvent.Next)
     }
 
     private fun initUI() {

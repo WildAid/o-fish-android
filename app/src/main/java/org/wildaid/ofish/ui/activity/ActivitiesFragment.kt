@@ -6,7 +6,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.Observer
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_activities.*
 import org.wildaid.ofish.EventObserver
@@ -15,6 +14,7 @@ import org.wildaid.ofish.databinding.FragmentActivitiesBinding
 import org.wildaid.ofish.ui.base.BaseReportFragment
 import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.simple.SimpleSearchFragment
+import org.wildaid.ofish.ui.tabs.ACTIVITIES_FRAGMENT_POSITION
 import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.setVisible
 
@@ -71,17 +71,19 @@ class ActivitiesFragment : BaseReportFragment(R.layout.fragment_activities) {
             EventObserver(::handleUserEvent)
         )
 
-        fragmentViewModel.activityItemLiveData.observe(viewLifecycleOwner, Observer {
+        fragmentViewModel.activityItemLiveData.observe(viewLifecycleOwner) {
             fragmentDataBinding.activitiesNoteLayout.setVisible(it.attachments.hasNotes())
-        })
+        }
 
-        fragmentViewModel.fisheryItemLiveData.observe(viewLifecycleOwner, Observer {
+        fragmentViewModel.fisheryItemLiveData.observe(viewLifecycleOwner) {
             fragmentDataBinding.activitiesFisheryNoteLayout.setVisible(it.attachments.hasNotes())
-        })
+        }
 
-        fragmentViewModel.gearItemLiveData.observe(viewLifecycleOwner, Observer {
+        fragmentViewModel.gearItemLiveData.observe(viewLifecycleOwner) {
             fragmentDataBinding.activityGearNoteLayout.setVisible(it.attachments.hasNotes())
-        })
+        }
+
+        onTabClickedPosition.observe(viewLifecycleOwner, EventObserver(::observeToNextClick))
 
         fragmentDataBinding.activitiesPhotosLayout.onPhotoClickListener = ::showFullImage
         fragmentDataBinding.fisheryPhotosLayout.onPhotoClickListener = ::showFullImage
@@ -93,6 +95,10 @@ class ActivitiesFragment : BaseReportFragment(R.layout.fragment_activities) {
             fragmentViewModel::removePhotoFromFishery
         fragmentDataBinding.gearPhotosLayout.onPhotoRemoveListener =
             fragmentViewModel::removePhotoFromGear
+    }
+
+    private fun observeToNextClick(currentTabPosition: Int) {
+        if (currentTabPosition == ACTIVITIES_FRAGMENT_POSITION) handleUserEvent(ActivitiesViewModel.ActivitiesUserEvent.NextEvent)
     }
 
     private fun handleUserEvent(event: ActivitiesViewModel.ActivitiesUserEvent) {
