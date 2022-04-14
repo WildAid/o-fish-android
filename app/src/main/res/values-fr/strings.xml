@@ -118,8 +118,9 @@
     <string name="find_records">Chercher les rapports</string>
     <string name="first_last_name">%s %s</string>
 
-    <string name="logout_dialog_title">Confirmez votre déconnexion</string>
-    <string name="logout_dialog_message">Vous ne pourrez vous reconnecter que si vous disposez d\'un service mobile ou d\'une connexion wifi</string>
+    <string name="logout_dialog_title">Se déconnecter ?</string>
+    <string name="logout_dialog_message">Vous ne pouvez vous reconnecter qu\'une fois que vous avez un service cellulaire ou que vous êtes connecté au Wi-Fi avec Internet.
+Tous les projets d\'embarquement seront supprimés !</string>
     <string name="logout_dialog_yes">Oui</string>
 
     <!--TODO: Add French translations for profile fragment"-->

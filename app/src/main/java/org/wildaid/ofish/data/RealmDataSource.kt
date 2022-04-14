@@ -2,6 +2,7 @@ package org.wildaid.ofish.data
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import io.realm.Realm
 import io.realm.Sort
 import io.realm.kotlin.toFlow
@@ -230,6 +231,19 @@ class RealmDataSource(context: Context) {
             .sort(DATE, sort)
             .findAll()
     }
+
+     fun deleteAllDraftedBoardings(success: MutableLiveData<Boolean>) {
+         realm.executeTransactionAsync({
+             it.where<Report>()
+                .equalTo(DRAFT, true)
+                ?.findAll()
+                ?.deleteAllFromRealm()
+         }, {
+             success.value = true
+         }) {
+             success.value = false
+         }
+     }
 
     fun findReport(reportId: ObjectId): Report? {
         return realm.where<Report>().equalTo(FIELD_ID, reportId).findFirst()
