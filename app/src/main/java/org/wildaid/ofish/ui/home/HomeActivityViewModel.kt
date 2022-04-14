@@ -3,7 +3,6 @@ package org.wildaid.ofish.ui.home
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.res.Configuration
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.AndroidViewModel
@@ -38,6 +37,10 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
     private val _timerLiveData = MutableLiveData<Event<Boolean>>()
     val timerLiveData: LiveData<Event<Boolean>>
         get() = _timerLiveData
+
+    private val _onDraftBoardsDeletedSuccessListener = MutableLiveData<Boolean>()
+    val onDraftBoardsDeletedSuccessListener: LiveData<Boolean>
+        get() = _onDraftBoardsDeletedSuccessListener
 
     var userEventLiveData = MutableLiveData<Event<HomeActivityUserEvent>>()
 
@@ -89,6 +92,10 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
 
     fun logOutUser() {
         userEventLiveData.value = Event(HomeActivityUserEvent.AskUserLogoutEvent)
+    }
+
+    fun removeDraftedBoards() {
+            repository.deleteAllDraftedBoardings(_onDraftBoardsDeletedSuccessListener)
     }
 
     fun logoutConfirmed() {

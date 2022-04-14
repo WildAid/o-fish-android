@@ -1,6 +1,7 @@
 package org.wildaid.ofish.data
 
 import android.net.Uri
+import androidx.lifecycle.MutableLiveData
 import io.realm.Sort
 import io.realm.mongodb.AppException
 import io.realm.mongodb.User
@@ -80,4 +81,6 @@ interface Repository {
     fun updateCurrentOfficerPhoto(uri: Uri)
 
     fun getCurrentOfficerPhoto(): Photo?
+
+    fun deleteAllDraftedBoardings(success:MutableLiveData<Boolean>)
 }
