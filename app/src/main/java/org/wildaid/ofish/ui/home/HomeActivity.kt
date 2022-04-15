@@ -23,6 +23,7 @@ import org.wildaid.ofish.util.getViewModelFactory
 const val ASK_CHANGE_DUTY_DIALOG_ID = 10
 const val ASK_TO_LOGOUT_DIALOG_ID = 11
 const val TEN_HOURS_TIMER_REQUEST_ID = 12
+const val NOT_AT_SEA_DIALOG_ID = 13
 
 private const val TEN_HOURS = 10 * 60 * 60 * 1000
 
@@ -36,7 +37,7 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
         activityViewModel.userEventLiveData.observe(this, EventObserver {
             when (it) {
                 HomeActivityViewModel.HomeActivityUserEvent.AskDutyConfirmationEvent -> askToChangeDuty()
-                HomeActivityViewModel.HomeActivityUserEvent.AskUserLogoutEvent -> askToLogout()
+                HomeActivityViewModel.HomeActivityUserEvent.AskUserLogoutEvent -> askToTurnOffAtSeaBeforeLogout()
                 HomeActivityViewModel.HomeActivityUserEvent.HomeUserLogoutEvent -> onUserLoggedOut()
                 HomeActivityViewModel.HomeActivityUserEvent.BecomeNotAtSea -> navigateToPatrolSummary()
             }
@@ -83,6 +84,21 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
     private fun onUserLoggedOut() {
         navigation.navigate(R.id.action_profileFragment_to_login_activity)
         finish()
+    }
+
+    private fun askToTurnOffAtSeaBeforeLogout(){
+        if (activityViewModel.onDutyStatusLiveData.value == true){
+            val dialogBundle = ConfirmationDialogFragment.Bundler(
+                NOT_AT_SEA_DIALOG_ID,
+                getString(R.string.warning),
+                getString(R.string.not_at_sea_message),
+                getString(R.string.logout_dialog_yes),
+                getString(android.R.string.cancel)
+            ).bundle()
+            navigation.navigate(R.id.action_profileFragment_to_ask_logout_dialog, dialogBundle)
+        } else {
+            askToLogout()
+        }
     }
 
     private fun askToLogout() {

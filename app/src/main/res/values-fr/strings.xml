@@ -234,4 +234,6 @@ Tous les projets d\'embarquement seront supprimés !</string>
     <string name="risk_no_notes_or_photos">Aucune note ou photo pour risque</string>
     <string name="invalid_email_or_password">Email ou mot de passe invalide</string>
     <string name="violation_save_msg">Ce champ est requis pour enregistrer la violation</string>
+
+    <string name="not_at_sea_message">Veuillez tenir compte du fait que \'Pas en mer\' s\'éteint automatiquement lors de la déconnexion</string>
 </resources>

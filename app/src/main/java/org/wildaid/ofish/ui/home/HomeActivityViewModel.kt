@@ -94,8 +94,8 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
         userEventLiveData.value = Event(HomeActivityUserEvent.AskUserLogoutEvent)
     }
 
-    fun removeDraftedBoards() {
-            repository.deleteAllDraftedBoardings(_onDraftBoardsDeletedSuccessListener)
+    fun removeDraftedBoardsBeforeLogout() {
+        repository.deleteAllDraftedBoardings(_onDraftBoardsDeletedSuccessListener)
     }
 
     fun logoutConfirmed() {
@@ -128,8 +128,9 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
 
     private fun saveDarkModeState(updatedState: Boolean) {
         val sharedPref: SharedPreferences = getApplication<Application>()
-            .getSharedPreferences(getString(R.string.DARK_MODE_STATE), Context.MODE_PRIVATE) ?: return
-        with (sharedPref.edit()) {
+            .getSharedPreferences(getString(R.string.DARK_MODE_STATE), Context.MODE_PRIVATE)
+            ?: return
+        with(sharedPref.edit()) {
             putBoolean(getString(R.string.DARK_MODE_ENABLED), updatedState)
             apply()
         }
