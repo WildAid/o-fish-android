@@ -8,9 +8,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.Observer
+import androidx.lifecycle.*
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -49,6 +47,10 @@ class ProfileFragment : Fragment(R.layout.fragment_user_profile) {
         activityViewModel.onDutyStatusLiveData.observe(viewLifecycleOwner, Observer { onDuty ->
             image_user_status.isEnabled = onDuty
         })
+
+        activityViewModel.onDraftBoardsDeletedSuccessListener.observe(
+            viewLifecycleOwner) { onSuccess -> if (onSuccess) activityViewModel.logoutConfirmed()
+        }
     }
 
     private fun showOfficerPhoto() {
@@ -121,11 +123,12 @@ class ProfileFragment : Fragment(R.layout.fragment_user_profile) {
         })
     }
 
+
     private fun handleDialogClick(event: DialogClickEvent): Boolean {
         return when (event.dialogId) {
             ASK_TO_LOGOUT_DIALOG_ID -> {
                 if (event.dialogBtn == DialogButton.POSITIVE) {
-                    activityViewModel.logoutConfirmed()
+                    activityViewModel.removeDraftedBoards()
                 }
                 true
             }

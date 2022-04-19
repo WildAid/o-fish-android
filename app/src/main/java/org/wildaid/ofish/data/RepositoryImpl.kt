@@ -1,6 +1,7 @@
 package org.wildaid.ofish.data
 
 import android.net.Uri
+import androidx.lifecycle.MutableLiveData
 import io.realm.Sort
 import io.realm.mongodb.AppException
 import io.realm.mongodb.User
@@ -228,5 +229,9 @@ class RepositoryImpl(
     override fun getCurrentOfficerPhoto(): Photo? {
         val pictureId = getCurrentOfficer().pictureId
         return getPhotoById(pictureId)
+    }
+
+    override fun deleteAllDraftedBoardings(success: MutableLiveData<Boolean>){
+        realmDataSource.deleteAllDraftedBoardings(success)
     }
 }
