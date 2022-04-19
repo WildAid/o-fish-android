@@ -14,15 +14,17 @@ import androidx.core.view.accessibility.AccessibilityEventCompat.setAction
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.report.Report
-import org.wildaid.ofish.util.combineIntents
 import org.wildaid.ofish.util.createCameraIntent
 import org.wildaid.ofish.util.createGalleryIntent
 import org.wildaid.ofish.util.createImageUri
@@ -36,6 +38,10 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
     lateinit var onNextListener: OnNextClickedListener
     lateinit var currentReport: Report
     lateinit var currentReportPhotos: MutableList<PhotoItem>
+
+    var _onTabClickedPosition = MutableLiveData<Event<Int>>()
+    protected val onTabClickedPosition: LiveData<Event<Int>>
+        get() = _onTabClickedPosition
 
     protected val navigation: NavController by lazy { findNavController() }
 
@@ -107,23 +113,9 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
         pendingImageUri = createImageUri()
         val takePhotoIntent = createCameraIntent(pendingImageUri!!)
 
-        val intentList: MutableList<Intent> = mutableListOf()
-        combineIntents(intentList, pickImageIntent)
-        combineIntents(intentList, takePhotoIntent)
-
-        val chooserIntent: Intent?
-        if (intentList.size > 0) {
-            chooserIntent = Intent.createChooser(
-                intentList.removeAt(intentList.size - 1),
-                getString(R.string.chose_image_source)
-            )
-            chooserIntent.putExtra(
-                Intent.EXTRA_INITIAL_INTENTS,
-                intentList.toTypedArray()
-            )
-
-            startActivityForResult(chooserIntent, REQUEST_PICK_IMAGE)
-        }
+        val chooser = Intent.createChooser(pickImageIntent, getString(R.string.chose_image_source))
+        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(takePhotoIntent))
+        startActivityForResult(chooser, REQUEST_PICK_IMAGE)
     }
 
     private fun subscribeForAttachmentDialogResult() {

@@ -65,6 +65,8 @@
     <string name="longitude">Longitude</string>
     <string name="vessel_next">Vessel\t\t\u279C</string>
 
+    <string name="set_location_manually">Set your location manually</string>
+
     <!--  Activities  -->
     <string name="activity">Activity</string>
     <string name="fishery">Fishery</string>

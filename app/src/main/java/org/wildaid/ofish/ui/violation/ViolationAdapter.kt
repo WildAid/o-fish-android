@@ -71,6 +71,17 @@ class ViolationAdapter(
             binding.violationActionRemove.text =
                 binding.root.context.getString(R.string.remove_violation, item.title)
 
+            if (item.inEditMode) {
+                binding.violationViewLayout.photos = emptyList()
+                binding.violationEditPhotos.setPhotos(item.attachments.photos)
+            } else {
+                binding.resultViolationDivider.visibility=View.GONE
+                binding.divider.visibility=View.GONE
+
+                binding.violationViewLayout.photos = item.attachments.photos
+                binding.violationEditPhotos.setPhotos(emptyList())
+            }
+
             binding.violationWarning.isSelected =
                 isWarningCitationSelected(binding.violationWarning.text)
             binding.violationCitation.isSelected =

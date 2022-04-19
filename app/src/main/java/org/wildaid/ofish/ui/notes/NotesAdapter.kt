@@ -3,13 +3,13 @@ package org.wildaid.ofish.ui.notes
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.ObservableBoolean
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.wildaid.ofish.R
 import org.wildaid.ofish.databinding.ItemEditReportNoteBinding
 import org.wildaid.ofish.ui.base.AdapterDiffCallback
 import org.wildaid.ofish.ui.base.PhotoItem
-import org.wildaid.ofish.util.setVisible
 
 class NotesAdapter(
     private val dataList: ArrayList<NoteItem> = ArrayList(),
@@ -52,7 +52,7 @@ class NotesAdapter(
 
     inner class NoteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         lateinit var currentItem: NoteItem
-
+        var groupVisibilities = ObservableBoolean(true)
         private val binding = ItemEditReportNoteBinding.bind(view).apply {
             holder = this@NoteViewHolder
         }
@@ -60,9 +60,15 @@ class NotesAdapter(
         fun bindItem(item: NoteItem) {
             binding.holder = this
             currentItem = item
-
-            binding.groupNoteEdit.setVisible(item.inEditMode)
-            binding.groupNoteView.setVisible(!item.inEditMode)
+            if (item.inEditMode) {
+                groupVisibilities.set(true)
+                binding.reportNoteEditPhotos.setPhotos(item.photos)
+                binding.viewNoteLayout.photos = emptyList()
+            } else {
+                groupVisibilities.set(false)
+                binding.reportNoteEditPhotos.setPhotos(emptyList())
+                binding.viewNoteLayout.photos = item.photos
+            }
             binding.reportNoteEditPhotos.onPhotoClickListener = noteOnPhotoClickListener::invoke
             binding.viewNoteLayout.attachmentsPhotos.onPhotoClickListener =
                 noteOnPhotoClickListener::invoke

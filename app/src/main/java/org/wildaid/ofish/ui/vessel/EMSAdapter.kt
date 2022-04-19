@@ -61,6 +61,14 @@ class EMSAdapter(
             binding.emsItem = emsItem
             binding.currentHolder = this
 
+            if (emsItem.inEditMode) {
+                binding.emsItemEditPhotos.setPhotos(emsItem.attachments.photos)
+                binding.emsViewLayout.photos = emptyList()
+            } else {
+                binding.emsItemEditPhotos.setPhotos(emptyList())
+                binding.emsViewLayout.photos = emsItem.attachments.photos
+            }
+
             binding.vesselEditEmsNoteLayout.setVisible(emsItem.attachments.hasNotes() && emsItem.inEditMode)
             binding.emsEditGroup.setVisible(emsItem.inEditMode)
             binding.emsViewGroup.setVisible(!emsItem.inEditMode)

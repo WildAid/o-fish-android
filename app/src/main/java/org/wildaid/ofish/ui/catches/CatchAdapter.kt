@@ -74,6 +74,14 @@ class CatchAdapter(
             val editVisible = item.inEditMode
             initUnitSpinner()
 
+            if (item.inEditMode) {
+                catchEditBinding.catchEditPhotos.setPhotos(item.attachmentItem.photos)
+                catchEditBinding.catchViewLayout.photos = emptyList()
+            } else {
+                catchEditBinding.catchEditPhotos.setPhotos(emptyList())
+                catchEditBinding.catchViewLayout.photos = item.attachmentItem.photos
+            }
+
             catchEditBinding.catchEditGroup.setVisible(editVisible)
             catchEditBinding.catchNoteLayout.setVisible(editVisible && item.attachmentItem.hasNotes())
             catchEditBinding.catchEditGroupWeight.setVisible(editVisible)

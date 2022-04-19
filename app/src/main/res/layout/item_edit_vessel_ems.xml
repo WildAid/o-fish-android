@@ -178,8 +178,7 @@
                 android:visibility="gone"
                 app:editMode="@{true}"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/vessel_edit_ems_note_layout"
-                app:photos="@{emsItem.attachments.photos}" />
+                app:layout_constraintTop_toBottomOf="@id/vessel_edit_ems_note_layout" />
 
             <TextView
                 android:id="@+id/ems_action_remove"
@@ -206,8 +205,7 @@
                 android:layout_height="wrap_content"
                 app:ems="@{emsItem.ems}"
                 app:layout_constraintTop_toBottomOf="@id/ems_action_remove"
-                app:note="@{emsItem.attachments.note}"
-                app:photos="@{emsItem.attachments.photos}" />
+                app:note="@{emsItem.attachments.note}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </layout>

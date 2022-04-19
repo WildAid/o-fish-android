@@ -55,6 +55,8 @@
     <string name="longitude">Longitud</string>
     <string name="vessel_next">Barco\t\t\u279C</string>
 
+    <string name="set_location_manually">Establece tu ubicación manualmente</string>
+
     <!--  Activities  -->
     <string name="activity">Actividad</string>
     <string name="fishery">Pesquería</string>

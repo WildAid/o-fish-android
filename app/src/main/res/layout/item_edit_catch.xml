@@ -80,8 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/catch_title"
-            app:note="@{holder.currentItem.attachmentItem.note}"
-            app:photos="@{holder.currentItem.attachmentItem.photos}" />
+            app:note="@{holder.currentItem.attachmentItem.note}" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/species_edit_layout"
@@ -195,8 +194,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="12dp"
             app:editMode="@{true}"
-            app:layout_constraintTop_toBottomOf="@id/catch_note_layout"
-            app:photos="@{holder.currentItem.attachmentItem.photos}" />
+            app:layout_constraintTop_toBottomOf="@id/catch_note_layout" />
 
         <View
             android:id="@+id/remove_btn_divider"
