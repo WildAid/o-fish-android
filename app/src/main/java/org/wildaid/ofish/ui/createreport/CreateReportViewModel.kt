@@ -87,6 +87,6 @@ class CreateReportViewModel(val repository: Repository) : ViewModel() {
         object AskDiscardBoarding : CreateReportUserEvent()
         object StartReportCreation : CreateReportUserEvent()
         object AskDeleteDraft : CreateReportUserEvent()
-        object NavigateToDraftList: CreateReportUserEvent()
+        object NavigateToDraftList : CreateReportUserEvent()
     }
 }

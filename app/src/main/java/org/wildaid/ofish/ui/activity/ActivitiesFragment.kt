@@ -11,6 +11,7 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_activities.*
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
+import org.wildaid.ofish.data.OTHER
 import org.wildaid.ofish.databinding.FragmentActivitiesBinding
 import org.wildaid.ofish.ui.base.BaseReportFragment
 import org.wildaid.ofish.ui.search.base.BaseSearchFragment
@@ -73,14 +74,17 @@ class ActivitiesFragment : BaseReportFragment(R.layout.fragment_activities) {
 
         fragmentViewModel.activityItemLiveData.observe(viewLifecycleOwner, Observer {
             fragmentDataBinding.activitiesNoteLayout.setVisible(it.attachments.hasNotes())
+            fragmentDataBinding.activityDescriptionLayout.setVisible(it.activity.name == OTHER)
         })
 
         fragmentViewModel.fisheryItemLiveData.observe(viewLifecycleOwner, Observer {
             fragmentDataBinding.activitiesFisheryNoteLayout.setVisible(it.attachments.hasNotes())
+            fragmentDataBinding.fisheryEditLayout.setVisible(it.fishery.name == OTHER)
         })
 
         fragmentViewModel.gearItemLiveData.observe(viewLifecycleOwner, Observer {
             fragmentDataBinding.activityGearNoteLayout.setVisible(it.attachments.hasNotes())
+            fragmentDataBinding.gearEditLayout.setVisible(it.gear.name == OTHER)
         })
 
         fragmentDataBinding.activitiesPhotosLayout.onPhotoClickListener = ::showFullImage

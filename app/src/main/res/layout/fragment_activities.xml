@@ -83,6 +83,24 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/activity_description_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:endIconContentDescription="@string/description"
+                        app:layout_constraintTop_toBottomOf="@id/activities_edit_text_layout">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/activity_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/description"
+                            android:imeOptions="actionNext"
+                            android:nextFocusDown="@id/delivery_location"
+                            android:singleLine="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/activities_note_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -92,7 +110,7 @@
                         app:endIconMode="custom"
                         app:endIconOnClickListener="@{(View) -> viewModel.removeNoteFromActivity()}"
                         app:endIconTint="@null"
-                        app:layout_constraintTop_toBottomOf="@id/activities_edit_text_layout">
+                        app:layout_constraintTop_toBottomOf="@id/activity_description_layout">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/activities_note"
@@ -113,7 +131,14 @@
                         app:editMode="@{true}"
                         app:layout_constraintTop_toBottomOf="@id/activities_note_layout"
                         app:photos="@{viewModel.activityItemLiveData.attachments.photos}"
-                        tools:layout_editor_absoluteX="23dp" />
+                        tools:layout_editor_absoluteX="23dp" >
+
+                        <androidx.coordinatorlayout.widget.CoordinatorLayout
+                            android:id="@id/snackbar_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginBottom="16dp" />
+                    </org.wildaid.ofish.ui.base.PhotoAttachmentsLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -169,6 +194,24 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/fishery_edit_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:endIconContentDescription="@string/description"
+                        app:layout_constraintTop_toBottomOf="@id/activity_fishery_edit_text_layout">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/fishery_edit_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/description"
+                            android:imeOptions="actionNext"
+                            android:nextFocusDown="@id/delivery_location"
+                            android:singleLine="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/activities_fishery_note_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -178,7 +221,7 @@
                         app:endIconMode="custom"
                         app:endIconOnClickListener="@{(View) -> viewModel.removeNoteFromFishery()}"
                         app:endIconTint="@null"
-                        app:layout_constraintTop_toBottomOf="@id/activity_fishery_edit_text_layout">
+                        app:layout_constraintTop_toBottomOf="@id/fishery_edit_layout">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/activities_fishery_note"
@@ -253,6 +296,23 @@
                             android:text="@{viewModel.gearItemLiveData.gear.name}" />
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/gear_edit_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:endIconContentDescription="@string/description"
+                        app:layout_constraintTop_toBottomOf="@id/activity_gear_edit_layout">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/gear_edit_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/description"
+                            android:imeOptions="actionNext"
+                            android:nextFocusDown="@id/delivery_location"
+                            android:singleLine="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/activity_gear_note_layout"
@@ -264,7 +324,7 @@
                         app:endIconMode="custom"
                         app:endIconOnClickListener="@{(View) -> viewModel.removeNoteFromGear()}"
                         app:endIconTint="@null"
-                        app:layout_constraintTop_toBottomOf="@id/activity_gear_edit_layout">
+                        app:layout_constraintTop_toBottomOf="@id/gear_edit_layout">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/activity_gear_note_edit_text"
@@ -287,14 +347,6 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </org.wildaid.ofish.ui.base.HideKeyboardNestedScrollView>
-
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@id/snackbar_container"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toTopOf="@id/btn_next"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btn_next"
