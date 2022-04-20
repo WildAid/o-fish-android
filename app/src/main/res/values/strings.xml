@@ -122,8 +122,9 @@
     <string name="first_last_name">%s %s</string>
 
     <!--  Profile  -->
-    <string name="logout_dialog_title">You sure you want to log out</string>
-    <string name="logout_dialog_message">You can only log back in once you have cellular service or are connected to WIFI with internet</string>
+    <string name="logout_dialog_title">Logout?</string>
+    <string name="logout_dialog_message">You can only log back in once you have cellular service or are connected to WiFi with Internet.
+All draft boardings will be deleted!</string>
     <string name="logout_dialog_yes">Yes</string>
     <string name="profile_toolbar_title">Officer Profile</string>
     <string name="profile_toolbar_close">Close</string>
@@ -240,6 +241,8 @@
     <string name="error_date_in_future">Please set correct date</string>
     <string name="risk_no_notes_or_photos">No Notes or Photos for Risk</string>
     <string name="invalid_email_or_password">Invalid email or password</string>
+
+    <string name="not_at_sea_message">Please take into account that \'Not At Sea\' turns off automatically while logout</string>
 
     <!--   Violation saving message -->
     <string name="violation_save_msg">This field is required for saving Violation</string>

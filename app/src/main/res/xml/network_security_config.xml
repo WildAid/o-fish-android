@@ -3,7 +3,7 @@
     <domain-config cleartextTrafficPermitted="false">
         <domain includeSubdomains="true">realm.mongodb.com</domain>
         <pin-set>
-            <pin digest="SHA-256">AE4X6tTSNIhAgDGTlSmbrLvYTpTFEUAQQ7JjOiqgwG8=</pin>
+            <pin digest="SHA-256">euSGP9s/4xSoK5a5oNLUz6BaGPhLjISo+TDBwk2schA=</pin>
             <pin digest="SHA-256">5kJvNEMw0KjrCAu7eXY5HZdvyCS13BbA0VJG1RSP91w=</pin>
             <pin digest="SHA-256">euSGP9s/4xSoK5a5oNLUz6BaGPhLjISo+TDBwk2schA=</pin>
         </pin-set>

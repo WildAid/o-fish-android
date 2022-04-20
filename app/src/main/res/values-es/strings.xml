@@ -111,8 +111,9 @@
     <string name="draft_boardings">Borradores</string>
 
     <!--  Profile  -->
-    <string name="logout_dialog_title">¿Seguro que quieres cerrar la sesión?</string>
-    <string name="logout_dialog_message">Solo puede volver a iniciar sesión una vez que tenga servicio de celular o esté conectado con el servicio de Internet</string>
+    <string name="logout_dialog_title">¿Cerrar sesión?</string>
+    <string name="logout_dialog_message">Solo puede volver a iniciar sesión una vez que tenga servicio celular o esté conectado a WiFi con Internet.
+¡Todos los proyectos de embarque serán eliminados!</string>
     <string name="logout_dialog_yes">Si</string>
     <string name="profile_toolbar_title">Perfil de Oficial</string>
 
@@ -229,4 +230,6 @@
     <string name="risk_no_notes_or_photos">Sin Notas o Fotos por Riesgo</string>
     <string name="invalid_email_or_password">Correo electrónico o contraseña no válidos</string>
     <string name="violation_save_msg">Este campo es obligatorio para guardar la infracción</string>
+
+    <string name="not_at_sea_message">Tenga en cuenta que \'no en el mar\' se apaga automáticamente al cerrar la sesión</string>
 </resources>
