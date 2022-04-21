@@ -14,15 +14,17 @@ import androidx.core.view.accessibility.AccessibilityEventCompat.setAction
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import org.wildaid.ofish.Event
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.report.Report
-import org.wildaid.ofish.util.combineIntents
 import org.wildaid.ofish.util.createCameraIntent
 import org.wildaid.ofish.util.createGalleryIntent
 import org.wildaid.ofish.util.createImageUri
@@ -36,6 +38,10 @@ abstract class BaseReportFragment(@LayoutRes contentLayoutId: Int) : Fragment(co
     lateinit var onNextListener: OnNextClickedListener
     lateinit var currentReport: Report
     lateinit var currentReportPhotos: MutableList<PhotoItem>
+
+    var _onTabClickedPosition = MutableLiveData<Event<Int>>()
+    protected val onTabClickedPosition: LiveData<Event<Int>>
+        get() = _onTabClickedPosition
 
     protected val navigation: NavController by lazy { findNavController() }
 

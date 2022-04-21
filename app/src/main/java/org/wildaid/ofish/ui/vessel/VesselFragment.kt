@@ -21,6 +21,7 @@ import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.complex.BusinessSearchModel
 import org.wildaid.ofish.ui.search.complex.ComplexSearchFragment
 import org.wildaid.ofish.ui.search.simple.SimpleSearchFragment
+import org.wildaid.ofish.ui.tabs.VESSEL_FRAGMENT_POSITION
 import org.wildaid.ofish.util.*
 import java.util.*
 
@@ -118,6 +119,12 @@ class VesselFragment : BaseReportFragment(R.layout.fragment_vessel) {
         fragmentViewModel.itemClicksLiveData.observe(viewLifecycleOwner, EventObserver {
             handleItemClick(it)
         })
+
+        onTabClickedPosition.observe(viewLifecycleOwner, EventObserver(::observeToNextClick))
+    }
+
+    private fun observeToNextClick(currentTabPosition: Int) {
+        if (currentTabPosition == VESSEL_FRAGMENT_POSITION) handleItemClick(R.id.btn_next)
     }
 
     fun fillVesselInfo(vesselToPrefill: Boat) {
