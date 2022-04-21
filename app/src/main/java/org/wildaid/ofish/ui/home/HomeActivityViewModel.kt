@@ -94,8 +94,10 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
         userEventLiveData.value = Event(HomeActivityUserEvent.AskUserLogoutEvent)
     }
 
+
     fun removeDraftedBoardsBeforeLogout() {
         repository.deleteAllDraftedBoardings(_onDraftBoardsDeletedSuccessListener)
+
     }
 
     fun logoutConfirmed() {
