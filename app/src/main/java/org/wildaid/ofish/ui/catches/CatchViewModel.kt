@@ -31,6 +31,10 @@ class CatchViewModel(
     private val catchTitle = getString(R.string.catch_title)
     private val currentCatchItems = mutableListOf<CatchItem>()
 
+    fun updateCurrentCatch(catch:CatchItem,position:Int){
+        currentCatchItems[position] = catch
+    }
+
     override fun initViewModel(report: Report, currentReportPhotos: MutableList<PhotoItem>) {
         super.initViewModel(report, currentReportPhotos)
 
@@ -48,7 +52,8 @@ class CatchViewModel(
                     attachmentItem = AttachmentItem(
                         it.attachments!!,
                         getPhotoItemsForIds(it.attachments!!.photoIDs)
-                    )
+                    ),
+                    description = ""
                 )
             )
         }
@@ -72,7 +77,8 @@ class CatchViewModel(
             catch = newCatch,
             title = "$catchTitle ${currentCatchItems.size + 1}",
             inEditMode = true,
-            attachmentItem = AttachmentItem(newCatch.attachments!!)
+            attachmentItem = AttachmentItem(newCatch.attachments!!),
+            description = ""
         )
 
         currentCatchItems.add(newItem)
