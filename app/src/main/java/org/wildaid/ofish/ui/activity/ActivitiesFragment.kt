@@ -8,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.Observer
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_activities.*
 import org.wildaid.ofish.EventObserver
@@ -78,7 +79,7 @@ class ActivitiesFragment : BaseReportFragment(R.layout.fragment_activities) {
 
         fragmentViewModel.activityItemLiveData.observe(viewLifecycleOwner) {
             fragmentDataBinding.activitiesNoteLayout.setVisible(it.attachments.hasNotes())
-
+            fragmentDataBinding.activityDescriptionLayout.setVisible(it.activity.name == OTHER)
         }
 
         fragmentViewModel.fisheryItemLiveData.observe(viewLifecycleOwner) {
@@ -91,8 +92,6 @@ class ActivitiesFragment : BaseReportFragment(R.layout.fragment_activities) {
 
         onTabClickedPosition.observe(viewLifecycleOwner, EventObserver(::observeToNextClick))
 
-            fragmentDataBinding.activityDescriptionLayout.setVisible(it.activity.name == OTHER)
-        })
 
         fragmentDataBinding.activityDescription.doOnTextChanged { text, _, _, _ ->
             activityViewModel.fieldsDescriptions.activityDescription = text.toString()
@@ -111,10 +110,10 @@ class ActivitiesFragment : BaseReportFragment(R.layout.fragment_activities) {
             activityViewModel.fieldsDescriptions.gearDescription = text.toString()
         }
 
-        fragmentViewModel.gearItemLiveData.observe(viewLifecycleOwner, Observer {
+        fragmentViewModel.gearItemLiveData.observe(viewLifecycleOwner) {
             fragmentDataBinding.activityGearNoteLayout.setVisible(it.attachments.hasNotes())
             fragmentDataBinding.gearEditLayout.setVisible(it.gear.name == OTHER)
-        })
+        }
 
         fragmentDataBinding.activitiesPhotosLayout.onPhotoClickListener = ::showFullImage
         fragmentDataBinding.fisheryPhotosLayout.onPhotoClickListener = ::showFullImage
