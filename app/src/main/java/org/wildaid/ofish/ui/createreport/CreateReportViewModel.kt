@@ -5,13 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.bson.types.ObjectId
 import org.wildaid.ofish.Event
+import org.wildaid.ofish.data.OTHER
 import org.wildaid.ofish.data.OnSaveListener
 import org.wildaid.ofish.data.Repository
+import org.wildaid.ofish.data.description.ReportDescriptionFields
 import org.wildaid.ofish.data.report.*
 import org.wildaid.ofish.ui.base.PhotoItem
 import java.util.*
 
 class CreateReportViewModel(val repository: Repository) : ViewModel() {
+    var fieldsDescriptions = ReportDescriptionFields()
+
     private val _createReportUserEvent = MutableLiveData<Event<CreateReportUserEvent>>()
     val createReportUserEvent: LiveData<Event<CreateReportUserEvent>>
         get() = _createReportUserEvent
@@ -33,9 +37,32 @@ class CreateReportViewModel(val repository: Repository) : ViewModel() {
     }
 
     fun saveReport(isDraft: Boolean? = null, listener: OnSaveListener) {
+        checkIfFieldsChooseOther()
         report.draft = isDraft
         val photosToSave = reportPhotos.map { Pair(it.photo, it.localUri) }
         repository.saveReport(report, isDraft, photosToSave, listener)
+    }
+
+    private fun checkIfFieldsChooseOther() {
+        if (report.inspection?.activity?.name == OTHER) {
+            report.inspection?.activity?.name = fieldsDescriptions.activityDescription
+        }
+        if (report.inspection?.fishery?.name == OTHER) {
+            report.inspection?.fishery?.name = fieldsDescriptions.fisheryDescription
+        }
+        if (report.inspection?.gearType?.name == OTHER) {
+            report.inspection?.gearType?.name = fieldsDescriptions.gearDescription
+        }
+
+        report.inspection?.actualCatch?.forEachIndexed { index, catch ->
+            if (catch.fish == OTHER) {
+                if (fieldsDescriptions.catches[index].description.isNotEmpty()) {
+                    catch.fish = fieldsDescriptions.catches[index].description
+                } else {
+                    catch.fish = ""
+                }
+            }
+        }
     }
 
     fun deleteReport() {
