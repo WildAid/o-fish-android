@@ -3,7 +3,6 @@ package org.wildaid.ofish.ui.home
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.res.Configuration
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.AndroidViewModel
@@ -38,6 +37,10 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
     private val _timerLiveData = MutableLiveData<Event<Boolean>>()
     val timerLiveData: LiveData<Event<Boolean>>
         get() = _timerLiveData
+
+    private val _onDraftBoardsDeletedSuccessListener = MutableLiveData<Boolean>()
+    val onDraftBoardsDeletedSuccessListener: LiveData<Boolean>
+        get() = _onDraftBoardsDeletedSuccessListener
 
     var userEventLiveData = MutableLiveData<Event<HomeActivityUserEvent>>()
 
@@ -91,6 +94,10 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
         userEventLiveData.value = Event(HomeActivityUserEvent.AskUserLogoutEvent)
     }
 
+    fun removeDraftedBoardsBeforeLogout() {
+        repository.deleteAllDraftedBoardings(_onDraftBoardsDeletedSuccessListener)
+    }
+
     fun logoutConfirmed() {
         repository.logOut(
             logoutSuccess = {
@@ -121,8 +128,9 @@ class HomeActivityViewModel(val repository: Repository, app: Application) : Andr
 
     private fun saveDarkModeState(updatedState: Boolean) {
         val sharedPref: SharedPreferences = getApplication<Application>()
-            .getSharedPreferences(getString(R.string.DARK_MODE_STATE), Context.MODE_PRIVATE) ?: return
-        with (sharedPref.edit()) {
+            .getSharedPreferences(getString(R.string.DARK_MODE_STATE), Context.MODE_PRIVATE)
+            ?: return
+        with(sharedPref.edit()) {
             putBoolean(getString(R.string.DARK_MODE_ENABLED), updatedState)
             apply()
         }

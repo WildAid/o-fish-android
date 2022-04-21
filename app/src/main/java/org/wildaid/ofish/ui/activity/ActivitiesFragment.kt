@@ -3,6 +3,8 @@ package org.wildaid.ofish.ui.activity
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -10,8 +12,10 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_activities.*
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
+import org.wildaid.ofish.data.OTHER
 import org.wildaid.ofish.databinding.FragmentActivitiesBinding
 import org.wildaid.ofish.ui.base.BaseReportFragment
+import org.wildaid.ofish.ui.createreport.CreateReportViewModel
 import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.simple.SimpleSearchFragment
 import org.wildaid.ofish.ui.tabs.ACTIVITIES_FRAGMENT_POSITION
@@ -20,6 +24,7 @@ import org.wildaid.ofish.util.setVisible
 
 class ActivitiesFragment : BaseReportFragment(R.layout.fragment_activities) {
     private val fragmentViewModel: ActivitiesViewModel by viewModels { getViewModelFactory() }
+    private val activityViewModel: CreateReportViewModel by activityViewModels { getViewModelFactory() }
     private lateinit var fragmentDataBinding: FragmentActivitiesBinding
     private lateinit var requiredFields: Array<TextInputLayout>
 
@@ -73,6 +78,7 @@ class ActivitiesFragment : BaseReportFragment(R.layout.fragment_activities) {
 
         fragmentViewModel.activityItemLiveData.observe(viewLifecycleOwner) {
             fragmentDataBinding.activitiesNoteLayout.setVisible(it.attachments.hasNotes())
+
         }
 
         fragmentViewModel.fisheryItemLiveData.observe(viewLifecycleOwner) {
@@ -84,6 +90,31 @@ class ActivitiesFragment : BaseReportFragment(R.layout.fragment_activities) {
         }
 
         onTabClickedPosition.observe(viewLifecycleOwner, EventObserver(::observeToNextClick))
+
+            fragmentDataBinding.activityDescriptionLayout.setVisible(it.activity.name == OTHER)
+        })
+
+        fragmentDataBinding.activityDescription.doOnTextChanged { text, _, _, _ ->
+            activityViewModel.fieldsDescriptions.activityDescription = text.toString()
+        }
+
+        fragmentViewModel.fisheryItemLiveData.observe(viewLifecycleOwner, Observer {
+            fragmentDataBinding.activitiesFisheryNoteLayout.setVisible(it.attachments.hasNotes())
+            fragmentDataBinding.fisheryEditLayout.setVisible(it.fishery.name == OTHER)
+        })
+
+        fragmentDataBinding.fisheryEditDescription.doOnTextChanged { text, _, _, _ ->
+            activityViewModel.fieldsDescriptions.fisheryDescription = text.toString()
+        }
+
+        fragmentDataBinding.gearEditDescription.doOnTextChanged { text, _, _, _ ->
+            activityViewModel.fieldsDescriptions.gearDescription = text.toString()
+        }
+
+        fragmentViewModel.gearItemLiveData.observe(viewLifecycleOwner, Observer {
+            fragmentDataBinding.activityGearNoteLayout.setVisible(it.attachments.hasNotes())
+            fragmentDataBinding.gearEditLayout.setVisible(it.gear.name == OTHER)
+        })
 
         fragmentDataBinding.activitiesPhotosLayout.onPhotoClickListener = ::showFullImage
         fragmentDataBinding.fisheryPhotosLayout.onPhotoClickListener = ::showFullImage
