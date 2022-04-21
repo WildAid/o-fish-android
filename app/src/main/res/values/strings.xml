@@ -242,6 +242,8 @@ All draft boardings will be deleted!</string>
     <string name="risk_no_notes_or_photos">No Notes or Photos for Risk</string>
     <string name="invalid_email_or_password">Invalid email or password</string>
 
+    <string name="not_at_sea_message">Please take into account that \'Not At Sea\' turns off automatically while logout</string>
+
     <!--   Violation saving message -->
     <string name="violation_save_msg">This field is required for saving Violation</string>
 

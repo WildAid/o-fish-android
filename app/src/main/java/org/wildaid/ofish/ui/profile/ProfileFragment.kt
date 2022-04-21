@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.*
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -24,6 +25,7 @@ import org.wildaid.ofish.ui.base.REQUEST_PICK_IMAGE
 import org.wildaid.ofish.ui.home.ASK_CHANGE_DUTY_DIALOG_ID
 import org.wildaid.ofish.ui.home.ASK_TO_LOGOUT_DIALOG_ID
 import org.wildaid.ofish.ui.home.HomeActivityViewModel
+import org.wildaid.ofish.ui.home.NOT_AT_SEA_DIALOG_ID
 import org.wildaid.ofish.util.*
 
 class ProfileFragment : Fragment(R.layout.fragment_user_profile) {
@@ -128,7 +130,8 @@ class ProfileFragment : Fragment(R.layout.fragment_user_profile) {
         return when (event.dialogId) {
             ASK_TO_LOGOUT_DIALOG_ID -> {
                 if (event.dialogBtn == DialogButton.POSITIVE) {
-                    activityViewModel.removeDraftedBoards()
+
+                    activityViewModel.removeDraftedBoardsBeforeLogout()
                 }
                 true
             }
@@ -145,7 +148,19 @@ class ProfileFragment : Fragment(R.layout.fragment_user_profile) {
                 image_user_status.isEnabled = onDuty
                 true
             }
+            NOT_AT_SEA_DIALOG_ID->{
+                if (event.dialogBtn == DialogButton.POSITIVE){
+                    goOffDuty()
+                    activityViewModel.logOutUser()
+                }
+                true
+            }
             else -> false
         }
+    }
+
+    private fun goOffDuty() {
+        dataBinding?.switchDutyStatus?.isChecked=false
+        activityViewModel.onDutyChanged(false)
     }
 }

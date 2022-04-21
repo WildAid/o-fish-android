@@ -40,6 +40,11 @@
         android:label="SimpleConfirmationDialog" />
 
     <dialog
+        android:id="@+id/not_at_sea_dialog"
+        android:name="org.wildaid.ofish.ui.base.ConfirmationDialogFragment"
+        android:label="SimpleConfirmationDialog" />
+
+    <dialog
         android:id="@+id/ask_logout_dialog"
         android:name="org.wildaid.ofish.ui.base.ConfirmationDialogFragment"
         android:label="SimpleConfirmationDialog" >
@@ -167,5 +172,8 @@
         <action
             android:id="@+id/action_profileFragment_to_patrolSummaryFragment2"
             app:destination="@id/patrolSummaryFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_not_at_sea_dialog"
+            app:destination="@id/not_at_sea_dialog" />
     </fragment>
 </navigation>

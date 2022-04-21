@@ -204,4 +204,6 @@
     <string name="become_not_at_sea">Зійти з моря</string>
     <string name="invalid_email_or_password">Невірний емеіл або пароль</string>
     <string name="violation_save_msg">Це поле є обов’язковим для збереження порушення</string>
+
+    <string name="not_at_sea_message">Будь ласка, врахуйте, що «Не на морі» автоматично вимикається під час виходу</string>
 </resources>

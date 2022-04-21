@@ -44,6 +44,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/scroll_bottom_padding"
                 android:background="@color/boarding_record_details_color"
                 android:orientation="vertical">
 
@@ -446,7 +447,6 @@
             android:layout_margin="16dp"
             android:onClick="@{()-> viewModel.boardVessel()}"
             android:text="@string/board_vessel"
-            app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

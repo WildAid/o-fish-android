@@ -100,6 +100,24 @@
                 android:text="@{holder.currentItem.catch.fish}" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/species_description_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:endIconContentDescription="@string/description"
+            app:layout_constraintTop_toBottomOf="@id/species_edit_layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/species_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/description"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@id/delivery_location"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <View
             android:id="@+id/divider_species"
             android:layout_width="match_parent"
@@ -116,7 +134,7 @@
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/spinner_unit"
-            app:layout_constraintTop_toBottomOf="@id/species_edit_layout">
+            app:layout_constraintTop_toBottomOf="@id/species_description_layout">
 
             <org.wildaid.ofish.ui.base.EmptyWarningEditText
                 android:id="@+id/weight_edit_name"
@@ -153,10 +171,10 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/count_edit_layout"
             android:layout_width="match_parent"
-            app:errorEnabled="true"
-            android:focusable="false"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:focusable="false"
+            app:errorEnabled="true"
             app:layout_constraintTop_toBottomOf="@id/divider_weight">
 
             <org.wildaid.ofish.ui.base.EmptyWarningEditText

@@ -5,9 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.wildaid.ofish.R
+import org.wildaid.ofish.data.OTHER
 import org.wildaid.ofish.databinding.ItemEditCatchBinding
 import org.wildaid.ofish.ui.base.AdapterDiffCallback
 import org.wildaid.ofish.ui.base.PhotoItem
@@ -22,7 +24,8 @@ class CatchAdapter(
     private val catchRemoveListener: (Int) -> Unit,
     private val catchRemoveNoteListener: (CatchItem) -> Unit,
     private val catchOnPhotoClickListener: (View, PhotoItem) -> Unit,
-    private val catchRemovePhotoListener: (PhotoItem, CatchItem) -> Unit
+    private val catchRemovePhotoListener: (PhotoItem, CatchItem) -> Unit,
+    private val catchOtherSpeciesListener: (CatchItem, Int) -> Unit
 ) : RecyclerView.Adapter<CatchAdapter.CatchViewHolder>() {
 
     init {
@@ -82,6 +85,12 @@ class CatchAdapter(
                 catchEditBinding.catchViewLayout.photos = item.attachmentItem.photos
             }
 
+            catchEditBinding.speciesDescriptionLayout.setVisible(item.catch.fish == OTHER)
+
+            catchEditBinding.speciesDescription.doOnTextChanged { text, _, _, _ ->
+                currentItem.description = text.toString()
+                catchDescriptions(currentItem, adapterPosition)
+            }
             catchEditBinding.catchEditGroup.setVisible(editVisible)
             catchEditBinding.catchNoteLayout.setVisible(editVisible && item.attachmentItem.hasNotes())
             catchEditBinding.catchEditGroupWeight.setVisible(editVisible)
@@ -179,6 +188,10 @@ class CatchAdapter(
 
         fun onEditTextClicked(id: Int) {
             searchListener.invoke(id, currentItem)
+        }
+
+        private fun catchDescriptions(catch: CatchItem, position: Int) {
+            catchOtherSpeciesListener.invoke(catch, position)
         }
     }
 }
