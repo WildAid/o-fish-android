@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.core.view.forEach
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fragment_catch.*
 import kotlinx.android.synthetic.main.item_edit_catch.view.*
 import org.wildaid.ofish.EventObserver
@@ -15,6 +15,7 @@ import org.wildaid.ofish.R
 import org.wildaid.ofish.databinding.FragmentCatchBinding
 import org.wildaid.ofish.ui.base.BaseReportFragment
 import org.wildaid.ofish.ui.base.CARDS_OFFSET_SIZE
+import org.wildaid.ofish.ui.createreport.CreateReportViewModel
 import org.wildaid.ofish.ui.crew.VerticalSpaceItemDecoration
 import org.wildaid.ofish.ui.search.base.BaseSearchFragment
 import org.wildaid.ofish.ui.search.simple.SimpleSearchFragment
@@ -23,6 +24,7 @@ import org.wildaid.ofish.util.hideKeyboard
 
 class CatchFragment : BaseReportFragment(R.layout.fragment_catch) {
     private val fragmentViewModel: CatchViewModel by viewModels { getViewModelFactory() }
+    private val activityViewModel: CreateReportViewModel by activityViewModels { getViewModelFactory() }
 
     private lateinit var viewDataBinding: FragmentCatchBinding
     private lateinit var catchAdapter: CatchAdapter
@@ -70,10 +72,12 @@ class CatchFragment : BaseReportFragment(R.layout.fragment_catch) {
         }
 
         initUI()
-
         fragmentViewModel.catchItemsLiveData.observe(
-            viewLifecycleOwner,
-            Observer { displayCatch(it) })
+            viewLifecycleOwner
+        ) {
+            activityViewModel.fieldsDescriptions.catches = it as MutableList<CatchItem>
+            displayCatch(it)
+        }
 
         fragmentViewModel.catchUserEventLiveData.observe(
             viewLifecycleOwner, EventObserver(::handleUserEvent)
@@ -111,6 +115,9 @@ class CatchFragment : BaseReportFragment(R.layout.fragment_catch) {
             catchOnPhotoClickListener = ::showFullImage,
             catchRemovePhotoListener = { photo, catchItem ->
                 fragmentViewModel.removePhotoFromCatch(photo, catchItem)
+            },
+            catchOtherSpeciesListener = { catchItem, position ->
+                fragmentViewModel.updateCurrentCatch(catchItem, position)
             })
 
         catch_recycler.apply {
