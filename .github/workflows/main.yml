@@ -36,36 +36,36 @@ jobs:
         with:
           ruby-version: 2.6.x
 
+      - name: Install Fastlane dependencies
+        env:
+          RELEASE_STORE_FILE: ${{ secrets.RELEASE_STORE_FILE }}
+          RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+        run: gem install bundler && bundle install
+
       - name: Access RELEASE_STORE_FILE
         env:
-          RELEASE_STORE_FILE:$
+            RELEASE_STORE_FILE:$
           run: echo RELEASE_STORE_FILE=\"RELEASE_STORE_FILE\" > ./local.properties
 
       - name: Access RELEASE_STORE_PASSWORD
         env:
-          RELEASE_STORE_PASSWORD:$
+                RELEASE_STORE_PASSWORD:$
           run: echo RELEASE_STORE_PASSWORD=\"RELEASE_STORE_PASSWORD\" > ./local.properties
 
       - name: Access RELEASE_KEY_ALIAS
         env:
-          RELEASE_KEY_ALIAS:$
+                RELEASE_KEY_ALIAS:$
           run: echo RELEASE_KEY_ALIAS=\"RELEASE_KEY_ALIAS\" > ./local.properties
 
       - name: Access RELEASE_KEY_PASSWORD
         env:
-          RELEASE_KEY_PASSWORD:$
+                RELEASE_KEY_PASSWORD:$
           run: echo RELEASE_KEY_PASSWORD=\"RELEASE_KEY_PASSWORD\" > ./local.properties
 
-            - name: Install Fastlane dependencies
-              env:
-                RELEASE_STORE_FILE: ${{ secrets.RELEASE_STORE_FILE }}
-                RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
-                RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
-                RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
-              run: gem install bundler && bundle install
+      - name: Run Fastlane Compile
+        run: fastlane compile
 
-            - name: Run Fastlane Compile
-              run: fastlane compile
-
-            - name: Run Fastlane Test
-              run: fastlane test
+      - name: Run Fastlane Test
+        run: fastlane test
