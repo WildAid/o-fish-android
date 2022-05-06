@@ -83,10 +83,10 @@ android {
 //            buildConfigField "String", "REALM_USER", "\"${localProperties.getProperty("realm_user", "")}\""
 //            buildConfigField "String", "REALM_URL", "\"${localProperties.getProperty("realm_url", "")}\""
 
-//            buildConfigField ("String","RELEASE_STORE_FILE",getReleaseStoreFile())
-//            buildConfigField ("String","RELEASE_STORE_PASSWORD",getReleaseStorePassword())
-//            buildConfigField ("String","RELEASE_KEY_ALIAS",getReleaseKeyAlias())
-//            buildConfigField ("String","RELEASE_KEY_PASSWORD",getReleaseKeyPassword())
+            buildConfigField ("String","RELEASE_STORE_FILE",getReleaseStoreFile())
+            buildConfigField ("String","RELEASE_STORE_PASSWORD",getReleaseStorePassword())
+            buildConfigField ("String","RELEASE_KEY_ALIAS",getReleaseKeyAlias())
+            buildConfigField ("String","RELEASE_KEY_PASSWORD",getReleaseKeyPassword())
         }
 
         debug {
