@@ -12,11 +12,41 @@ if (localPropsFile.exists()) {
     localProperties.load(new InputStreamReader(new FileInputStream(localPropsFile), StandardCharsets.UTF_8))
 }
 
+String getReleaseStoreFile() {
+    def propFile = rootProject.file("./local.properties")
+    def properties = new Properties()
+    properties.load(new FileInputStream(propFile))
+    return properties['RELEASE_STORE_FILE']
+}
+
+String getReleaseStorePassword() {
+    def propFile = rootProject.file("./local.properties")
+    def properties = new Properties()
+    properties.load(new FileInputStream(propFile))
+    return properties['RELEASE_STORE_PASSWORD']
+}
+
+String getReleaseKeyAlias(){
+    def propFile = rootProject.file("./local.properties")
+    def properties = new Properties()
+    properties.load(new FileInputStream(propFile))
+    return properties['RELEASE_KEY_ALIAS']
+}
+
+String getReleaseKeyPassword(){
+    def propFile = rootProject.file("./local.properties")
+    def properties = new Properties()
+    properties.load(new FileInputStream(propFile))
+    return properties['RELEASE_KEY_PASSWORD']
+}
+
+
 configurations {
     ktlint
 }
 
 android {
+
     signingConfigs {
 
         release {
@@ -52,6 +82,11 @@ android {
 //            buildConfigField "String", "REALM_PASSWORD", "\"${localProperties.getProperty("realm_password", "")}\""
 //            buildConfigField "String", "REALM_USER", "\"${localProperties.getProperty("realm_user", "")}\""
 //            buildConfigField "String", "REALM_URL", "\"${localProperties.getProperty("realm_url", "")}\""
+
+            buildConfigField ("String","RELEASE_STORE_FILE",getReleaseStoreFile())
+            buildConfigField ("String","RELEASE_STORE_PASSWORD",getReleaseStorePassword())
+            buildConfigField ("String","RELEASE_KEY_ALIAS",getReleaseKeyAlias())
+            buildConfigField ("String","RELEASE_KEY_PASSWORD",getReleaseKeyPassword())
         }
 
         debug {
