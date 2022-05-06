@@ -125,10 +125,12 @@ class ProfileFragment : Fragment(R.layout.fragment_user_profile) {
         })
     }
 
+
     private fun handleDialogClick(event: DialogClickEvent): Boolean {
         return when (event.dialogId) {
             ASK_TO_LOGOUT_DIALOG_ID -> {
                 if (event.dialogBtn == DialogButton.POSITIVE) {
+
                     activityViewModel.removeDraftedBoardsBeforeLogout()
                 }
                 true

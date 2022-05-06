@@ -14,6 +14,7 @@ import org.wildaid.ofish.data.report.CrewMember
 import org.wildaid.ofish.databinding.FragmentCrewBinding
 import org.wildaid.ofish.ui.base.BaseReportFragment
 import org.wildaid.ofish.ui.base.CARDS_OFFSET_SIZE
+import org.wildaid.ofish.ui.tabs.CREW_FRAGMENT_POSITION
 import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.hideKeyboard
 import org.wildaid.ofish.util.setVisible
@@ -54,17 +55,23 @@ class CrewFragment : BaseReportFragment(R.layout.fragment_crew) {
 
         initUI()
 
-        fragmentViewModel.crewMembersData.observe(viewLifecycleOwner, Observer {
+        fragmentViewModel.crewMembersData.observe(viewLifecycleOwner) {
             displayCrewMembers(it)
-        })
+        }
 
-        fragmentViewModel.canAddNewMemberData.observe(viewLifecycleOwner, Observer {
+        fragmentViewModel.canAddNewMemberData.observe(viewLifecycleOwner) {
             crew_add_member_footer.setVisible(it)
-        })
+        }
 
         fragmentViewModel.crewUserEvent.observe(
             viewLifecycleOwner, EventObserver(::handleUserEvent)
         )
+
+        onTabClickedPosition.observe(viewLifecycleOwner, EventObserver(::observeToNextClick))
+    }
+
+    private fun observeToNextClick(currentTabPosition: Int) {
+        if (currentTabPosition == CREW_FRAGMENT_POSITION) handleUserEvent(CrewViewModel.CrewUserEvent.NextUserEvent)
     }
 
     fun fillCrewInfo(captain: CrewMember, crews: List<CrewMember>) {

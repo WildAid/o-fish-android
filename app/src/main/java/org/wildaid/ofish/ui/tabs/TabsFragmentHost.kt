@@ -16,12 +16,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_tabs.*
+import org.wildaid.ofish.Event
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
 import org.wildaid.ofish.data.OnSaveListener
@@ -64,6 +64,8 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
     private lateinit var currentReportFragment: BaseReportFragment
     private var pendingSkippingTabs: List<TabItem>? = null
 
+    private var currentTabPosition = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val arguments: CreateReportBundle? =
@@ -93,9 +95,9 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        fragmentViewModel.reportLiveData.observe(viewLifecycleOwner, Observer {
+        fragmentViewModel.reportLiveData.observe(viewLifecycleOwner) {
             initUI(it.first, it.second)
-        })
+        }
 
         fragmentViewModel.userEventLiveData.observe(viewLifecycleOwner, EventObserver {
             when (it) {
@@ -107,9 +109,9 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
             }
         })
 
-        fragmentViewModel.tabsStateLiveData.observe(viewLifecycleOwner, Observer {
+        fragmentViewModel.tabsStateLiveData.observe(viewLifecycleOwner) {
             updateTabsDrawable(it)
-        })
+        }
     }
 
     override fun onNextClicked(isSubmitted: Boolean) {
@@ -125,12 +127,12 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
     }
 
     private fun onTabChanged(previousTabIndex: Int, currentTabIndex: Int) {
+        currentTabPosition = currentTabIndex
         currentReportFragment =
             childFragmentManager.findFragmentByTag("$FRAGMENT_TAG_PREFIX${currentTabIndex}") as BaseReportFragment
 
         val previousReportFragment =
             childFragmentManager.findFragmentByTag("f$previousTabIndex") as BaseReportFragment?
-
         previousReportFragment?.let {
             fragmentViewModel.onTabChanged(previousTabIndex, currentTabIndex)
         }
@@ -174,7 +176,8 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
             if (navStack.savedStateHandle.contains(DIALOG_CLICK_EVENT)
                 &&
                 fragmentViewModel.getSkippedAndNotVisitedTabs().size == NOT_FILLED_TABS_COUNT
-            ) { if (fragmentViewModel.didOtherTabOpenedBefore) {
+            ) {
+                if (fragmentViewModel.didOtherTabOpenedBefore) {
                     val click =
                         navStack.savedStateHandle.get<DialogClickEvent>(DIALOG_CLICK_EVENT)!!
                     val handled = handleDialogClick(click)
@@ -295,13 +298,17 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
             SUBMIT_DIALOG_ID -> {
                 if (click.dialogBtn == DialogButton.POSITIVE || click.dialogBtn == DialogButton.NEUTRAL) {
                     val isDraft = click.dialogBtn == DialogButton.NEUTRAL
-                    val successMessage = if (isDraft) getString(R.string.draft_saved) else getString(R.string.boarding_submitted)
+                    val successMessage =
+                        if (isDraft) getString(R.string.draft_saved) else getString(R.string.boarding_submitted)
                     activityViewModel.saveReport(
                         isDraft = isDraft,
                         listener = object : OnSaveListener {
                             override fun onSuccess() {
                                 val args = bundleOf(KEY_CREATE_REPORT_RESULT to successMessage)
-                                navigation.navigate(R.id.action_tabsFragment_to_home_navigation, args)
+                                navigation.navigate(
+                                    R.id.action_tabsFragment_to_home_navigation,
+                                    args
+                                )
                                 requireActivity().finish()
                             }
 
@@ -313,12 +320,35 @@ class TabsFragmentHost : Fragment(R.layout.fragment_tabs), OnNextClickedListener
                 }
                 true
             }
-
             ASK_SKIP_TABS_DIALOG_ID -> {
                 if (click.dialogBtn == DialogButton.POSITIVE) {
                     if (pendingSkippingTabs != null) {
-                        fragmentViewModel.onTabsSkipped(pendingSkippingTabs.orEmpty())
-                        pendingSkippingTabs = null
+                        when (currentTabPosition) {
+                            VESSEL_FRAGMENT_POSITION -> {
+                                currentReportFragment._onTabClickedPosition.value =
+                                    Event(VESSEL_FRAGMENT_POSITION)
+                            }
+
+                            CREW_FRAGMENT_POSITION -> {
+                                currentReportFragment._onTabClickedPosition.value =
+                                    Event(CREW_FRAGMENT_POSITION)
+                            }
+
+                            ACTIVITIES_FRAGMENT_POSITION -> {
+                                currentReportFragment._onTabClickedPosition.value =
+                                    Event(ACTIVITIES_FRAGMENT_POSITION)
+                            }
+
+                            CATCH_FRAGMENT_POSITION -> {
+                                currentReportFragment._onTabClickedPosition.value =
+                                    Event(CATCH_FRAGMENT_POSITION)
+                            }
+
+                            else -> {
+                                fragmentViewModel.onTabsSkipped(pendingSkippingTabs.orEmpty())
+                                pendingSkippingTabs = null
+                            }
+                        }
                     } else if (click.dialogBtn == DialogButton.NEGATIVE) {
                         fragmentViewModel.didOtherTabOpenedBefore = true
                     }
