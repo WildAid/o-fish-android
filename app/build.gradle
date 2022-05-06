@@ -50,10 +50,14 @@ android {
     signingConfigs {
 
         release {
-            storeFile file(RELEASE_STORE_FILE)
-            storePassword RELEASE_STORE_PASSWORD
-            keyAlias RELEASE_KEY_ALIAS
-            keyPassword RELEASE_KEY_PASSWORD
+//            storeFile file(RELEASE_STORE_FILE)
+            storeFile file(localProperties.getProperty("RELEASE_STORE_FILE"))
+//            storePassword RELEASE_STORE_PASSWORD
+            storePassword localProperties.getProperty("RELEASE_STORE_FILE")
+//            keyAlias RELEASE_KEY_ALIAS
+            keyAlias localProperties.getProperty("RELEASE_KEY_ALIAS")
+//            keyPassword RELEASE_KEY_PASSWORD
+            keyPassword localProperties.getProperty("RELEASE_KEY_PASSWORD")
 
             // Optional, specify signing versions used
             v1SigningEnabled true
