@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-          
+
       - name: Setup NDK
         run: echo "y" | sudo /usr/local/lib/android/sdk/tools/bin/sdkmanager --install "ndk;21.0.6113669" --sdk_root=${ANDROID_SDK_ROOT}
 
@@ -40,6 +40,12 @@ jobs:
         run: gem install bundler && bundle install
 
       - name: Run Fastlane Compile
+        env:
+          RELEASE_STORE_FILE: ${{ secrets.RELEASE_STORE_FILE }}
+          RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+
         run: fastlane compile
 
       - name: Run Fastlane Test
