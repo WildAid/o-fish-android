@@ -116,7 +116,7 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
     private fun setOrCancelTimer(onDuty: Boolean) {
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as? AlarmManager
         val alarmIntent = Intent(this, OnDutyAlarmReminder::class.java).let { intent ->
-            PendingIntent.getBroadcast(this, TEN_HOURS_TIMER_REQUEST_ID, intent, 0)
+            PendingIntent.getBroadcast(this, TEN_HOURS_TIMER_REQUEST_ID, intent, PendingIntent.FLAG_IMMUTABLE)
         }
         if (onDuty) {
             alarmManager?.set(
