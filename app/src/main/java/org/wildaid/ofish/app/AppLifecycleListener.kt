@@ -38,6 +38,6 @@ class AppLifecycleListener(
 
     private fun getAlarmPendingIntent() =
         Intent(context, OnDutyAlarmReminder::class.java).let { intent ->
-            PendingIntent.getBroadcast(context, FOUR_HOURS_TIMER_REQUEST_ID, intent, 0)
+            PendingIntent.getBroadcast(context, FOUR_HOURS_TIMER_REQUEST_ID, intent, PendingIntent.FLAG_IMMUTABLE)
         }
 }
