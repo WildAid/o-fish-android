@@ -37,6 +37,11 @@ jobs:
             ruby-version: 2.6.x
 
       - name: Install Fastlane dependencies
+        env:
+          RELEASE_STORE_FILE: ${{ secrets.RELEASE_STORE_FILE }}
+          RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
         run: gem install bundler && bundle install
 
       - name: Run Fastlane Compile
