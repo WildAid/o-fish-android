@@ -12,35 +12,6 @@ if (localPropsFile.exists()) {
     localProperties.load(new InputStreamReader(new FileInputStream(localPropsFile), StandardCharsets.UTF_8))
 }
 
-String getReleaseStoreFile() {
-    def propFile = rootProject.file("./local.properties")
-    def properties = new Properties()
-    properties.load(new FileInputStream(propFile))
-    return properties['RELEASE_STORE_FILE']
-}
-
-String getReleaseStorePassword() {
-    def propFile = rootProject.file("./local.properties")
-    def properties = new Properties()
-    properties.load(new FileInputStream(propFile))
-    return properties['RELEASE_STORE_PASSWORD']
-}
-
-String getReleaseKeyAlias() {
-    def propFile = rootProject.file("./local.properties")
-    def properties = new Properties()
-    properties.load(new FileInputStream(propFile))
-    return properties['RELEASE_KEY_ALIAS']
-}
-
-String getReleaseKeyPassword() {
-    def propFile = rootProject.file("./local.properties")
-    def properties = new Properties()
-    properties.load(new FileInputStream(propFile))
-    return properties['RELEASE_KEY_PASSWORD']
-}
-
-
 configurations {
     ktlint
 }
@@ -50,7 +21,7 @@ android {
     signingConfigs {
 
         release {
-            storeFile file("keysotre.jks")
+            storeFile file("keystore.jks")
             storePassword System.getenv("RELEASE_STORE_PASSWORD")
             keyAlias System.getenv("RELEASE_KEY_ALIAS")
             keyPassword System.getenv("RELEASE_KEY_PASSWORD")
