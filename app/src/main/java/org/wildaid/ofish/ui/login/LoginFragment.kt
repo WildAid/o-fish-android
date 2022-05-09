@@ -45,14 +45,14 @@ class LoginFragment : Fragment() {
 
         subscribeToDialogEvents()
 
-        if (BuildConfig.REALM_USER.isBlank() || BuildConfig.REALM_PASSWORD.isBlank()) {
-            Log.i(
-                    "Login Setup",
-                    "You can specify properties realm_user and/or realm_password in realm.properties to pre fill credentials"
-            )
-        }
-        binding.edUser.setText(BuildConfig.REALM_USER)
-        binding.edPassword.setText(BuildConfig.REALM_PASSWORD)
+//        if (BuildConfig.REALM_USER.isBlank() || BuildConfig.REALM_PASSWORD.isBlank()) {
+//            Log.i(
+//                    "Login Setup",
+//                    "You can specify properties realm_user and/or realm_password in realm.properties to pre fill credentials"
+//            )
+//        }
+//        binding.edUser.setText(BuildConfig.REALM_USER)
+//        binding.edPassword.setText(BuildConfig.REALM_PASSWORD)
 
         binding.btnLogin.isEnabled = isUserFieldsValid()
 

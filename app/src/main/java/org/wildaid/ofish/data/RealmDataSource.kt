@@ -65,9 +65,9 @@ class RealmDataSource(context: Context) {
             .appName(BuildConfig.VERSION_NAME)
             .appVersion(BuildConfig.VERSION_CODE.toString())
 
-        if (!BuildConfig.REALM_URL.isBlank()) {
-            appConfigBuilder.baseUrl(BuildConfig.REALM_URL)
-        }
+//        if (BuildConfig.REALM_URL.isNotBlank()) {
+//            appConfigBuilder.baseUrl(BuildConfig.REALM_URL)
+//        }
 
         realmApp = App(appConfigBuilder.build())
     }
