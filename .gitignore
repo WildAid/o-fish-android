@@ -8,4 +8,4 @@ realm.properties
 /captures
 .externalNativeBuild
 .cxx
-*eystore.jks
+keystore.jks
