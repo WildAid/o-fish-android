@@ -50,7 +50,7 @@ android {
     signingConfigs {
 
         release {
-            storeFile System.getenv("RELEASE_STORE_FILE")
+            storeFile file("keysotre.jks")
             storePassword System.getenv("RELEASE_STORE_PASSWORD")
             keyAlias System.getenv("RELEASE_KEY_ALIAS")
             keyPassword System.getenv("RELEASE_KEY_PASSWORD")
