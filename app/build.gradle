@@ -51,13 +51,21 @@ android {
 
         release {
 //            storeFile file(RELEASE_STORE_FILE)
-            storeFile file(getReleaseStoreFile())
+//            storeFile file(getReleaseStoreFile())
+
+            storeFile file(System.getenv(RELEASE_STORE_FILE))
+
 //            storePassword RELEASE_STORE_PASSWORD
-            storePassword getReleaseStorePassword()
+//            storePassword getReleaseStorePassword()
+            storePassword System.getenv(RELEASE_STORE_PASSWORD)
+
 //            keyAlias RELEASE_KEY_ALIAS
-            keyAlias getReleaseKeyAlias()
+//            keyAlias getReleaseKeyAlias()
+            keyAlias System.getenv(RELEASE_KEY_ALIAS)
+
 //            keyPassword RELEASE_KEY_PASSWORD
-            keyPassword getReleaseKeyPassword()
+//            keyPassword getReleaseKeyPassword()
+            keyPassword System.getenv(RELEASE_KEY_PASSWORD)
 
             // Optional, specify signing versions used
             v1SigningEnabled true
