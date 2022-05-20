@@ -163,6 +163,34 @@
             </LinearLayout>
         </LinearLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mpa_layout"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="12dp"
+            android:background="@{fragmentViewModel.mpaObservable ? @drawable/shape_mpa_background: @drawable/shape_map_coordinates}"
+            android:onClick="@{() -> fragmentViewModel.onMpaClick()}"
+            app:layout_constraintEnd_toEndOf="@+id/home_map"
+            app:layout_constraintTop_toBottomOf="@+id/coordinates_layout"
+            tools:ignore="MissingConstraints">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:text="MPA"
+                android:textColor="@{fragmentViewModel.mpaObservable ? @color/white : @color/blue}"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vessel_image_pager"
             android:layout_width="match_parent"

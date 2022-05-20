@@ -32,7 +32,7 @@ import com.google.android.gms.maps.model.MapStyleOptions
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
-import org.wildaid.ofish.data.mpa.addTestMpa
+import org.wildaid.ofish.data.mpa.*
 import org.wildaid.ofish.databinding.FragmentHomeBinding
 import org.wildaid.ofish.ui.base.*
 import org.wildaid.ofish.ui.createreport.SHOULD_NAVIGATE_TO_DRAFT_LIST
@@ -49,6 +49,8 @@ private const val CREATE_REPORT_FINISHED_DIALOG_ID = 100
 class HomeFragment : Fragment(R.layout.fragment_home),
     OnMapReadyCallback {
 
+    private var mpa = MarineProtectionArea()
+
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var androidPermissions: AndroidPermissions
     private lateinit var dataBinding: FragmentHomeBinding
@@ -58,7 +60,7 @@ class HomeFragment : Fragment(R.layout.fragment_home),
     private val navigation: NavController by lazy { findNavController() }
     private val fragmentViewModel: HomeFragmentViewModel by viewModels { getViewModelFactory() }
     private val activityViewModel: HomeActivityViewModel by activityViewModels { getViewModelFactory() }
-    private val requiredPermissions = arrayOf(ACCESS_FINE_LOCATION,ACCESS_COARSE_LOCATION)
+    private val requiredPermissions = arrayOf(ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,6 +120,20 @@ class HomeFragment : Fragment(R.layout.fragment_home),
         activityViewModel.onDutyStatusLiveData.observe(viewLifecycleOwner, Observer { dutyStatus ->
             image_user_status.isEnabled = dutyStatus
         })
+
+        fragmentViewModel.mpaLiveData.observe(viewLifecycleOwner) { value ->
+            if (value) mpa.enablePolygons() else mpa.disablePolygons()
+        }
+
+        mpa.onPolygonClick.observe(viewLifecycleOwner) { value ->
+            mpa.onPolygonReact(value.peekContent(),parentFragmentManager,this.googleMap,context)
+        }
+
+        mpa.polygonBottomSheetFragment.isBottomSheetFragmentClosed.observe(viewLifecycleOwner){value->
+            if (value) {
+                mpa.removeMarker()
+            }
+        }
     }
 
     private fun hideAmountLabel() {
@@ -181,9 +197,9 @@ class HomeFragment : Fragment(R.layout.fragment_home),
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
         checkPermissions()
-        addTestMpa(googleMap, resources)
-        if(isDarkModeEnabled())
-            map.setMapStyle(MapStyleOptions.loadRawResourceStyle(activity?.applicationContext,R.raw.map_dark_mode))
+        mpa.addMpa(context,googleMap)
+        if (isDarkModeEnabled())
+            map.setMapStyle(MapStyleOptions.loadRawResourceStyle(activity?.applicationContext, R.raw.map_dark_mode))
     }
 
     @SuppressLint("ResourceType")
