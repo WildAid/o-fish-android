@@ -24,7 +24,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
-import org.wildaid.ofish.data.mpa.addTestMpa
+import org.wildaid.ofish.data.mpa.*
 import org.wildaid.ofish.databinding.FragmentBasicInformationBinding
 import org.wildaid.ofish.ui.base.BaseReportFragment
 import org.wildaid.ofish.ui.home.ZOOM_LEVEL
@@ -40,6 +40,7 @@ const val LAT = 1
 class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_information),
     OnMapReadyCallback {
 
+    private val mpa = MarineProtectionArea()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var viewDataBinding: FragmentBasicInformationBinding
 
@@ -73,11 +74,29 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
             childFragmentManager.findFragmentById(R.id.basic_info_map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
 
+        setObservers()
+
+        viewDataBinding.locationLayout.setOnClickListener { dialogSetup() }
+    }
+
+    private fun setObservers() {
         fragmentViewModel.basicInfoUserEventLiveData.observe(
             viewLifecycleOwner, EventObserver(::handleUserEvent)
         )
 
-        viewDataBinding.locationLayout.setOnClickListener { dialogSetup() }
+        fragmentViewModel.mpaLiveData.observe(viewLifecycleOwner) { value ->
+            if (value) mpa.enablePolygons() else mpa.disablePolygons()
+        }
+
+        mpa.onPolygonClick.observe(viewLifecycleOwner) { value ->
+            mpa.onPolygonReact(value.peekContent(),parentFragmentManager,this.map,context)
+        }
+
+        mpa.polygonBottomSheetFragment.isBottomSheetFragmentClosed.observe(viewLifecycleOwner){value->
+            if (value) {
+                mpa.removeMarker()
+            }
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -131,7 +150,7 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
                     initMap(it)
                 }
             }
-            addTestMpa(this.map, resources)
+            mpa.addMpa(context,this.map)
         }
 
     }

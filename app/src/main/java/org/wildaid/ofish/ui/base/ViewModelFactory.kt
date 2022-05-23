@@ -18,6 +18,7 @@ import org.wildaid.ofish.ui.home.HomeFragmentViewModel
 import org.wildaid.ofish.ui.login.LoginViewModel
 import org.wildaid.ofish.ui.notes.NotesViewModel
 import org.wildaid.ofish.ui.patrolsummary.PatrolSummaryViewModel
+import org.wildaid.ofish.ui.polygon_info.PolygonBottomSheetViewModel
 import org.wildaid.ofish.ui.profile.ProfileViewModel
 import org.wildaid.ofish.ui.reportdetail.ReportDetailViewModel
 import org.wildaid.ofish.ui.risk.RiskViewModel
@@ -100,6 +101,9 @@ class ViewModelFactory constructor(
 
             isAssignableFrom(ProfileViewModel::class.java) ->
                 ProfileViewModel(repository)
+
+            isAssignableFrom(PolygonBottomSheetViewModel::class.java) ->
+                PolygonBottomSheetViewModel(repository)
 
             else ->
                 throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

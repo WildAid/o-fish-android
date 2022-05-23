@@ -1,6 +1,7 @@
 package org.wildaid.ofish.ui.home
 
 import android.net.Uri
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +9,12 @@ import org.wildaid.ofish.Event
 import org.wildaid.ofish.data.Repository
 
 class HomeFragmentViewModel(val repository: Repository) : ViewModel() {
+
+    val mpaObservable = ObservableBoolean(true)
+
+    private val _mpaLiveData = MutableLiveData<Boolean>()
+    val mpaLiveData: LiveData<Boolean>
+        get() = _mpaLiveData
 
     private val _locationLiveData = MutableLiveData<Pair<Double, Double>>()
     val locationLiveData: LiveData<Pair<Double, Double>>
@@ -54,6 +61,11 @@ class HomeFragmentViewModel(val repository: Repository) : ViewModel() {
 
     fun saveProfileImage(uri: Uri) {
         repository.updateCurrentOfficerPhoto(uri)
+    }
+
+    fun onMpaClick() {
+        mpaObservable.set(!mpaObservable.get())
+        _mpaLiveData.value = mpaObservable.get()
     }
 
     sealed class HomeFragmentUserEvent {

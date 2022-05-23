@@ -167,6 +167,31 @@
                     app:layout_constraintTop_toBottomOf="@id/basic_info_location_header" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="76dp"
+                    android:layout_marginEnd="12dp"
+                    android:background="@{viewmodel.mpaObservable ? @drawable/shape_mpa_background: @drawable/shape_map_coordinates}"
+                    android:onClick="@{() -> viewmodel.onMpaClick()}"
+                    app:layout_constraintEnd_toEndOf="@+id/basic_info_map"
+                    app:layout_constraintTop_toBottomOf="@+id/basic_info_location_header">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="MPA"
+                        android:textColor="@{viewmodel.mpaObservable ? @color/white : @color/blue}"
+                        android:textSize="@dimen/mpa_text_size"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="SpUsage" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/location_layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
