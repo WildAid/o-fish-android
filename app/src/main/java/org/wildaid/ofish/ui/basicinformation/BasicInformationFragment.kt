@@ -24,10 +24,10 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
-import org.wildaid.ofish.data.mpa.*
 import org.wildaid.ofish.databinding.FragmentBasicInformationBinding
 import org.wildaid.ofish.ui.base.BaseReportFragment
 import org.wildaid.ofish.ui.home.ZOOM_LEVEL
+import org.wildaid.ofish.util.MarineProtectionArea
 import org.wildaid.ofish.util.getViewModelFactory
 import org.wildaid.ofish.util.hideKeyboard
 import org.wildaid.ofish.util.showManuallySelectedLocationDialog
@@ -150,7 +150,7 @@ class BasicInformationFragment : BaseReportFragment(R.layout.fragment_basic_info
                     initMap(it)
                 }
             }
-            mpa.addMpa(context,this.map)
+            mpa.addMpa(fragmentViewModel.fetchMpaData(), this.map)
         }
 
     }

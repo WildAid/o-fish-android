@@ -64,7 +64,7 @@ class ViewModelFactory constructor(
             isAssignableFrom((TabsViewModel::class.java)) ->
                 TabsViewModel(repository, application)
             isAssignableFrom((BasicInformationViewModel::class.java)) ->
-                BasicInformationViewModel()
+                BasicInformationViewModel(repository)
             isAssignableFrom(VesselViewModel::class.java) ->
                 VesselViewModel(repository, application)
             isAssignableFrom(CrewViewModel::class.java) ->
@@ -104,6 +104,9 @@ class ViewModelFactory constructor(
 
             isAssignableFrom(PolygonBottomSheetViewModel::class.java) ->
                 PolygonBottomSheetViewModel(repository)
+
+            isAssignableFrom(MpaViewModel::class.java::class.java) ->
+                MpaViewModel()
 
             else ->
                 throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -58,13 +57,13 @@ class PolygonBottomSheetFragment(private var polygonData: PolygonData? = null) :
 
     private fun initUi() {
         binding.locationImage.setColorFilter(
-            ContextCompat.getColor(
-                requireContext(),
-                polygonData?.color!!
-            ), android.graphics.PorterDuff.Mode.SRC_IN
+            polygonData?.color ?: 0, android.graphics.PorterDuff.Mode.SRC_IN
         )
 
-        binding.polygonName.text = polygonData!!.polygonName
+        binding.polygonName.text = polygonData?.polygonName
+        binding.polygonCountry.text = polygonData?.country
+        binding.info.text = polygonData?.info
+        binding.polygonText.text = polygonData?.description
     }
 
     override fun onStart() {

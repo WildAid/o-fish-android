@@ -32,7 +32,6 @@ import com.google.android.gms.maps.model.MapStyleOptions
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.wildaid.ofish.EventObserver
 import org.wildaid.ofish.R
-import org.wildaid.ofish.data.mpa.*
 import org.wildaid.ofish.databinding.FragmentHomeBinding
 import org.wildaid.ofish.ui.base.*
 import org.wildaid.ofish.ui.createreport.SHOULD_NAVIGATE_TO_DRAFT_LIST
@@ -197,10 +196,12 @@ class HomeFragment : Fragment(R.layout.fragment_home),
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
         checkPermissions()
-        mpa.addMpa(context,googleMap)
+        mpa.addMpa(fragmentViewModel.fetchMpaData(), googleMap)
+
         if (isDarkModeEnabled())
             map.setMapStyle(MapStyleOptions.loadRawResourceStyle(activity?.applicationContext, R.raw.map_dark_mode))
     }
+
 
     @SuppressLint("ResourceType")
     private fun setMyLocationPosition() {
