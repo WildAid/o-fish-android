@@ -1,17 +1,27 @@
 package org.wildaid.ofish.ui.basicinformation
 
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import io.realm.RealmList
 import org.wildaid.ofish.Event
+import org.wildaid.ofish.data.MpaData
+import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.Report
+import org.wildaid.ofish.ui.base.MpaViewModel
 import org.wildaid.ofish.util.LATITUDE
 import org.wildaid.ofish.util.LONGITUDE
 import org.wildaid.ofish.util.convert
 import java.util.*
 
-class BasicInformationViewModel : ViewModel() {
+class BasicInformationViewModel(val repository: Repository) : MpaViewModel() {
+
+    val mpaObservable = ObservableBoolean(true)
+
+    private val _mpaLiveData = MutableLiveData<Boolean>()
+    val mpaLiveData: LiveData<Boolean>
+        get() = _mpaLiveData
+
     private val _reportLiveData = MutableLiveData<Report>()
     val reportLiveData: LiveData<Report>
         get() = _reportLiveData
@@ -77,9 +87,18 @@ class BasicInformationViewModel : ViewModel() {
         _reportLiveData.value = currentReport
     }
 
+    fun onMpaClick() {
+        mpaObservable.set(!mpaObservable.get())
+        _mpaLiveData.value = mpaObservable.get()
+    }
+
+    fun fetchMpaData(): MutableList<MpaData> {
+        return super.fetchMpaData(repository.getAllProtectionMarineAreas())
+    }
+
     sealed class BasicInfoUserEvent {
-        object NextEvent :BasicInfoUserEvent()
-        object ChooseDate :BasicInfoUserEvent()
-        object ChooseTime :BasicInfoUserEvent()
+        object NextEvent : BasicInfoUserEvent()
+        object ChooseDate : BasicInfoUserEvent()
+        object ChooseTime : BasicInfoUserEvent()
     }
 }

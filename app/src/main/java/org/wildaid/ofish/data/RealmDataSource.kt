@@ -3,8 +3,7 @@ package org.wildaid.ofish.data
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import io.realm.Realm
-import io.realm.Sort
+import io.realm.*
 import io.realm.kotlin.toFlow
 import io.realm.kotlin.where
 import io.realm.log.LogLevel
@@ -18,6 +17,7 @@ import kotlinx.coroutines.flow.Flow
 import org.bson.Document
 import org.bson.types.ObjectId
 import org.wildaid.ofish.BuildConfig
+import org.wildaid.ofish.data.report.MPA
 import org.wildaid.ofish.data.report.*
 import java.util.*
 
@@ -55,17 +55,13 @@ class RealmDataSource(context: Context) {
         if (BuildConfig.DEBUG) {
             RealmLog.setLevel(LogLevel.ALL)
         }
-        if (BuildConfig.REALM_APP_ID.isBlank()) {
-            Log.e(
-                TAG, "You need to specify properties realm_app_id in local.properties"
-            )
-        }
-
+        if (BuildConfig.REALM_APP_ID.isBlank())
+            Log.e(TAG, "You need to specify properties realm_app_id in local.properties")
         val appConfigBuilder = AppConfiguration.Builder(BuildConfig.REALM_APP_ID)
             .appName(BuildConfig.VERSION_NAME)
             .appVersion(BuildConfig.VERSION_CODE.toString())
 
-        if (!BuildConfig.REALM_URL.isBlank()) {
+        if (BuildConfig.REALM_URL.isNotBlank()) {
             appConfigBuilder.baseUrl(BuildConfig.REALM_URL)
         }
 
@@ -347,6 +343,10 @@ class RealmDataSource(context: Context) {
             .Builder(user, agencyName)
             .build()
         realm = Realm.getInstance(configuration)
+    }
+
+    fun getAllProtectionMarineAreas(): Flow<List<MPA?>> {
+        return realm.where<MPA>().findAllAsync().toFlow()
     }
 
     fun getAllDeliveryBusiness(): List<Delivery> {

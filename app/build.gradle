@@ -12,18 +12,23 @@ if (localPropsFile.exists()) {
     localProperties.load(new InputStreamReader(new FileInputStream(localPropsFile), StandardCharsets.UTF_8))
 }
 
+def keystorePropertiesFile = rootProject.file("local.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 configurations {
     ktlint
 }
 
 android {
+
     signingConfigs {
 
         release {
-            storeFile file(RELEASE_STORE_FILE)
-            storePassword RELEASE_STORE_PASSWORD
-            keyAlias RELEASE_KEY_ALIAS
-            keyPassword RELEASE_KEY_PASSWORD
+            storeFile file("keystore.jks")
+            storePassword System.getenv("RELEASE_STORE_PASSWORD")
+            keyAlias System.getenv("RELEASE_KEY_ALIAS")
+            keyPassword System.getenv("RELEASE_KEY_PASSWORD")
 
             // Optional, specify signing versions used
             v1SigningEnabled true
@@ -52,6 +57,7 @@ android {
 //            buildConfigField "String", "REALM_PASSWORD", "\"${localProperties.getProperty("realm_password", "")}\""
 //            buildConfigField "String", "REALM_USER", "\"${localProperties.getProperty("realm_user", "")}\""
 //            buildConfigField "String", "REALM_URL", "\"${localProperties.getProperty("realm_url", "")}\""
+
         }
 
         debug {

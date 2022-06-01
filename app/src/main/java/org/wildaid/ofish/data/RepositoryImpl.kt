@@ -7,10 +7,8 @@ import io.realm.mongodb.AppException
 import io.realm.mongodb.User
 import kotlinx.coroutines.flow.Flow
 import org.bson.types.ObjectId
-import org.wildaid.ofish.data.report.Boat
-import org.wildaid.ofish.data.report.DutyChange
-import org.wildaid.ofish.data.report.Photo
-import org.wildaid.ofish.data.report.Report
+import org.wildaid.ofish.data.report.MPA
+import org.wildaid.ofish.data.report.*
 import java.util.*
 
 class RepositoryImpl(
@@ -205,6 +203,10 @@ class RepositoryImpl(
             states.addAll(0, prior)
         }
         return states
+    }
+
+    override fun getAllProtectionMarineAreas(): Flow<List<MPA?>> {
+        return realmDataSource.getAllProtectionMarineAreas()
     }
 
     override fun getRecentOnDutyChange(): DutyChange? = realmDataSource.getRecentOnDutyChange()

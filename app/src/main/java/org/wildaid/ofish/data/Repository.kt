@@ -7,6 +7,7 @@ import io.realm.mongodb.AppException
 import io.realm.mongodb.User
 import kotlinx.coroutines.flow.Flow
 import org.bson.types.ObjectId
+import org.wildaid.ofish.data.report.MPA
 import org.wildaid.ofish.data.report.*
 import java.util.*
 
@@ -83,4 +84,7 @@ interface Repository {
     fun getCurrentOfficerPhoto(): Photo?
 
     fun deleteAllDraftedBoardings(success:MutableLiveData<Boolean>)
+
+    fun getAllProtectionMarineAreas(): Flow<List<MPA?>>
+
 }

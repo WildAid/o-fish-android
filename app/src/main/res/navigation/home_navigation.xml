@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_home_fragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_home_fragment_to_polygonBottomSheetFragment"
+            app:destination="@id/polygonBottomSheetFragment" />
     </fragment>
 
     <dialog
@@ -176,4 +179,8 @@
             android:id="@+id/action_profileFragment_to_not_at_sea_dialog"
             app:destination="@id/not_at_sea_dialog" />
     </fragment>
+    <fragment
+        android:id="@+id/polygonBottomSheetFragment"
+        android:name="org.wildaid.ofish.ui.polygon_info.PolygonBottomSheetFragment"
+        android:label="PolygonBottomSheetFragment" />
 </navigation>

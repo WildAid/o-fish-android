@@ -20,37 +20,53 @@ jobs:
         with:
           java-version: 1.8
 
+      - name: Access RELEASE_STORE_FILE
+        env:
+          RELEASE_STORE_FILE: $
+        run: echo RELEASE_STORE_FILE=\"RELEASE_STORE_FILE\" > ./local.properties
+
+      - name: Access RELEASE_STORE_PASSWORD
+        env:
+          RELEASE_STORE_PASSWORD: $
+        run: echo RELEASE_STORE_PASSWORD=\"RELEASE_STORE_PASSWORD\" > ./local.properties
+
+      - name: Access RELEASE_KEY_ALIAS
+        env:
+          RELEASE_KEY_ALIAS: $
+        run: echo RELEASE_KEY_ALIAS=\"RELEASE_KEY_ALIAS\" > ./local.properties
+
+      - name: Access RELEASE_KEY_PASSWORD
+        env:
+          RELEASE_KEY_PASSWORD: $
+        run: echo RELEASE_KEY_PASSWORD=\"RELEASE_KEY_PASSWORD\" > ./local.properties
+
+
       - name: Setup NDK
         run: echo "y" | sudo /usr/local/lib/android/sdk/tools/bin/sdkmanager --install "ndk;21.0.6113669" --sdk_root=${ANDROID_SDK_ROOT}
 
-      #    - name: Build debug APK
-      #      run: bash ./gradlew assembleDebug --stacktrace
-      #    - name: Upload APK
-      #      uses: actions/upload-artifact@v1
-      #      with:
-      #        name: app
-      #        path: app/build/outputs/apk/debug/app-debug.apk
+          #    - name: Build debug APK
+          #      run: bash ./gradlew assembleDebug --stacktrace
+          #    - name: Upload APK
+          #      uses: actions/upload-artifact@v1
+          #      with:
+          #        name: app
+          #        path: app/build/outputs/apk/debug/app-debug.apk
 
       - name: Setup Ruby 2.6
         uses: actions/setup-ruby@v1
         with:
-            ruby-version: 2.6.x
+          ruby-version: 2.6.x
 
       - name: Install Fastlane dependencies
         env:
-          RELEASE_STORE_FILE: ${{ secrets.RELEASE_STORE_FILE }}
-          RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
-          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
-          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+              RELEASE_STORE_FILE: ${{ secrets.RELEASE_STORE_FILE }}
+              RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
+              RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+              RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
         run: gem install bundler && bundle install
 
-      - name: Run Fastlane Compile
-        env:
-          RELEASE_STORE_FILE: ${{ secrets.RELEASE_STORE_FILE }}
-          RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
-          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
-          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
 
+      - name: Run Fastlane Compile
         run: fastlane compile
 
       - name: Run Fastlane Test

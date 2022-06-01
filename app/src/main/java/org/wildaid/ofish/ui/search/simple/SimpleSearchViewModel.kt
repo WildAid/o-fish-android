@@ -1,8 +1,7 @@
 package org.wildaid.ofish.ui.search.simple
 
 import android.app.Application
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.*
 import org.wildaid.ofish.data.OTHER
 import org.wildaid.ofish.data.Repository
 import org.wildaid.ofish.data.report.Report
