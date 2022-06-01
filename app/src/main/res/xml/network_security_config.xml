@@ -6,6 +6,7 @@
             <pin digest="SHA-256">euSGP9s/4xSoK5a5oNLUz6BaGPhLjISo+TDBwk2schA=</pin>
             <pin digest="SHA-256">5kJvNEMw0KjrCAu7eXY5HZdvyCS13BbA0VJG1RSP91w=</pin>
             <pin digest="SHA-256">euSGP9s/4xSoK5a5oNLUz6BaGPhLjISo+TDBwk2schA=</pin>
+            <pin digest="SHA-256">MrEzgoM8xVg2rLXKd4Mq+SyzkOWdtSNZgmS1Qt7LOHY=</pin>
         </pin-set>
     </domain-config>
 </network-security-config>
