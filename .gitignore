@@ -9,3 +9,5 @@ realm.properties
 .externalNativeBuild
 .cxx
 *eystore.jks
+*.apk
+*.psd
