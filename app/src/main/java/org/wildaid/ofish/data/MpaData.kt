@@ -8,7 +8,7 @@ class MpaData(
     var name: String = "",
     var agency: String = "",
     var country: String = "",
-    var description: String = "",
+    var description: String? = "",
     var info: String = "",
     var text: String = "",
     var hexColor: String = "",
