@@ -18,8 +18,7 @@ open class MPA : RealmModel {
     var agency: String = ""
     @Required
     var country: String = ""
-    @Required
-    var description: String = ""
+    var description: String? = ""
     @Required
     var info: String = ""
     var text: String = ""
