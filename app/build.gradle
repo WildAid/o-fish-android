@@ -43,7 +43,7 @@ android {
         applicationId "org.wildaid.ofish"
         minSdkVersion 26
         targetSdkVersion 31
-        versionCode 12
+        versionCode 14
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -54,9 +54,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             buildConfigField "String", "REALM_APP_ID", "\"${localProperties.getProperty("realm_app_id", "CHANGE_THIS_APP_ID")}\""
-//            buildConfigField "String", "REALM_PASSWORD", "\"${localProperties.getProperty("realm_password", "")}\""
-//            buildConfigField "String", "REALM_USER", "\"${localProperties.getProperty("realm_user", "")}\""
-//            buildConfigField "String", "REALM_URL", "\"${localProperties.getProperty("realm_url", "")}\""
+            buildConfigField "String", "REALM_PASSWORD", "\"${localProperties.getProperty("realm_password", "")}\""
+            buildConfigField "String", "REALM_USER", "\"${localProperties.getProperty("realm_user", "")}\""
+            buildConfigField "String", "REALM_URL", "\"${localProperties.getProperty("realm_url", "")}\""
 
         }
 
