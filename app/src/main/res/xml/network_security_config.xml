@@ -9,6 +9,7 @@
             <pin digest="SHA-256">EWQfq600wcbA8DbaEJQYnZxHQ1YrUluhMq2TDIuaq5M=</pin>
             <pin digest="SHA-256">qhZr529sEEREfCwCMjdFiKHZPMq2jDyrFhZr+xcYWJY=</pin>
             <pin digest="SHA-256">4OuBTTQAgq0Q6bgRYgomKgpqIrCNvYZ7TCrAI1cFTXg=</pin>
+            <pin digest="SHA-256">87njhEhO7CoF5KD0Et3NWOx5wiu4t6JMD4gtUuLj4fQ=</pin>
         </pin-set>
     </domain-config>
 </network-security-config>
